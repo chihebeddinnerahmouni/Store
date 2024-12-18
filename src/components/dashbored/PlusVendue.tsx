@@ -69,9 +69,8 @@ const options = {
 
 const PlusVendue = () => {
     return (
-      <Box className="shadow-mainShadow p-[1.25em] rounded-10 xl:w-[300px]">
-
-            <CardTitle text="Produit Les Plus Vendus (2024)" />
+      <Box className="cardCss xl:w-[300px]">
+        <CardTitle text="Produit Les Plus Vendus (2024)" />
 
         <div className="mt-5 h-[250px] flex justify-center items-center">
           <Pie data={chartData} options={options} />

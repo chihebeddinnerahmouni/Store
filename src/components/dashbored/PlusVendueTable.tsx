@@ -56,7 +56,7 @@ const PlusVendueTable = () => {
   });
 
   return (
-    <div className="shadow-mainShadow p-[1.25em] rounded-10 xl:w-[300px]">
+    <div className="cardCss xl:w-[300px]">
       <CardTitle text={`Produit Les Plus Vendus (${currentMonth})`} />
       <div className="mt-5 flex justify-center items-center flex-grow">
         <TableContainer component={Paper}>
@@ -94,7 +94,7 @@ const PlusVendueTable = () => {
                         border: "none",
                       }}
                     >
-                        {row[column]}
+                      {row[column]}
                     </TableCell>
                   ))}
                 </TableRow>

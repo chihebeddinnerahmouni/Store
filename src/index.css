@@ -19,6 +19,33 @@
     font-family: "Changa", sans-serif;
 }
 
+.cardCss {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05), 0px -2px 5px rgba(0, 0, 0, 0.05), 2px 0px 5px rgba(0, 0, 0, 0.05), -2px 0px 5px rgba(0, 0, 0, 0.05);
+    padding: 1.25em;
+    border-radius: 10px;
+}
+
+
+/* .mainCss {
+    margin-top: 60px;
+    padding: 0 20px 14px 20px;
+    max-width: 1700px;
+    margin: 0 auto;
+}
+@media screen and (min-width: 768px) {
+    .mainCss {
+        padding: 0 40px 14px 40px;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .mainCss {
+        padding: 0 60px 14px 60px;
+        margin-top: 80px;
+    }
+    
+} */
+
+
 /* buttom fade used in landing page*/
 @keyframes slideInFromBottom {
     0% {

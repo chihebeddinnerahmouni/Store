@@ -4,15 +4,17 @@ import App from './App'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Test from './Test';
 import Dashbored from './pages/Dashbored';
+import AddProduct from './pages/products/AddProduct';
 
 const router = createBrowserRouter([
   {
     element: <App />,
     children: [
       { path: "/", element: <Dashbored /> },
+      { path: "/ajouter-un-produit", element: <AddProduct /> },
     ],
   },
-  {path: "/test", element: <Test/>}
+  { path: "/test", element: <Test /> },
 ]);
 
 

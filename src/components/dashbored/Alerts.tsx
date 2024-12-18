@@ -75,7 +75,8 @@ const Alerts = () => {
   });
 
   return (
-    <div className="shadow-mainShadow p-[1.25em] rounded-10 flex flex-col xl:flex-grow">
+    // <div className="shadow-mainShadow p-[1.25em] rounded-10 flex flex-col xl:flex-grow">
+    <div className="cardCss xl:flex-grow">
       <CardTitle text="Stock Alert" />
       <div className="mt-5 flex justify-center items-center flex-grow">
         <TableContainer component={Paper}>

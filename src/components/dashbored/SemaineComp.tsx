@@ -34,7 +34,7 @@ const options = {
 
 const SemaineComp: React.FC = () => {
   return (
-    <Box className="shadow-mainShadow p-[1.25em] rounded-10 flex flex-col xl:flex-grow">
+    <Box className="cardCss flex flex-col xl:flex-grow">
       <CardTitle text="Ventes et achats de cette semaine" />
       <div className="mt-5 flex justify-center items-center flex-grow lg:h-[300px]">
         <Bar className="h-" data={data} options={options} />

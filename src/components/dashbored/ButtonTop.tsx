@@ -34,7 +34,7 @@ const ButtonTop = ({ title, icon, url }: ButtonTopProps) => {
     return (
       <Link
         to={url}
-        className="shadow-mainShadow flex items-center gap-2 rounded-10 transition-transform duration-300 hover:scale-[102%] p-[1.25em]"
+        className="cardCss flex items-center gap-2 transition-transform duration-300 hover:scale-[102%]"
       >
         <img
           src={icon}

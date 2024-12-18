@@ -33,10 +33,11 @@ const NavBar = () => {
         />
       </div>
 
-      
       {/* right */}
       <div className="right bg-red200 flex items-center gap-5 buttomFadeCss lg:gap-8">
-        <Badge badgeContent={100} max={99}
+        <Badge
+          badgeContent={100}
+          max={99}
           sx={{
             "& .MuiBadge-badge": {
               backgroundColor: "red",
@@ -47,21 +48,21 @@ const NavBar = () => {
               padding: "0 5px",
               boxShadow: "0 0 0 2px #fff",
             },
-        }}
+          }}
         >
           <MailIcon
             sx={{
-              fontSize:{xs: 30, lg: 30},
+              fontSize: { xs: 30, lg: 30 },
               cursor: "pointer",
               // buttomFadeCss: "lg:hidden",
-          }}
+            }}
           />
         </Badge>
 
         <User />
-        
+
         <button
-          className={`text-3xl buttomFadeCss lg:hidden`}
+          className={`text-3xl buttomFadeCss`}
           onClick={toggleDrawer(true)}
         >
           {open ? <IoClose /> : <IoMdMenu />}
@@ -80,8 +81,9 @@ const NavBar = () => {
         anchor="left"
         open={open}
         onClose={toggleDrawer(false)}
+        
       >
-        <DrawerList />
+        <DrawerList toggleDrawer={toggleDrawer}/>
       </Drawer>
     </div>
   );

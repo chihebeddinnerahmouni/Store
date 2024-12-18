@@ -1,21 +1,62 @@
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
+import { forwardRef } from "react";
+import Label from "../Label";
 
-interface InputTextProps { 
-    value: string;
-    setValue: (value: string) => void;
-    label: string;
+interface DesignationProps {
+//   register: any;
+//   errors: any;
+  id: string;
+  setDesignation: (value: string) => void;
+  designation: string;
 }
 
-const InputText = ({ value, setValue, label }: InputTextProps) => {
+const Designation = ({
+//   register,
+//   errors,
+  id,
+  designation,
+  setDesignation,
+}: DesignationProps) => {
+  return (
+    <div className="bg-red200 flex flex-col gap-3">
+      {/* <label htmlFor={id}>Désignation*:</label> */}
+      <Label id={id} text="Désignation*" />
+      <InputText
+        value={designation}
+        setValue={setDesignation}
+        label="Entrez le nom du produit"
+        id={id}
+        // {...register(id, { required: "Ce champ est obligatoire" })}
+      />
+      {/* {errors.productName && (
+        <span style={{ color: "red" }}>{errors.productName.message}</span>
+      )} */}
+    </div>
+  );
+};
+
+export default Designation;
+
+interface InputTextProps {
+  value: string;
+  setValue: (value: string) => void;
+  label: string;
+  id: string;
+}
+
+const InputText = forwardRef<HTMLInputElement, InputTextProps>(
+  ({ value, setValue, label, id }, ref) => {
     const mainColor = "#006233";
 
     return (
       <TextField
+        inputRef={ref}
         label={label}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         variant="outlined"
         fullWidth
+        id={id}
         sx={{
           // Set the color of the text to white
           "& input": {
@@ -46,11 +87,10 @@ const InputText = ({ value, setValue, label }: InputTextProps) => {
             // When the input is focused, change the border color of the fieldset to mainColor
             "&.Mui-focused fieldset": {
               borderColor: mainColor,
-            },
+              },
           },
         }}
       />
     );
-};
-
-export default InputText;
+  }
+);

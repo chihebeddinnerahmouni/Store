@@ -83,9 +83,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import array from "../../../assets/file/NavbarClassesArray";
 import logo from '../../../assets/images/logo';
 
-const SideBar = () => {
+
+interface SideBarProps {
+  toggleDrawer: (newOpen: boolean) => () => void;
+}
+
+const SideBar = ({ toggleDrawer }: SideBarProps) => {
   const location = useLocation();
-  const firstSection = location.pathname.split('/')[1] ? location.pathname.split('/')[1] : '';
+  const firstSection = location.pathname.split("/")[1]
+    ? location.pathname.split("/")[1]
+    : "";
   const navigate = useNavigate();
   const [open, setOpen] = useState<{ [key: number]: boolean }>({});
 
@@ -97,9 +104,10 @@ const SideBar = () => {
     <Box
       sx={{
         // width: 200,
-        width: { xs: 200, lg: 'auto' },
+        width: { xs: 200, lg: 350 },
       }}
       role="presentation"
+      // onClick={toggleDrawer(false)}
     >
       <img src={logo} alt="logo" className="h-[60px] mx-auto mt-5" />
       <List>
@@ -139,6 +147,7 @@ const SideBar = () => {
                       key={subItem.id}
                       onClick={() => {
                         navigate(subItem.url);
+                        toggleDrawer(false);
                       }}
                       sx={{ pl: 4 }}
                       disablePadding

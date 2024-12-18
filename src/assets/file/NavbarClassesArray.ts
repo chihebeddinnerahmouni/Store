@@ -1,47 +1,4 @@
 const array = [
-  // {
-  //   id: 1,
-  //   title: "Home",
-  //   icon: "/Home.png",
-  //   url: "",
-  //   blank: false,
-  // },
-  // {
-  //   id: 2,
-  //   title: "Cars for sale",
-  //   icon: "/menu/cars-for-sale.png",
-  //   url: "cars-for-sale",
-  //   blank: false,
-  // },
-  // {
-  //   id: 3,
-  //   title: "Sell your car",
-  //   icon: "/sell-your-car.png",
-  //   url: "sell-your-car",
-  //   blank: true,
-  // },
-  // {
-  //   id: 4,
-  //   title: "Service",
-  //   icon: "/service.png",
-  //   url: "service",
-  //   blank: false,
-  // },
-  // {
-  //   id: 5,
-  //   title: "About us",
-  //   icon: "/about-us.png",
-  //   url: "about-us",
-  //   blank: false,
-  // },
-  // {
-  //   id: 6,
-  //   title: "Blog",
-  //   icon: "/blog.png",
-  //   url: "blog",
-  //   blank: false,
-  // },
-
   {
     id: 1,
     title: "Tableau de bord",
@@ -60,7 +17,7 @@ const array = [
         id: 1,
         title: "Ajouter un produit",
         icon: "/menu/cars-for-sale.png",
-        url: "add-product",
+        url: "ajouter-un-produit",
       },
       {
         id: 2,
