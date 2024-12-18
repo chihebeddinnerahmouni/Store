@@ -1,7 +1,7 @@
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Box } from '@mui/material';
-import CardTitle from './CardTitle';
+import CardTitle from '../ui/CardTitle';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

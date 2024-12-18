@@ -1,6 +1,5 @@
 import {
     Box,
-    // Typography
 } from '@mui/material';
 
 
@@ -9,24 +8,6 @@ const InstructionsCont = () => {
       <section className="cardCss flex flex-col gap-2">
         {instructions.map((instruction, index) => (
           <Box key={index}>
-            {/* <Typography
-              sx={{
-                fontFamily: "Changa, sans-serif",
-              }}
-              variant="h6"
-              component="div"
-            >
-              {instruction.key}
-            </Typography>
-            <Typography
-              sx={{
-                fontFamily: "Changa, sans-serif",
-              }}
-              variant="body1"
-              component="div"
-            >
-              {instruction.value}
-            </Typography> */}
                 <p>
                     <span className="font-semibold">{instruction.key}:</span> {instruction.value}.
                 </p>

@@ -14,13 +14,18 @@ const Dashbored = () => {
   const url = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => { 
-    axios.get(`${url}/api/v1/products`)
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    axios
+      .get(`${url}/api/categories`, {
+        headers: {
+          Authorization: `Bearer 2|hDNU7sEN98s0JLVk4x3LcYFl5ZET2rrIaO9vSXgA387ca69a`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (

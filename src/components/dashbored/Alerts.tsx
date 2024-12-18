@@ -9,7 +9,7 @@ import {
   TableSortLabel,
   Paper,
 } from "@mui/material";
-import CardTitle from "./CardTitle";
+import CardTitle from "../ui/CardTitle";
 
 type DataKeys = keyof (typeof data)[0];
 
@@ -86,8 +86,9 @@ const Alerts = () => {
             }}
           >
             <TableHead>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <TableCell
+                  key={index}
                   sx={{
                     wordBreak: "keep-all",
                     whiteSpace: "nowrap",
@@ -106,8 +107,8 @@ const Alerts = () => {
               ))}
             </TableHead>
             <TableBody>
-              {sortedData.map((row) => (
-                <TableRow key={row.id}>
+              {sortedData.map((row, index) => (
+                <TableRow key={index}>
                   {columns.map((column) => (
                     <TableCell
                       sx={{

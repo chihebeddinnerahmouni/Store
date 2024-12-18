@@ -9,7 +9,7 @@ import {
   TableSortLabel,
   Paper,
 } from "@mui/material";
-import CardTitle from "./CardTitle";
+import CardTitle from "../ui/CardTitle";
 
 type DataKeys = keyof (typeof data)[0];
 
@@ -66,8 +66,9 @@ const PlusVendueTable = () => {
             }}
           >
             <TableHead>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <TableCell
+                  key={index}
                   sx={{
                     wordBreak: "keep-all",
                     whiteSpace: "nowrap",

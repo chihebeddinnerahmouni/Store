@@ -9,7 +9,7 @@ import {
   TableSortLabel,
   Paper,
 } from "@mui/material";
-import CardTitle from "./CardTitle";
+import CardTitle from "../ui/CardTitle";
 
 type DataKeys = keyof (typeof data)[0];
 

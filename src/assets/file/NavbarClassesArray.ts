@@ -23,7 +23,7 @@ const array = [
         id: 2,
         title: "Liste des produits",
         icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
+        url: "produits",
       },
       {
         id: 3,
