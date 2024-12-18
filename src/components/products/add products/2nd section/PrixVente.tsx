@@ -12,7 +12,7 @@ interface DesignationProps {
   value: string;
 }
 
-const Description = ({
+const PrixVente = ({
   clearErrors,
   register,
   errors,
@@ -21,15 +21,15 @@ const Description = ({
   setValue,
 }: DesignationProps) => {
   return (
-    <div className="bg-red200 flex flex-col gap-3 lg:col-span-2">
-      <Label id={id} text="Description*" />
+    <div className="bg-red200 flex flex-col gap-3">
+      <Label id={id} text="Prix de vente (DA)*" />
       <InputText
         value={value}
         setValue={(val: string) => {
           setValue(val);
           clearErrors(id);
         }}
-        label="Entrez la description"
+        label="Entrez le prix de vente (DA)"
         id={id}
         register={register}
         error={!!errors[id]}
@@ -59,8 +59,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
           inputRef={ref}
           label={label}
           value={value}
-          multiline
-          rows={6}
+          type="number"
           onChange={(e) => setValue(e.target.value)}
           variant="outlined"
           fullWidth
@@ -111,4 +110,5 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
   }
 );
 
-export default Description;
+
+export default PrixVente;

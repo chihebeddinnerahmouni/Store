@@ -42,7 +42,7 @@ const ProductStCont = ({
 }: ProductStContProps) => {
 
   return (
-    <section className="cardCss grid grid-cols-1 gap-5">
+    <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8 lg:col-span-9">
           <Designation
         clearErrors={clearErrors}
         register={register}

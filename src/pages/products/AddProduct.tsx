@@ -1,7 +1,10 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductStCont from "../../containers/products/add product/ProductStCont";
 import { useState } from "react";
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from "react-hook-form";
+import ImageCont from "../../containers/products/add product/ImageCont";
+import ProductsNd from "../../containers/products/add product/ProductsNd";
+import { Button } from "@mui/material";
 
 type FormValues = {
   designation: string;
@@ -10,6 +13,14 @@ type FormValues = {
   marque: string;
   tax: string;
   description: string;
+  type: string;
+  // image: string;
+  prixAchat: string;
+  prixVente: string;
+  unite: string;
+  uniteVente: string;
+  uniteAchat: string;
+  stockAlert: string;
 };
 
 const AddProduct = () => {
@@ -18,153 +29,107 @@ const AddProduct = () => {
   const [category, setCategory] = useState<string>("");
   const [marque, setMarque] = useState<string>("");
   const [tax, setTax] = useState<string>("");
-  const [description, setDescription] = useState("")
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState<string>("");
+  // const [image, setImage] = useState<string>("");
+  const [prixAchat, setPrixAchat] = useState<string>("");
+  const [prixVente, setPrixVente] = useState<string>("");
+  const [unite, setUnite] = useState<string>("");
+  const [uniteVente, setUniteVente] = useState<string>("");
+  const [uniteAchat, setUniteAchat] = useState<string>("");
+  const [stockAlert, setStockAlert] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState: { errors }, clearErrors } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
+  const mainColor = "#006233";
+  const mainColorHover = "#004d26";
+
+  const send = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+   }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = send;
+
+
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter un produit" />
       <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="">
-          <ProductStCont
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+          {/* <div className="top"> */}
+            <ProductStCont
+              clearErrors={clearErrors}
+              register={register}
+              errors={errors}
+              designation={designation}
+              setDesignation={setDesignation}
+              codeBarre={codeBarre}
+              setCodeBarre={setCodeBarre}
+              category={category}
+              setCategory={setCategory}
+              marque={marque}
+              setMarque={setMarque}
+              tax={tax}
+              setTax={setTax}
+              description={description}
+              setDescription={setDescription}
+            />
+            <ImageCont />
+          {/* </div> */}
+
+          <ProductsNd
             clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          designation={designation}
-          setDesignation={setDesignation}
-          codeBarre={codeBarre}
-          setCodeBarre={setCodeBarre}
-          category={category}
-            setCategory={setCategory}
-            marque={marque}
-            setMarque={setMarque}
-            tax={tax}
-            setTax={setTax}
-            description={description}
-            setDescription={setDescription}
-        />
+            register={register}
+            errors={errors}
+            type={type}
+            setType={setType}
+            prixAchat={prixAchat}
+            setPrixAchat={setPrixAchat}
+            prixVente={prixVente}
+            setPrixVente={setPrixVente}
+            unite={unite}
+            setUnite={setUnite}
+            uniteVente={uniteVente}
+            setUniteVente={setUniteVente}
+            uniteAchat={uniteAchat}
+            setUniteAchat={setUniteAchat}
+            stockAlert={stockAlert}
+            setStockAlert={setStockAlert}
+          />
         </div>
-        <button type="submit" className="btn btn-primary">
+        {/* <button type="submit" className="btn btn-primary">
           Submit
-        </button>
+        </button> */}
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={loading}
+          // loading={loading}
+          sx={{
+          backgroundColor: mainColor,
+          color: "#fff",
+          margin: "20px 0",
+          "&:hover": {
+            backgroundColor: mainColorHover,
+          },
+        }}>
+          {/* Soumettre */}
+          {loading ? "En cours..." : "Soumettre"}
+        </Button>
       </form>
     </div>
   );
 };
 
 export default AddProduct;
-
-
-// import PageTitle from "../../components/ui/PageTitle";
-// import ProductStCont from "../../containers/products/add product/ProductStCont";
-// import { useForm, SubmitHandler } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import * as Yup from "yup";
-
-// // Define validation schema using Yup
-// const validationSchema = Yup.object().shape({
-//   designation: Yup.string().required("Designation is required"),
-//   codeBarre: Yup.string().required("Code Barre is required"),
-//   category: Yup.string().required("Category is required"),
-// });
-
-// interface IFormInputs {
-//   designation: string;
-//   codeBarre: string;
-//   category: string;
-// }
-
-// const AddProduct = () => {
-
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<IFormInputs>({
-//     resolver: yupResolver(validationSchema),
-//   });
-
-//   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-//     console.log("Form data", data);
-//   };
-
-//   return (
-//     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-//       <PageTitle text="Ajouter un produit" />
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <ProductStCont register={register} errors={errors} />
-//         <div className="form-group">
-//           <label htmlFor="designation">Designation</label>
-//           <input
-//             type="text"
-//             id="designation"
-//             {...register("designation")}
-//             className={`form-control ${errors.designation ? "is-invalid" : ""}`}
-//           />
-//           <div className="invalid-feedback">{errors.designation?.message}</div>
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="codeBarre">Code Barre</label>
-//           <input
-//             type="text"
-//             id="codeBarre"
-//             {...register("codeBarre")}
-//             className={`form-control ${errors.codeBarre ? "is-invalid" : ""}`}
-//           />
-//           <div className="invalid-feedback">{errors.codeBarre?.message}</div>
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="category">Category</label>
-//           <input
-//             type="text"
-//             id="category"
-//             {...register("category")}
-//             className={`form-control ${errors.category ? "is-invalid" : ""}`}
-//           />
-//           <div className="invalid-feedback">{errors.category?.message}</div>
-//         </div>
-//         <button type="submit" className="btn btn-primary">
-//           Submit
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default AddProduct;
-// import PageTitle from "../../components/ui/PageTitle";
-// import ProductStCont from "../../containers/products/add product/ProductStCont";
-// import { useState } from "react";
-
-
-// const AddProduct = () => {
-
-//   const [designation, setDesignation] = useState<string>("");
-//   const [codeBarre, setCodeBarre] = useState<string>("");
-//   const [category, setCategory] = useState<string>("");
-
-//   return (
-//     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-//       <PageTitle text="Ajouter un produit" />
-//       <div className="">
-//         <ProductStCont
-//           designation={designation}
-//           setDesignation={setDesignation}
-//           codeBarre={codeBarre}
-//           setCodeBarre={setCodeBarre}
-//           category={category}
-//           setCategory={setCategory}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AddProduct;
-
-
-
 
 
