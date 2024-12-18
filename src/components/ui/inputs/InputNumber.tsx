@@ -7,7 +7,7 @@ interface InputNumberProps {
 }
 
 const InputNumber = ({ value, setValue, label }: InputNumberProps) => {
-  const mainColor = "#EEDC6D";
+  const mainColor = "#006233";
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ const InputNumber = ({ value, setValue, label }: InputNumberProps) => {
       sx={{
         // Set the color of the text to white
         "& input": {
-          color: "white",
+          color: "black",
         },
         // When the label is focused, change its color to mainColor
         "& label.Mui-focused": {
@@ -37,7 +37,7 @@ const InputNumber = ({ value, setValue, label }: InputNumberProps) => {
         },
         // Set the default color of the label to mainColor
         "& label": {
-          color: "white",
+          color: "grey",
         },
         // When the input is focused and underlined, change the bottom border color to mainColor
         "& .MuiInput-underline:after": {
@@ -47,7 +47,7 @@ const InputNumber = ({ value, setValue, label }: InputNumberProps) => {
         "& .MuiOutlinedInput-root": {
           // Set the default border color of the fieldset to mainColor
           "& fieldset": {
-            borderColor: "white",
+            borderColor: "grey",
           },
           // When the input is hovered, change the border color of the fieldset to mainColor
           "&:hover fieldset": {

@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ImageCont from "../../containers/products/add product/ImageCont";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
 import { Button } from "@mui/material";
+import InstructionsCont from "../../containers/products/add product/InstructionsCont";
 
 type FormValues = {
   designation: string;
@@ -39,6 +40,7 @@ const AddProduct = () => {
   const [uniteAchat, setUniteAchat] = useState<string>("");
   const [stockAlert, setStockAlert] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [numSerie, setNumSerie] = useState<string>("");
 
   const mainColor = "#006233";
   const mainColorHover = "#004d26";
@@ -65,26 +67,25 @@ const AddProduct = () => {
       <PageTitle text="Ajouter un produit" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
-          {/* <div className="top"> */}
-            <ProductStCont
-              clearErrors={clearErrors}
-              register={register}
-              errors={errors}
-              designation={designation}
-              setDesignation={setDesignation}
-              codeBarre={codeBarre}
-              setCodeBarre={setCodeBarre}
-              category={category}
-              setCategory={setCategory}
-              marque={marque}
-              setMarque={setMarque}
-              tax={tax}
-              setTax={setTax}
-              description={description}
-              setDescription={setDescription}
-            />
-            <ImageCont />
-          {/* </div> */}
+          <ProductStCont
+            clearErrors={clearErrors}
+            register={register}
+            errors={errors}
+            designation={designation}
+            setDesignation={setDesignation}
+            codeBarre={codeBarre}
+            setCodeBarre={setCodeBarre}
+            category={category}
+            setCategory={setCategory}
+            marque={marque}
+            setMarque={setMarque}
+            tax={tax}
+            setTax={setTax}
+            description={description}
+            setDescription={setDescription}
+          />
+
+          <ImageCont />
 
           <ProductsNd
             clearErrors={clearErrors}
@@ -104,25 +105,26 @@ const AddProduct = () => {
             setUniteAchat={setUniteAchat}
             stockAlert={stockAlert}
             setStockAlert={setStockAlert}
+            numSerie={numSerie}
+            setNumSerie={setNumSerie}
           />
+          <div className="lg:col-span-3 lg:hidden">
+            <InstructionsCont />
+          </div>
         </div>
-        {/* <button type="submit" className="btn btn-primary">
-          Submit
-        </button> */}
         <Button
           type="submit"
           variant="contained"
           disabled={loading}
-          // loading={loading}
           sx={{
-          backgroundColor: mainColor,
-          color: "#fff",
-          margin: "20px 0",
-          "&:hover": {
-            backgroundColor: mainColorHover,
-          },
-        }}>
-          {/* Soumettre */}
+            backgroundColor: mainColor,
+            color: "#fff",
+            margin: "20px 0",
+            "&:hover": {
+              backgroundColor: mainColorHover,
+            },
+          }}
+        >
           {loading ? "En cours..." : "Soumettre"}
         </Button>
       </form>
