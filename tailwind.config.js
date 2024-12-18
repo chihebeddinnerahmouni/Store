@@ -23,8 +23,8 @@ export const theme = {
       2: "2px",
     },
     boxShadow: {
-      mainShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)", // main shadow
-      hoverShadow: "0px 1px 4px rgba(0, 0, 0, 0.24)", // when hover shadow
+      // mainShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)", // main shadow
+        mainShadow: "0px 2px 5px rgba(0, 0, 0, 0.05), 0px -2px 5px rgba(0, 0, 0, 0.05), 2px 0px 5px rgba(0, 0, 0, 0.05), -2px 0px 5px rgba(0, 0, 0, 0.05)",      hoverShadow: "0px 1px 4px rgba(0, 0, 0, 0.24)", // when hover shadow
       hardShadow: "0px 0px 8px rgba(0, 0, 0, 0.2)", // used in the main pc and mobile search bar
       smallShadow: "2px 0px 4px rgba(0, 0, 0, 0.2)", // used in boat owner card
       smallHoverShadow: "4px -1px 4px rgba(0, 0, 0, 0.2)", // used in boat owner card hover
