@@ -14,22 +14,22 @@ const data = [
     {
         id: 1,
         name: "coca-cola",
-        Vendue: 100
+        vendue: 100
     },
     {
         id: 2,
         name: "fanta",
-        Vendue: 90
+        vendue: 90
     },
     {
         id: 3,
         name: "sprite",
-        Vendue: 80
+        vendue: 80
     },
     {
         id: 4,
         name: "pepsi",
-        Vendue: 70
+        vendue: 70
     }
 ];
 
@@ -38,7 +38,7 @@ const chartData = {
     datasets: [
         {
             label: 'Ventes',
-            data: data.map(item => item.Vendue),
+            data: data.map(item => item.vendue),
             backgroundColor: [
                 firstColor,
                 secondColor,

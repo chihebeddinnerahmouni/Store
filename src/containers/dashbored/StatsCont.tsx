@@ -8,11 +8,11 @@ import VenteRecente from "../../components/dashbored/VenteRecente";
 const StatsCont = () => {
   return (
     <section className="mt-10 flex flex-col gap-6 lg:mt-14">
-      <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
+      <div className="flex flex-col gap-6 xl:flex-row ">
         <SemaineComp />
         <PlusVendue />
       </div>
-      <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
+      <div className="flex flex-col gap-6 xl:flex-row ">
         <Alerts />
         <PlusVendueTable />
       </div>
