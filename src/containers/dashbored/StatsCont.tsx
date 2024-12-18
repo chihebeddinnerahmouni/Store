@@ -2,6 +2,8 @@ import SemaineComp from "../../components/dashbored/SemaineComp"
 import PlusVendue from "../../components/dashbored/PlusVendue"
 import Alerts from "../../components/dashbored/Alerts";
 import PlusVendueTable from "../../components/dashbored/PlusVendueTable";
+import VenteRecente from "../../components/dashbored/VenteRecente";
+
 
 const StatsCont = () => {
   return (
@@ -14,6 +16,7 @@ const StatsCont = () => {
         <Alerts />
         <PlusVendueTable />
       </div>
+      <VenteRecente />
     </section>
   );
 }

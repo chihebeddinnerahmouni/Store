@@ -11,6 +11,11 @@ import {
 } from "@mui/material";
 import CardTitle from "./CardTitle";
 
+type DataKeys = keyof (typeof data)[0];
+
+const columns: DataKeys[] = ["name", "magasin", "quantite", "alert_quantite"];
+
+
 const data = [
   {
     id: 1,
@@ -53,7 +58,7 @@ const Alerts = () => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof (typeof data)[0]>("name");
 
-  const handleRequestSort = (property: keyof (typeof data)[0]) => {
+  const handleRequestSort = (property: DataKeys) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -80,7 +85,7 @@ const Alerts = () => {
             }}
           >
             <TableHead>
-              <TableRow>
+              {columns.map((column) => (
                 <TableCell
                   sx={{
                     wordBreak: "keep-all",
@@ -90,94 +95,27 @@ const Alerts = () => {
                   }}
                 >
                   <TableSortLabel
-                    active={orderBy === "name"}
-                    direction={orderBy === "name" ? order : "asc"}
-                    onClick={() => handleRequestSort("name")}
+                    active={orderBy === column}
+                    direction={orderBy === column ? order : "asc"}
+                    onClick={() => handleRequestSort(column)}
                   >
-                    Name
+                    <p className="capitalize">{column.replace(/_/g, " ")}</p>
                   </TableSortLabel>
                 </TableCell>
-                <TableCell
-                  sx={{
-                    wordBreak: "keep-all",
-                    whiteSpace: "nowrap",
-                    border: "none",
-                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                  }}
-                >
-                  <TableSortLabel
-                    active={orderBy === "magasin"}
-                    direction={orderBy === "magasin" ? order : "asc"}
-                    onClick={() => handleRequestSort("magasin")}
-                  >
-                    Magasin
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  sx={{
-                    wordBreak: "keep-all",
-                    whiteSpace: "nowrap",
-                    border: "none",
-                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                  }}
-                >
-                  <TableSortLabel
-                    active={orderBy === "quantite"}
-                    direction={orderBy === "quantite" ? order : "asc"}
-                    onClick={() => handleRequestSort("quantite")}
-                  >
-                    Quantite
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell
-                  sx={{
-                    wordBreak: "keep-all",
-                    whiteSpace: "nowrap",
-                    border: "none",
-                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                  }}
-                >
-                  <TableSortLabel
-                    active={orderBy === "alert_quantite"}
-                    direction={orderBy === "alert_quantite" ? order : "asc"}
-                    onClick={() => handleRequestSort("alert_quantite")}
-                  >
-                    Alert Quantite
-                  </TableSortLabel>
-                </TableCell>
-              </TableRow>
+              ))}
             </TableHead>
             <TableBody>
               {sortedData.map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell
-                    sx={{
-                      border: "none",
-                    }}
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: "none",
-                    }}
-                  >
-                    {row.magasin}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: "none",
-                    }}
-                  >
-                    {row.quantite}
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      border: "none",
-                    }}
-                  >
-                    <span className="text-red-500">{row.alert_quantite}</span>
-                  </TableCell>
+                  {columns.map((column) => (
+                    <TableCell
+                      sx={{
+                        border: "none",
+                      }}
+                    >
+                      <p className={`${column === "alert_quantite" && "text-red-500"}`}>{row[column]}</p>
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))}
             </TableBody>
