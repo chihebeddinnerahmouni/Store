@@ -1,6 +1,7 @@
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Box } from '@mui/material';
+import CardTitle from './CardTitle';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -69,9 +70,8 @@ const options = {
 const PlusVendue = () => {
     return (
       <Box className="shadow-mainShadow p-[1.25em] rounded-10 xl:w-[300px]">
-        <p className="font-light">
-          Produit Les Plus Vendus
-        </p>
+
+            <CardTitle text="Produit Les Plus Vendus (2024)" />
 
         <div className="mt-5 h-[250px] flex justify-center items-center">
           <Pie data={chartData} options={options} />

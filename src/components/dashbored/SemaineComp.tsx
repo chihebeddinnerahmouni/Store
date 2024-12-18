@@ -1,6 +1,7 @@
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Box } from '@mui/material';
+import CardTitle from './CardTitle';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -34,7 +35,7 @@ const options = {
 const SemaineComp: React.FC = () => {
   return (
     <Box className="shadow-mainShadow p-[1.25em] rounded-10 flex flex-col xl:flex-grow">
-      <p className="font-light">Ventes et achats de cette semaine</p>
+      <CardTitle text="Ventes et achats de cette semaine" />
       <div className="mt-5 flex justify-center items-center flex-grow lg:h-[300px]">
         <Bar className="h-" data={data} options={options} />
       </div>
