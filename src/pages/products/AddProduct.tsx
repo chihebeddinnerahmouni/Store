@@ -9,6 +9,7 @@ type FormValues = {
   category: string;
   marque: string;
   tax: string;
+  description: string;
 };
 
 const AddProduct = () => {
@@ -17,6 +18,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState<string>("");
   const [marque, setMarque] = useState<string>("");
   const [tax, setTax] = useState<string>("");
+  const [description, setDescription] = useState("")
 
   const { register, handleSubmit, formState: { errors }, clearErrors } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
@@ -40,6 +42,8 @@ const AddProduct = () => {
             setMarque={setMarque}
             tax={tax}
             setTax={setTax}
+            description={description}
+            setDescription={setDescription}
         />
         </div>
         <button type="submit" className="btn btn-primary">

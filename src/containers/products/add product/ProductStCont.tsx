@@ -3,7 +3,7 @@ import CodeBarre from '../../../components/products/add products/1st section/Cod
 import Category from '../../../components/products/add products/1st section/Category';
 import Marque from '../../../components/products/add products/1st section/Marque';
 import Tax from '../../../components/products/add products/1st section/Tax';
-
+import Description from '../../../components/products/add products/1st section/Description';
 
 interface ProductStContProps {
   clearErrors: any
@@ -19,6 +19,8 @@ interface ProductStContProps {
   setMarque: (value: string) => void;
   tax: string;
   setTax: (value: string) => void;
+  description: string;
+  setDescription: (value: string) => void;
 }
 
 const ProductStCont = ({
@@ -35,6 +37,8 @@ const ProductStCont = ({
   setMarque,
   tax,
   setTax,
+  description,
+  setDescription,
 }: ProductStContProps) => {
 
   return (
@@ -81,6 +85,15 @@ const ProductStCont = ({
         id={"tax"}
         value={tax}
         setValue={setTax}
+      />
+
+      <Description
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"description"}
+        value={description}
+        setValue={setDescription}
       />
     </section>
   );
