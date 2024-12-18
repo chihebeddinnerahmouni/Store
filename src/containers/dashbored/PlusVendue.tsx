@@ -68,7 +68,7 @@ const options = {
 
 const PlusVendue = () => {
     return (
-      <Box className="shadow-mainShadow p-[1.25em] rounded-10 xl:col-span-3">
+      <Box className="shadow-mainShadow p-[1.25em] rounded-10 xl:w-[300px]">
         <p className="font-light">
           Produit Les Plus Vendus
         </p>

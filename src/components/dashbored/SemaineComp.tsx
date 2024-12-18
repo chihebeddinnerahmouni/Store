@@ -33,7 +33,7 @@ const options = {
 
 const SemaineComp: React.FC = () => {
   return (
-    <Box className="shadow-mainShadow p-[1.25em] rounded-10 flex flex-col xl:col-span-9">
+    <Box className="shadow-mainShadow p-[1.25em] rounded-10 flex flex-col xl:flex-grow">
       <p className="font-light">Ventes et achats de cette semaine</p>
       <div className="mt-5 flex justify-center items-center flex-grow lg:h-[300px]">
         <Bar className="h-" data={data} options={options} />
