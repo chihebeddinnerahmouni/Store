@@ -6,15 +6,21 @@ const Products = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
           <PageTitle text="Liste de produits" />
-          <ProductsTable 
+          {/* <div className="cardCss"> */}
+             <ProductsTable 
               rows={data}
-          />
+              columns={columns}
+          /> 
+          {/* </div> */}
+          
     </div>
   );
 }
 
 export default Products
 
+
+const columns = ["designation", "code", "marque", "categorie", "cout", "prix", "unité", "quantité", "actions"];
 
 const data = [
   {
