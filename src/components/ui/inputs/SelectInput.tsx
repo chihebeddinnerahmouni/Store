@@ -12,13 +12,13 @@ interface SelectCompProps {
     }
 
 const SelectInput = ({ value, setValue, options, label }: SelectCompProps) => {
-  const mainColor = "#EEDC6D";
+  const mainColor = "#006233";
 
   return (
     <FormControl fullWidth>
       <InputLabel
         sx={{
-          color: "white",
+          color: "grey",
           "&.Mui-focused": {
             color: mainColor,
           },
@@ -34,13 +34,13 @@ const SelectInput = ({ value, setValue, options, label }: SelectCompProps) => {
             borderColor: mainColor,
           },
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white",
+            borderColor: "grey",
           },
           "&.Mui-focused .MuiInputLabel-root": {
             color: mainColor,
           },
           "& .MuiSelect-select": {
-            color: "white",
+            color: "black",
           },
         }}
         labelId="carrosserie-label"

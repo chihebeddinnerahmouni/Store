@@ -1,39 +1,89 @@
-// import { useForm, SubmitHandler } from 'react-hook-form';
 import Designation from '../../../components/products/add products/1st section/Designation';
 import CodeBarre from '../../../components/products/add products/1st section/CodeBarre';
-// type FormValues = {
-//     productName: string;
-// };
+import Category from '../../../components/products/add products/1st section/Category';
+import Marque from '../../../components/products/add products/1st section/Marque';
+import Tax from '../../../components/products/add products/1st section/Tax';
+
 
 interface ProductStContProps {
-    designation: string;
-    setDesignation: (value: string) => void;
-    codeBarre: string;
-    setCodeBarre: (value: string) => void;
+  clearErrors: any
+  register: any;
+  errors: any;
+  designation: string;
+  setDesignation: (value: string) => void;
+  codeBarre: string;
+  setCodeBarre: (value: string) => void;
+  category: string;
+    setCategory: (value: string) => void;
+    marque: string;
+  setMarque: (value: string) => void;
+  tax: string;
+  setTax: (value: string) => void;
 }
 
-const ProductStCont = ({designation, setDesignation, codeBarre, setCodeBarre}: ProductStContProps) => {
-    // const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-    // const onSubmit: SubmitHandler<FormValues> = data => console.log(data);
+const ProductStCont = ({
+  clearErrors,
+  register,
+  errors,
+  designation,
+  setDesignation,
+  codeBarre,
+  setCodeBarre,
+  category,
+    setCategory,
+    marque,
+  setMarque,
+  tax,
+  setTax,
+}: ProductStContProps) => {
 
-
-    return (
-      <section className='cardCss grid grid-cols-1 gap-5'>
+  return (
+    <section className="cardCss grid grid-cols-1 gap-5">
           <Designation
-            // register={register}
-            // errors={errors}
-            id={"designation"}
-            setDesignation={setDesignation}
-            designation={designation}
-            />
-            
-            <CodeBarre
-                id={"codeBarre"}
-                value={codeBarre}
-                setValue={setCodeBarre}
-            />
-      </section>
-    );
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"designation"}
+        setDesignation={setDesignation}
+        designation={designation}
+      />
+
+      <CodeBarre
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"codeBarre"}
+        value={codeBarre}
+        setValue={setCodeBarre}
+      />
+          <Category
+              clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"category"}
+        value={category}
+        setValue={setCategory}
+          />
+          
+          <Marque
+              clearErrors={clearErrors}
+              register={register}
+              errors={errors}
+              id={"marque"}
+              value={marque}
+              setValue={setMarque}
+      />
+      
+      <Tax
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"tax"}
+        value={tax}
+        setValue={setTax}
+      />
+    </section>
+  );
 };
 
 export default ProductStCont;

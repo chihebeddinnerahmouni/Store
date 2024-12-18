@@ -3,35 +3,33 @@ import { forwardRef } from "react";
 import Label from "../Label";
 import { FormHelperText } from "@mui/material";
 
-
-
 interface DesignationProps {
   clearErrors: any;
   register: any;
   errors: any;
   id: string;
-  setDesignation: (value: string) => void;
-  designation: string;
+  setValue: (value: string) => void;
+  value: string;
 }
 
-const Designation = ({
+const Tax = ({
   clearErrors,
   register,
   errors,
   id,
-  designation,
-  setDesignation,
+  value,
+  setValue,
 }: DesignationProps) => {
   return (
     <div className="bg-red200 flex flex-col gap-3">
-      <Label id={id} text="Désignation*" />
+      <Label id={id} text="Taxe de commande (%)*" />
       <InputText
-        value={designation}
+        value={value}
         setValue={(val: string) => {
-          setDesignation(val);
+          setValue(val);
           clearErrors(id);
         }}
-        label="Entrez le nom du produit"
+        label="Entrez la taxe de commande (%)"
         id={id}
         register={register}
         error={!!errors[id]}
@@ -40,8 +38,6 @@ const Designation = ({
     </div>
   );
 };
-
-export default Designation;
 
 interface InputTextProps {
   value: string;
@@ -62,7 +58,8 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
         <TextField
           inputRef={ref}
           label={label}
-          value={value}
+                value={value}
+                type="number"
           onChange={(e) => setValue(e.target.value)}
           variant="outlined"
           fullWidth
@@ -113,3 +110,4 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
   }
 );
 
+export default Tax;
