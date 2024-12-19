@@ -1,14 +1,5 @@
 import html2pdf from "html2pdf.js";
 
-interface Data {}
-
-// interface DataArray {
-//     data: Data[];
-//     }
-
-// interface Columns {
-//     columns: string[];
-//     }
 
 const handlePrintPdf = (data: any, columns: string[], title: string) => {
   const element = document.createElement("div");
