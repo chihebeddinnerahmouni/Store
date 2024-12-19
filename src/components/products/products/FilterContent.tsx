@@ -5,7 +5,7 @@ import Label from "../Label";
 import SelectInput from "../../ui/inputs/SelectInput";
 import { BsArrowRepeat } from "react-icons/bs";
 import { CiFilter } from "react-icons/ci";
-import ShiningButton from "../../ui/ShiningButton";
+import ShiningButton from "../../ui/buttons/ShiningButton";
 
 interface Props {
   close: () => void;
