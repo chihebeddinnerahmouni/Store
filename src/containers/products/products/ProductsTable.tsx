@@ -408,7 +408,7 @@ export default function EnhancedTable({
   );
 
   return (
-    <Box sx={{ width: "100%" }} className="cardCs">
+    <Box sx={{ width: "100%" }} className="cardCs mt-5 lg:mt-10">
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
           searchQuery={searchQuery}

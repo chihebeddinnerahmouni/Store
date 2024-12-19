@@ -1,17 +1,16 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductsTable from "../../containers/products/products/ProductsTable";
-
+import ButtonsCont from "../../containers/products/products/ButtonsCont";
 
 const Products = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-          <PageTitle text="Liste de produits" />
-          {/* <div className="cardCss"> */}
+      <PageTitle text="Liste de produits" />
+      <ButtonsCont />
              <ProductsTable 
               rows={data}
               columns={columns}
           /> 
-          {/* </div> */}
           
     </div>
   );

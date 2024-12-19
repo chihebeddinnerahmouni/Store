@@ -1,0 +1,37 @@
+
+
+import  { useState } from 'react';
+
+interface ShiningButtonProps { 
+        text: string,
+        icon: any,
+        color: string,
+        onClick: () => void, 
+}
+
+const ShiningButton = ({ text, icon, color, onClick }: ShiningButtonProps) => {
+        const [isHovered, setIsHovered] = useState(false);
+
+        return (
+          <button
+            onClick={onClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            style={{
+              color: isHovered ? "white" : color,
+              border: `1px solid ${color}`,
+              backgroundColor: isHovered ? color : "white",
+              transition: "background-color 0.3s ease",
+              boxShadow: isHovered
+                ? `0 8px 15px -8px ${color}`
+                : "none",
+            }}
+            className="shining-button flex items-center gap-2 px-4 py-2 rounded"
+          >
+            {icon && <span className="icon">{icon}</span>}
+            <span className="text">{text}</span>
+          </button>
+        );
+}
+
+export default ShiningButton;

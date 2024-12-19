@@ -57,7 +57,7 @@ const VenteRecente = () => {
   });
 
   return (
-    <div className="shadow-mainShadow p-[1.25em] rounded-10 w-full">
+    <div className="cardCss w-full">
       <CardTitle text={`Ventes récentes`} />
       <div className="mt-5 flex justify-center items-center flex-grow">
         <TableContainer component={Paper}>
