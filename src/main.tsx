@@ -7,6 +7,7 @@ import Dashbored from './pages/Dashbored';
 import AddProduct from './pages/products/AddProduct';
 import Products from './pages/products/Products';
 import Categories from './pages/products/Categories';
+import Marques from './pages/products/Marques';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       { path: "/ajouter-un-produit", element: <AddProduct /> },
       { path: "/produits", element: <Products /> },
       { path: "/produits/categories", element: <Categories /> },
+      { path: "/produits/marques", element: <Marques /> },
     ],
   },
   { path: "/test", element: <Test /> },

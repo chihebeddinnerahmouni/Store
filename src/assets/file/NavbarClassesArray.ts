@@ -31,6 +31,12 @@ const array = [
         icon: "/menu/cars-for-sale.png",
         url: "/produits/categories",
       },
+      {
+        id: 4,
+        title: "marques",
+        icon: "/menu/cars-for-sale.png",
+        url: "/produits/marques",
+      },
     ],
   },
   {
