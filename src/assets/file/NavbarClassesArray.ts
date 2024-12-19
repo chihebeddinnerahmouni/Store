@@ -56,7 +56,7 @@ const array = [
         id: 1,
         title: "Ajouter D'achat",
         icon: "/menu/cars-for-sale.png",
-        url: "add-product",
+        url: "/achat/ajouter-un-achat",
       },
       {
         id: 2,

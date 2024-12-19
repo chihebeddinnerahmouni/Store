@@ -18,13 +18,13 @@ interface DesignationProps {
 }
 
 const options_array = [
-  { id: 1, name: "Unite 1" },
-  { id: 2, name: "Unite 2" },
-  { id: 3, name: "Unite 3" },
-  { id: 4, name: "Unite 4" },
+  { id: 1, name: "client 1" },
+  { id: 2, name: "client 2" },
+  { id: 3, name: "client 3" },
+  { id: 4, name: "client 4" },
 ];
 
-const Unite = ({
+const Client = ({
   register,
   errors,
   id,
@@ -34,7 +34,7 @@ const Unite = ({
 }: DesignationProps) => {
   return (
     <div className="bg-red200 flex flex-col gap-3">
-      <Label id={id} text={"Unité du Produit*"} />
+      <Label id={id} text={"Client*"} />
       <SelectInput
         value={value}
         setValue={(val: string) => {
@@ -42,7 +42,7 @@ const Unite = ({
           clearErrors(id);
         }}
         options={options_array}
-        label="Unité"
+        label="Client"
         id={id}
         register={register}
         error={!!errors[id]}
@@ -51,6 +51,7 @@ const Unite = ({
     </div>
   );
 };
+
 
 interface SelectCompProps {
   options: {
@@ -140,5 +141,4 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
   }
 );
 
-
-export default Unite;
+export default Client;

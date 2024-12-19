@@ -31,6 +31,8 @@
     "lib": ["ES2023"],
     "module": "ESNext",
     "skipLibCheck": true,
+            "allowSyntheticDefaultImports": true, // this is zayd
+
 
     /* Bundler mode */
     "moduleResolution": "node", // Changed from "Bundler" to "node"

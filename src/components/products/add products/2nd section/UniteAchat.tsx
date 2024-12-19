@@ -1,4 +1,4 @@
-import Label from "../../Label";
+import Label from "../../../ui/Label";
 import { forwardRef } from "react";
 import {
   FormControl,

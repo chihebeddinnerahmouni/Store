@@ -117,7 +117,7 @@
 import TextField from "@mui/material/TextField";
 import { FormHelperText } from "@mui/material";
 import { forwardRef } from "react";
-import Label from "../../Label";
+import Label from "../../../ui/Label";
 import { FaBarcode } from "react-icons/fa";
 
 interface DesignationProps {

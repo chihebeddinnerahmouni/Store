@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import InputNumber from "../../ui/inputs/InputNumber";
-import Label from "../Label";
+import Label from "../../ui/Label";
 // import { useState } from "react";
 import SelectInput from "../../ui/inputs/SelectInput";
 import { BsArrowRepeat } from "react-icons/bs";

@@ -9,6 +9,7 @@ import Products from './pages/products/Products';
 import Categories from './pages/products/Categories';
 import Marques from './pages/products/Marques';
 import Unite from './pages/products/Unite';
+import AddAchat from './pages/achat/AddAchat';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,8 @@ const router = createBrowserRouter([
       { path: "/produits/categories", element: <Categories /> },
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },
+
+      { path: "/achat/ajouter-un-achat", element: <AddAchat/> },
     ],
   },
   { path: "/test", element: <Test /> },

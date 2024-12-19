@@ -34,6 +34,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true, // this is zayd
 
     /* Bundler mode */
     "moduleResolution": "node",
