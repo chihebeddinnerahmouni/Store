@@ -64,30 +64,19 @@ const AddAchat = () => {
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter d'achat" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"> */}
-        <div className="flex flex-col gap-6 lg:grid xl:grid-cols-12">
-          <AchatStCont
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            date={date}
-            setDate={setDate}
-            client={client}
-            setClient={setClient}
-            magasain={magasain}
-            setMagasain={setMagasain}
-          />
-
-          <div className="totalPc hidden xl:block xl:col-span-4 xl:sticky xl:top-[100px]">
-            <TotalCont
-              remise={remise}
-              taxe={taxe}
-              laivraison={laivraison}
-              productsCommandeArray={productsCommandeArray}
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
+          <div className="top-left flex flex-col gap-6 xl:flex-grow">
+            <AchatStCont
+              clearErrors={clearErrors}
+              register={register}
+              errors={errors}
+              date={date}
+              setDate={setDate}
+              client={client}
+              setClient={setClient}
+              magasain={magasain}
+              setMagasain={setMagasain}
             />
-          </div>
-
-          <div className="flex flex-col gap-6 xl:col-span-8">
             <TableCont
               clearErrors={clearErrors}
               register={register}
@@ -114,15 +103,12 @@ const AddAchat = () => {
               setRemarque={setRemarque}
             />
           </div>
-
-          <div className="totalMob xl:hidden">
-            <TotalCont
-              remise={remise}
-              taxe={taxe}
-              laivraison={laivraison}
-              productsCommandeArray={productsCommandeArray}
-            />
-          </div>
+          <TotalCont
+            remise={remise}
+            taxe={taxe}
+            laivraison={laivraison}
+            productsCommandeArray={productsCommandeArray}
+          />
         </div>
         <Button
           type="submit"

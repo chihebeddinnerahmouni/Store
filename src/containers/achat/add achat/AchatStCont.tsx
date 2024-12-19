@@ -26,7 +26,7 @@ const AchatStCont = ({
   setMagasain,
 }: ProductStContProps) => {
   return (
-    <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8 xl:col-span-8">
+    <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
       <Date
         clearErrors={clearErrors}
         register={register}
