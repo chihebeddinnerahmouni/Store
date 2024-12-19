@@ -1,10 +1,11 @@
 import CardTitle from "./CardTitle";
 import { IoSearchSharp } from "react-icons/io5";
 
-const TableTop = ({ title, value, setValue }: {
+const TableTop = ({ title, value, setValue, label }: {
     title: string;
     value: string;
-    setValue: (value: string) => void;
+  setValue: (value: string) => void;
+    label: string;
 }) => {
   return (
     <div className="top flex items-center justify-between">
@@ -14,7 +15,7 @@ const TableTop = ({ title, value, setValue }: {
           type="text"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-          placeholder="Chercher un produit"
+          placeholder={label}
           className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px]`}
         />
         <IoSearchSharp

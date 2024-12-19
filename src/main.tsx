@@ -8,6 +8,7 @@ import AddProduct from './pages/products/AddProduct';
 import Products from './pages/products/Products';
 import Categories from './pages/products/Categories';
 import Marques from './pages/products/Marques';
+import Unite from './pages/products/Unite';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "/produits", element: <Products /> },
       { path: "/produits/categories", element: <Categories /> },
       { path: "/produits/marques", element: <Marques /> },
+      { path: "/produits/unite", element: <Unite /> },
     ],
   },
   { path: "/test", element: <Test /> },

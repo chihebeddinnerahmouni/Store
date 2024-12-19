@@ -13,8 +13,9 @@ import TableTop from "../../../components/ui/TableTop";
 
 interface Data {
   id: number;
-  code_de_marque: string;
-  nom_de_marque: string;
+  nom_court: string;
+  nom_de_unité: string;
+  unité_de_base: string;
 }
 
 interface Props {
@@ -22,7 +23,7 @@ interface Props {
   columns: (keyof Data)[];
 }
 
-const TableMarques = ({ data, columns }: Props) => {
+const TableUnite = ({ data, columns }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof Data>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -36,7 +37,7 @@ const TableMarques = ({ data, columns }: Props) => {
   const filteredData = useMemo(() => {
     if (searchQuery !== "") {
       return data.filter((row) =>
-        row.nom_de_marque.toLowerCase().includes(searchQuery.toLowerCase())
+        row.nom_de_unité.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return data;
@@ -55,10 +56,10 @@ const TableMarques = ({ data, columns }: Props) => {
   return (
     <div className="cardCss mt-5 lg:mt-10">
       <TableTop
-        title="Categories"
+        title="Unités"
         value={searchQuery}
-        setValue={setSearchQuery}
-        label="Chercher une marque"
+              setValue={setSearchQuery}
+              label="Chercher une unité"
       />
       <div className="mt-5 flex justify-center items-center flex-grow">
         <TableContainer component={Paper}>
@@ -116,4 +117,4 @@ const TableMarques = ({ data, columns }: Props) => {
 };
 
 
-export default TableMarques;
+export default TableUnite;

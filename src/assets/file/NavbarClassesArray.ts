@@ -33,9 +33,15 @@ const array = [
       },
       {
         id: 4,
-        title: "marques",
+        title: "Marques",
         icon: "/menu/cars-for-sale.png",
         url: "/produits/marques",
+      },
+      {
+        id: 5,
+        title: "Unité",
+        icon: "/menu/cars-for-sale.png",
+        url: "/produits/unite",
       },
     ],
   },

@@ -160,60 +160,65 @@ const TableCategories = ({ data, columns }: Props) => {
     });
 
     return (
-        <div className="cardCss mt-5 lg:mt-10">
-            <TableTop title="Categories" value={searchQuery} setValue={setSearchQuery} />
-            <div className="mt-5 flex justify-center items-center flex-grow">
-                <TableContainer component={Paper}>
-                    <Table
-                        sx={{
-                            border: "none",
-                        }}
+      <div className="cardCss mt-5 lg:mt-10">
+        <TableTop
+          title="Categories"
+          value={searchQuery}
+          setValue={setSearchQuery}
+          label="Chercher une categorie"
+        />
+        <div className="mt-5 flex justify-center items-center flex-grow">
+          <TableContainer component={Paper}>
+            <Table
+              sx={{
+                border: "none",
+              }}
+            >
+              <TableHead>
+                <TableRow>
+                  {columns.map((column, index) => (
+                    <TableCell
+                      key={index}
+                      sx={{
+                        wordBreak: "keep-all",
+                        whiteSpace: "nowrap",
+                        border: "none",
+                        borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                      }}
                     >
-                        <TableHead>
-                            <TableRow>
-                                {columns.map((column, index) => (
-                                    <TableCell
-                                        key={index}
-                                        sx={{
-                                            wordBreak: "keep-all",
-                                            whiteSpace: "nowrap",
-                                            border: "none",
-                                            borderBottom: "1px solid rgba(224, 224, 224, 1)",
-                                        }}
-                                    >
-                                        <TableSortLabel
-                                            active={orderBy === column}
-                                            direction={orderBy === column ? order : "asc"}
-                                            onClick={() => handleRequestSort(column)}
-                                        >
-                                            <p className="capitalize">
-                                                {column.toString().replace(/_/g, " ")}
-                                            </p>
-                                        </TableSortLabel>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {sortedData.map((row) => (
-                                <TableRow key={row.id}>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            key={column as string}
-                                            sx={{
-                                                border: "none",
-                                            }}
-                                        >
-                                            {row[column]}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                      <TableSortLabel
+                        active={orderBy === column}
+                        direction={orderBy === column ? order : "asc"}
+                        onClick={() => handleRequestSort(column)}
+                      >
+                        <p className="capitalize">
+                          {column.toString().replace(/_/g, " ")}
+                        </p>
+                      </TableSortLabel>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData.map((row) => (
+                  <TableRow key={row.id}>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column as string}
+                        sx={{
+                          border: "none",
+                        }}
+                      >
+                        {row[column]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
+      </div>
     );
 };
 
