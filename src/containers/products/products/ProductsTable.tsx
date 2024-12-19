@@ -372,6 +372,13 @@ export default function EnhancedTable({
                         {row[column as keyof Data]}
                       </TableCell>
                     ))}
+                    <TableCell
+                      sx={{
+                        border: "none",
+                      }}
+                    >
+                      actions
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -381,9 +388,11 @@ export default function EnhancedTable({
                     height: 53 * emptyRows,
                   }}
                 >
+              empty
                   <TableCell colSpan={columns.length + 1} />
                 </TableRow>
               )}
+              
             </TableBody>
           </Table>
         </TableContainer>

@@ -2,11 +2,11 @@
 
 import  { useState } from 'react';
 
-interface ShiningButtonProps { 
-        text: string,
-        icon: any,
-        color: string,
-        onClick: () => void, 
+interface ShiningButtonProps {
+  text: string;
+  icon: any;
+  color: string;
+  onClick: (...args: any[]) => void;
 }
 
 const ShiningButton = ({ text, icon, color, onClick }: ShiningButtonProps) => {
