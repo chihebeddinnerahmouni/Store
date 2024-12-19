@@ -4,18 +4,12 @@ import { Autocomplete, Paper } from "@mui/material";
 import { useState } from "react";
 
 interface DesignationProps {
-    clearErrors: any;
-    register: any;
-    errors: any;
     id: string;
     setValue: (value: string) => void;
     value: string;
 }
 
 const Produit = ({
-    clearErrors,
-    register,
-    errors,
     id,
     value,
     setValue,
@@ -35,13 +29,9 @@ const Produit = ({
                 value={value}
                 setValue={(val: string) => {
                     setValue(val);
-                    clearErrors(id);
                 }}
                 label="Entrez le nom/code du produit"
                 id={id}
-                register={register}
-                error={!!errors[id]}
-                helperText={errors[id]?.message}
                 suggestions={suggestions}
             />
         </div>
@@ -53,9 +43,6 @@ interface InputAutocompleteProps {
     setValue: (value: string) => void;
     label: string;
     id: string;
-    register: any;
-    error: boolean;
-    helperText: string;
     suggestions: string[];
 }
 
@@ -64,9 +51,6 @@ const InputAutocomplete = ({
     setValue,
     label,
     id,
-    register,
-    error,
-    helperText,
     suggestions,
 }: InputAutocompleteProps) => {
     const mainColor = "#006233";
@@ -98,12 +82,6 @@ const InputAutocomplete = ({
               variant="outlined"
               fullWidth
               id={id}
-              error={error}
-              helperText={helperText}
-              {...register(id, {
-                required: "Ce champ est obligatoire",
-                onChange: (e: any) => setValue(e.target.value),
-              })}
               sx={{
                 "& input": {
                   color: "black",

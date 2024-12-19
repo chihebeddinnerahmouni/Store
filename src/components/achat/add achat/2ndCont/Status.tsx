@@ -5,16 +5,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  FormHelperText,
 } from "@mui/material";
 
 interface DesignationProps {
-  register: any;
-  errors: any;
   id: string;
   setValue: (value: string) => void;
   value: string;
-  clearErrors: (name: string) => void;
 }
 
 const options_array = [
@@ -24,12 +20,9 @@ const options_array = [
 ];
 
 const Status = ({
-  register,
-  errors,
   id,
   value,
   setValue,
-  clearErrors,
 }: DesignationProps) => {
   return (
     <div className="bg-red200 flex flex-col gap-3">
@@ -38,14 +31,10 @@ const Status = ({
         value={value}
         setValue={(val: string) => {
           setValue(val);
-          clearErrors(id);
         }}
         options={options_array}
         label="Choisir"
         id={id}
-        register={register}
-        error={!!errors[id]}
-        helperText={errors[id]?.message}
       />
     </div>
   );
@@ -60,14 +49,11 @@ interface SelectCompProps {
   value: string;
   setValue: (value: string) => void;
   id: string;
-  register: any;
-  error: boolean;
-  helperText: string;
 }
 
 const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
   (
-    { value, setValue, label, options, id, register, error, helperText },
+    { value, setValue, label, options, id },
     ref
   ) => {
     const mainColor = "#006233";
@@ -90,12 +76,6 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
           inputRef={ref}
           variant="outlined"
           fullWidth
-          error={error}
-          //   helperText={helperText}
-          {...register(id, {
-            required: "Ce champ est obligatoire",
-            onChange: (e: any) => setValue(e.target.value),
-          })}
           sx={{
             borderRadius: 2,
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -114,7 +94,7 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
           labelId="carrosserie-label"
           value={value}
           label="Carrosserie"
-          //   onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue(e.target.value)}
           MenuProps={{
             PaperProps: {
               style: {
@@ -131,9 +111,6 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
             </MenuItem>
           ))}
         </Select>
-        {helperText && (
-          <FormHelperText error={error}>{helperText}</FormHelperText>
-        )}
       </FormControl>
     );
   }

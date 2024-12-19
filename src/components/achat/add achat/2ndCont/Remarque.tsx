@@ -1,21 +1,14 @@
 import TextField from "@mui/material/TextField";
 import { forwardRef } from "react";
 import Label from "../../../ui/Label";
-import { FormHelperText } from "@mui/material";
 
 interface DesignationProps {
-  clearErrors: any;
-  register: any;
-  errors: any;
   id: string;
   setValue: (value: string) => void;
   value: string;
 }
 
 const Remarque = ({
-  clearErrors,
-  register,
-  errors,
   id,
   value,
   setValue,
@@ -27,13 +20,9 @@ const Remarque = ({
         value={value}
         setValue={(val: string) => {
           setValue(val);
-          clearErrors(id);
         }}
         label="Quelque chose à ajouter ?"
         id={id}
-        register={register}
-        error={!!errors[id]}
-        helperText={errors[id]?.message}
       />
     </div>
   );
@@ -44,13 +33,10 @@ interface InputTextProps {
   setValue: (value: string) => void;
   label: string;
   id: string;
-  register: any;
-  error: boolean;
-  helperText: string;
 }
 
 const InputText = forwardRef<HTMLInputElement, InputTextProps>(
-  ({ value, setValue, label, id, register, error, helperText }, ref) => {
+  ({ value, setValue, label, id }, ref) => {
     const mainColor = "#006233";
 
     return (
@@ -65,12 +51,6 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
           variant="outlined"
           fullWidth
           id={id}
-          error={error}
-          // helperText={helperText}
-          {...register(id, {
-            required: "Ce champ est obligatoire",
-            onChange: (e: any) => setValue(e.target.value),
-          })}
           sx={{
             // Set the color of the text to black
             "& input": {
@@ -105,7 +85,6 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
             },
           }}
         />
-        <FormHelperText error={error}>{helperText}</FormHelperText>
       </div>
     );
   }

@@ -78,9 +78,6 @@ const AddAchat = () => {
               setMagasain={setMagasain}
             />
             <TableCont
-              clearErrors={clearErrors}
-              register={register}
-              errors={errors}
               produit={produit}
               setProduit={setProduit}
               productsCommandeArray={productsCommandeArray}
@@ -88,9 +85,6 @@ const AddAchat = () => {
             />
 
             <AchatNdCont
-              clearErrors={clearErrors}
-              register={register}
-              errors={errors}
               taxe={taxe}
               setTaxe={setTaxe}
               remise={remise}

@@ -5,9 +5,6 @@ import Status from "../../../components/achat/add achat/2ndCont/Status";
 import Remarque from "../../../components/achat/add achat/2ndCont/Remarque";
 
 interface ProductStContProps {
-  clearErrors: any;
-  register: any;
-    errors: any;
     taxe: string;
     setTaxe: (value: string) => void;
     remise: string;
@@ -21,9 +18,6 @@ interface ProductStContProps {
 }
 
 const AchatNdCont = ({
-  clearErrors,
-  register,
-    errors,
     taxe,
     setTaxe,
     remise,
@@ -40,45 +34,30 @@ const AchatNdCont = ({
           
 
         <Taxe
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
             id={"taxe"}
             setValue={setTaxe}
               value={taxe}
           />
           
             <Remise
-                clearErrors={clearErrors}
-                register={register}
-                errors={errors}
                 id={"remise"}
                 setValue={setRemise}
               value={remise}
             />
 
             <Laivraison
-                clearErrors={clearErrors}
-                register={register}
-                errors={errors}
                 id={"laivraison"}
                 setValue={setLaivraison}
               value={laivraison}
           />
 
             <Status
-                clearErrors={clearErrors}
-                register={register}
-                errors={errors}
                 id={"status"}
                 setValue={setStatus}
               value={status}    
           />
           
             <Remarque
-                clearErrors={clearErrors}
-                register={register}
-                errors={errors}
                 id={"remarque"}
                 setValue={setRemarque}
               value={remarque}

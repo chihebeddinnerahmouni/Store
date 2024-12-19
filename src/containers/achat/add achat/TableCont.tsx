@@ -21,9 +21,6 @@ interface IProductCommandeItem {
 
 
 interface Props {
-  clearErrors: any;
-  register: any;
-  errors: any;
   produit: string;
   setProduit: (value: string) => void;
   productsCommandeArray: IProductCommandeItem[];
@@ -33,9 +30,6 @@ interface Props {
 }
 
 const TableCont = ({
-    clearErrors,
-    register,
-    errors,
     produit,
     setProduit,
     productsCommandeArray,
@@ -68,9 +62,6 @@ const TableCont = ({
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:gap-8">
       <Produit
-        clearErrors={clearErrors}
-        register={register}
-        errors={errors}
         id={"produit"}
         value={produit}
         setValue={setProduit}
