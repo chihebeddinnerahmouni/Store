@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import InputNumber from "../../ui/inputs/InputNumber";
 import Label from "../Label";
-import { useState } from "react";
+// import { useState } from "react";
 import SelectInput from "../../ui/inputs/SelectInput";
 import { BsArrowRepeat } from "react-icons/bs";
 import { CiFilter } from "react-icons/ci";
@@ -9,12 +9,23 @@ import ShiningButton from "../../ui/ShiningButton";
 
 interface Props {
   close: () => void;
+  code: string;
+  setCode: (value: string) => void;
+  categorie: string;
+  setCategorie: (value: string) => void;
+  marque: string;
+  setMarque: (value: string) => void;
 }
 
-const FilterContent = ({ close }: Props) => {
-  const [code, setCode] = useState("");
-  const [categorie, setCategorie] = useState("");
-  const [marque, setMarque] = useState("");
+const FilterContent = ({
+  close,
+  code,
+  setCode,
+  categorie,
+  setCategorie,
+  marque,
+  setMarque,
+}: Props) => {
 
   const buttons_array = [
     {
@@ -40,7 +51,6 @@ const FilterContent = ({ close }: Props) => {
   return (
     <Box
       sx={{
-        // width: { xs: 250, lg: 278 },
         padding: 2,
       }}
       role="presentation"

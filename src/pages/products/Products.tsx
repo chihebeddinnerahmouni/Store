@@ -1,16 +1,59 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductsTable from "../../containers/products/products/ProductsTable";
 import ButtonsCont from "../../containers/products/products/ButtonsCont";
+import { useState, useEffect } from "react";
 
+interface Product {
+  id: number;
+  image: string;
+  type: string;
+  designation: string;
+  code: string;
+  marque: string;
+  categorie: string;
+  cout: string;
+  prix: string;
+  unité: string;
+  quantité: string;
+}
 
 const Products = () => {
 
+    const [code, setCode] = useState("");
+    const [categorie, setCategorie] = useState("");
+  const [marque, setMarque] = useState("");
+  const [data, setData] = useState<Product[]>([]);
+  const [columns, setColumns] = useState<string[]>([]);
+
+
+  useEffect(() => {
+      setData(data_test);
+      setColumns(columns_test);
+  }, []);
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Liste de produits" />
-      <ButtonsCont data={data} columns={columns} />
-      <ProductsTable rows={data} columns={columns} />
+      <ButtonsCont
+        data={data}
+        columns={columns}
+        code={code}
+        setCode={setCode}
+        categorie={categorie}
+        setCategorie={setCategorie}
+        marque={marque}
+        setMarque={setMarque}
+      />
+      <ProductsTable
+        rows={data}
+        columns={columns}
+        // code={code}
+        // setCode={setCode}
+        // categorie={categorie}
+        // setCategorie={setCategorie}
+        // marque={marque}
+        // setMarque={setMarque}
+      />
     </div>
   );
 }
@@ -18,9 +61,9 @@ const Products = () => {
 export default Products
 
 
-const columns = ["designation", "code", "marque", "categorie", "cout", "prix", "unité", "quantité"];
+const columns_test = ["designation", "code", "marque", "categorie", "cout", "prix", "unité", "quantité"];
 
-const data = [
+const data_test = [
   {
     id: 1,
     image:

@@ -1,143 +1,3 @@
-// import { useState } from "react";
-// import {
-//     Table,
-//     TableBody,
-//     TableCell,
-//     TableContainer,
-//     TableHead,
-//     TableRow,
-//     TableSortLabel,
-//     Paper,
-// } from "@mui/material";
-// import CardTitle from "../../../components/ui/CardTitle";
-
-// interface Prop {
-//     data: {
-//         id: number;
-//         image: string;
-//         type: string;
-//         designation: string;
-//         code: string;
-//         marque: string;
-//         category: string;
-//         cout: string;
-//         unité: string;
-//         quantité: string;
-//     }[];
-// }
-
-// const ProductsTable = ({ data }: Prop) => {
-//     type DataKeys = keyof (typeof data)[0];
-//     const [order, setOrder] = useState<"asc" | "desc">("asc");
-//     const [orderBy, setOrderBy] = useState<keyof (typeof data)[0]>("code");
-//     const columns: DataKeys[] = [
-//         "type",
-//         "designation",
-//         "code",
-//         "marque",
-//         "category",
-//         "cout",
-//         "unité",
-//         "quantité",
-//     ];
-
-//     const handleRequestSort = (property: DataKeys) => {
-//         const isAsc = orderBy === property && order === "asc";
-//         setOrder(isAsc ? "desc" : "asc");
-//         setOrderBy(property);
-//     };
-
-//     const sortedData = data.sort((a, b) => {
-//         if (a[orderBy] < b[orderBy]) {
-//             return order === "asc" ? -1 : 1;
-//         }
-//         if (a[orderBy] > b[orderBy]) {
-//             return order === "asc" ? 1 : -1;
-//         }
-//         return 0;
-//     });
-
-//     return (
-//         <div className="shadow-mainShadow p-[1.25em] rounded-10 w-full">
-//             <CardTitle text={`Ventes récentes`} />
-//             <div className="mt-5 flex justify-center items-center flex-grow">
-//                 <TableContainer component={Paper}>
-//                     <Table
-//                         sx={{
-//                             border: "none",
-//                         }}
-//                     >
-//                         <TableHead>
-//                             <TableRow>
-//                                 <TableCell
-//                                     sx={{
-//                                         wordBreak: "keep-all",
-//                                         whiteSpace: "nowrap",
-//                                         border: "none",
-//                                         borderBottom: "1px solid rgba(224, 224, 224, 1)",
-//                                     }}
-//                                 >
-//                                     <TableSortLabel
-//                                         active={orderBy === "image"}
-//                                         direction={orderBy === "image" ? order : "asc"}
-//                                         onClick={() => handleRequestSort("image")}
-//                                     >
-//                                         <p className="capitalize">Image</p>
-//                                     </TableSortLabel>
-//                                 </TableCell>
-//                                 {columns.map((column) => (
-//                                     <TableCell
-//                                         key={column}
-//                                         sx={{
-//                                             wordBreak: "keep-all",
-//                                             whiteSpace: "nowrap",
-//                                             border: "none",
-//                                             borderBottom: "1px solid rgba(224, 224, 224, 1)",
-//                                         }}
-//                                     >
-//                                         <TableSortLabel
-//                                             active={orderBy === column}
-//                                             direction={orderBy === column ? order : "asc"}
-//                                             onClick={() => handleRequestSort(column)}
-//                                         >
-//                                             <p className="capitalize">{column.replace(/_/g, " ")}</p>
-//                                         </TableSortLabel>
-//                                     </TableCell>
-//                                 ))}
-//                             </TableRow>
-//                         </TableHead>
-//                         <TableBody>
-//                             {sortedData.map((row) => (
-//                                 <TableRow key={row.id}>
-//                                     <TableCell
-//                                         sx={{
-//                                             border: "none",
-//                                         }}
-//                                     >
-//                                         <img src={row.image} alt={row.designation} width="50" height="50" />
-//                                     </TableCell>
-//                                     {columns.map((column) => (
-//                                         <TableCell
-//                                             key={column}
-//                                             sx={{
-//                                                 border: "none",
-//                                             }}
-//                                         >
-//                                             {row[column]}
-//                                         </TableCell>
-//                                     ))}
-//                                 </TableRow>
-//                             ))}
-//                         </TableBody>
-//                     </Table>
-//                 </TableContainer>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ProductsTable;
-
 import * as React from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -159,9 +19,7 @@ import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 
-
 const mainColor = "#006233";
-
 
 interface Data {
   id: number;
@@ -278,6 +136,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell align="center" padding="normal" sortDirection={false}>
+          <TableSortLabel>
+            <span className="capitalize">Actions</span>
+          </TableSortLabel>
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -312,8 +175,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       <div className="search relative">
         <input
           type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Chercher un produit"
           className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
         />
@@ -329,14 +192,18 @@ export default function EnhancedTable({
   columns,
 }: {
   rows: Data[];
-    columns: string[];
+  columns: string[];
 }) {
+  // React.useEffect(() => {
+  //   console.log(rows);
+  // }, [columns, rows]);
+
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("code");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [searchQuery, setSearchQuery] = React.useState("");
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -384,20 +251,22 @@ export default function EnhancedTable({
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    };
-    
-    
-    const emptyRows =
+  };
+
+  const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const filteredUsers = React.useMemo(
-      () =>
-        rows.filter((row: any) =>
-          row.designation.toLowerCase().includes(searchQuery.toLowerCase())
-        ),
-      [searchQuery]
+  
+  const filteredUsers = React.useMemo(() => {
+  if (searchQuery !== "") {
+    return rows.filter((row: any) =>
+      row.designation.toLowerCase().includes(searchQuery.toLowerCase())
     );
+  }
+  return rows;
+}, [searchQuery, rows]);
 
+  // console.log(filteredUsers);
 
   const visibleRows = React.useMemo(
     () =>
@@ -406,6 +275,8 @@ export default function EnhancedTable({
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [order, orderBy, page, rowsPerPage, filteredUsers]
   );
+
+  // console.log(visibleRows);
 
   return (
     <Box sx={{ width: "100%" }} className="cardCs mt-5 lg:mt-10">
@@ -441,7 +312,7 @@ export default function EnhancedTable({
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={index}
                     selected={isItemSelected}
                     sx={{
                       cursor: "pointer",
@@ -489,9 +360,9 @@ export default function EnhancedTable({
                         className="w-10 h-10 bg-red200 rounded-full object-cover"
                       />
                     </TableCell>
-                    {columns.map((column) => (
+                    {columns.map((column, index) => (
                       <TableCell
-                        key={column}
+                        key={index}
                         padding="normal"
                         align="center"
                         sx={{
