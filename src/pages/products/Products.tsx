@@ -2,16 +2,15 @@ import PageTitle from "../../components/ui/PageTitle";
 import ProductsTable from "../../containers/products/products/ProductsTable";
 import ButtonsCont from "../../containers/products/products/ButtonsCont";
 
+
 const Products = () => {
+
+
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Liste de produits" />
-      <ButtonsCont />
-             <ProductsTable 
-              rows={data}
-              columns={columns}
-          /> 
-          
+      <ButtonsCont data={data} columns={columns} />
+      <ProductsTable rows={data} columns={columns} />
     </div>
   );
 }
@@ -19,7 +18,7 @@ const Products = () => {
 export default Products
 
 
-const columns = ["designation", "code", "marque", "categorie", "cout", "prix", "unité", "quantité", "actions"];
+const columns = ["designation", "code", "marque", "categorie", "cout", "prix", "unité", "quantité"];
 
 const data = [
   {
@@ -77,6 +76,286 @@ const data = [
     prix: "30.00",
     unité: "Loaf",
     quantité: "50",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
+  },
+  {
+    id: 5,
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/31/19/58/avatar-1295429_960_720.png",
+    type: "single",
+    designation: "Orange Juice",
+    code: "5678901234",
+    marque: "JuicyFresh",
+    categorie: "Beverages",
+    cout: "400.00",
+    prix: "80.00",
+    unité: "Litre",
+    quantité: "20",
   },
   {
     id: 5,

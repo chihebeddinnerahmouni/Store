@@ -329,7 +329,7 @@ export default function EnhancedTable({
   columns,
 }: {
   rows: Data[];
-  columns: string[];
+    columns: string[];
 }) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("code");
