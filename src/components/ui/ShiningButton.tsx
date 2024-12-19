@@ -22,11 +22,9 @@ const ShiningButton = ({ text, icon, color, onClick }: ShiningButtonProps) => {
               border: `1px solid ${color}`,
               backgroundColor: isHovered ? color : "white",
               transition: "background-color 0.3s ease",
-              boxShadow: isHovered
-                ? `0 8px 15px -8px ${color}`
-                : "none",
+              boxShadow: isHovered ? `0 8px 15px -8px ${color}` : "none",
             }}
-            className="shining-button flex items-center gap-2 px-4 py-2 rounded"
+            className="shining-button flex items-center gap-2 px-2 py-1 rounded lg:px-4 lg:py-2"
           >
             {icon && <span className="icon">{icon}</span>}
             <span className="text">{text}</span>

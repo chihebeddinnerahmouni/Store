@@ -120,7 +120,7 @@
 //   );
 // };
 
-import Label from "../Label";
+import Label from "../../Label";
 import { forwardRef } from "react";
 import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from "@mui/material";
 
