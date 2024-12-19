@@ -2,24 +2,30 @@ import PageTitle from "../../components/ui/PageTitle";
 import AchatStCont from "../../containers/achat/add achat/AchatStCont";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import ImageCont from "../../containers/products/add product/ImageCont";
-import ProductsNd from "../../containers/products/add product/ProductsNd";
+// import ImageCont from "../../containers/products/add product/ImageCont";
+// import ProductsNd from "../../containers/products/add product/ProductsNd";
 import { Button } from "@mui/material";
-import InstructionsCont from "../../containers/products/add product/InstructionsCont";
+// import InstructionsCont from "../../containers/products/add product/InstructionsCont";
+import TableCont from "../../containers/achat/add achat/TableCont";
+// import IProduct from "../../types/Product";
+
+interface IProductCommandeItem {
+    id: number;
+    name: string;
+    cout_unitaire: number;
+    stock_actuel: number;
+    remise: number;
+    taxe: number;
+    quantite: number;
+    grand_total: number;
+    alert_stock: number;
+    unité: string;
+}
 
 type FormValues = {
     date: string;
     client: string;
     magasain: string;
-
-  type: string;
-  prixAchat: string;
-  prixVente: string;
-  unite: string;
-  uniteVente: string;
-  uniteAchat: string;
-    stockAlert: string;
-  
 };
 
 const AddAchat = () => {
@@ -27,16 +33,11 @@ const AddAchat = () => {
     const [date, setDate] = useState<string>("");
     const [client, setClient] = useState<string>("");
     const [magasain, setMagasain] = useState<string>("");
+    const [produit, setProduit] = useState<string>("");
+    // const [productsArray, setProductsArray] = useState<IProduct[]>(products_test);
+    const [productsCommandeArray, setProductsCommandeArray] = useState<IProductCommandeItem[]>([]);
 
-  const [type, setType] = useState<string>("");
-  const [prixAchat, setPrixAchat] = useState<string>("");
-  const [prixVente, setPrixVente] = useState<string>("");
-  const [unite, setUnite] = useState<string>("");
-  const [uniteVente, setUniteVente] = useState<string>("");
-  const [uniteAchat, setUniteAchat] = useState<string>("");
-  const [stockAlert, setStockAlert] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [numSerie, setNumSerie] = useState<string>("");
 
   const mainColor = "#006233";
   const mainColorHover = "#004d26";
@@ -64,16 +65,26 @@ const AddAchat = () => {
           <AchatStCont
             clearErrors={clearErrors}
             register={register}
-                      errors={errors}
-                      date={date}
-                      setDate={setDate}
-                      client={client}
-                      setClient={setClient}
-                      magasain={magasain}
-                        setMagasain={setMagasain}
+            errors={errors}
+            date={date}
+            setDate={setDate}
+            client={client}
+            setClient={setClient}
+            magasain={magasain}
+            setMagasain={setMagasain}
           />
 
-          <ImageCont />
+          <TableCont
+            clearErrors={clearErrors}
+            register={register}
+            errors={errors}
+            produit={produit}
+            setProduit={setProduit}
+            productsCommandeArray={productsCommandeArray}
+            setProductsCommandeArray={setProductsCommandeArray}
+          />
+
+          {/* <ImageCont />
 
           <ProductsNd
             clearErrors={clearErrors}
@@ -98,7 +109,7 @@ const AddAchat = () => {
           />
           <div className="lg:col-span-3 lg:hidden">
             <InstructionsCont />
-          </div>
+          </div> */}
         </div>
         <Button
           type="submit"
@@ -122,3 +133,4 @@ const AddAchat = () => {
 
 
 export default AddAchat;
+
