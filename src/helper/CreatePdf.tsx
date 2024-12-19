@@ -1,19 +1,6 @@
 import html2pdf from "html2pdf.js";
 
-interface Data {
-  id: number;
-    image: string;
-    type: string;
-    designation: string;
-    code: string;
-    marque: string;
-    categorie: string;
-    cout: string;
-    prix: string;
-    unité: string;
-    quantité: string;
-}
-  
+interface Data {}
 
 // interface DataArray {
 //     data: Data[];
@@ -23,7 +10,7 @@ interface Data {
 //     columns: string[];
 //     }
 
-const handlePrintPdf = (data: Data[], columns: string[], title: string) => {
+const handlePrintPdf = (data: any, columns: string[], title: string) => {
   const element = document.createElement("div");
   const table = document.createElement("table");
   table.style.width = "100%";
@@ -35,10 +22,10 @@ const handlePrintPdf = (data: Data[], columns: string[], title: string) => {
   columns.forEach((column) => {
     const th = document.createElement("th");
     th.style.padding = "4px";
-    th.style.backgroundColor = "#f2f2f2"; 
-    th.style.borderBottom = "2px solid #000"; 
-    th.style.textAlign = "left"; 
-    th.style.fontWeight = "bold"; 
+    th.style.backgroundColor = "#f2f2f2";
+    th.style.borderBottom = "2px solid #000";
+    th.style.textAlign = "left";
+    th.style.fontWeight = "bold";
     th.textContent = column;
     headerRow.appendChild(th);
   });
@@ -47,12 +34,12 @@ const handlePrintPdf = (data: Data[], columns: string[], title: string) => {
 
   // Create table rows
   const tbody = document.createElement("tbody");
-  data.forEach((row) => {
+  data.forEach((row: any) => {
     const tr = document.createElement("tr");
     columns.forEach((column) => {
       const td = document.createElement("td");
       td.style.padding = "4px";
-      td.style.borderBottom = "1px solid #ddd"; 
+      td.style.borderBottom = "1px solid #ddd";
       td.textContent = row[column as keyof typeof row] as string;
       tr.appendChild(td);
     });
@@ -74,7 +61,5 @@ const handlePrintPdf = (data: Data[], columns: string[], title: string) => {
     .toPdf()
     .save();
 };
-
-
 
 export default handlePrintPdf;

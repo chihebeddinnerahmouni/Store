@@ -6,7 +6,7 @@ const PageTitle = ({text}: {text: string}) => {
       <h3 className=" text-[25px] font-light">
       {text}
       </h3>
-      <hr className="w-full mt-3 mb-5 lg:mt-6 lg:mb-7"/>
+      <hr className="w-full mt-3 mb-5 lg:mt-6 lg:mb-10"/>
     </div>
       
   )

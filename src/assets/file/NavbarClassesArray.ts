@@ -27,9 +27,9 @@ const array = [
       },
       {
         id: 3,
-        title: "Imprimer Le Code Barre",
+        title: "Categories",
         icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
+        url: "/produits/categories",
       },
     ],
   },
