@@ -2,40 +2,43 @@ import PageTitle from "../../components/ui/PageTitle";
 import AchatStCont from "../../containers/achat/add achat/AchatStCont";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import ImageCont from "../../containers/products/add product/ImageCont";
-// import ProductsNd from "../../containers/products/add product/ProductsNd";
 import { Button } from "@mui/material";
-// import InstructionsCont from "../../containers/products/add product/InstructionsCont";
 import TableCont from "../../containers/achat/add achat/TableCont";
-// import IProduct from "../../types/Product";
+import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
+import TotalCont from "../../containers/achat/add achat/TotalCont";
 
 interface IProductCommandeItem {
-    id: number;
-    name: string;
-    cout_unitaire: number;
-    stock_actuel: number;
-    remise: number;
-    taxe: number;
-    quantite: number;
-    grand_total: number;
-    alert_stock: number;
-    unité: string;
+  id: number;
+  name: string;
+  cout_unitaire: number;
+  stock_actuel: number;
+  remise: number;
+  taxe: number;
+  quantite: number;
+  grand_total: number;
+  alert_stock: number;
+  unité: string;
 }
 
 type FormValues = {
-    date: string;
-    client: string;
-    magasain: string;
+  date: string;
+  client: string;
+  magasain: string;
 };
 
 const AddAchat = () => {
-
-    const [date, setDate] = useState<string>("");
-    const [client, setClient] = useState<string>("");
-    const [magasain, setMagasain] = useState<string>("");
-    const [produit, setProduit] = useState<string>("");
-    // const [productsArray, setProductsArray] = useState<IProduct[]>(products_test);
-    const [productsCommandeArray, setProductsCommandeArray] = useState<IProductCommandeItem[]>([]);
+  const [date, setDate] = useState<string>("");
+  const [client, setClient] = useState<string>("");
+  const [magasain, setMagasain] = useState<string>("");
+  const [produit, setProduit] = useState<string>("");
+  const [productsCommandeArray, setProductsCommandeArray] = useState<
+    IProductCommandeItem[]
+  >([]);
+  const [taxe, setTaxe] = useState<string>("");
+  const [remise, setRemise] = useState<string>("");
+  const [laivraison, setLaivraison] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
+  const [remarque, setRemarque] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -61,7 +64,8 @@ const AddAchat = () => {
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter d'achat" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
+        {/* <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"> */}
+        <div className="flex flex-col gap-6 lg:grid xl:grid-cols-12">
           <AchatStCont
             clearErrors={clearErrors}
             register={register}
@@ -74,42 +78,51 @@ const AddAchat = () => {
             setMagasain={setMagasain}
           />
 
-          <TableCont
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            produit={produit}
-            setProduit={setProduit}
-            productsCommandeArray={productsCommandeArray}
-            setProductsCommandeArray={setProductsCommandeArray}
-          />
+          <div className="totalPc hidden xl:block xl:col-span-4 xl:sticky xl:top-[100px]">
+            <TotalCont
+              remise={remise}
+              taxe={taxe}
+              laivraison={laivraison}
+              productsCommandeArray={productsCommandeArray}
+            />
+          </div>
 
-          {/* <ImageCont />
+          <div className="flex flex-col gap-6 xl:col-span-8">
+            <TableCont
+              clearErrors={clearErrors}
+              register={register}
+              errors={errors}
+              produit={produit}
+              setProduit={setProduit}
+              productsCommandeArray={productsCommandeArray}
+              setProductsCommandeArray={setProductsCommandeArray}
+            />
 
-          <ProductsNd
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            type={type}
-            setType={setType}
-            prixAchat={prixAchat}
-            setPrixAchat={setPrixAchat}
-            prixVente={prixVente}
-            setPrixVente={setPrixVente}
-            unite={unite}
-            setUnite={setUnite}
-            uniteVente={uniteVente}
-            setUniteVente={setUniteVente}
-            uniteAchat={uniteAchat}
-            setUniteAchat={setUniteAchat}
-            stockAlert={stockAlert}
-            setStockAlert={setStockAlert}
-            numSerie={numSerie}
-            setNumSerie={setNumSerie}
-          />
-          <div className="lg:col-span-3 lg:hidden">
-            <InstructionsCont />
-          </div> */}
+            <AchatNdCont
+              clearErrors={clearErrors}
+              register={register}
+              errors={errors}
+              taxe={taxe}
+              setTaxe={setTaxe}
+              remise={remise}
+              setRemise={setRemise}
+              laivraison={laivraison}
+              setLaivraison={setLaivraison}
+              status={status}
+              setStatus={setStatus}
+              remarque={remarque}
+              setRemarque={setRemarque}
+            />
+          </div>
+
+          <div className="totalMob xl:hidden">
+            <TotalCont
+              remise={remise}
+              taxe={taxe}
+              laivraison={laivraison}
+              productsCommandeArray={productsCommandeArray}
+            />
+          </div>
         </div>
         <Button
           type="submit"
@@ -131,6 +144,4 @@ const AddAchat = () => {
   );
 };
 
-
 export default AddAchat;
-

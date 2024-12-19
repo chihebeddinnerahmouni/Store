@@ -66,7 +66,7 @@ const TableCont = ({
      }, [productsArray]);
 
   return (
-    <section className="cardCss grid grid-cols-1 gap-5 lg:gap-8 lg:col-span-9">
+    <section className="cardCss grid grid-cols-1 gap-5 lg:gap-8">
       <Produit
         clearErrors={clearErrors}
         register={register}
