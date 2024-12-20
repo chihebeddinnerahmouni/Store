@@ -15,7 +15,7 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
-import IClient from "../../../types/client";
+import IFournisseures from "../../../types/fournisseures";
 
 const mainColor = "#006233";
 
@@ -47,7 +47,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IClient
+    property: keyof IFournisseures
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -69,7 +69,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IClient);
+      onRequestSort(event, property as keyof IFournisseures);
     };
 
   return (
@@ -107,10 +107,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               direction={orderBy === column ? order : "asc"}
               onClick={createSortHandler(column)}
             >
-              {column
-                .split("_")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}
+              {columnName(column)}
 
               {orderBy === column ? (
                 <Box component="span" sx={visuallyHidden}>
@@ -154,7 +151,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Clients
+        Fournisseurs
       </Typography>
       <div className="search relative">
         <input
@@ -175,7 +172,7 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IClient[];
+  rows: IFournisseures[];
   columns: string[];
 }) {
   // React.useEffect(() => {
@@ -183,7 +180,7 @@ export default function EnhancedTable({
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IClient>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IFournisseures>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -191,7 +188,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IClient
+    property: keyof IFournisseures
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -343,7 +340,7 @@ export default function EnhancedTable({
                         }}
                       >
                         {/* {renderColumnContent(column, row)} */}
-                        {row[column as keyof IClient]}
+                        {row[column as keyof IFournisseures]}
                       </TableCell>
                     ))}
                     <TableCell
@@ -383,40 +380,50 @@ export default function EnhancedTable({
   );
 }
 
-// const renderColumnContent = (column: string, row: IClient) => {
+
+const columnName = (column: string) => {
+
+  if (column === "total_dette") return "Total de la dette de retour d'achat";
+  return column
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// const renderColumnContent = (column: string, row: IFournisseures) => {
 //   if (column === "reference") {
-//     return <p className="text-blue-500">{row[column as keyof IClient]}</p>;
+//     return <p className="text-blue-500">{row[column as keyof IFournisseures]}</p>;
 //   } else if (column === "status_de_paiement") {
-//     if (row[column as keyof IClient] === "partiel") {
+//     if (row[column as keyof IFournisseures] === "partiel") {
 //       return (
 //         <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
-//           {row[column as keyof IClient]}
+//           {row[column as keyof IFournisseures]}
 //         </span>
 //       );
-//     } else if (row[column as keyof IClient] === "non paid") {
+//     } else if (row[column as keyof IFournisseures] === "non paid") {
 //       return (
 //         <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-//           {row[column as keyof IClient]}
+//           {row[column as keyof IFournisseures]}
 //         </span>
 //       );
-//     } else if (row[column as keyof IClient] === "paid") {
+//     } else if (row[column as keyof IFournisseures] === "paid") {
 //       return (
 //         <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
-//           {row[column as keyof IClient]}
+//           {row[column as keyof IFournisseures]}
 //         </span>
 //       );
 //     } else {
-//       return <p>{row[column as keyof IClient]}</p>;
+//       return <p>{row[column as keyof IFournisseures]}</p>;
 //     }
 //   } else if (column === "status") {
-//     if (row[column as keyof IClient] === "Complété") {
-//       return <p className="text-green-500">{row[column as keyof IClient]}</p>;
-//     } else if (row[column as keyof IClient] === "En cours") {
-//       return <p className="text-red-500">{row[column as keyof IClient]}</p>;
+//     if (row[column as keyof IFournisseures] === "Complété") {
+//       return <p className="text-green-500">{row[column as keyof IFournisseures]}</p>;
+//     } else if (row[column as keyof IFournisseures] === "En cours") {
+//       return <p className="text-red-500">{row[column as keyof IFournisseures]}</p>;
 //     } else {
-//       return <p>{row[column as keyof IClient]}</p>;
+//       return <p>{row[column as keyof IFournisseures]}</p>;
 //     }
 //   } else {
-//     return <p>{row[column as keyof IClient]}</p>;
+//     return <p>{row[column as keyof IFournisseures]}</p>;
 //   }
 // };

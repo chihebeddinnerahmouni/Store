@@ -8,7 +8,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 // import FilterContent from "../../../components/achat/achats/FilterContent";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import IFournisseures from "../../../types/fournisseures";
-import AddClientModal from "../../../components/gens/clients/AddClientModal";
+import AddFourniModal from "../../../components/gens/fournisseures/AddFourniModal";
 
 interface ButtonsContProps {
   data: IFournisseures[];
@@ -72,7 +72,7 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
         ))}
       </div>
 
-      <AddClientModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
+      <AddFourniModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
       {/* <Drawer
         anchor="left"
         open={isDrawerOpen}

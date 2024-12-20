@@ -2,7 +2,7 @@ import PageTitle from "../../components/ui/PageTitle";
 import IFournisseures from "../../types/fournisseures";
 import { useState, useEffect } from "react";
 import ButtonsCont from "../../containers/gens/fournisseures/ButtonCont";
-// import Tablevente from "../../containers/gens/clients/TableClients";
+import TableFournis from "../../containers/gens/fournisseures/TableFournis";
 
 const Fournisseurs = () => {
   const [clients, setClients] = useState<IFournisseures[]>([]);
@@ -17,7 +17,7 @@ const Fournisseurs = () => {
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Gestion Du Fournisseurs" />
       <ButtonsCont data={clients} columns={columns} />
-      {/* <Tablevente rows={clients} columns={columns} /> */}
+      <TableFournis rows={clients} columns={columns} />
     </div>
   );
 };
@@ -31,8 +31,11 @@ const columns_test = [
   "nom",
   "téléphone",
   "email",
-  "vente_total_dû",
-  "retour_de_vente_total_dû",
+  "wilaya",
+  "numéro_de_tva",
+  "dette_dachat_total",
+  "total_dette",
+  
 ];
 
  const data_test: IFournisseures[] = [
