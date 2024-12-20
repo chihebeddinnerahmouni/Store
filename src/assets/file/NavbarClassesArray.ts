@@ -48,7 +48,7 @@ const array = [
   {
     id: 3,
     title: "Achats",
-    icon: "/menu//sell-your-car.png",
+    icon: "/menu/sell-your-car.png",
     url: "sell-your-car",
     blank: true,
     subList: [
@@ -83,8 +83,8 @@ const array = [
         id: 2,
         title: "Liste des Ventes",
         icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
-      }
+        url: "/ventes",
+      },
     ],
   },
   {

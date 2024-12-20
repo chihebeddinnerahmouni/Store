@@ -12,9 +12,6 @@ const Achats = () => {
     const [magasin, setMagasin] = useState("");
     const [status, setStatus] = useState("");
     const [paimentStatus, setPaimentStatus] = useState("");
-//   const [code, setCode] = useState("");
-//   const [categorie, setCategorie] = useState("");
-//   const [marque, setMarque] = useState("");
   const [data, setData] = useState<IAchhat[]>([]);
   const [columns, setColumns] = useState<string[]>([]);
 

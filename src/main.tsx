@@ -12,6 +12,7 @@ import Unite from './pages/products/Unite';
 import AddAchat from './pages/achat/AddAchat';
 import Achats from './pages/achat/Achats';
 import AddVente from './pages/vente/AddVente';
+import Vents from './pages/vente/Vents';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
       { path: "/achats", element: <Achats /> },
       
       { path: "/ventes/ajouter-un-vente", element: <AddVente/> },
-      // { path: "/ventes", element: <Achats/> },
+      { path: "/ventes", element: <Vents/> },
     ],
   },
   { path: "/test", element: <Test /> },
