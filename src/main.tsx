@@ -13,6 +13,7 @@ import AddAchat from './pages/achat/AddAchat';
 import Achats from './pages/achat/Achats';
 import AddVente from './pages/vente/AddVente';
 import Vents from './pages/vente/Vents';
+import Clients from './pages/gens/Clients';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,9 @@ const router = createBrowserRouter([
       { path: "/achats", element: <Achats /> },
       
       { path: "/ventes/ajouter-un-vente", element: <AddVente/> },
-      { path: "/ventes", element: <Vents/> },
+      { path: "/ventes", element: <Vents /> },
+      
+      { path: "/gens/clients", element: <Clients/> },
     ],
   },
   { path: "/test", element: <Test /> },

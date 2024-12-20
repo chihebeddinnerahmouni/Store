@@ -98,7 +98,7 @@ const array = [
         id: 1,
         title: "Clients",
         icon: "/menu/cars-for-sale.png",
-        url: "add-product",
+        url: "/gens/clients",
       },
       {
         id: 2,
