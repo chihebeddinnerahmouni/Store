@@ -9,6 +9,7 @@ import Reyonage from '../../../components/products/add products/1st section/Reyo
 
 
 interface ProductStContProps {
+  control: any;
   clearErrors: any;
   register: any;
   errors: any;
@@ -29,6 +30,7 @@ interface ProductStContProps {
 }
 
 const ProductStCont = ({
+  control,
   clearErrors,
   register,
   errors,
@@ -50,8 +52,8 @@ const ProductStCont = ({
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8 lg:col-span-9">
       <Designation
+        control={control}
         clearErrors={clearErrors}
-        register={register}
         errors={errors}
         id={"designation"}
         setDesignation={setDesignation}
@@ -59,6 +61,7 @@ const ProductStCont = ({
       />
 
       <CodeBarre
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -67,6 +70,7 @@ const ProductStCont = ({
         setValue={setCodeBarre}
       />
       <Category
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -76,6 +80,7 @@ const ProductStCont = ({
       />
 
       <Marque
+        control={control} 
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -85,6 +90,7 @@ const ProductStCont = ({
       />
 
       <Reyonage
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -94,6 +100,7 @@ const ProductStCont = ({
       />
 
       <Tax
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -103,6 +110,7 @@ const ProductStCont = ({
       />
 
       <Description
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}

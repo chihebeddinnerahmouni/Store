@@ -57,6 +57,7 @@ const AddProduct = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     clearErrors,
   } = useForm<FormValues>();
@@ -70,6 +71,7 @@ const AddProduct = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
           <ProductStCont
+            control={control}
             clearErrors={clearErrors}
             register={register}
             errors={errors}
