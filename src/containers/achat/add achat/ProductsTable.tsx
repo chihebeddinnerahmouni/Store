@@ -10,6 +10,11 @@ import {
   Paper,
 } from "@mui/material";
 import TableTop from "../../../components/ui/TableTop";
+import InputQuantite from "../../../components/ui/inputs/InputQuantite";
+import { enqueueSnackbar } from "notistack";
+
+
+
 
 interface IProductCommandeItem {
   id: number;
@@ -104,20 +109,28 @@ const ProductRow = ({
   data: IProductCommandeItem[];
   }) => {
   
-  const mainColor = "#006233";
+  // const { enqueueSnackbar } = useSnackbar();
+  
   
   const handleIncrement = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    const newData = data.map((product) =>
-      product.id === row.id
-        ? {
-            ...product,
-            quantite: product.quantite + 1,
-            grand_total: (product.quantite + 1) * product.cout_unitaire,
-          }
-        : product
-    );
+
+    const newData = data.map((product) => {
+      if (product.id === row.id) {
+        const newQuantite = product.quantite + 1;
+        if (product.stock_actuel < newQuantite) {
+          enqueueSnackbar("Stock insuffisant");
+          return product;
+        }
+        return {
+          ...product,
+          quantite: newQuantite,
+          grand_total: newQuantite * product.cout_unitaire,
+        };
+      }
+      return product;
+    });
     setData(newData);
   };
 
@@ -134,7 +147,26 @@ const ProductRow = ({
         : product
     );
     setData(newData);
-    };
+  };
+  
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    const newData = data.map((product) => {
+      if (product.id === id) {
+        if (product.stock_actuel < newQuantity) {
+          enqueueSnackbar("Stock insuffisant");
+          return product;
+        }
+        return {
+          ...product,
+          quantite: newQuantity,
+          grand_total: newQuantity * product.cout_unitaire,
+        };
+      }
+      return product;
+    });
+    setData(newData);
+  };
     
   return (
     <TableRow>
@@ -163,29 +195,12 @@ const ProductRow = ({
         )}
       </TableCell>
       <TableCell align="center" sx={{ border: "none" }}>
-        <div className="rounded-[5px] overflow-hidden flex justify-between items-center bg-gray-200 gap-2">
-          <button
-            style={{
-              backgroundColor: mainColor,
-              color: "white",
-              width: "20px",
-            }}
-            onClick={handleDecrement}
-          >
-            -
-          </button>
-          <span>{row.quantite}</span>
-          <button
-            style={{
-              backgroundColor: mainColor,
-              color: "white",
-              width: "20px",
-            }}
-            onClick={handleIncrement}
-          >
-            +
-          </button>
-        </div>
+        <InputQuantite
+          row={row}
+          handleIncrement={handleIncrement}
+          handleDecrement={handleDecrement}
+          handleQuantityChange={handleQuantityChange}
+        />
       </TableCell>
       <TableCell align="center" sx={{ border: "none" }}>
         {row.remise}

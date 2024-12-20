@@ -90,3 +90,28 @@ body{
 }
 
 
+/* .quentiteInputCss input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    background-color: transparent;
+  }
+
+
+    .quentiteInputCss input[type="number"] {
+        -moz-appearance: textfield;
+            background-color: transparent;
+
+    } */
+
+
+.quentiteInputCss::-webkit-outer-spin-button,
+.quentiteInputCss::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quentiteInputCss {
+    -moz-appearance: textfield;
+    background-color: transparent;
+}
