@@ -37,8 +37,8 @@ const AddVente = () => {
     IProductCommandeItem[]
   >([]);
   const [taxe, setTaxe] = useState<string>("");
-  const [remise, setRemise] = useState<string>("");
-  const [laivraison, setLaivraison] = useState<string>("");
+  // const [remise, setRemise] = useState<string>("");
+  // const [laivraison, setLaivraison] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [remarque, setRemarque] = useState<string>("");
 
