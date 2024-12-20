@@ -7,10 +7,10 @@ import Remarque from "../../../components/achat/add achat/2ndCont/Remarque";
 interface ProductStContProps {
     taxe: string;
     setTaxe: (value: string) => void;
-    remise: string;
-    setRemise: (value: string) => void;
-    laivraison: string;
-    setLaivraison: (value: string) => void;
+    // remise: string;
+    // setRemise: (value: string) => void;
+    // laivraison: string;
+    // setLaivraison: (value: string) => void;
     status: string;
     setStatus: (value: string) => void;
     remarque: string;
@@ -20,10 +20,10 @@ interface ProductStContProps {
 const AchatNdCont = ({
     taxe,
     setTaxe,
-    remise,
-    setRemise,
-    laivraison,
-    setLaivraison,
+    // remise,
+    // setRemise,
+    // laivraison,
+    // setLaivraison,
     status,
     setStatus,
     remarque,
@@ -39,7 +39,7 @@ const AchatNdCont = ({
               value={taxe}
           />
           
-            <Remise
+            {/* <Remise
                 id={"remise"}
                 setValue={setRemise}
               value={remise}
@@ -49,7 +49,7 @@ const AchatNdCont = ({
                 id={"laivraison"}
                 setValue={setLaivraison}
               value={laivraison}
-          />
+          /> */}
 
             <Status
                 id={"status"}

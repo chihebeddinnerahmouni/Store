@@ -37,8 +37,8 @@ const AddAchat = () => {
     IProductCommandeItem[]
   >([]);
   const [taxe, setTaxe] = useState<string>("");
-  const [remise, setRemise] = useState<string>("");
-  const [laivraison, setLaivraison] = useState<string>("");
+  // const [remise, setRemise] = useState<string>("");
+  // const [laivraison, setLaivraison] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [remarque, setRemarque] = useState<string>("");
 
@@ -91,10 +91,10 @@ const AddAchat = () => {
             <AchatNdCont
               taxe={taxe}
               setTaxe={setTaxe}
-              remise={remise}
-              setRemise={setRemise}
-              laivraison={laivraison}
-              setLaivraison={setLaivraison}
+              // remise={remise}
+              // setRemise={setRemise}
+              // laivraison={laivraison}
+              // setLaivraison={setLaivraison}
               status={status}
               setStatus={setStatus}
               remarque={remarque}
@@ -102,9 +102,9 @@ const AddAchat = () => {
             />
           {/* </div> */}
           <TotalCont
-            remise={remise}
+            // remise={remise}
             taxe={taxe}
-            laivraison={laivraison}
+            // laivraison={laivraison}
             productsCommandeArray={productsCommandeArray}
           />
         </div>
