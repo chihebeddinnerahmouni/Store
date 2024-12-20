@@ -94,6 +94,7 @@ const AddProduct = () => {
           <ImageCont />
 
           <ProductsNd
+            control={control}
             clearErrors={clearErrors}
             register={register}
             errors={errors}

@@ -143,14 +143,6 @@
 
 // export default Reyonage;
 import Label from "../../../ui/Label";
-import { forwardRef } from "react";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  FormHelperText,
-} from "@mui/material";
 import { Controller } from "react-hook-form";
 import SelectInput from "../../../ui/inputs/SelectInput";
 
@@ -180,7 +172,6 @@ const Reyonage = ({
   clearErrors,
 }: DesignationProps) => {
 
-  console.log(errors);
 
   return (
     <div className="bg-red200 flex flex-col gap-3">

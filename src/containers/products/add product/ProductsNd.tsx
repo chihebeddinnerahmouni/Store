@@ -9,6 +9,7 @@ import NumSerie from "../../../components/products/add products/2nd section/NumS
 
 
 interface ProductStContProps {
+  control: any;
   clearErrors: any;
   register: any;
   errors: any;
@@ -31,6 +32,7 @@ interface ProductStContProps {
 }
 
 const ProductsNd = ({
+  control,
   clearErrors,
   register,
   errors,
@@ -55,6 +57,7 @@ const ProductsNd = ({
     <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-9">
       <div className="top cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
         <Type
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -64,6 +67,7 @@ const ProductsNd = ({
         />
 
         <PrixAchat
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -73,6 +77,7 @@ const ProductsNd = ({
         />
 
         <PrixVente
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -82,6 +87,7 @@ const ProductsNd = ({
         />
 
         <Unite
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -91,6 +97,7 @@ const ProductsNd = ({
         />
 
         <UniteVente
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -100,6 +107,7 @@ const ProductsNd = ({
         />
 
         <UniteAchat
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -109,6 +117,7 @@ const ProductsNd = ({
         />
 
         <StockAlert
+          control={control}
           clearErrors={clearErrors}
           register={register}
           errors={errors}
@@ -118,10 +127,7 @@ const ProductsNd = ({
         />
       </div>
 
-      <NumSerie
-        value={numSerie}
-        setValue={setNumSerie}
-      />
+      <NumSerie value={numSerie} setValue={setNumSerie} />
     </section>
   );
 };
