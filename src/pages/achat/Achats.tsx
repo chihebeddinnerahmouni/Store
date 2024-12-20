@@ -1,5 +1,5 @@
 import PageTitle from "../../components/ui/PageTitle";
-// import ProductsTable from "../../containers/products/products/ProductsTable";
+import AchatTable from "../../containers/achat/achat/AchatTable";
 import ButtonsCont from "../../containers/products/../achat/achat/ButtonsCont";
 import { useState, useEffect } from "react";
 import IAchhat  from "../../types/achat";
@@ -25,28 +25,24 @@ const Achats = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Liste de produits" />
-       <ButtonsCont
+      <PageTitle text="Liste des achats" />
+      <ButtonsCont
         data={data}
-              columns={columns}
-              date={date}
-              setDate={setDate}
-              reference={reference}
-              setReference={setReference}
-              fournisseur={fournisseur}
-              setFournisseur={setFournisseur}
-              magasin={magasin}
-              setMagasin={setMagasin}
-              status={status}
-              setStatus={setStatus}
-              paimentStatus={paimentStatus}
-              setPaimentStatus={setPaimentStatus}
-              
-      />
-     {/* <ProductsTable
-        rows={data}
         columns={columns}
-      /> */}
+        date={date}
+        setDate={setDate}
+        reference={reference}
+        setReference={setReference}
+        fournisseur={fournisseur}
+        setFournisseur={setFournisseur}
+        magasin={magasin}
+        setMagasin={setMagasin}
+        status={status}
+        setStatus={setStatus}
+        paimentStatus={paimentStatus}
+        setPaimentStatus={setPaimentStatus}
+      />
+      <AchatTable rows={data} columns={columns} />
     </div>
   );
 };
@@ -77,7 +73,7 @@ const data_test: IAchhat[] = [
     total: "1000",
     payé: "500",
     dû: "500",
-    status_de_paiement: "Partiellement payé",
+    status_de_paiement: "partiel",
   },
   {
     id: 2,
@@ -89,7 +85,7 @@ const data_test: IAchhat[] = [
     total: "2000",
     payé: "2000",
     dû: "0",
-    status_de_paiement: "Payé",
+    status_de_paiement: "paid",
   },
   {
     id: 3,
@@ -101,7 +97,7 @@ const data_test: IAchhat[] = [
     total: "1500",
     payé: "0",
     dû: "1500",
-    status_de_paiement: "Non payé",
+    status_de_paiement: "non paid",
   },
   {
     id: 4,
@@ -113,7 +109,7 @@ const data_test: IAchhat[] = [
     total: "2500",
     payé: "1000",
     dû: "1500",
-    status_de_paiement: "Partiellement payé",
+    status_de_paiement: "partiel",
   },
   {
     id: 5,
@@ -125,6 +121,6 @@ const data_test: IAchhat[] = [
     total: "3000",
     payé: "3000",
     dû: "0",
-    status_de_paiement: "Payé",
+    status_de_paiement: "paid",
   },
 ];
