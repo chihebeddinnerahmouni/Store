@@ -1,6 +1,6 @@
 import Taxe from "../../../components/achat/add achat/2ndCont/Taxe";
-import Remise from "../../../components/achat/add achat/2ndCont/Remise";
-import Laivraison from "../../../components/achat/add achat/2ndCont/Laivraison";
+// import Remise from "../../../components/achat/add achat/2ndCont/Remise";
+// import Laivraison from "../../../components/achat/add achat/2ndCont/Laivraison";
 import Status from "../../../components/achat/add achat/2ndCont/Status";
 import Remarque from "../../../components/achat/add achat/2ndCont/Remarque";
 

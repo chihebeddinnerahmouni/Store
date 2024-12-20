@@ -57,6 +57,7 @@ const AddVente = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     clearErrors,
   } = useForm<FormValues>();
@@ -68,7 +69,8 @@ const AddVente = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6 ">
           {/* <div className="top-left flex flex-col gap-6 xl:flex-grow"> */}
-            <VenteStCont
+          <VenteStCont
+              control={control}
               clearErrors={clearErrors}
               register={register}
               errors={errors}
@@ -89,10 +91,10 @@ const AddVente = () => {
             <VenteNdCont
               taxe={taxe}
               setTaxe={setTaxe}
-              remise={remise}
-              setRemise={setRemise}
-              laivraison={laivraison}
-              setLaivraison={setLaivraison}
+              // remise={remise}
+              // setRemise={setRemise}
+              // laivraison={laivraison}
+              // setLaivraison={setLaivraison}
               status={status}
               setStatus={setStatus}
               remarque={remarque}
@@ -100,9 +102,9 @@ const AddVente = () => {
             />
           {/* </div> */}
           <TotalCont
-            remise={remise}
+            // remise={remise}
             taxe={taxe}
-            laivraison={laivraison}
+            // laivraison={laivraison}
             productsCommandeArray={productsCommandeArray}
           />
         </div>

@@ -3,6 +3,7 @@ import Client from "../../../components/achat/add achat/1stCont/Client";
 import Magasain from "../../../components/achat/add achat/1stCont/Magasain";
 
 interface ProductStContProps {
+  control: any;
   clearErrors: any;
   register: any;
   errors: any;
@@ -15,6 +16,7 @@ interface ProductStContProps {
 }
 
 const VenteStCont = ({
+  control,
   clearErrors,
   register,
   errors,
@@ -28,6 +30,7 @@ const VenteStCont = ({
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
       <Date
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -37,6 +40,7 @@ const VenteStCont = ({
       />
 
       <Client
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -46,6 +50,7 @@ const VenteStCont = ({
       />
 
       <Magasain
+        control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
