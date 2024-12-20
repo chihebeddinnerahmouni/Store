@@ -378,7 +378,11 @@ const ProductRow = ({
 
     const updatedData = data.map((product) => {
       if (product.id === row.id) {
-        return { ...product, serial_numbers: serialNumbers };
+        return {
+          ...product,
+          serial_numbers: serialNumbers,
+          grand_total: product.quantite * product.cout_unitaire, // Ensure grand total is updated
+        };
       }
       return product;
     });
@@ -386,6 +390,25 @@ const ProductRow = ({
     setIsModalOpen(false);
     enqueueSnackbar("Numéros de série sauvegardés avec succès.");
   };
+
+
+  const handleModalClose = () => {
+    const updatedData = data.map((product) => {
+      if (product.id === row.id) {
+        const newQuantity = Math.max(product.quantite - 1, 0);
+        return {
+          ...product,
+          quantite: newQuantity,
+          grand_total: newQuantity * product.cout_unitaire, // Recalculate grand total
+        };
+      }
+      return product;
+    });
+    setData(updatedData);
+    setIsModalOpen(false);
+  };
+
+
 
       const mainColor = "#006233";
 
@@ -452,7 +475,8 @@ const ProductRow = ({
           <FullShiningButton
             text="Annuler"
             color="#f00"
-            onClick={() => setIsModalOpen(false)}
+            // onClick={() => setIsModalOpen(false)}
+            onClick={handleModalClose}
           />
           <FullShiningButton
             text="Sauvegarder"
