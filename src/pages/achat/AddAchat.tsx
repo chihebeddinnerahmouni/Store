@@ -57,6 +57,7 @@ const AddAchat = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     clearErrors,
   } = useForm<FormValues>();
@@ -68,7 +69,8 @@ const AddAchat = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6">
           {/* <div className="top-left flex flex-col gap-6 xl:flex-grow"> */}
-            <AchatStCont
+          <AchatStCont
+            control={control}
               clearErrors={clearErrors}
               register={register}
               errors={errors}
