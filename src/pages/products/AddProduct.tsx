@@ -22,6 +22,7 @@ type FormValues = {
   uniteVente: string;
   uniteAchat: string;
   stockAlert: string;
+  reyonage: string;
 };
 
 const AddProduct = () => {
@@ -40,7 +41,8 @@ const AddProduct = () => {
   const [uniteAchat, setUniteAchat] = useState<string>("");
   const [stockAlert, setStockAlert] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [numSerie, setNumSerie] = useState<string>("");
+  const [numSerie, setNumSerie] = useState<boolean>(false);
+  const [reyonage, setReyonage] = useState<string>("");
 
   const mainColor = "#006233";
   const mainColorHover = "#004d26";
@@ -83,6 +85,8 @@ const AddProduct = () => {
             setTax={setTax}
             description={description}
             setDescription={setDescription}
+            reyonage={reyonage}
+            setReyonage={setReyonage}
           />
 
           <ImageCont />

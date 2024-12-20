@@ -4,9 +4,12 @@ import Category from '../../../components/products/add products/1st section/Cate
 import Marque from '../../../components/products/add products/1st section/Marque';
 import Tax from '../../../components/products/add products/1st section/Tax';
 import Description from '../../../components/products/add products/1st section/Description';
+import Reyonage from '../../../components/products/add products/1st section/Reyonage';
+
+
 
 interface ProductStContProps {
-  clearErrors: any
+  clearErrors: any;
   register: any;
   errors: any;
   designation: string;
@@ -14,13 +17,15 @@ interface ProductStContProps {
   codeBarre: string;
   setCodeBarre: (value: string) => void;
   category: string;
-    setCategory: (value: string) => void;
-    marque: string;
+  setCategory: (value: string) => void;
+  marque: string;
   setMarque: (value: string) => void;
   tax: string;
   setTax: (value: string) => void;
   description: string;
   setDescription: (value: string) => void;
+  reyonage: string;
+  setReyonage: (value: string) => void;
 }
 
 const ProductStCont = ({
@@ -32,18 +37,19 @@ const ProductStCont = ({
   codeBarre,
   setCodeBarre,
   category,
-    setCategory,
-    marque,
+  setCategory,
+  marque,
   setMarque,
   tax,
   setTax,
   description,
   setDescription,
+  reyonage,
+  setReyonage,
 }: ProductStContProps) => {
-
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8 lg:col-span-9">
-          <Designation
+      <Designation
         clearErrors={clearErrors}
         register={register}
         errors={errors}
@@ -60,24 +66,33 @@ const ProductStCont = ({
         value={codeBarre}
         setValue={setCodeBarre}
       />
-          <Category
-              clearErrors={clearErrors}
+      <Category
+        clearErrors={clearErrors}
         register={register}
         errors={errors}
         id={"category"}
         value={category}
         setValue={setCategory}
-          />
-          
-          <Marque
-              clearErrors={clearErrors}
-              register={register}
-              errors={errors}
-              id={"marque"}
-              value={marque}
-              setValue={setMarque}
       />
-      
+
+      <Marque
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"marque"}
+        value={marque}
+        setValue={setMarque}
+      />
+
+      <Reyonage
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        id={"reyonage"}
+        value={reyonage}
+        setValue={setReyonage}
+      />
+
       <Tax
         clearErrors={clearErrors}
         register={register}

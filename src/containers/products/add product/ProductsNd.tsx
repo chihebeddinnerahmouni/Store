@@ -26,8 +26,8 @@ interface ProductStContProps {
   setUniteAchat: (value: string) => void;
   stockAlert: string;
   setStockAlert: (value: string) => void;
-  numSerie: string;
-  setNumSerie: (value: string) => void;
+  numSerie: boolean;
+  setNumSerie: (value: boolean) => void;
 }
 
 const ProductsNd = ({
