@@ -1,117 +1,87 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Changa:wght@200..800&family=Georama:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Changa:wght@200..800&family=Georama:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Changa:wght@200..800&family=Georama:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Changa:wght@200..800&family=Georama:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-    --main: #006233;
-        --grey: #C6C6C6;
-            --start: 0%;
-            --end: 100%;
+  --main: #006233;
+  --grey: #c6c6c6;
+  --start: 0%;
+  --end: 100%;
 }
 
-body{
-    background-color: #f3f3f3;
+body {
+  background-color: #f8f8f8;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /* font-family: "Changa", sans-serif; */
-    font-family: "Nunito", sans-serif
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: "Changa", sans-serif; */
+  font-family: "Nunito", sans-serif;
 }
 
 .cardCss {
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05), 0px -2px 5px rgba(0, 0, 0, 0.05), 2px 0px 5px rgba(0, 0, 0, 0.05), -2px 0px 5px rgba(0, 0, 0, 0.05);
-    padding: 1.25em;
-    border-radius: 10px;
-    background-color: white;
+  /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05), 0px -2px 5px rgba(0, 0, 0, 0.05), 2px 0px 5px rgba(0, 0, 0, 0.05), -2px 0px 5px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.02), 0px -2px 8px rgba(0, 0, 0, 0.02),2px 0px 8px rgba(0, 0, 0, 0.02), -2px 0px 8px rgba(0, 0, 0, 0.02);
+  padding: 1.25em;
+  border-radius: 10px;
+  background-color: white;
 }
-
-
-/* .mainCss {
-    margin-top: 60px;
-    padding: 0 20px 14px 20px;
-    max-width: 1700px;
-    margin: 0 auto;
-}
-@media screen and (min-width: 768px) {
-    .mainCss {
-        padding: 0 40px 14px 40px;
-    }
-}
-@media screen and (min-width: 1024px) {
-    .mainCss {
-        padding: 0 60px 14px 60px;
-        margin-top: 80px;
-    }
-    
-} */
-
 
 /* buttom fade used in landing page*/
 @keyframes slideInFromBottom {
-    0% {
-        transform: translateY(20%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  0% {
+    transform: translateY(20%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 .buttomFadeCss {
-    animation: slideInFromBottom 1s ease-out forwards;
+  animation: slideInFromBottom 1s ease-out forwards;
 }
-
 
 /* scrollbar */
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 2px;
+  width: 5px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f100;
-    border-radius: 50px;
+  background: #f1f1f100;
+  border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--main);
-    border-radius: 10px;
+  background: var(--main);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #c6c6c6;
+  background: #c6c6c6;
 }
 
-
-/* .quentiteInputCss input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    background-color: transparent;
-  }
-
-
-    .quentiteInputCss input[type="number"] {
-        -moz-appearance: textfield;
-            background-color: transparent;
-
-    } */
-
-
+/* remove the button from number input field */
 .quentiteInputCss::-webkit-outer-spin-button,
 .quentiteInputCss::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
+}
+.quentiteInputCss {
+  -moz-appearance: textfield;
+  background-color: transparent;
 }
 
-.quentiteInputCss {
-    -moz-appearance: textfield;
-    background-color: transparent;
+.scrollableCss {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  white-space: nowrap; /* Prevents wrapping */
+  user-select: none; /* Disables text selection */
+  -webkit-user-select: none; /* For WebKit browsers */
+  -ms-user-select: none; /* For IE browsers */
 }

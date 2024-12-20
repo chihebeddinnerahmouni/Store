@@ -53,7 +53,7 @@ const ProductsTable = ({ data, setData }: Props) => {
   }, [searchQuery, data]);
 
   return (
-    <div className="cardCss mt-5 w-full">
+    <div className="cardCs mt-5 w-full scrollableCs">
       <TableTop
         title="Produits"
         value={searchQuery}
@@ -88,9 +88,7 @@ const ProductsTable = ({ data, setData }: Props) => {
                     borderBottom: "1px solid rgba(224, 224, 224, 1)",
                   }}
                 >
-                  <TableSortLabel direction="asc">
-                    Actions
-                  </TableSortLabel>
+                  <TableSortLabel direction="asc">Actions</TableSortLabel>
                 </TableCell>
               </TableRow>
             </TableHead>
