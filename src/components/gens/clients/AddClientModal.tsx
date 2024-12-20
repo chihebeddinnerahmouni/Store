@@ -1,4 +1,3 @@
-
 import { Modal, Box, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import InputText from "../../ui/inputs/InputText";
@@ -20,6 +19,8 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
   const [wilaya, setWilaya] = useState("");
   const [numTva, setNumTva] = useState("");
   const [address, setAddress] = useState("");
+
+
   const {
     control,
     handleSubmit,
@@ -37,6 +38,8 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
   });
 
   const mainColor = "#006233";
+
+  
   
   const onSubmit = (data: any) => {
       console.log("Client data submitted:", data);

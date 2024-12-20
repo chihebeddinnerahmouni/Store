@@ -7,11 +7,11 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 // import Drawer from "@mui/material/Drawer";
 // import FilterContent from "../../../components/achat/achats/FilterContent";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import IClient from "../../../types/client";
+import IFournisseures from "../../../types/fournisseures";
 import AddClientModal from "../../../components/gens/clients/AddClientModal";
 
 interface ButtonsContProps {
-  data: IClient[];
+  data: IFournisseures[];
   columns: string[];
 }
 

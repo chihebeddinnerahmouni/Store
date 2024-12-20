@@ -14,6 +14,7 @@ import Achats from './pages/achat/Achats';
 import AddVente from './pages/vente/AddVente';
 import Vents from './pages/vente/Vents';
 import Clients from './pages/gens/Clients';
+import Fournisseurs from './pages/gens/Fournisseurs';
 
 const router = createBrowserRouter([
   {
@@ -26,13 +27,14 @@ const router = createBrowserRouter([
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },
 
-      { path: "/achats/ajouter-un-achat", element: <AddAchat/> },
+      { path: "/achats/ajouter-un-achat", element: <AddAchat /> },
       { path: "/achats", element: <Achats /> },
-      
-      { path: "/ventes/ajouter-un-vente", element: <AddVente/> },
+
+      { path: "/ventes/ajouter-un-vente", element: <AddVente /> },
       { path: "/ventes", element: <Vents /> },
-      
-      { path: "/gens/clients", element: <Clients/> },
+
+      { path: "/gens/clients", element: <Clients /> },
+      { path: "/gens/fournisseurs", element: <Fournisseurs /> },
     ],
   },
   { path: "/test", element: <Test /> },

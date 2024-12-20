@@ -154,7 +154,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Ventes
+        Clients
       </Typography>
       <div className="search relative">
         <input

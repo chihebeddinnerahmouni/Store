@@ -104,7 +104,7 @@ const array = [
         id: 2,
         title: "Fournisseurs",
         icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
+        url: "/gens/fournisseurs",
       },
       {
         id: 3,
