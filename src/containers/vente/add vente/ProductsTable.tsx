@@ -1,4 +1,7 @@
 import { useState, useMemo } from "react";
+import { CiBarcode } from "react-icons/ci";
+import ActionsButton from "../../../components/ui/buttons/ActionButton";
+
 import {
   Table,
   TableBody,
@@ -78,6 +81,16 @@ const ProductsTable = ({ data, setData }: Props) => {
                     </TableSortLabel>
                   </TableCell>
                 ))}
+                <TableCell
+                  align="center"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    border: "none",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                  }}
+                >
+                  <TableSortLabel direction="asc">Actions</TableSortLabel>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -117,11 +130,6 @@ const ProductRow = ({
         if (product.stock_actuel < newQuantity) {
           enqueueSnackbar("Stock insuffisant");
           return product;
-        }
-
-        // Open modal for serial number input if required
-        if (product.has_serial_number && newQuantity > product.quantite) {
-          setIsModalOpen(true);
         }
 
         return {
@@ -231,15 +239,28 @@ const ProductRow = ({
         <TableCell align="center" sx={{ border: "none" }}>
           {row.grand_total}
         </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          <ActionsButton
+            active={row.has_serial_number}
+            icon={<CiBarcode />}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsModalOpen(true);
+            }}
+            color={mainColor}
+          />
+        </TableCell>
       </TableRow>
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DialogTitle>Saisir les numéros de série</DialogTitle>
-        <DialogContent sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}>
+        <DialogContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
           {[...Array(row.quantite)].map((_, idx) => (
             <InputText
               key={idx}
@@ -257,7 +278,6 @@ const ProductRow = ({
           <FullShiningButton
             text="Annuler"
             color="#f00"
-            // onClick={() => setIsModalOpen(false)}
             onClick={handleModalClose}
           />
           <FullShiningButton

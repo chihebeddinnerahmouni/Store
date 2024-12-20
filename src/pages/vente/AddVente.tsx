@@ -66,8 +66,8 @@ const AddVente = () => {
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter vente" />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
-          <div className="top-left flex flex-col gap-6 xl:flex-grow">
+        <div className="flex flex-col gap-6 ">
+          {/* <div className="top-left flex flex-col gap-6 xl:flex-grow"> */}
             <VenteStCont
               clearErrors={clearErrors}
               register={register}
@@ -98,7 +98,7 @@ const AddVente = () => {
               remarque={remarque}
               setRemarque={setRemarque} 
             />
-          </div>
+          {/* </div> */}
           <TotalCont
             remise={remise}
             taxe={taxe}
