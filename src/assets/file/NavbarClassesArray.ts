@@ -75,22 +75,16 @@ const array = [
     subList: [
       {
         id: 1,
-        title: "Ajouyer une vente",
+        title: "Ajouter une vente",
         icon: "/menu/cars-for-sale.png",
-        url: "add-product",
+        url: "/ventes/ajouter-un-vente",
       },
       {
         id: 2,
         title: "Liste des Ventes",
         icon: "/menu/cars-for-sale.png",
         url: "liste-des-produits",
-      },
-      {
-        id: 3,
-        title: "Imprimer Le Code Barre",
-        icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
-      },
+      }
     ],
   },
   {

@@ -11,6 +11,7 @@ import Marques from './pages/products/Marques';
 import Unite from './pages/products/Unite';
 import AddAchat from './pages/achat/AddAchat';
 import Achats from './pages/achat/Achats';
+import AddVente from './pages/vente/AddVente';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,10 @@ const router = createBrowserRouter([
       { path: "/produits/unite", element: <Unite /> },
 
       { path: "/achats/ajouter-un-achat", element: <AddAchat/> },
-      { path: "/achats", element: <Achats/> },
+      { path: "/achats", element: <Achats /> },
+      
+      { path: "/ventes/ajouter-un-vente", element: <AddVente/> },
+      // { path: "/ventes", element: <Achats/> },
     ],
   },
   { path: "/test", element: <Test /> },
