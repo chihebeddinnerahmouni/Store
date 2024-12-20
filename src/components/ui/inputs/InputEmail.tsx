@@ -4,15 +4,19 @@ interface InputTextProps {
   value: string;
   setValue: (value: string) => void;
   label: string;
+  error?: boolean;
+  helperText?: string;
 }
 
-const InputEmail = ({ value, setValue, label }: InputTextProps) => {
+const InputEmail = ({ value, setValue, label, error, helperText }: InputTextProps) => {
   const mainColor = "#006233";
 
 
   return (
     <TextField
       label={label}
+      error={error}
+      helperText={helperText}
       type="email"
       value={value}
       onChange={(e) => setValue(e.target.value)}

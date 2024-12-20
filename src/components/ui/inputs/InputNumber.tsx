@@ -4,9 +4,11 @@ interface InputNumberProps {
   value: string;
   setValue: (value: string) => void;
   label: string;
+  error?: boolean;
+  helperText?: string;
 }
 
-const InputNumber = ({ value, setValue, label }: InputNumberProps) => {
+const InputNumber = ({ value, setValue, label, error, helperText }: InputNumberProps) => {
   const mainColor = "#006233";
 
 
@@ -21,7 +23,8 @@ const InputNumber = ({ value, setValue, label }: InputNumberProps) => {
     <TextField
       label={label}
       value={value}
-      
+      error={error}
+      helperText={helperText}
           type="number"
       onChange={handleChange}
       variant="outlined"

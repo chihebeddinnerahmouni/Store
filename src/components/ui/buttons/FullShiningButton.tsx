@@ -4,7 +4,8 @@ interface ShiningButtonProps {
   text: string;
   icon?: any;
   color: string;
-  onClick: (...args: any[]) => void;
+  onClick?: (...args: any[]) => void;
+  // type?: "button" | "submit" | "reset";
 }
 
 const FullShiningButton = ({
@@ -12,6 +13,7 @@ const FullShiningButton = ({
   icon,
   color,
   onClick,
+  // type,
 }: ShiningButtonProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -20,6 +22,7 @@ const FullShiningButton = ({
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      // type={type}
       style={{
         color: "white",
         backgroundColor: color,

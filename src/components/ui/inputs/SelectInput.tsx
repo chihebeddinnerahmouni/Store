@@ -1,21 +1,35 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+} from "@mui/material";
 
 interface SelectCompProps {
-    options: {
-        id: number;
-        name: string;
-    }[];
-    label: string;
-    value: string;
-    setValue: (value: string) => void;
-    }
+  options: {
+    id: number;
+    name: string;
+  }[];
+  label: string;
+  value: string;
+  setValue: (value: string) => void;
+  error?: boolean;
+  helperText?: string;
+}
 
-const SelectInput = ({ value, setValue, options, label }: SelectCompProps) => {
+const SelectInput = ({
+  value,
+  setValue,
+  options,
+  label,
+  error,
+  helperText,
+}: SelectCompProps) => {
   const mainColor = "#006233";
 
   return (
-    <FormControl fullWidth>
+    <FormControl variant="outlined" fullWidth error={error}>
       <InputLabel
         sx={{
           color: "grey",
@@ -43,14 +57,16 @@ const SelectInput = ({ value, setValue, options, label }: SelectCompProps) => {
             color: "black",
           },
         }}
-        labelId="carrosserie-label"
+        labelId={label}
         value={value}
-        label="Carrosserie"
+        label={label}
+        error={error}
+        // helperText={helperText}
         onChange={(e) => setValue(e.target.value)}
         MenuProps={{
           PaperProps: {
             style: {
-              maxHeight: 200, 
+              maxHeight: 200,
               overflow: "auto",
             },
           },
@@ -63,6 +79,7 @@ const SelectInput = ({ value, setValue, options, label }: SelectCompProps) => {
           </MenuItem>
         ))}
       </Select>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };
