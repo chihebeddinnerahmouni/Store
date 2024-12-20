@@ -7,6 +7,7 @@ interface IProduct {
   taxe: number;
   alert_stock: number;
   unité: string;
+  has_serial_number: boolean;
 }
 
 

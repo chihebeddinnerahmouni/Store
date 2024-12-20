@@ -13,10 +13,11 @@ interface IProductCommandeItem {
   remise: number;
   taxe: number;
   quantite: number;
-    grand_total: number;
-    alert_stock: number;
-    unité: string;
-  
+  grand_total: number;
+  alert_stock: number;
+  unité: string;
+  has_serial_number: boolean;
+  serial_numbers: string[];
 }
 
 
@@ -44,16 +45,18 @@ const TableCont = ({
         setProductsCommandeArray(
             productsArray.map((product) => {
                 return {
-                    id: product.id,
-                    name: product.name,
-                    cout_unitaire: product.cout_unitaire,
-                    stock_actuel: product.stock_actuel,
-                    remise: product.remise,
-                    taxe: product.taxe,
-                    quantite: 0,
-                    grand_total: 0,
-                    alert_stock: product.alert_stock,
-                    unité: product.unité,
+                  id: product.id,
+                  name: product.name,
+                  cout_unitaire: product.cout_unitaire,
+                  stock_actuel: product.stock_actuel,
+                  remise: product.remise,
+                  taxe: product.taxe,
+                  quantite: 0,
+                  grand_total: 0,
+                  alert_stock: product.alert_stock,
+                  unité: product.unité,
+                  has_serial_number: product.has_serial_number,
+                  serial_numbers: [],
                 };
             })
         );
@@ -85,9 +88,10 @@ const products_test: IProduct[] = [
     cout_unitaire: 100,
     stock_actuel: 0,
     remise: 5,
-        taxe: 10,
-        alert_stock: 10,
+    taxe: 10,
+    alert_stock: 10,
     unité: "Carton",
+    has_serial_number: false,
   },
   {
     id: 2,
@@ -95,9 +99,10 @@ const products_test: IProduct[] = [
     cout_unitaire: 200,
     stock_actuel: 30,
     remise: 10,
-      taxe: 15,
-      alert_stock: 50,
+    taxe: 15,
+    alert_stock: 50,
     unité: "Carton",
+    has_serial_number: true,
   },
   {
     id: 3,
@@ -105,9 +110,10 @@ const products_test: IProduct[] = [
     cout_unitaire: 150,
     stock_actuel: 20,
     remise: 7,
-      taxe: 12,
-      alert_stock: 20,
+    taxe: 12,
+    alert_stock: 20,
     unité: "Bouteille",
+    has_serial_number: false,
   },
   {
     id: 4,
@@ -115,9 +121,10 @@ const products_test: IProduct[] = [
     cout_unitaire: 250,
     stock_actuel: 10,
     remise: 12,
-      taxe: 20,
-      alert_stock: 5,
+    taxe: 20,
+    alert_stock: 5,
     unité: "Bouteille",
+    has_serial_number: false,
   },
   {
     id: 5,
@@ -125,9 +132,9 @@ const products_test: IProduct[] = [
     cout_unitaire: 300,
     stock_actuel: 5,
     remise: 15,
-      taxe: 25,
-      alert_stock: 2,
+    taxe: 25,
+    alert_stock: 2,
     unité: "Boîte",
-    
+    has_serial_number: false,
   },
 ];

@@ -1,3 +1,221 @@
+// import { useState, useMemo } from "react";
+// import {
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableContainer,
+//   TableHead,
+//   TableRow,
+//   TableSortLabel,
+//   Paper,
+// } from "@mui/material";
+// import TableTop from "../../../components/ui/TableTop";
+// import InputQuantite from "../../../components/ui/inputs/InputQuantite";
+// import { enqueueSnackbar } from "notistack";
+
+// interface IProductCommandeItem {
+//   id: number;
+//   name: string;
+//   cout_unitaire: number;
+//   stock_actuel: number;
+//   remise: number;
+//   taxe: number;
+//   quantite: number;
+//   grand_total: number;
+//   alert_stock: number;
+//   unité: string;
+//   has_serial_number: boolean;
+// }
+
+// interface Props {
+//   data: IProductCommandeItem[];
+//   setData: React.Dispatch<React.SetStateAction<IProductCommandeItem[]>>;
+// }
+
+// const ProductsTable = ({ data, setData }: Props) => {
+//   const [searchQuery, setSearchQuery] = useState("");
+
+//   const filteredData = useMemo(() => {
+//     return searchQuery
+//       ? data.filter((row) =>
+//           row.name.toLowerCase().includes(searchQuery.toLowerCase())
+//         )
+//       : data;
+//   }, [searchQuery, data]);
+
+//   return (
+//     <div className="cardCss mt-5 w-full">
+//       <TableTop
+//         title="Produits"
+//         value={searchQuery}
+//         setValue={setSearchQuery}
+//         label="Chercher un produit"
+//       />
+//       <div className="mt-5 flex justify-center items-center w-full">
+//         <TableContainer component={Paper}>
+//           <Table>
+//             <TableHead>
+//               <TableRow>
+//                 {columns.map((column, index) => (
+//                   <TableCell
+//                     key={index}
+//                     align="center"
+//                     sx={{
+//                       whiteSpace: "nowrap",
+//                       border: "none",
+//                       borderBottom: "1px solid rgba(224, 224, 224, 1)",
+//                     }}
+//                   >
+//                     <TableSortLabel direction="asc">
+//                       {formatColumnName(column)}
+//                     </TableSortLabel>
+//                   </TableCell>
+//                 ))}
+//               </TableRow>
+//             </TableHead>
+//             <TableBody>
+//               {filteredData.map((row) => (
+//                 <ProductRow
+//                   key={row.id}
+//                   row={row}
+//                   data={data}
+//                   setData={setData}
+//                 />
+//               ))}
+//             </TableBody>
+//           </Table>
+//         </TableContainer>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const ProductRow = ({
+//   row,
+//   data,
+//   setData,
+// }: {
+//   row: IProductCommandeItem;
+//   data: IProductCommandeItem[];
+//   setData: React.Dispatch<React.SetStateAction<IProductCommandeItem[]>>;
+// }) => {
+//   const updateData = (id: number, newQuantity: number) => {
+//     const updatedData = data.map((product) => {
+//       if (product.id === id) {
+//         if (product.stock_actuel < newQuantity) {
+//           enqueueSnackbar("Stock insuffisant");
+//           return product;
+//         }
+//         return {
+//           ...product,
+//           quantite: newQuantity,
+//           grand_total: newQuantity * product.cout_unitaire,
+//         };
+//       }
+//       return product;
+//     });
+//     setData(updatedData);
+//   };
+
+//   const handleIncrement = (e: React.MouseEvent) => {
+//     e.preventDefault();
+//     updateData(row.id, row.quantite + 1);
+//   };
+
+//   const handleDecrement = (e: React.MouseEvent) => {
+//     e.preventDefault();
+//     if (row.quantite > 0) updateData(row.id, row.quantite - 1);
+//   };
+
+//   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const newQuantity = parseInt(e.target.value, 10);
+//     if (!isNaN(newQuantity)) updateData(row.id, newQuantity);
+//   };
+
+//   return (
+//     <TableRow>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         {row.id}
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         {row.name}
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         {row.cout_unitaire}
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         <StockStatus
+//           stock={row.stock_actuel}
+//           alertStock={row.alert_stock}
+//           unité={row.unité}
+//         />
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         <InputQuantite
+//           row={row}
+//           handleIncrement={handleIncrement}
+//           handleDecrement={handleDecrement}
+//           handleQuantityChange={handleQuantityChange}
+//         />
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         {row.remise}
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         {row.taxe}
+//       </TableCell>
+//       <TableCell align="center" sx={{ border: "none" }}>
+//         {row.grand_total}
+//       </TableCell>
+//     </TableRow>
+//   );
+// };
+
+// const StockStatus = ({
+//   stock,
+//   alertStock,
+//   unité,
+// }: {
+//   stock: number;
+//   alertStock: number;
+//   unité: string;
+// }) => {
+//   if (stock === 0)
+//     return (
+//       <p className="border-2 border-red-500 rounded inline px-1 text-red-500">
+//         0 <span className="text-xs">{unité}</span>
+//       </p>
+//     );
+//   if (stock < alertStock)
+//     return (
+//       <p className="border-2 border-yellow-500 rounded inline px-1 text-yellow-500">
+//         {stock} <span className="text-xs">{unité}</span>
+//       </p>
+//     );
+//   return (
+//     <p>
+//       {stock} <span className="text-xs">{unité}</span>
+//     </p>
+//   );
+// };
+
+// const formatColumnName = (column: string) =>
+//   column.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+
+// export default ProductsTable;
+
+// const columns = [
+//   "id",
+//   "name",
+//   "cout_unitaire",
+//   "stock_actuel",
+//   "quantite",
+//   "remise",
+//   "taxe",
+//   "grand_total",
+// ];
+
+
 import { useState, useMemo } from "react";
 import {
   Table,
@@ -8,13 +226,16 @@ import {
   TableRow,
   TableSortLabel,
   Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import TableTop from "../../../components/ui/TableTop";
 import InputQuantite from "../../../components/ui/inputs/InputQuantite";
 import { enqueueSnackbar } from "notistack";
-
-
-
+import InputText from "../../../components/ui/inputs/InputText";
+import FullShiningButton from "../../../components/ui/buttons/FullShiningButton";
 
 interface IProductCommandeItem {
   id: number;
@@ -27,6 +248,8 @@ interface IProductCommandeItem {
   grand_total: number;
   alert_stock: number;
   unité: string;
+  has_serial_number: boolean;
+  serial_numbers: string[];
 }
 
 interface Props {
@@ -35,17 +258,14 @@ interface Props {
 }
 
 const ProductsTable = ({ data, setData }: Props) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
-  // console.log(data[0]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredData = useMemo(() => {
-    if (searchQuery !== "") {
-      return data.filter((row) =>
-        row.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    return data;
+    return searchQuery
+      ? data.filter((row) =>
+          row.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : data;
   }, [searchQuery, data]);
 
   return (
@@ -66,17 +286,13 @@ const ProductsTable = ({ data, setData }: Props) => {
                     key={index}
                     align="center"
                     sx={{
-                      wordBreak: "keep-all",
                       whiteSpace: "nowrap",
                       border: "none",
                       borderBottom: "1px solid rgba(224, 224, 224, 1)",
                     }}
                   >
                     <TableSortLabel direction="asc">
-                      {column
-                        .toString()
-                        .replace(/_/g, " ")
-                        .replace(/\b\w/g, (char) => char.toUpperCase())}
+                      {formatColumnName(column)}
                     </TableSortLabel>
                   </TableCell>
                 ))}
@@ -87,8 +303,8 @@ const ProductsTable = ({ data, setData }: Props) => {
                 <ProductRow
                   key={row.id}
                   row={row}
-                  setData={setData}
                   data={data}
+                  setData={setData}
                 />
               ))}
             </TableBody>
@@ -101,62 +317,31 @@ const ProductsTable = ({ data, setData }: Props) => {
 
 const ProductRow = ({
   row,
-  setData,
   data,
+  setData,
 }: {
   row: IProductCommandeItem;
-  setData: (value: IProductCommandeItem[]) => void;
   data: IProductCommandeItem[];
-  }) => {
-  
-  // const { enqueueSnackbar } = useSnackbar();
-  
-  
-  const handleIncrement = (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
+  setData: React.Dispatch<React.SetStateAction<IProductCommandeItem[]>>;
+}) => {
+  const [serialNumbers, setSerialNumbers] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const newData = data.map((product) => {
-      if (product.id === row.id) {
-        const newQuantite = product.quantite + 1;
-        if (product.stock_actuel < newQuantite) {
-          enqueueSnackbar("Stock insuffisant");
-          return product;
-        }
-        return {
-          ...product,
-          quantite: newQuantite,
-          grand_total: newQuantite * product.cout_unitaire,
-        };
-      }
-      return product;
-    });
-    setData(newData);
-  };
+  // console.log(data[1].serial_numbers);
 
-  const handleDecrement = (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const newData = data.map((product) =>
-      product.id === row.id && product.quantite > 0
-        ? {
-            ...product,
-            quantite: product.quantite - 1,
-            grand_total: (product.quantite - 1) * product.cout_unitaire,
-          }
-        : product
-    );
-    setData(newData);
-  };
-  
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
-    const newQuantity = parseInt(e.target.value, 10);
-    const newData = data.map((product) => {
+  const updateData = (id: number, newQuantity: number) => {
+    const updatedData = data.map((product) => {
       if (product.id === id) {
         if (product.stock_actuel < newQuantity) {
           enqueueSnackbar("Stock insuffisant");
           return product;
         }
+
+        // Open modal for serial number input if required
+        if (product.has_serial_number && newQuantity > product.quantite) {
+          setIsModalOpen(true);
+        }
+
         return {
           ...product,
           quantite: newQuantity,
@@ -165,55 +350,151 @@ const ProductRow = ({
       }
       return product;
     });
-    setData(newData);
+    setData(updatedData);
   };
-    
+
+  const handleIncrement = (e: React.MouseEvent) => {
+    e.preventDefault();
+    updateData(row.id, row.quantite + 1);
+  };
+
+  const handleDecrement = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (row.quantite > 0) updateData(row.id, row.quantite - 1);
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuantity = parseInt(e.target.value, 10);
+    if (!isNaN(newQuantity)) updateData(row.id, newQuantity);
+  };
+
+  const handleSerialNumbersSave = () => {
+    if (serialNumbers.length !== row.quantite) {
+      enqueueSnackbar(
+        `Veuillez saisir ${row.quantite} numéros de série pour ce produit.`
+      );
+      return;
+    }
+
+    const updatedData = data.map((product) => {
+      if (product.id === row.id) {
+        return { ...product, serial_numbers: serialNumbers };
+      }
+      return product;
+    });
+    setData(updatedData);
+    setIsModalOpen(false);
+    enqueueSnackbar("Numéros de série sauvegardés avec succès.");
+  };
+
+      const mainColor = "#006233";
+
+
   return (
-    <TableRow>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.id}
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.name}
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.cout_unitaire}
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.stock_actuel === 0 ? (
-          <p className="border-2 border-red-500 rounded inline px-1 text-red-500">
-            0 <span className="text-xs">{row.unité}</span>
-          </p>
-        ) : row.stock_actuel < row.alert_stock ? (
-          <p className="border-2 border-yellow-500 rounded inline px-1 text-yellow-500">
-            {row.stock_actuel} <span className="text-xs">{row.unité}</span>
-          </p>
-        ) : (
-          <p>
-            {row.stock_actuel} <span className="text-xs">{row.unité}</span>
-          </p>
-        )}
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        <InputQuantite
-          row={row}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-          handleQuantityChange={handleQuantityChange}
-        />
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.remise}
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.taxe}
-      </TableCell>
-      <TableCell align="center" sx={{ border: "none" }}>
-        {row.grand_total}
-      </TableCell>
-    </TableRow>
+    <>
+      <TableRow>
+        <TableCell align="center" sx={{ border: "none" }}>
+          {row.id}
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          {row.name}
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          {row.cout_unitaire}
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          <StockStatus
+            stock={row.stock_actuel}
+            alertStock={row.alert_stock}
+            unité={row.unité}
+          />
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          <InputQuantite
+            row={row}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+            handleQuantityChange={handleQuantityChange}
+          />
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          {row.remise}
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          {row.taxe}
+        </TableCell>
+        <TableCell align="center" sx={{ border: "none" }}>
+          {row.grand_total}
+        </TableCell>
+      </TableRow>
+
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <DialogTitle>Saisir les numéros de série</DialogTitle>
+        <DialogContent sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}>
+          {[...Array(row.quantite)].map((_, idx) => (
+            <InputText
+              key={idx}
+              label={`Numéro de série ${idx + 1}`}
+              value={serialNumbers[idx] || ""}
+              setValue={(value) => {
+                const updatedSerials = [...serialNumbers];
+                updatedSerials[idx] = value;
+                setSerialNumbers(updatedSerials);
+              }}
+            />
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <FullShiningButton
+            text="Annuler"
+            color="#f00"
+            onClick={() => setIsModalOpen(false)}
+          />
+          <FullShiningButton
+            text="Sauvegarder"
+            color={mainColor}
+            onClick={handleSerialNumbersSave}
+          />
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
+
+const StockStatus = ({
+  stock,
+  alertStock,
+  unité,
+}: {
+  stock: number;
+  alertStock: number;
+  unité: string;
+}) => {
+  if (stock === 0)
+    return (
+      <p className="border-2 border-red-500 rounded inline px-1 text-red-500">
+        0 <span className="text-xs">{unité}</span>
+      </p>
+    );
+  if (stock < alertStock)
+    return (
+      <p className="border-2 border-yellow-500 rounded inline px-1 text-yellow-500">
+        {stock} <span className="text-xs">{unité}</span>
+      </p>
+    );
+  return (
+    <p>
+      {stock} <span className="text-xs">{unité}</span>
+    </p>
+  );
+};
+
+const formatColumnName = (column: string) =>
+  column.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
 export default ProductsTable;
 
