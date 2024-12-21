@@ -13,7 +13,7 @@ const ActionButton = ({ icon, color, onClick, active }: ShiningButtonProps) => {
   return (
     <button
       // onClick={onClick}
-      onClick={active ? onClick : (e) => {e.preventDefault()}}
+      onClick={active ? onClick : (e) => {e.preventDefault(), e.stopPropagation();}}
       onMouseEnter={() => active && setIsHovered(true)}
       onMouseLeave={() => active && setIsHovered(false)}
       style={{

@@ -13,8 +13,8 @@ const OptionsMenu = () => {
     );
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-      event.stopPropagation();
-      event.preventDefault();
+    event.stopPropagation();
+    event.preventDefault();
       setIsOptionsOpen(event.currentTarget);
     };
 
