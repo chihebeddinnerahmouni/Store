@@ -53,9 +53,11 @@ const ProductStCont = ({
   setReyonage,
   categoriesArray,
   marquesArray,
+  reyonagesArray,
   // unitesArray,
   // setUnitesArray,
-  // reyonagesArray,
+  // reyonagesA
+  // rray,
 
 }: ProductStContProps) => {
   return (
@@ -101,6 +103,7 @@ const ProductStCont = ({
       />
 
       <Reyonage
+        options={reyonagesArray}
         control={control}
         clearErrors={clearErrors}
         register={register}

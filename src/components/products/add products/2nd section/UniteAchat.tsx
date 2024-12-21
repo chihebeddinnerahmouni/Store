@@ -98,15 +98,15 @@
 //             onChange: (e: any) => setValue(e.target.value),
 //           })}
 //           sx={{
-//             borderRadius: 2,
-//             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-//               borderColor: mainColor,
-//             },
+  //             borderRadius: 2,
+  //             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    //               borderColor: mainColor,
+    //             },
 //             "& .MuiOutlinedInput-notchedOutline": {
-//               borderColor: "grey",
-//             },
+  //               borderColor: "grey",
+  //             },
 //             "&.Mui-focused .MuiInputLabel-root": {
-//               color: mainColor,
+  //               color: mainColor,
 //             },
 //             "& .MuiSelect-select": {
 //               color: "black",
@@ -117,33 +117,34 @@
 //           label="Carrosserie"
 //           //   onChange={(e) => setValue(e.target.value)}
 //           MenuProps={{
-//             PaperProps: {
-//               style: {
-//                 maxHeight: 200,
-//                 overflow: "auto",
+  //             PaperProps: {
+    //               style: {
+      //                 maxHeight: 200,
+      //                 overflow: "auto",
 //               },
 //             },
 //           }}
 //         >
 //           <MenuItem value="">None</MenuItem>
 //           {options.map((option, index) => (
-//             <MenuItem key={index} value={option.name}>
-//               {option.name}
-//             </MenuItem>
-//           ))}
-//         </Select>
-//         {helperText && (
-//           <FormHelperText error={error}>{helperText}</FormHelperText>
-//         )}
-//       </FormControl>
-//     );
-//   }
-// );
+  //             <MenuItem key={index} value={option.name}>
+  //               {option.name}
+  //             </MenuItem>
+  //           ))}
+  //         </Select>
+  //         {helperText && (
+    //           <FormHelperText error={error}>{helperText}</FormHelperText>
+    //         )}
+    //       </FormControl>
+    //     );
+    //   }
+    // );
+    
+    
+    // export default UniteAchat;
+    
 
-
-// export default UniteAchat;
-
-
+    // not used
 import Label from "../../../ui/Label";
 import SelectInput from "../../../ui/inputs/SelectInput";
 import { Controller } from "react-hook-form";
@@ -166,6 +167,7 @@ const options_array = [
   { id: 3, name: "Unite 3" },
   { id: 4, name: "Unite 4" },
 ];
+
 
 const UniteAchat = ({
   control,

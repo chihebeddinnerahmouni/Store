@@ -41,8 +41,8 @@ const AddProduct = () => {
   const [prixAchat, setPrixAchat] = useState<string>("");
   const [prixVente, setPrixVente] = useState<string>("");
   const [unite, setUnite] = useState<number>(0);
-  const [uniteVente, setUniteVente] = useState<string>("");
-  const [uniteAchat, setUniteAchat] = useState<string>("");
+  // const [uniteVente, setUniteVente] = useState<string>("");
+  // const [uniteAchat, setUniteAchat] = useState<string>("");
   const [stockAlert, setStockAlert] = useState<string>("");
   const [numSerie, setNumSerie] = useState<boolean>(false);
   const [reyonage, setReyonage] = useState<number>(0);
@@ -86,9 +86,9 @@ const AddProduct = () => {
        .then(
          axios.spread((response1, response2, response3, response4) => {
           //  console.log("response1", response1.data.categories);
-           console.log("response2", response2.data.brands);
-          //  console.log("response3", response3);
-          //   console.log("response4", response4);
+          //  console.log("response2", response2.data.brands);
+           console.log("response3", response3);
+            // console.log("response4", response4);
            setCategoriesArray(response1.data.categories);
            setMarquesArray(response2.data.brands);
            setUnitesArray(response3.data.units);
@@ -228,7 +228,6 @@ const AddProduct = () => {
             errors={errors}
             // type={type}
             // setType={setType}
-            uniteArray={unitesArray}
             quantity={quantity}
             setQuantity={setQuantity}
             prixAchat={prixAchat}
@@ -237,14 +236,15 @@ const AddProduct = () => {
             setPrixVente={setPrixVente}
             unite={unite}
             setUnite={setUnite}
-            uniteVente={uniteVente}
-            setUniteVente={setUniteVente}
-            uniteAchat={uniteAchat}
-            setUniteAchat={setUniteAchat}
+            // uniteVente={uniteVente}
+            // setUniteVente={setUniteVente}
+            // uniteAchat={uniteAchat}
+            // setUniteAchat={setUniteAchat}
             stockAlert={stockAlert}
             setStockAlert={setStockAlert}
             numSerie={numSerie}
             setNumSerie={setNumSerie}
+            unitesArray={unitesArray}
           />
           <div className="lg:col-span-3 lg:hidden">
             <InstructionsCont />
@@ -255,8 +255,8 @@ const AddProduct = () => {
             text="Soumettre"
             loading={loading}
             color={mainColor}
-            // onClick={handleSubmit(onSubmit)}
-            onClick={send}
+            onClick={handleSubmit(onSubmit)}
+            // onClick={send}
             type="submit"
           />
         </div>

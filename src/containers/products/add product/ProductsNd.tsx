@@ -2,8 +2,8 @@
 import PrixAchat from "../../../components/products/add products/2nd section/PrixAchat";
 import PrixVente from "../../../components/products/add products/2nd section/PrixVente";
 import Unite from "../../../components/products/add products/2nd section/Unite";
-import UniteVente from "../../../components/products/add products/2nd section/UniteVente";
-import UniteAchat from "../../../components/products/add products/2nd section/UniteAchat";
+// import UniteVente from "../../../components/products/add products/2nd section/UniteVente";
+// import UniteAchat from "../../../components/products/add products/2nd section/UniteAchat";
 import StockAlert from "../../../components/products/add products/2nd section/StockAlert";
 import NumSerie from "../../../components/products/add products/2nd section/NumSerie";
 import Quantite from "../../../components/products/add products/2nd section/Quantite";
@@ -21,17 +21,17 @@ interface ProductStContProps {
   setPrixVente: (value: string) => void;
   unite: number;
   setUnite: (value: number) => void;
-  uniteVente: string;
-  setUniteVente: (value: string) => void;
-  uniteAchat: string;
-  setUniteAchat: (value: string) => void;
+  // uniteVente: string;
+  // setUniteVente: (value: string) => void;
+  // uniteAchat: string;
+  // setUniteAchat: (value: string) => void;
   stockAlert: string;
   setStockAlert: (value: string) => void;
   numSerie: boolean;
   setNumSerie: (value: boolean) => void;
   quantity: string;
   setQuantity: (value: string) => void;
-  uniteArray: any;
+  unitesArray: any;
 }
 
 const ProductsNd = ({
@@ -47,17 +47,17 @@ const ProductsNd = ({
   setPrixVente,
   unite,
   setUnite,
-  uniteVente,
-  setUniteVente,
-  uniteAchat,
-  setUniteAchat,
+  // uniteVente,
+  // setUniteVente,
+  // uniteAchat,
+  // setUniteAchat,
   stockAlert,
   setStockAlert,
   numSerie,
   setNumSerie,
   quantity,
   setQuantity,
-  // uniteArray
+  unitesArray,
 }: ProductStContProps) => {
   return (
     <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-9">
@@ -103,6 +103,7 @@ const ProductsNd = ({
         />
 
         <Unite
+          options={unitesArray}
           control={control}
           clearErrors={clearErrors}
           register={register}
@@ -112,7 +113,7 @@ const ProductsNd = ({
           setValue={setUnite}
         />
 
-        <UniteVente
+        {/* <UniteVente
           control={control}
           clearErrors={clearErrors}
           register={register}
@@ -130,7 +131,7 @@ const ProductsNd = ({
           id={"uniteAchat"}
           value={uniteAchat}
           setValue={setUniteAchat}
-        />
+        /> */}
 
         <StockAlert
           control={control}

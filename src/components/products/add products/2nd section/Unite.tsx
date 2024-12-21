@@ -148,6 +148,10 @@ import { Controller } from "react-hook-form";
 
 
 interface DesignationProps {
+  options: {
+    id: number;
+    name_unit: string;
+  }[];
   control: any;
   register: any;
   errors: any;
@@ -157,14 +161,15 @@ interface DesignationProps {
   clearErrors: (name: string) => void;
 }
 
-const options_array = [
-  { id: 1, name: "Unite 1" },
-  { id: 2, name: "Unite 2" },
-  { id: 3, name: "Unite 3" },
-  { id: 4, name: "Unite 4" },
-];
+// const options_array = [
+//   { id: 1, name: "Unite 1" },
+//   { id: 2, name: "Unite 2" },
+//   { id: 3, name: "Unite 3" },
+//   { id: 4, name: "Unite 4" },
+// ];
 
 const Unite = ({
+  options,
   control,
   errors,
   id,
@@ -172,6 +177,13 @@ const Unite = ({
   setValue,
   clearErrors,
 }: DesignationProps) => {
+
+
+  const newOptions = options.map((option) => ({
+    id: option.id,
+    name: option.name_unit,
+  }));
+
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={id} text={"Unité du Produit*"} />
@@ -181,14 +193,14 @@ const Unite = ({
         rules={{ required: "ce champ est obligatoire" }}
         render={({ field }) => (
           <SelectInput
-            options={options_array}
+            options={newOptions}
             label="Unité*"
             {...field}
             error={!!errors.unite}
             helperText={errors.unite?.message}
-              value={value === 0 ? "" : options_array.find((option) => option.id === value)!.name}
+              value={value === 0 ? "" : newOptions.find((option) => option.id === value)!.name}
             setValue={(value: string) => {
-              const valueId = options_array.find((option) => option.name === value)!.id;
+              const valueId = newOptions.find((option) => option.name === value)!.id;
               setValue(valueId);
               field.onChange(value);
               if (errors.unite) {

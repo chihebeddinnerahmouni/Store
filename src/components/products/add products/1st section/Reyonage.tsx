@@ -147,6 +147,10 @@ import { Controller } from "react-hook-form";
 import SelectInput from "../../../ui/inputs/SelectInput";
 
 interface DesignationProps {
+  options: { 
+    id: number;
+    name: string;
+  }[];
   control: any;
   register: any;
   errors: any;
@@ -156,12 +160,12 @@ interface DesignationProps {
   clearErrors: (name: string) => void;
 }
 
-const options_array = [
-  { id: 1, name: "A1-B2" },
-  { id: 2, name: "C2-D3" },
-  { id: 3, name: "E3-F4" },
-  { id: 4, name: "G4-H5" },
-];
+// const options_array = [
+//   { id: 1, name: "A1-B2" },
+//   { id: 2, name: "C2-D3" },
+//   { id: 3, name: "E3-F4" },
+//   { id: 4, name: "G4-H5" },
+// ];
 
 const Reyonage = ({
   control,
@@ -170,6 +174,7 @@ const Reyonage = ({
   value,
   setValue,
   clearErrors,
+  options
 }: DesignationProps) => {
 
 
@@ -182,20 +187,20 @@ const Reyonage = ({
         rules={{ required: "ce champ est obligatoire" }}
         render={({ field }) => (
           <SelectInput
-            options={options_array}
+            options={options}
             label="Reyonnage*"
             {...field}
             error={!!errors.reyonage}
             helperText={errors.reyonage?.message}
-              value={value === 0 ? "" : options_array.find((option) => option.id === value)!.name}
+              value={value === 0 ? "" : options.find((option) => option.id === value)!.name}
             setValue={(value: string) => {
-               const valueId = options_array.find(
+               const valueId = options.find(
                  (option) => option.name === value
                )!.id;
                setValue(valueId);
               field.onChange(value);
               if (errors.reyonage) {
-                clearErrors("marque");
+                clearErrors("reyonage");
               }
             }}
           />
