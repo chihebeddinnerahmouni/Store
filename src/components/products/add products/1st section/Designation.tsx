@@ -146,7 +146,7 @@ const Designation = ({
         rules={{ required: "Le nom est obligatoire" }}
         render={({ field }) => (
           <InputText
-            label="Nom du client*"
+            label="Nom du produit*"
             {...field}
             error={!!errors.name}
             helperText={errors.name?.message}

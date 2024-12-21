@@ -145,8 +145,8 @@ interface DesignationProps {
   control: any;
     errors: any;
     id: string;
-    setValue: (value: string) => void;
-    value: string;
+    setValue: (value: number) => void;
+    value: number;
     clearErrors: (name: string) => void;
 }
 
@@ -156,6 +156,9 @@ const options_array = [
     { id: 3, name: "option 3" },
     { id: 4, name: "option 4" },
 ];
+
+
+
 
 const Category = ({
     errors,
@@ -175,13 +178,14 @@ const Category = ({
           render={({ field }) => (
             <SelectInput
               options={options_array}
-              label="Nom du client*"
+              label="Categorie*"
               {...field}
               error={!!errors.category}
               helperText={errors.category?.message}
-              value={value}
+              value={value === 0 ? "" : options_array.find((option) => option.id === value)!.name}
               setValue={(value: string) => {
-                setValue(value);
+                const valueId = options_array.find((option) => option.name === value)!.id;
+                setValue(valueId);
                 field.onChange(value);
                 if (errors.category) {
                   clearErrors("category");

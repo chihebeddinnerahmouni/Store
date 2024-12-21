@@ -8,8 +8,8 @@ interface DesignationProps {
   register: any;
   errors: any;
   id: string;
-  setValue: (value: string) => void;
-  value: string;
+  setValue: (value: number) => void;
+  value: number;
   clearErrors: (name: string) => void;
 }
 
@@ -45,9 +45,12 @@ const Marque = ({
             {...field}
             error={!!errors.marque}
             helperText={errors.marque?.message}
-            value={value}
+              value={value === 0 ? "" : options_array.find((option) => option.id === value)!.name}
             setValue={(value: string) => {
-              setValue(value);
+               const valueId = options_array.find(
+                 (option) => option.name === value
+               )!.id;
+               setValue(valueId);
               field.onChange(value);
               if (errors.marque) {
                 clearErrors("marque");

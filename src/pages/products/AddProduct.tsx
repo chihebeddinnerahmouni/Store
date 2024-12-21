@@ -16,7 +16,7 @@ type FormValues = {
   marque: string;
   tax: string;
   description: string;
-  type: string;
+  // type: string;
   // image: string;
   prixAchat: string;
   prixVente: string;
@@ -25,29 +25,33 @@ type FormValues = {
   uniteAchat: string;
   stockAlert: string;
   reyonage: string;
+  quantity: string;
 };
 
 const AddProduct = () => {
   const [designation, setDesignation] = useState<string>("");
   const [codeBarre, setCodeBarre] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [marque, setMarque] = useState<string>("");
+  const [category, setCategory] = useState<number>(0);
+  const [marque, setMarque] = useState<number>(0);
   const [tax, setTax] = useState<string>("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState<string>("");
+  // const [type, setType] = useState<string>("");
   // const [image, setImage] = useState<string>("");
   const [prixAchat, setPrixAchat] = useState<string>("");
   const [prixVente, setPrixVente] = useState<string>("");
-  const [unite, setUnite] = useState<string>("");
+  const [unite, setUnite] = useState<number>(0);
   const [uniteVente, setUniteVente] = useState<string>("");
   const [uniteAchat, setUniteAchat] = useState<string>("");
   const [stockAlert, setStockAlert] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
   const [numSerie, setNumSerie] = useState<boolean>(false);
-  const [reyonage, setReyonage] = useState<string>("");
-
+  const [reyonage, setReyonage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<string>(""); 
+  
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
+
+  // console.log(category);
 
   const send = () => {
     setLoading(true);
@@ -56,19 +60,19 @@ const AddProduct = () => {
       .post(
         `${url}/api/products`,
         {
-          name: "Productfg A",
-          code_barre: "1234589017645",
-          category_id: 1,
-          brand_id: 1,
-          unit_id: 1,
-          reyonage_id: 1,
+          name: designation,
+          code_barre: codeBarre,
+          category_id: category,
+          brand_id: marque,
+          unit_id: unite,
+          reyonage_id: reyonage,
 
-          tax_percentage: 15.0,
-          description: "This is Product A.",
-          price_buy: 100.0,
-          price_sell: 150.0,
-          stock_alert: 10,
-          quantity: 0,
+          tax_percentage: Number(tax),
+          description: description,
+          price_buy: Number(prixAchat),
+          price_sell: Number(prixVente),
+          stock_alert: Number(stockAlert),
+          quantity: Number(quantity),
         },
         {
           headers: {
@@ -78,18 +82,22 @@ const AddProduct = () => {
       )
       .then((res) => {
         console.log(res.data);
+        setLoading(false);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
       })
       .catch((err) => {
+        console.log(err);
+        setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          err.response.data.erreurs.name.map((err: any) => { 
-            enqueueSnackbar(err, { variant: "error" });
+          Object.keys(err.response.data.erreurs).map((key) => {
+            err.response.data.erreurs[key].map((err: any) => {
+              enqueueSnackbar(err, { variant: "error" });
+            });
           });
         }
-        setLoading(false);
       });
 
     // setTimeout(() => {
@@ -139,8 +147,10 @@ const AddProduct = () => {
             clearErrors={clearErrors}
             register={register}
             errors={errors}
-            type={type}
-            setType={setType}
+            // type={type}
+            // setType={setType}
+            quantity={quantity}
+            setQuantity={setQuantity}
             prixAchat={prixAchat}
             setPrixAchat={setPrixAchat}
             prixVente={prixVente}

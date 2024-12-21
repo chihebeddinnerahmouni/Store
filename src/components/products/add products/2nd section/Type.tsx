@@ -165,6 +165,8 @@ const options_array = [
   { id: 4, name: "type 4" },
 ];
 
+// not used
+
 const Type = ({
   control,
   errors,

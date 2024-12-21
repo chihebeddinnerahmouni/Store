@@ -17,16 +17,16 @@ interface ProductStContProps {
   setDesignation: (value: string) => void;
   codeBarre: string;
   setCodeBarre: (value: string) => void;
-  category: string;
-  setCategory: (value: string) => void;
-  marque: string;
-  setMarque: (value: string) => void;
+  category: number;
+  setCategory: (value: number) => void;
+  marque: number;
+  setMarque: (value: number) => void;
   tax: string;
   setTax: (value: string) => void;
   description: string;
   setDescription: (value: string) => void;
-  reyonage: string;
-  setReyonage: (value: string) => void;
+  reyonage: number;
+  setReyonage: (value: number) => void;
 }
 
 const ProductStCont = ({
