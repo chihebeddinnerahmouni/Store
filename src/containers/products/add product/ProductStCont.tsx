@@ -55,7 +55,7 @@ const ProductStCont = ({
   marquesArray,
   // unitesArray,
   // setUnitesArray,
-  reyonagesArray,
+  // reyonagesArray,
 
 }: ProductStContProps) => {
   return (
