@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { CiBarcode } from "react-icons/ci";
-import ActionsButton from "../../../components/ui/buttons/ActionButton";
+import ActionsButton from "../../../components/ui/buttons/actions/ActionButton";
 import {
   Table,
   TableBody,

@@ -87,7 +87,7 @@ const AddProduct = () => {
          axios.spread((response1, response2, response3, response4) => {
           //  console.log("response1", response1.data.categories);
           //  console.log("response2", response2.data.brands);
-           console.log("response3", response3);
+          //  console.log("response3", response3);
             // console.log("response4", response4);
            setCategoriesArray(response1.data.categories);
            setMarquesArray(response2.data.brands);

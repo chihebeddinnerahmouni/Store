@@ -1,4 +1,4 @@
-import ActionButton from "../../ui/buttons/ActionButton"
+import ActionButton from "../../ui/buttons/actions/ActionButton"
 import { SlOptions } from "react-icons/sl";
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
