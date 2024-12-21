@@ -11,6 +11,10 @@ import {
 } from "@mui/material";
 import TableTop from "../../../components/ui/TableTop";
 import IMArque from "../../../types/marque";
+import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
+import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+import UpdateMarqueModal from "../../../components/products/marque/UpdateMarqueModal";
+// import DeleteCategoryModal from "../../../components/products/categories/DeleteCategoryModal";
 
 
 
@@ -23,6 +27,8 @@ const TableMarques = ({ data, columns }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof IMArque>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [updateRow, setUpdateRow] = useState<IMArque | null>(null);
+  const [deleteRow, setDeleteRow] = useState<IMArque | null>(null);
 
   const handleRequestSort = (property: keyof IMArque) => {
     const isAsc = orderBy === property && order === "asc";
@@ -53,7 +59,7 @@ const TableMarques = ({ data, columns }: Props) => {
   return (
     <div className="cardCss mt-5 lg:mt-10">
       <TableTop
-        title="Categories"
+        title="Marques"
         value={searchQuery}
         setValue={setSearchQuery}
         label="Chercher une marque"
@@ -88,6 +94,16 @@ const TableMarques = ({ data, columns }: Props) => {
                     </TableSortLabel>
                   </TableCell>
                 ))}
+                <TableCell
+                  sx={{
+                    wordBreak: "keep-all",
+                    whiteSpace: "nowrap",
+                    border: "none",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                  }}
+                >
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -103,11 +119,37 @@ const TableMarques = ({ data, columns }: Props) => {
                       {row[column]}
                     </TableCell>
                   ))}
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      display: "flex",
+                      gap: "10px",
+                    }}
+                  >
+                    <UpdateButton
+                      active={true}
+                      onClick={() => {
+                        setUpdateRow(row);
+                      }}
+                    />
+                    <DeleteButton
+                      active={true}
+                      onClick={() => {
+                        setDeleteRow(row);
+                      }}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        {updateRow && (<UpdateMarqueModal
+          open={updateRow !== null}
+          setOpen={setUpdateRow}
+          data={updateRow}
+        />)}
+        
       </div>
     </div>
   );
