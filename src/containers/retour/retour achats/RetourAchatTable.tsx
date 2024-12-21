@@ -15,7 +15,7 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
-import IRetourvents from "../../../types/retour-vents";
+import IRetourAchats from "../../../types/RetourAchats";
 // import ActionButton from "../../../components/ui/buttons/ActionButton";
 // import { SlOptions } from "react-icons/sl";
 import OptionsMenu from "../../../components/retour/retour vents/OptionsMenu";
@@ -52,7 +52,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IRetourvents
+    property: keyof IRetourAchats
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -74,7 +74,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IRetourvents);
+      onRequestSort(event, property as keyof IRetourAchats);
     };
 
   return (
@@ -159,7 +159,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Ventes
+        Achats
       </Typography>
       <div className="search relative">
         <input
@@ -173,9 +173,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
         />
       </div> */}
-      
       <TableTop
-        title="Ventes"
+        title="Achats"
         value={searchQuery}
         setValue={setSearchQuery}
         label="Chercher un reference"
@@ -187,7 +186,7 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IRetourvents[];
+  rows: IRetourAchats[];
   columns: string[];
 }) {
   // React.useEffect(() => {
@@ -195,7 +194,7 @@ export default function EnhancedTable({
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IRetourvents>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IRetourAchats>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -203,7 +202,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IRetourvents
+    property: keyof IRetourAchats
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -397,8 +396,8 @@ export default function EnhancedTable({
 
 
 
-const renderColumnContent = (column: string, row: IRetourvents) => {
-  const value = row[column as keyof IRetourvents];
+const renderColumnContent = (column: string, row: IRetourAchats) => {
+  const value = row[column as keyof IRetourAchats];
 
   switch (column) {
     case "reference":
@@ -477,40 +476,40 @@ const renderColumnContent = (column: string, row: IRetourvents) => {
 };
 
 
-// const renderColumnContent = (column: string, row: IRetourvents) => {
+// const renderColumnContent = (column: string, row: IRetourAchats) => {
 //   if (column === "reference") {
-//     return <p className="text-blue-500">{row[column as keyof IRetourvents]}</p>;
+//     return <p className="text-blue-500">{row[column as keyof IRetourAchats]}</p>;
 //   } else if (column === "status_de_paiement") {
-//     if (row[column as keyof IRetourvents] === "partiel") {
+//     if (row[column as keyof IRetourAchats] === "partiel") {
 //       return (
 //         <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
-//           {row[column as keyof IRetourvents]}
+//           {row[column as keyof IRetourAchats]}
 //         </span>
 //       );
-//     } else if (row[column as keyof IRetourvents] === "non paid") {
+//     } else if (row[column as keyof IRetourAchats] === "non paid") {
 //       return (
 //         <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-//           {row[column as keyof IRetourvents]}
+//           {row[column as keyof IRetourAchats]}
 //         </span>
 //       );
-//     } else if (row[column as keyof IRetourvents] === "paid") {
+//     } else if (row[column as keyof IRetourAchats] === "paid") {
 //       return (
 //         <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
-//           {row[column as keyof IRetourvents]}
+//           {row[column as keyof IRetourAchats]}
 //         </span>
 //       );
 //     } else {
-//       return <p>{row[column as keyof IRetourvents]}</p>;
+//       return <p>{row[column as keyof IRetourAchats]}</p>;
 //     }
 //   } else if (column === "status") {
-//     if (row[column as keyof IRetourvents] === "Complété") {
-//       return <p className="text-green-500">{row[column as keyof IRetourvents]}</p>;
-//     } else if (row[column as keyof IRetourvents] === "En cours") {
-//       return <p className="text-red-500">{row[column as keyof IRetourvents]}</p>;
+//     if (row[column as keyof IRetourAchats] === "Complété") {
+//       return <p className="text-green-500">{row[column as keyof IRetourAchats]}</p>;
+//     } else if (row[column as keyof IRetourAchats] === "En cours") {
+//       return <p className="text-red-500">{row[column as keyof IRetourAchats]}</p>;
 //     } else {
-//       return <p>{row[column as keyof IRetourvents]}</p>;
+//       return <p>{row[column as keyof IRetourAchats]}</p>;
 //     }
 //   } else {
-//     return <p>{row[column as keyof IRetourvents]}</p>;
+//     return <p>{row[column as keyof IRetourAchats]}</p>;
 //   }
 // };

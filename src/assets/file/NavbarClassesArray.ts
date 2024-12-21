@@ -126,6 +126,12 @@ const array = [
         title: "Retour des ventes",
         icon: "/menu/cars-for-sale.png",
         url: "/retour/retour-des-ventes",
+      },
+      {
+        id: 1,
+        title: "Retour des achats",
+        icon: "/menu/cars-for-sale.png",
+        url: "/retour/retour-des-achats",
       }
     ],
   },

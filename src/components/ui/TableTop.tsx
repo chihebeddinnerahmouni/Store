@@ -8,7 +8,7 @@ const TableTop = ({ title, value, setValue, label }: {
     label: string;
 }) => {
   return (
-    <div className="top flex items-center justify-between">
+    <div className="top w-full flex items-center justify-between">
       <CardTitle text={title} />
       <div className="search relative">
         <input

@@ -16,6 +16,7 @@ import Vents from './pages/vente/Vents';
 import Clients from './pages/gens/Clients';
 import Fournisseurs from './pages/gens/Fournisseurs';
 import RetourVantes from './pages/retour/RetourVantes';
+import RetourAchats from './pages/retour/RetourAchats';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "/gens/fournisseurs", element: <Fournisseurs /> },
 
       { path: "/retour/retour-des-ventes", element: <RetourVantes /> },
+      { path: "/retour/retour-des-achats", element: <RetourAchats /> },
 
       { path: "/rapports/paiment-des-achats", element: <Fournisseurs /> },
     ],
