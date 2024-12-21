@@ -52,6 +52,7 @@ const AddCategoryModal = ({ open, onClose }: AddCategoryModalProps) => {
             enqueueSnackbar(res.data.message, { variant: "success" });
             setLoading(false);
             onClose();
+            window.location.reload();
           })
           .catch((err) => {
             if (err.message === "Network Error") {

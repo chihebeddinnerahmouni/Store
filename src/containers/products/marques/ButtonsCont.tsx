@@ -4,13 +4,10 @@ import { BsFiletypePdf } from "react-icons/bs";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import AddMarqueModal from "../../../components/products/marque/AddMarqueModal";
+import IMArque from "../../../types/marque";
 
 interface ButtonsContProps {
-  data: {
-    id: number;
-    code_de_marque: string;
-    nom_de_marque: string;
-  }[];
+  data: IMArque[];
   columns: string[];
 }
 

@@ -7,14 +7,6 @@ import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
 import ICategory from "../../types/category"
 
-
-// interface Category {
-//   id: number;
-//   code_category: string;
-//   nom_de_categorie: string;
-//   name_category: string;
-// }
-
 const Categories = () => {
     const [data, setData] = useState<ICategory[]>([]);
     const [columns, setColumns] = useState<(keyof ICategory)[]>([]);

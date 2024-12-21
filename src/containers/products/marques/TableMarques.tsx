@@ -10,24 +10,21 @@ import {
   Paper,
 } from "@mui/material";
 import TableTop from "../../../components/ui/TableTop";
+import IMArque from "../../../types/marque";
 
-interface Data {
-  id: number;
-  code_de_marque: string;
-  nom_de_marque: string;
-}
+
 
 interface Props {
-  data: Data[];
-  columns: (keyof Data)[];
+  data: IMArque[];
+  columns: (keyof IMArque)[];
 }
 
 const TableMarques = ({ data, columns }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState<keyof Data>("id");
+  const [orderBy, setOrderBy] = useState<keyof IMArque>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const handleRequestSort = (property: keyof Data) => {
+  const handleRequestSort = (property: keyof IMArque) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -36,7 +33,8 @@ const TableMarques = ({ data, columns }: Props) => {
   const filteredData = useMemo(() => {
     if (searchQuery !== "") {
       return data.filter((row) =>
-        row.nom_de_marque.toLowerCase().includes(searchQuery.toLowerCase())
+        // row.nom_de_marque.toLowerCase().includes(searchQuery.toLowerCase())
+        row.name_brand.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return data;
