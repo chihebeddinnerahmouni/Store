@@ -242,6 +242,7 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
               text="Soumettre"
               color={mainColor}
               //   type="submit"
+              onClick={handleSubmit(onSubmit)}
             />
           </Box>
         </form>
