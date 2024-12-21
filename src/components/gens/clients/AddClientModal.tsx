@@ -241,7 +241,7 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
             <FullShiningButton
               text="Soumettre"
               color={mainColor}
-              //   type="submit"
+                type="submit"
               onClick={handleSubmit(onSubmit)}
             />
           </Box>
