@@ -14,7 +14,7 @@ import IMArque from "../../../types/marque";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
 import UpdateMarqueModal from "../../../components/products/marque/UpdateMarqueModal";
-// import DeleteCategoryModal from "../../../components/products/categories/DeleteCategoryModal";
+import DeleteMarqueModal from "../../../components/products/marque/DeleteMarqueModal";
 
 
 
@@ -148,6 +148,11 @@ const TableMarques = ({ data, columns }: Props) => {
           open={updateRow !== null}
           setOpen={setUpdateRow}
           data={updateRow}
+        />)}
+        {deleteRow && (<DeleteMarqueModal
+          open={deleteRow !== null}
+          setOpen={setDeleteRow}
+          data={deleteRow}
         />)}
         
       </div>
