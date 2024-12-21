@@ -43,6 +43,12 @@ const array = [
         icon: "/menu/cars-for-sale.png",
         url: "/produits/unite",
       },
+      {
+        id: 6,
+        title: "Reyonnage",
+        icon: "/menu/cars-for-sale.png",
+        url: "/produits/reyonnage",
+      },
     ],
   },
   {
@@ -132,7 +138,7 @@ const array = [
         title: "Retour des achats",
         icon: "/menu/cars-for-sale.png",
         url: "/retour/retour-des-achats",
-      }
+      },
     ],
   },
   {

@@ -18,6 +18,7 @@ import Fournisseurs from './pages/gens/Fournisseurs';
 import RetourVantes from './pages/retour/RetourVantes';
 import RetourAchats from './pages/retour/RetourAchats';
 import Login from './pages/auth/Login';
+import Reyonnage from './pages/products/Reyonnage';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "/produits/categories", element: <Categories /> },
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },
+      { path: "/produits/reyonnage", element: <Reyonnage /> },
 
       { path: "/achats/ajouter-un-achat", element: <AddAchat /> },
       { path: "/achats", element: <Achats /> },

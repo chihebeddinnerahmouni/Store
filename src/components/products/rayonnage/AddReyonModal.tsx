@@ -37,12 +37,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
     setLoading(true);
     axios
       .post(
-        `${url}/api/brands`,
+        `${url}/api/rayonages`,
         {
-          code_brand: name,
-          name_brand: code,
+          code_location: code,
+          name: name,
           description: description,
-          status: "active",
         },
         {
           headers: {
@@ -97,7 +96,7 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
           variant="h6"
           component="h2"
         >
-          Ajouter une marque
+          Ajouter une rayon
         </Typography>
 
         {/* Form */}
@@ -109,11 +108,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="name"
             control={control}
             rules={{
-              required: "Le nom de la marque est obligatoire",
+              required: "Ce champ est obligatoire",
             }}
             render={({ field }) => (
               <InputText
-                label="Nom de la marque*"
+                label="Nom de rayon*"
                 {...field}
                 value={name}
                 error={!!errors.name}
@@ -133,11 +132,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="code"
             control={control}
             rules={{
-              required: "Le code de la marque est obligatoire",
+              required: "Ce champ est obligatoire",
             }}
             render={({ field }) => (
               <InputText
-                label="Code de la marque*"
+                label="Code de rayon*"
                 {...field}
                 error={!!errors.code}
                 value={code}
@@ -157,11 +156,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="description"
             control={control}
             rules={{
-              required: "La description de la catégorie est obligatoire",
+              required: "Ce champ est obligatoire",
             }}
             render={({ field }) => (
               <InputMultiLine
-                label="La description de la catégorie*"
+                label="La description du rayon*"
                 {...field}
                 error={!!errors.description}
                 helperText={errors.description?.message}
