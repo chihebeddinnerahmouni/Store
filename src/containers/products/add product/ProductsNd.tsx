@@ -31,6 +31,7 @@ interface ProductStContProps {
   setNumSerie: (value: boolean) => void;
   quantity: string;
   setQuantity: (value: string) => void;
+  uniteArray: any;
 }
 
 const ProductsNd = ({
@@ -56,6 +57,7 @@ const ProductsNd = ({
   setNumSerie,
   quantity,
   setQuantity,
+  // uniteArray
 }: ProductStContProps) => {
   return (
     <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-9">

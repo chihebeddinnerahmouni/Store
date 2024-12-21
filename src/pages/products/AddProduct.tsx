@@ -1,6 +1,6 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductStCont from "../../containers/products/add product/ProductStCont";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ImageCont from "../../containers/products/add product/ImageCont";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
@@ -8,6 +8,7 @@ import InstructionsCont from "../../containers/products/add product/Instructions
 import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
+import Loading from "../../components/ui/Loading";
 
 type FormValues = {
   designation: string;
@@ -45,17 +46,85 @@ const AddProduct = () => {
   const [stockAlert, setStockAlert] = useState<string>("");
   const [numSerie, setNumSerie] = useState<boolean>(false);
   const [reyonage, setReyonage] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<string>(""); 
+  const [loading, setLoading] = useState<boolean>(false);
+  const [LoadingPage, setLoadingPage] = useState<boolean>(true);
+
+  const [categoriesArray, setCategoriesArray] = useState<any>([]);
+  const [marquesArray, setMarquesArray] = useState<any>([]);
+  const [unitesArray, setUnitesArray] = useState<any>([]);
+  const [reyonagesArray, setReyonagesArray] = useState<any>([]);
   
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
 
   // console.log(category);
 
+  useEffect(() => { 
+     Promise.all([
+       axios.get(`${url}/api/categories`, {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       }),
+       axios.get(`${url}/api/brands`, {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       }),
+       axios.get(`${url}/api/units`, {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       }),
+       axios.get(`${url}/api/rayonages`, {
+         headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+       }),
+     ])
+       .then(
+         axios.spread((response1, response2, response3, response4) => {
+          //  console.log("response1", response1.data.categories);
+           console.log("response2", response2.data.brands);
+          //  console.log("response3", response3);
+          //   console.log("response4", response4);
+           setCategoriesArray(response1.data.categories);
+           setMarquesArray(response2.data.brands);
+           setUnitesArray(response3.data.units);
+           setReyonagesArray(response4.data.rayonages);
+           setLoadingPage(false);
+         })
+       )
+       .catch((err) => {
+         console.log(err);
+         setLoadingPage(false);
+         if (err.message === "Network Error") {
+           enqueueSnackbar("Erreur de connexion", { variant: "error" });
+         } else {
+           Object.keys(err.response.data.erreurs).map((key) => {
+             err.response.data.erreurs[key].map((err: any) => {
+               enqueueSnackbar(err, { variant: "error" });
+             });
+           });
+         }
+       });
+    
+    // console.log("response1", response1);
+    // console.log("response2", response2);
+    // console.log("response3", response3);
+    // console.log("response4", response4);
+
+
+    
+  }, []);
+
+
+
+
+
   const send = () => {
     setLoading(true);
-
     axios
       .post(
         `${url}/api/products`,
@@ -114,6 +183,11 @@ const AddProduct = () => {
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = send;
 
+
+  if (LoadingPage) {
+    return <Loading />;
+  }
+
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter un produit" />
@@ -138,6 +212,11 @@ const AddProduct = () => {
             setDescription={setDescription}
             reyonage={reyonage}
             setReyonage={setReyonage}
+            categoriesArray={categoriesArray}
+            marquesArray={marquesArray}
+            // unitesArray={unitesArray}
+            // setUnitesArray={setUnitesArray}
+            reyonagesArray={reyonagesArray}
           />
 
           <ImageCont />
@@ -149,6 +228,7 @@ const AddProduct = () => {
             errors={errors}
             // type={type}
             // setType={setType}
+            uniteArray={unitesArray}
             quantity={quantity}
             setQuantity={setQuantity}
             prixAchat={prixAchat}

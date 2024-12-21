@@ -27,6 +27,9 @@ interface ProductStContProps {
   setDescription: (value: string) => void;
   reyonage: number;
   setReyonage: (value: number) => void;
+  categoriesArray: any;
+  marquesArray: any;
+  reyonagesArray: any;
 }
 
 const ProductStCont = ({
@@ -48,6 +51,12 @@ const ProductStCont = ({
   setDescription,
   reyonage,
   setReyonage,
+  categoriesArray,
+  marquesArray,
+  // unitesArray,
+  // setUnitesArray,
+  reyonagesArray,
+
 }: ProductStContProps) => {
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8 lg:col-span-9">
@@ -77,9 +86,11 @@ const ProductStCont = ({
         id={"category"}
         value={category}
         setValue={setCategory}
+        options={categoriesArray}
       />
 
       <Marque
+        options={marquesArray}
         control={control} 
         clearErrors={clearErrors}
         register={register}
