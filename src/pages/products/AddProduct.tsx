@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ImageCont from "../../containers/products/add product/ImageCont";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
-import { Button } from "@mui/material";
 import InstructionsCont from "../../containers/products/add product/InstructionsCont";
+import axios from "axios";
+import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
+import { enqueueSnackbar } from "notistack";
 
 type FormValues = {
   designation: string;
@@ -45,14 +47,55 @@ const AddProduct = () => {
   const [reyonage, setReyonage] = useState<string>("");
 
   const mainColor = "#006233";
-  const mainColorHover = "#004d26";
+  const url = import.meta.env.VITE_BASE_URL;
 
   const send = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-   }
+
+    axios
+      .post(
+        `${url}/api/products`,
+        {
+          name: "Productfg A",
+          code_barre: "1234589017645",
+          category_id: 1,
+          brand_id: 1,
+          unit_id: 1,
+          reyonage_id: 1,
+
+          tax_percentage: 15.0,
+          description: "This is Product A.",
+          price_buy: 100.0,
+          price_sell: 150.0,
+          stock_alert: 10,
+          quantity: 0,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        enqueueSnackbar(res.data.message, { variant: "success" });
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err.message === "Network Error") {
+          enqueueSnackbar("Erreur de connexion", { variant: "error" });
+        } else {
+          err.response.data.erreurs.name.map((err: any) => { 
+            enqueueSnackbar(err, { variant: "error" });
+          });
+        }
+        setLoading(false);
+      });
+
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
+  };
 
   const {
     register,
@@ -62,8 +105,6 @@ const AddProduct = () => {
     clearErrors,
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = send;
-
-
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -119,26 +160,19 @@ const AddProduct = () => {
             <InstructionsCont />
           </div>
         </div>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={loading}
-          sx={{
-            backgroundColor: mainColor,
-            color: "#fff",
-            margin: "20px 0",
-            "&:hover": {
-              backgroundColor: mainColorHover,
-            },
-          }}
-        >
-          {loading ? "En cours..." : "Soumettre"}
-        </Button>
+        <div className="button mt-5">
+          <FullShiningButton
+            text="Soumettre"
+            loading={loading}
+            color={mainColor}
+            // onClick={handleSubmit(onSubmit)}
+            onClick={send}
+            type="submit"
+          />
+        </div>
       </form>
     </div>
   );
 };
 
 export default AddProduct;
-
-

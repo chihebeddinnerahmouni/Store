@@ -85,3 +85,12 @@ body {
   -webkit-user-select: none; /* For WebKit browsers */
   -ms-user-select: none; /* For IE browsers */
 }
+
+
+
+.snackbar-container {
+  background-color: #ffffff !important; /* White background */
+  color: #000000 !important; /* Black text */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+  border-radius: 8px; /* Optional: rounded corners */
+}
