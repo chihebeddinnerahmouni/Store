@@ -116,6 +116,21 @@ const array = [
   },
   {
     id: 6,
+    title: "Retour",
+    icon: "/menu/about-us.png",
+    url: "about-us",
+    blank: false,
+    subList: [
+      {
+        id: 1,
+        title: "Retour des ventes",
+        icon: "/menu/cars-for-sale.png",
+        url: "/retour/retour-des-ventes",
+      }
+    ],
+  },
+  {
+    id: 7,
     title: "Rapports",
     icon: "/menu/blog.png",
     url: "blog",
@@ -123,9 +138,9 @@ const array = [
     subList: [
       {
         id: 1,
-        title: "Profits et Pertes",
+        title: "rapport de vente",
         icon: "/menu/cars-for-sale.png",
-        url: "add-product",
+        url: "/h",
       },
       {
         id: 2,

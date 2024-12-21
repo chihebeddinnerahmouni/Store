@@ -15,6 +15,7 @@ import AddVente from './pages/vente/AddVente';
 import Vents from './pages/vente/Vents';
 import Clients from './pages/gens/Clients';
 import Fournisseurs from './pages/gens/Fournisseurs';
+import RetourVantes from './pages/retour/RetourVantes';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
 
       { path: "/gens/clients", element: <Clients /> },
       { path: "/gens/fournisseurs", element: <Fournisseurs /> },
+
+      { path: "/retour/retour-des-ventes", element: <RetourVantes /> },
+
+      { path: "/rapports/paiment-des-achats", element: <Fournisseurs /> },
     ],
   },
   { path: "/test", element: <Test /> },
