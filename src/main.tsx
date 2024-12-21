@@ -17,6 +17,7 @@ import Clients from './pages/gens/Clients';
 import Fournisseurs from './pages/gens/Fournisseurs';
 import RetourVantes from './pages/retour/RetourVantes';
 import RetourAchats from './pages/retour/RetourAchats';
+import Login from './pages/auth/Login';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/test", element: <Test /> },
+  { path: "/login", element: <Login /> },
 ]);
 
 
