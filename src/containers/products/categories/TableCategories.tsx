@@ -13,6 +13,8 @@ import TableTop from "../../../components/ui/TableTop";
 import ICategory from "../../../types/category";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+import UpdateCategoryModal from "../../../components/products/categories/UpdateCategoryModal";
+import DeleteCategoryModal from "../../../components/products/categories/DeleteCategoryModal";
 
 interface Props {
   data: ICategory[];
@@ -22,7 +24,15 @@ interface Props {
 const TableCategories = ({ data, columns }: Props) => {
     const [order, setOrder] = useState<"asc" | "desc">("asc");
     const [orderBy, setOrderBy] = useState<keyof ICategory>("id");
-    const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  // const [updateOpen, setUpdateOpen] = useState<boolean>(false);
+  const [selectedCategoryUpdate, setSelectedCategoryUpdate] = useState<ICategory | null>(
+    null
+  );
+  const [selectedCategoryDelete, setSelectedCategoryDelete] = useState<ICategory | null>(null);
+
+  
+
 
     const handleRequestSort = (property: keyof ICategory) => {
       const isAsc = orderBy === property && order === "asc";
@@ -98,7 +108,7 @@ const TableCategories = ({ data, columns }: Props) => {
                       borderBottom: "1px solid rgba(224, 224, 224, 1)",
                     }}
                   >
-                        Actions
+                    Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -124,11 +134,15 @@ const TableCategories = ({ data, columns }: Props) => {
                     >
                       <UpdateButton
                         active={true}
-                        onClick={() => {}}
+                        onClick={() => {
+                          setSelectedCategoryUpdate(row);
+                        }}
                       />
                       <DeleteButton
                         active={true}
-                        onClick={() => { }}
+                        onClick={() => {
+                          setSelectedCategoryDelete(row);
+                        }}
                       />
                     </TableCell>
                   </TableRow>
@@ -136,6 +150,20 @@ const TableCategories = ({ data, columns }: Props) => {
               </TableBody>
             </Table>
           </TableContainer>
+          {selectedCategoryUpdate && (
+            <UpdateCategoryModal
+              open={selectedCategoryUpdate !== null}
+              setOpen={setSelectedCategoryUpdate}
+              data={selectedCategoryUpdate}
+            />
+          )}
+          {selectedCategoryDelete && (
+            <DeleteCategoryModal
+              open={selectedCategoryDelete !== null}
+              setOpen={setSelectedCategoryDelete}
+              data={selectedCategoryDelete}
+            />
+          )}
         </div>
       </div>
     );

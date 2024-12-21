@@ -67,13 +67,10 @@ import { BsFiletypePdf } from "react-icons/bs";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import AddCategoryModal from "../../../components/products/categories/AddCategoryModal";
+import ICategory from "../../../types/category";
 
 interface ButtonsContProps {
-  data: {
-    id: number;
-    code_category: string;
-    nom_de_categorie: string;
-  }[];
+  data: ICategory[];
   columns: string[];
 }
 
