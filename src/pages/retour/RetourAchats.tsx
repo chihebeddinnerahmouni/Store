@@ -40,16 +40,16 @@ const RetourAchats = () => {
 
 const columns_test = [
   // "id",
-  "reference",
-  "date",
-  "client",
-  "magasin",
-  "réf_vente",
-  "status",
-  "total",
-  "payé",
-  "rest",
-  "status_de_paiment",
+    "reference",
+    "date",
+    "fournisseur",
+    "magasin",
+    "réf_dachat",
+    "status",
+    "total",
+    "payé",
+    "restant",
+    "status_de_paiement",
 ];
 
 const data_test: IRetourAchats[] = [
