@@ -14,6 +14,8 @@ import IUnite from "../../../types/unite";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
 import UpdateUniteModal from "../../../components/products/unite/UpdateUniteModal";
+import DeleteUniteModal from "../../../components/products/unite/DeleteUniteModal";
+
 
 interface Props {
   data: IUnite[];
@@ -146,6 +148,12 @@ const TableUnite = ({ data, columns }: Props) => {
             open={true}
             setOpen={() => setUpdateRow(null)}
             data={updateRow}
+          />}
+        {deleteRow &&
+          <DeleteUniteModal
+            open={true}
+            setOpen={() => setDeleteRow(null)}
+            data={deleteRow}
           />}
       </div>
     </div>
