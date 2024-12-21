@@ -10,25 +10,20 @@ import {
   Paper,
 } from "@mui/material";
 import TableTop from "../../../components/ui/TableTop";
+import IUnite from "../../../types/unite";
 
-interface Data {
-  id: number;
-  nom_court: string;
-  nom_de_unité: string;
-  unité_de_base: string;
-}
 
 interface Props {
-  data: Data[];
-  columns: (keyof Data)[];
+  data: IUnite[];
+  columns: (keyof IUnite)[];
 }
 
 const TableUnite = ({ data, columns }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState<keyof Data>("id");
+  const [orderBy, setOrderBy] = useState<keyof IUnite>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const handleRequestSort = (property: keyof Data) => {
+  const handleRequestSort = (property: keyof IUnite) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -37,7 +32,8 @@ const TableUnite = ({ data, columns }: Props) => {
   const filteredData = useMemo(() => {
     if (searchQuery !== "") {
       return data.filter((row) =>
-        row.nom_de_unité.toLowerCase().includes(searchQuery.toLowerCase())
+        // row.nom_de_unité.toLowerCase().includes(searchQuery.toLowerCase())
+        row.name_unit.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return data;
@@ -59,7 +55,7 @@ const TableUnite = ({ data, columns }: Props) => {
         title="Unités"
         value={searchQuery}
               setValue={setSearchQuery}
-              label="Chercher une unité"
+              label="Chercher par nom"
       />
       <div className="mt-5 flex justify-center items-center flex-grow">
         <TableContainer component={Paper}>

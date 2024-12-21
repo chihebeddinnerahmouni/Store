@@ -4,14 +4,10 @@ import { BsFiletypePdf } from "react-icons/bs";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import AddUniteModal from "../../../components/products/unite/AddUniteModal";
+import IUnite from "../../../types/unite";
 
 interface ButtonsContProps {
-  data: {
-    id: number;
-    nom_court: string;
-    nom_de_unité: string;
-    unité_de_base: string;
-  }[];
+  data: IUnite[];
   columns: string[];
 }
 
