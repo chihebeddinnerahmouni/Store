@@ -6,6 +6,7 @@ interface IUnite {
   id: number;
   code_unit: string;
   name_unit: string;
+  description: string;
 }
 
 export default IUnite;

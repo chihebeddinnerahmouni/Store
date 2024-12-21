@@ -11,7 +11,9 @@ import {
 } from "@mui/material";
 import TableTop from "../../../components/ui/TableTop";
 import IUnite from "../../../types/unite";
-
+import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
+import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+import UpdateUniteModal from "../../../components/products/unite/UpdateUniteModal";
 
 interface Props {
   data: IUnite[];
@@ -22,6 +24,8 @@ const TableUnite = ({ data, columns }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof IUnite>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [updateRow, setUpdateRow] = useState<IUnite | null>(null);
+  const [deleteRow, setDeleteRow] = useState<IUnite | null>(null);
 
   const handleRequestSort = (property: keyof IUnite) => {
     const isAsc = orderBy === property && order === "asc";
@@ -54,8 +58,8 @@ const TableUnite = ({ data, columns }: Props) => {
       <TableTop
         title="Unités"
         value={searchQuery}
-              setValue={setSearchQuery}
-              label="Chercher par nom"
+        setValue={setSearchQuery}
+        label="Chercher par nom"
       />
       <div className="mt-5 flex justify-center items-center flex-grow">
         <TableContainer component={Paper}>
@@ -87,6 +91,16 @@ const TableUnite = ({ data, columns }: Props) => {
                     </TableSortLabel>
                   </TableCell>
                 ))}
+                <TableCell
+                  sx={{
+                    wordBreak: "keep-all",
+                    whiteSpace: "nowrap",
+                    border: "none",
+                    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+                  }}
+                >
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -102,11 +116,37 @@ const TableUnite = ({ data, columns }: Props) => {
                       {row[column]}
                     </TableCell>
                   ))}
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      display: "flex",
+                      gap: "10px",
+                    }}
+                  >
+                    <UpdateButton
+                      active={true}
+                      onClick={() => {
+                        setUpdateRow(row);
+                      }}
+                    />
+                    <DeleteButton
+                      active={true}
+                      onClick={() => {
+                        setDeleteRow(row);
+                      }}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        {updateRow &&
+          <UpdateUniteModal
+            open={true}
+            setOpen={() => setUpdateRow(null)}
+            data={updateRow}
+          />}
       </div>
     </div>
   );

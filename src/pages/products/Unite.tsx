@@ -24,8 +24,6 @@ const Unite = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.units[0]);
-        // enqueueSnackbar("Categories chargées", { variant: "success" });
         setData(res.data.units);
         // setColumns(Object.keys(res.data.units[0]) as (keyof IUnite)[]);
         setColumns(columns_test);
