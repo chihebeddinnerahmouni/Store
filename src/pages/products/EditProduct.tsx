@@ -313,6 +313,7 @@ import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
 import Loading from "../../components/ui/Loading";
 import IProductSingle from "../../types/IProductSingle";
+import { useParams } from "react-router-dom";
 
 type FormValues = {
   name: string;
@@ -363,6 +364,7 @@ const EditProduct = () => {
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
+  const { produitId } = useParams<{ produitId: string }>();
 
 
   useEffect(() => {
@@ -387,31 +389,30 @@ const EditProduct = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
+      axios.get(`${url}/api/products/${produitId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
     ])
       .then(
-        axios.spread((response1, response2, response3, response4) => {
-          //  console.log("response1", response1.data.categories);
-          //  console.log("response2", response2.data.brands);
-          //  console.log("response3", response3);
-          // console.log("response4", response4);
+        axios.spread((response1, response2, response3, response4, response5) => {
           setCategoriesArray(response1.data.categories);
           setMarquesArray(response2.data.brands);
           setUnitesArray(response3.data.units);
           setReyonagesArray(response4.data.rayonages);
-          setData(data_test);
-          setDesignation(data.name);
-          setCodeBarre(data.code_barre);
-          setCategory(data.category.id);
-          setMarque(data.brand.id);
-          setTax(data.tax_percentage);
-          setDescription(data.description);
-          setPrixAchat(data.price_buy);
-          setPrixVente(data.price_sell);
-          setUnite(data.unit.id);
-          setStockAlert((data.stock_alert).toString());
-          // setNumSerie(data.has_serial_number);
-          setReyonage(data.reyonage.id);
-
+          setData(response5.data.product);
+          setDesignation(response5.data.product.name);
+          setCodeBarre(response5.data.product.code_barre);
+          setCategory(response5.data.product.category.id);
+          setMarque(response5.data.product.brand.id);
+          setTax(response5.data.product.tax_percentage);
+          setDescription(response5.data.product.description);
+          setPrixAchat(response5.data.product.price_buy);
+          setPrixVente(response5.data.product.price_sell);
+          setUnite(response5.data.product.unit.id);
+          setStockAlert(response5.data.product.stock_alert.toString());
+          setReyonage(response5.data.product.reyonage.id);
 
           setLoadingPage(false);
         })
