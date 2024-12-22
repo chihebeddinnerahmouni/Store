@@ -6,7 +6,7 @@ import Unite from "../../../components/products/add products/2nd section/Unite";
 // import UniteAchat from "../../../components/products/add products/2nd section/UniteAchat";
 import StockAlert from "../../../components/products/add products/2nd section/StockAlert";
 import NumSerie from "../../../components/products/add products/2nd section/NumSerie";
-import Quantite from "../../../components/products/add products/2nd section/Quantite";
+// import Quantite from "../../../components/products/add products/2nd section/Quantite";
 
 interface ProductStContProps {
   control: any;
@@ -29,8 +29,8 @@ interface ProductStContProps {
   setStockAlert: (value: string) => void;
   numSerie: boolean;
   setNumSerie: (value: boolean) => void;
-  quantity: string;
-  setQuantity: (value: string) => void;
+  // quantity: string;
+  // setQuantity: (value: string) => void;
   unitesArray: any;
 }
 
@@ -55,8 +55,8 @@ const ProductsNd = ({
   setStockAlert,
   numSerie,
   setNumSerie,
-  quantity,
-  setQuantity,
+  // quantity,
+  // setQuantity,
   unitesArray,
 }: ProductStContProps) => {
   return (
@@ -72,7 +72,7 @@ const ProductsNd = ({
           setValue={setType}
         /> */}
 
-        <Quantite
+        {/* <Quantite
           control={control}
           clearErrors={clearErrors}
           register={register}
@@ -80,7 +80,7 @@ const ProductsNd = ({
           id={"quantity"}
           value={quantity}
           setValue={setQuantity}
-        />
+        /> */}
 
         <PrixAchat
           control={control}

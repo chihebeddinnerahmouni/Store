@@ -10,6 +10,7 @@ import axios from "axios";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Tooltip } from "@mui/material";
 
 type FormValues = {
   email: string;
@@ -73,88 +74,83 @@ const Login = () => {
       }}
       autoHideDuration={3000}
     >
-      <div
-        className="w-full h-screen bg-cover bg-center flex justify-center items-center"
-        style={{
-          backgroundImage: `url(${auth_bg})`,
-        }}
-      >
-        <div className="cardCss flex flex-col items-center w-[90%] max-w-[400px]">
-          <img src={logo} className="w-[90px] h-[90px]" alt="logo" />
-          <p className="mt-4 font-bold text-xl">S'identifier</p>
-          <form
-            className="mt-4 flex flex-col gap-4 w-full"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: "L'email est obligatoire",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Veuillez entrer un email valide",
-                },
-              }}
-              render={({ field }) => (
-                <InputEmail
-                  label="L'addresse email"
-                  {...field}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  value={email}
-                  setValue={(value: string) => {
-                    setEmail(value);
-                    field.onChange(value);
-                    if (errors.email) {
-                      clearErrors("email");
-                    }
-                  }}
-                />
-              )}
-            />
+      <div className="w-full h-screen bg-black flex justify-center items-center">
+        <div className="content w-[90%] max-w-[400px] flex flex-col items-center">
+          <img src={auth_bg} className="bg-red-200" alt="symloop" />
 
-            <Controller
-              name="password"
-              control={control}
-              rules={{ required: "Le mot de pass est obligatoire" }}
-              render={({ field }) => (
-                <InputPassword
-                  label="Le mot de passe"
-                  {...field}
-                  error={!!errors.password}
-                  helperText={errors.password?.message}
-                  value={password}
-                  setValue={(value: string) => {
-                    setPassword(value);
-                    field.onChange(value);
-                    if (errors.password) {
-                      clearErrors("password");
-                    }
-                  }}
-                />
-              )}
-            />
-            <FullShiningButton
-              text="Login"
-              color={mainColor}
-              onClick={handleSubmit(onSubmit)}
-              type="submit"
-              loading={loading}
-            />
-          </form>
-          <p className="mt-4 space-x-1">
-            <span>Pas de compte?</span>
-            <Link
-              to="/signup"
-              style={{
-                  color: mainColor,
-                    fontWeight: "bold",
-              }}
+          <div className="cardCss w-full flex flex-col items-center">
+            <img src={logo} className="w-[90px] h-[90px]" alt="logo" />
+            <p className="mt-4 font-bold text-xl">S'identifier</p>
+            <form
+              className="mt-4 flex flex-col gap-4 w-full"
+              onSubmit={handleSubmit(onSubmit)}
             >
-              Créer un compte
-            </Link>
-          </p>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: "L'email est obligatoire",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Veuillez entrer un email valide",
+                  },
+                }}
+                render={({ field }) => (
+                  <InputEmail
+                    label="L'addresse email"
+                    {...field}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    value={email}
+                    setValue={(value: string) => {
+                      setEmail(value);
+                      field.onChange(value);
+                      if (errors.email) {
+                        clearErrors("email");
+                      }
+                    }}
+                  />
+                )}
+              />
+
+              <Controller
+                name="password"
+                control={control}
+                rules={{ required: "Le mot de pass est obligatoire" }}
+                render={({ field }) => (
+                  <InputPassword
+                    label="Le mot de passe"
+                    {...field}
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
+                    value={password}
+                    setValue={(value: string) => {
+                      setPassword(value);
+                      field.onChange(value);
+                      if (errors.password) {
+                        clearErrors("password");
+                      }
+                    }}
+                  />
+                )}
+              />
+              <FullShiningButton
+                text="Login"
+                color={mainColor}
+                onClick={handleSubmit(onSubmit)}
+                type="submit"
+                loading={loading}
+              />
+            </form>
+            <p className="mt-4 space-x-1">
+              <span>Pas de compte?</span>
+              <Tooltip title="Veiller contacter un test message " arrow>
+              <span className="font-bold text-main">
+                Créer un compte
+                </span>
+              </Tooltip>
+            </p>
+          </div>
         </div>
       </div>
     </SnackbarProvider>

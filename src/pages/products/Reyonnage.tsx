@@ -33,9 +33,8 @@ const Reyonnage = () => {
         } else {
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
-        // setLoading(false);
+        setLoading(false);
       });
-
     // setData(data_test);
     // setColumns(columns_test);
   }, []);

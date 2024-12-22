@@ -26,7 +26,7 @@ type FormValues = {
   uniteAchat: string;
   stockAlert: string;
   reyonage: string;
-  quantity: string;
+  // quantity: string;
 };
 
 const AddProduct = () => {
@@ -46,7 +46,7 @@ const AddProduct = () => {
   const [stockAlert, setStockAlert] = useState<string>("");
   const [numSerie, setNumSerie] = useState<boolean>(false);
   const [reyonage, setReyonage] = useState<number>(0);
-  const [quantity, setQuantity] = useState<string>(""); 
+  // const [quantity, setQuantity] = useState<string>(""); 
   const [loading, setLoading] = useState<boolean>(false);
   const [LoadingPage, setLoadingPage] = useState<boolean>(true);
 
@@ -141,7 +141,7 @@ const AddProduct = () => {
           price_buy: Number(prixAchat),
           price_sell: Number(prixVente),
           stock_alert: Number(stockAlert),
-          quantity: Number(quantity),
+          quantity: 0,
         },
         {
           headers: {
@@ -228,8 +228,8 @@ const AddProduct = () => {
             errors={errors}
             // type={type}
             // setType={setType}
-            quantity={quantity}
-            setQuantity={setQuantity}
+            // quantity={quantity}
+            // setQuantity={setQuantity}
             prixAchat={prixAchat}
             setPrixAchat={setPrixAchat}
             prixVente={prixVente}

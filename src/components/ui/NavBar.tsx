@@ -13,6 +13,10 @@ import User from "../navbar/User";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
+
+  // console.log(open);
+
+
   const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {

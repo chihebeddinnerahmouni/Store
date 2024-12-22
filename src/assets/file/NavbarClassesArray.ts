@@ -1,52 +1,69 @@
+import { IoPricetagsOutline } from "react-icons/io5";
+import { IoAddCircleOutline } from "react-icons/io5";
+import { CiCircleList } from "react-icons/ci";
+import { MdOutlineCategory } from "react-icons/md";
+import { TbBrandAbstract } from "react-icons/tb";
+import { CiBoxes } from "react-icons/ci";
+import { PiWarehouseLight } from "react-icons/pi";
+import { CiShoppingCart } from "react-icons/ci";
+import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { IoPeopleOutline } from "react-icons/io5";
+import { IoManOutline } from "react-icons/io5";
+import { IoBackspaceOutline } from "react-icons/io5";
+import { IoReturnUpBack } from "react-icons/io5";
+import { TbReportSearch } from "react-icons/tb";
+
+
+
 const array = [
-  {
-    id: 1,
-    title: "Tableau de bord",
-    icon: "/menu/Home.png",
-    url: "",
-    blank: false,
-  },
+  // {
+  //   id: 1,
+  //   title: "Tableau de bord",
+  //   icon: "/menu/Home.png",
+  //   url: "",
+  //   blank: false,
+  // },
   {
     id: 2,
     title: "Produits",
-    icon: "/menu/cars-for-sale.png",
+    icon: IoPricetagsOutline,
     url: "cars-for-sale",
     blank: false,
     subList: [
       {
         id: 1,
         title: "Ajouter un produit",
-        icon: "/menu/cars-for-sale.png",
-        url: "ajouter-un-produit",
+        icon: IoAddCircleOutline,
+        url: "/produits/ajouter-un-produit",
       },
       {
         id: 2,
         title: "Liste des produits",
-        icon: "/menu/cars-for-sale.png",
+        icon: CiCircleList,
         url: "produits",
       },
       {
         id: 3,
         title: "Categories",
-        icon: "/menu/cars-for-sale.png",
+        icon: MdOutlineCategory,
         url: "/produits/categories",
       },
       {
         id: 4,
         title: "Marques",
-        icon: "/menu/cars-for-sale.png",
+        icon: TbBrandAbstract,
         url: "/produits/marques",
       },
       {
         id: 5,
         title: "Unité",
-        icon: "/menu/cars-for-sale.png",
+        icon: CiBoxes,
         url: "/produits/unite",
       },
       {
         id: 6,
         title: "Reyonnage",
-        icon: "/menu/cars-for-sale.png",
+        icon: PiWarehouseLight,
         url: "/produits/reyonnage",
       },
     ],
@@ -54,20 +71,20 @@ const array = [
   {
     id: 3,
     title: "Achats",
-    icon: "/menu/sell-your-car.png",
+    icon: CiShoppingCart,
     url: "sell-your-car",
     blank: true,
     subList: [
       {
         id: 1,
         title: "Ajouter D'achat",
-        icon: "/menu/cars-for-sale.png",
+        icon: IoAddCircleOutline,
         url: "/achats/ajouter-un-achat",
       },
       {
         id: 2,
         title: "Liste des Achats",
-        icon: "/menu/cars-for-sale.png",
+        icon: CiCircleList,
         url: "/achats",
       },
     ],
@@ -75,20 +92,20 @@ const array = [
   {
     id: 4,
     title: "Ventes",
-    icon: "/menu/service.png",
+    icon: MdOutlineShoppingCartCheckout,
     url: "service",
     blank: false,
     subList: [
       {
         id: 1,
         title: "Ajouter une vente",
-        icon: "/menu/cars-for-sale.png",
+        icon: IoAddCircleOutline,
         url: "/ventes/ajouter-un-vente",
       },
       {
         id: 2,
         title: "Liste des Ventes",
-        icon: "/menu/cars-for-sale.png",
+        icon: CiCircleList,
         url: "/ventes",
       },
     ],
@@ -96,47 +113,41 @@ const array = [
   {
     id: 5,
     title: "Gens",
-    icon: "/menu/about-us.png",
+    icon: IoPeopleOutline,
     url: "about-us",
     blank: false,
     subList: [
       {
         id: 1,
         title: "Clients",
-        icon: "/menu/cars-for-sale.png",
+        icon: IoManOutline,
         url: "/gens/clients",
       },
       {
         id: 2,
         title: "Fournisseurs",
-        icon: "/menu/cars-for-sale.png",
+        icon: IoManOutline,
         url: "/gens/fournisseurs",
-      },
-      {
-        id: 3,
-        title: "Utilisateurs",
-        icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
       },
     ],
   },
   {
     id: 6,
     title: "Retour",
-    icon: "/menu/about-us.png",
+    icon: IoBackspaceOutline,
     url: "about-us",
     blank: false,
     subList: [
       {
         id: 1,
         title: "Retour des ventes",
-        icon: "/menu/cars-for-sale.png",
+        icon: IoReturnUpBack,
         url: "/retour/retour-des-ventes",
       },
       {
         id: 1,
         title: "Retour des achats",
-        icon: "/menu/cars-for-sale.png",
+        icon: IoReturnUpBack,
         url: "/retour/retour-des-achats",
       },
     ],
@@ -144,28 +155,16 @@ const array = [
   {
     id: 7,
     title: "Rapports",
-    icon: "/menu/blog.png",
+    icon: TbReportSearch,
     url: "blog",
     blank: false,
     subList: [
       {
         id: 1,
         title: "rapport de vente",
-        icon: "/menu/cars-for-sale.png",
+        icon: TbReportSearch,
         url: "/h",
-      },
-      {
-        id: 2,
-        title: "Alertes De Quantite De Produits",
-        icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
-      },
-      {
-        id: 3,
-        title: "Rapport D'entrepot",
-        icon: "/menu/cars-for-sale.png",
-        url: "liste-des-produits",
-      },
+      }
     ],
   },
 ];
