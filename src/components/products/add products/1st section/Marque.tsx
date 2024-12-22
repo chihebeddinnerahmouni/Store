@@ -54,21 +54,35 @@ const Marque = ({
             {...field}
             error={!!errors.marque}
             helperText={errors.marque?.message}
-              value={value === 0 ? "" : newOptions.find((option) => option.id === value)!.name}
+            value={
+              value === 0
+                ? ""
+                : newOptions.find((option) => option.id === value)?.name
+            }
+            // setValue={(value: string) => {
+            //    const valueId = newOptions.find(
+            //      (option) => option.name === value
+            //    )!.id;
+            //    setValue(valueId);
+            //   field.onChange(value);
+            //   if (errors.marque) {
+            //     clearErrors("marque");
+            //   }
+            // }}
             setValue={(value: string) => {
-               const valueId = newOptions.find(
-                 (option) => option.name === value
-               )!.id;
-               setValue(valueId);
+              const selectedOption = newOptions.find(
+                (option) => option.name === value
+              );
+              const valueId = selectedOption ? selectedOption.id : 0;
+              setValue(valueId);
               field.onChange(value);
-              if (errors.marque) {
+              if (errors.category) {
                 clearErrors("marque");
               }
             }}
           />
         )}
       />
-
     </div>
   );
 };

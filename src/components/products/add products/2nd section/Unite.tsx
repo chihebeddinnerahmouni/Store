@@ -198,12 +198,27 @@ const Unite = ({
             {...field}
             error={!!errors.unite}
             helperText={errors.unite?.message}
-              value={value === 0 ? "" : newOptions.find((option) => option.id === value)!.name}
+            value={
+              value === 0
+                ? ""
+                : newOptions.find((option) => option.id === value)?.name
+            }
+            // setValue={(value: string) => {
+            //   const valueId = newOptions.find((option) => option.name === value)!.id;
+            //   setValue(valueId);
+            //   field.onChange(value);
+            //   if (errors.unite) {
+            //     clearErrors("unite");
+            //   }
+            // }}
             setValue={(value: string) => {
-              const valueId = newOptions.find((option) => option.name === value)!.id;
+              const selectedOption = newOptions.find(
+                (option) => option.name === value
+              );
+              const valueId = selectedOption ? selectedOption.id : 0;
               setValue(valueId);
               field.onChange(value);
-              if (errors.unite) {
+              if (errors.category) {
                 clearErrors("unite");
               }
             }}

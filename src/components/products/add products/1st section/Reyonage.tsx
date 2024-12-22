@@ -192,14 +192,29 @@ const Reyonage = ({
             {...field}
             error={!!errors.reyonage}
             helperText={errors.reyonage?.message}
-              value={value === 0 ? "" : options.find((option) => option.id === value)!.name}
+            value={
+              value === 0
+                ? ""
+                : options.find((option) => option.id === value)?.name
+            }
+            // setValue={(value: string) => {
+            //    const valueId = options.find(
+            //      (option) => option.name === value
+            //    )!.id;
+            //    setValue(valueId);
+            //   field.onChange(value);
+            //   if (errors.reyonage) {
+            //     clearErrors("reyonage");
+            //   }
+            // }}
             setValue={(value: string) => {
-               const valueId = options.find(
-                 (option) => option.name === value
-               )!.id;
-               setValue(valueId);
+              const selectedOption = options.find(
+                (option) => option.name === value
+              );
+              const valueId = selectedOption ? selectedOption.id : 0;
+              setValue(valueId);
               field.onChange(value);
-              if (errors.reyonage) {
+              if (errors.category) {
                 clearErrors("reyonage");
               }
             }}

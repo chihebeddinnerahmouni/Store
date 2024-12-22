@@ -61,7 +61,7 @@ const ButtonsCont = ({
   };
 
   const handleAdd = () => {
-    navigate("/ajouter-un-produit");
+    navigate("/produits/ajouter-un-produit");
   };
 
   const buttons_array = [

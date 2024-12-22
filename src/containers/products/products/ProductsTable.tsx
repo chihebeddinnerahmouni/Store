@@ -23,25 +23,12 @@ import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import ViewModal from "../../../components/products/products/ViewModal";
 import IProduct from "../../../types/Product";
-
+import { useNavigate } from "react-router-dom";
 
 
 
 const mainColor = "#006233";
 
-// interface Data {
-//   id: number;
-//   image: string;
-//   type: string;
-//   designation: string;
-//   code: string;
-//   marque: string;
-//   categorie: string;
-//   prix: string;
-//   cout: string;
-//   unité: string;
-//   quantité: string;
-// }
 
 // function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 //   if (b[orderBy] < a[orderBy]) {
@@ -234,7 +221,7 @@ export default function EnhancedTable({
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [viewRow, setViewRow] = React.useState<IProduct | null>(null);
-  // const []
+  const navigate = useNavigate();
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -415,7 +402,9 @@ export default function EnhancedTable({
                         />
                         <UpdateButton
                           active={true}
-                          onClick={() => console.log("Update")}
+                          onClick={() =>
+                            navigate(`/produits/modifier-produit/${row.id}`)
+                          }
                         />
                         <DeleteButton
                           active={true}

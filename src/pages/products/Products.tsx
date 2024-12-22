@@ -48,12 +48,6 @@ const Products = () => {
       <ProductsTable
         rows={data}
         columns={columns}
-        // code={code}
-        // setCode={setCode}
-        // categorie={categorie}
-        // setCategorie={setCategorie}
-        // marque={marque}
-        // setMarque={setMarque}
       />
     </div>
   );

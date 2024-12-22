@@ -102,7 +102,7 @@ interface SelectCompProps {
     name: string;
   }[];
   label: string;
-  value: string;
+  value: string | undefined;
   setValue: (value: string) => void;
   error?: boolean;
   helperText?: string;
