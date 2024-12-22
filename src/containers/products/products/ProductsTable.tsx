@@ -26,6 +26,7 @@ import IProduct from "../../../types/Product";
 
 
 
+
 const mainColor = "#006233";
 
 // interface Data {
