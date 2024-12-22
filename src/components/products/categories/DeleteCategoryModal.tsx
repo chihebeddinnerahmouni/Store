@@ -71,7 +71,48 @@ const DeleteCategoryModal = ({
         },
       }}
     >
-      DeleteModal
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: { xs: "90%", md: "40%", lg: 400 },
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 3,
+          borderRadius: 1,
+        }}
+      >
+        <Typography
+          sx={{
+            fontFamily: "Nunito",
+          }}
+          variant="h6"
+          component="h2"
+        >
+          Supprimer {data?.name_category}
+        </Typography>
+        <Typography
+          sx={{
+            fontFamily: "Nunito",
+            mt: 1,
+          }}
+          variant="body1"
+          component="p"
+        >
+          Voulez-vous vraiment supprimer la catégorie {data!.name_category} ?
+        </Typography>
+
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <FullShiningButton
+            text="Supprimer"
+            color="#ff0000"
+            onClick={deleteFunc}
+            loading={loading}
+          />
+        </Box>
+      </Box>
     </Modal>
   );
 };
