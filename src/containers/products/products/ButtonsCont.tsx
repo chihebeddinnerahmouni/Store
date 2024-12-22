@@ -11,22 +11,26 @@ import FilterContent from "../../../components/products/products/FilterContent";
 // import html2pdf from "html2pdf.js";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
+import IProduct from "../../../types/Product";
+
 
 interface ButtonsContProps {
-  data: {
-    id: number;
-    image: string;
-    type: string;
-    designation: string;
-    code: string;
-    marque: string;
-    categorie: string;
-    cout: string;
-    prix: string;
-    unité: string;
-    quantité: string;
-  }[];
-    columns: string[];
+  // data: {
+  //   id: number;
+  //   image: string;
+  //   type: string;
+  //   designation: string;
+  //   code: string;
+  //   marque: string;
+  //   categorie: string;
+  //   cout: string;
+  //   prix: string;
+  //   unité: string;
+  //   quantité: string;
+  // }[];
+  data: IProduct[];
+  // columns: string[];
+  columns: (keyof IProduct)[];  
     code: string;
     categorie: string;
     marque: string;

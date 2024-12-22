@@ -18,22 +18,55 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
+import ViewButton from "../../../components/ui/buttons/actions/ViewButton";
+import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
+import ViewModal from "../../../components/products/products/ViewModal";
+import IProduct from "../../../types/Product";
+
+
 
 const mainColor = "#006233";
 
-interface Data {
-  id: number;
-  image: string;
-  type: string;
-  designation: string;
-  code: string;
-  marque: string;
-  categorie: string;
-  prix: string;
-  cout: string;
-  unité: string;
-  quantité: string;
-}
+// interface Data {
+//   id: number;
+//   image: string;
+//   type: string;
+//   designation: string;
+//   code: string;
+//   marque: string;
+//   categorie: string;
+//   prix: string;
+//   cout: string;
+//   unité: string;
+//   quantité: string;
+// }
+
+// function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
+
+type Order = "asc" | "desc";
+
+// function getComparator<Key extends keyof any>(
+//   order: Order,
+//   orderBy: Key
+// ): (
+//   a: { [key in Key]: number | string },
+//   b: { [key in Key]: number | string }
+//   // a: { [key in Key]: number | string },
+//   // b: { [key in Key]: number | string }
+// ) => number {
+//   return order === "desc"
+//     ? (a, b) => descendingComparator(a, b, orderBy)
+//     : (a, b) => -descendingComparator(a, b, orderBy);
+// }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -45,15 +78,10 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = "asc" | "desc";
-
-function getComparator<Key extends keyof any>(
+function getComparator<Key extends keyof IProduct>(
   order: Order,
   orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+): (a: IProduct, b: IProduct) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -63,7 +91,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof IProduct
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -85,7 +113,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof Data);
+      onRequestSort(event, property as keyof IProduct);
     };
 
   return (
@@ -191,7 +219,7 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: Data[];
+  rows: IProduct[];
   columns: string[];
 }) {
   // React.useEffect(() => {
@@ -199,15 +227,17 @@ export default function EnhancedTable({
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof Data>("code");
+  const [orderBy, setOrderBy] = React.useState<keyof IProduct>("code");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [viewRow, setViewRow] = React.useState<IProduct | null>(null);
+  // const []
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof Data
+    property: keyof IProduct
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -369,7 +399,7 @@ export default function EnhancedTable({
                           border: "none",
                         }}
                       >
-                        {row[column as keyof Data]}
+                        {row[column as keyof IProduct]}
                       </TableCell>
                     ))}
                     <TableCell
@@ -377,7 +407,20 @@ export default function EnhancedTable({
                         border: "none",
                       }}
                     >
-                      actions
+                      <div className="flex items-center justify-center gap-2">
+                        <ViewButton
+                          active={true}
+                          onClick={() => setViewRow(row)}
+                        />
+                        <UpdateButton
+                          active={true}
+                          onClick={() => console.log("Update")}
+                        />
+                        <DeleteButton
+                          active={true}
+                          onClick={() => console.log("Delete")}
+                        />
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
@@ -406,6 +449,13 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      {viewRow && (
+        <ViewModal
+          onClose={() => setViewRow(null)}
+          row={viewRow}
+        /> 
+      )}
     </Box>
   );
 }

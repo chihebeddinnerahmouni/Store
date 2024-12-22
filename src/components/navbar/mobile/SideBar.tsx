@@ -236,7 +236,7 @@ const SideBar = ({ toggleDrawer }: SideBarProps) => {
                           alt={subItem.title}
                           className="w-[20px] h-[20px] object-cover object-center bg-red200 mr-4"
                         /> */}
-                        <item.icon
+                        <subItem.icon
                           className={`w-[20px] h-[20px] object-cover object-center bg-red200 mr-4`}
                         />
                         <ListItemText

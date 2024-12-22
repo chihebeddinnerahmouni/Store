@@ -8,6 +8,17 @@ interface IProduct {
   alert_stock: number;
   unité: string;
   has_serial_number: boolean;
+
+
+  image: string;
+  type: string;
+  designation: string;
+  code: string;
+  marque: string;
+  categorie: string;
+  prix: string;
+  cout: string;
+  quantité: string;
 }
 
 

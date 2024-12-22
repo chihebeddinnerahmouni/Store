@@ -25,7 +25,7 @@ import ButtonTop from "../../components/dashbored/ButtonTop"
 const ButtonsCont = () => {
   return (
       // <div className="w-full grid grid-cols-2 gap-2 pt-5 md:grid-cols-4 lg:pt-10 lg:gap-6">
-      <div className="w-full gap-2 pt-5 flex overflow-auto pb-2 justify-center lg:pt-10 lg:gap-6">
+      <div className="w-full gap-2 pt-5 flex overflow-auto pb-2 justify-start lg:pt-10 lg:gap-6">
           
             {array_buttons.map((item) => (
                 <ButtonTop
