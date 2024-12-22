@@ -70,7 +70,7 @@ interface IProductSingle {
   category: ICategory;
   brand: IBrand;
   unit: IUnit;
-  reyonage: IReyonage;
+  rayonage: IReyonage;
 }
 
 

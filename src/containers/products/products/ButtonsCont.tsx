@@ -29,8 +29,8 @@ interface ButtonsContProps {
   //   quantité: string;
   // }[];
   data: IProduct[];
-  // columns: string[];
-  columns: (keyof IProduct)[];  
+  columns: string[];
+  // columns: (keyof IProduct)[];  
     code: string;
     categorie: string;
     marque: string;

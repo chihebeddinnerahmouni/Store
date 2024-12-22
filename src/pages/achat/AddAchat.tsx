@@ -2,10 +2,16 @@ import PageTitle from "../../components/ui/PageTitle";
 import AchatStCont from "../../containers/achat/add achat/AchatStCont";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button } from "@mui/material";
 import TableCont from "../../containers/achat/add achat/TableCont";
 import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
 import TotalCont from "../../containers/achat/add achat/TotalCont";
+import axios from "axios";
+import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
+import { enqueueSnackbar } from "notistack";
+
+
+
+
 
 interface IProductCommandeItem {
   id: number;
@@ -45,13 +51,55 @@ const AddAchat = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const mainColor = "#006233";
-  const mainColorHover = "#004d26";
+  const url = import.meta.env.VITE_BASE_URL;
 
   const send = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    axios
+      .post(
+        `${url}/api/achats`,
+        {
+          provider_id: 1,
+          entrepot_id: 1,
+          user_invoice_number: "INV029",
+          date: "2024-12-20",
+          livraison_cost: 100.5,
+          products: [
+            {
+              product_id: 6,
+              quantity_declared: 15,
+              remise: 5,
+              tax: 18,
+              serial_numbers: ["SN0015"],
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        if (err.message === "Network Error") {
+          enqueueSnackbar("Erreur de connexion", { variant: "error" });
+        } else {
+          enqueueSnackbar(err.response.data.message, { variant: "error" });
+        }
+      });
+
+
+
+
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
   };
 
   const {
@@ -71,35 +119,35 @@ const AddAchat = () => {
           {/* <div className="top-left flex flex-col gap-6 xl:flex-grow"> */}
           <AchatStCont
             control={control}
-              clearErrors={clearErrors}
-              register={register}
-              errors={errors}
-              date={date}
-              setDate={setDate}
-              client={client}
-              setClient={setClient}
-              magasain={magasain}
-              setMagasain={setMagasain}
-            />
-            <TableCont
-              produit={produit}
-              setProduit={setProduit}
-              productsCommandeArray={productsCommandeArray}
-              setProductsCommandeArray={setProductsCommandeArray}
-            />
+            clearErrors={clearErrors}
+            register={register}
+            errors={errors}
+            date={date}
+            setDate={setDate}
+            client={client}
+            setClient={setClient}
+            magasain={magasain}
+            setMagasain={setMagasain}
+          />
+          <TableCont
+            produit={produit}
+            setProduit={setProduit}
+            productsCommandeArray={productsCommandeArray}
+            setProductsCommandeArray={setProductsCommandeArray}
+          />
 
-            <AchatNdCont
-              taxe={taxe}
-              setTaxe={setTaxe}
-              // remise={remise}
-              // setRemise={setRemise}
-              // laivraison={laivraison}
-              // setLaivraison={setLaivraison}
-              status={status}
-              setStatus={setStatus}
-              remarque={remarque}
-              setRemarque={setRemarque}
-            />
+          <AchatNdCont
+            taxe={taxe}
+            setTaxe={setTaxe}
+            // remise={remise}
+            // setRemise={setRemise}
+            // laivraison={laivraison}
+            // setLaivraison={setLaivraison}
+            status={status}
+            setStatus={setStatus}
+            remarque={remarque}
+            setRemarque={setRemarque}
+          />
           {/* </div> */}
           <TotalCont
             // remise={remise}
@@ -108,21 +156,16 @@ const AddAchat = () => {
             productsCommandeArray={productsCommandeArray}
           />
         </div>
-        <Button
+        <div className="button mt-5">
+        <FullShiningButton
           type="submit"
-          variant="contained"
-          disabled={loading}
-          sx={{
-            backgroundColor: mainColor,
-            color: "#fff",
-            margin: "20px 0",
-            "&:hover": {
-              backgroundColor: mainColorHover,
-            },
-          }}
-        >
-          {loading ? "En cours..." : "Soumettre"}
-        </Button>
+          loading={loading}
+          text="Soumettre"
+          color={mainColor}
+          // onClick={send}
+          onClick={handleSubmit(send)}
+        />
+        </div>
       </form>
     </div>
   );

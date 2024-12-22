@@ -528,7 +528,7 @@ const EditProduct = () => {
        setValue("unite", (data.unit.id).toString());
        setValue("stockAlert", (data.stock_alert).toString());
        // setValue("numSerie", data.has_serial_number);
-       setValue("reyonage", (data.reyonage.id).toString());
+       setValue("reyonage", (data.rayonage.id).toString());
      }
    }, [data, setValue]);
 
@@ -680,7 +680,7 @@ const data_test: IProductSingle = {
       created_at: "2024-12-22T18:53:40.000000Z",
       updated_at: "2024-12-22T18:53:40.000000Z",
     },
-    reyonage: {
+    rayonage: {
       id: 3,
       code_location: "nnnn",
       name: "testY",

@@ -23,7 +23,6 @@ import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import ViewModal from "../../../components/products/products/ViewModal";
 import IProduct from "../../../types/Product";
-import { useNavigate } from "react-router-dom";
 import DeleteModal from "../../../components/products/products/DeleteModal";
 
 
@@ -126,11 +125,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             }}
           />
         </TableCell>
-        <TableCell align="center" padding="normal" sortDirection={false}>
+        {/* <TableCell align="center" padding="normal" sortDirection={false}>
           <TableSortLabel>
             <span className="capitalize">Image</span>
           </TableSortLabel>
-        </TableCell>
+        </TableCell> */}
         {columns.map((column) => (
           <TableCell
             key={column}
@@ -222,7 +221,6 @@ export default function EnhancedTable({
   const [searchQuery, setSearchQuery] = React.useState("");
   const [viewRow, setViewRow] = React.useState<IProduct | null>(null);
   const [deleteRow, setDeleteRow] = React.useState<IProduct | null>(null);
-  const navigate = useNavigate();
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -368,7 +366,7 @@ export default function EnhancedTable({
                         }}
                       />
                     </TableCell>
-                    <TableCell
+                    {/* <TableCell
                       sx={{
                         border: "none",
                       }}
@@ -378,7 +376,7 @@ export default function EnhancedTable({
                         alt={row.designation}
                         className="w-10 h-10 bg-red200 rounded-full object-cover"
                       />
-                    </TableCell>
+                    </TableCell> */}
                     {columns.map((column, index) => (
                       <TableCell
                         key={index}
@@ -404,7 +402,7 @@ export default function EnhancedTable({
                         <UpdateButton
                           active={true}
                           onClick={() =>
-                            navigate(`/produits/modifier-produit/${row.id}`)
+                            window.open(`/produits/modifier-produit/${row.id}, _blank`)
                           }
                         />
                         <DeleteButton
@@ -444,7 +442,8 @@ export default function EnhancedTable({
       {viewRow && (
         <ViewModal
           onClose={() => setViewRow(null)}
-          row={viewRow}
+          // row={viewRow}
+          id={viewRow.id}
         /> 
       )}
       {deleteRow && (
