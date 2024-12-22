@@ -24,7 +24,7 @@ import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import ViewModal from "../../../components/products/products/ViewModal";
 import IProduct from "../../../types/Product";
 import { useNavigate } from "react-router-dom";
-
+import DeleteModal from "../../../components/products/products/DeleteModal";
 
 
 const mainColor = "#006233";
@@ -221,6 +221,7 @@ export default function EnhancedTable({
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [viewRow, setViewRow] = React.useState<IProduct | null>(null);
+  const [deleteRow, setDeleteRow] = React.useState<IProduct | null>(null);
   const navigate = useNavigate();
 
   const handleRequestSort = (
@@ -408,7 +409,7 @@ export default function EnhancedTable({
                         />
                         <DeleteButton
                           active={true}
-                          onClick={() => console.log("Delete")}
+                          onClick={() => setDeleteRow(row)}
                         />
                       </div>
                     </TableCell>
@@ -445,6 +446,12 @@ export default function EnhancedTable({
           onClose={() => setViewRow(null)}
           row={viewRow}
         /> 
+      )}
+      {deleteRow && (
+        <DeleteModal
+          onClose={() => setDeleteRow(null)}
+          row={deleteRow}
+        />
       )}
     </Box>
   );
