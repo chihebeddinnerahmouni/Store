@@ -14,7 +14,7 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
     const url = import.meta.env.VITE_BASE_URL as string;
     
-    console.log(row.id);
+    // console.log(row);
 
   const deleteFunc = () => {
     setLoading(true);
@@ -77,7 +77,7 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
           variant="h6"
           component="h2"
         >
-          Supprimer {row.name}
+          Supprimer {row.designation}
         </Typography>
 
         <Typography
@@ -88,7 +88,7 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
           variant="body1"
           component="p"
         >
-          Voulez-vous vraiment supprimer la catégorie {row.name} ?
+          Voulez-vous vraiment supprimer {row.designation} ?
         </Typography>
 
         <Box mt={2} display="flex" justifyContent="flex-end">

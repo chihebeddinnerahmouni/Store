@@ -14,6 +14,10 @@ const Products = () => {
     const [code, setCode] = useState("");
     const [categorie, setCategorie] = useState("");
   const [marque, setMarque] = useState("");
+    const [categoriesArray, setCategoriesArray] = useState<any>([]);
+    const [marquesArray, setMarquesArray] = useState<any>([]);
+  const [reyonagesArray, setReyonagesArray] = useState<any>([]);
+  
   const [data, setData] = useState<IProductSingle[]>([]);
   // const [columns, setColumns] = useState<(keyof IProductSingle)[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +41,7 @@ const Products = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -47,6 +51,7 @@ const Products = () => {
       });
   }, []);
 
+  // console.log(categorriesArray, marquesArray, unitesArray, reyonagesArray);
 
 useEffect(() => {
   const filteredData = data.map((product) => ({
@@ -75,12 +80,19 @@ useEffect(() => {
       <ButtonsCont
         data={finalData}
         columns={columns}
+        setData={setData}
         code={code}
         setCode={setCode}
         categorie={categorie}
         setCategorie={setCategorie}
         marque={marque}
         setMarque={setMarque}
+        categoriesArray={categoriesArray}
+        setCategoriesArray={setCategoriesArray}
+        marquesArray={marquesArray}
+        setMarquesArray={setMarquesArray}
+        reyonagesArray={reyonagesArray}
+        setReyonagesArray={setReyonagesArray}
       />
       <ProductsTable rows={finalData} columns={columns} />
     </div>

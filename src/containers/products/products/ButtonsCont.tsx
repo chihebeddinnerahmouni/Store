@@ -4,7 +4,7 @@ import {
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
-import { AiOutlineFileExcel } from "react-icons/ai";
+// import { AiOutlineFileExcel } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/products/products/FilterContent";
@@ -12,53 +12,54 @@ import FilterContent from "../../../components/products/products/FilterContent";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import IProduct from "../../../types/Product";
-
+import IProductSingle from "../../../types/IProductSingle";
 
 interface ButtonsContProps {
-  // data: {
-  //   id: number;
-  //   image: string;
-  //   type: string;
-  //   designation: string;
-  //   code: string;
-  //   marque: string;
-  //   categorie: string;
-  //   cout: string;
-  //   prix: string;
-  //   unité: string;
-  //   quantité: string;
-  // }[];
   data: IProduct[];
   columns: string[];
-  // columns: (keyof IProduct)[];  
-    code: string;
-    categorie: string;
-    marque: string;
-    setCode: (value: string) => void;
-    setCategorie: (value: string) => void;
-    setMarque: (value: string) => void;
+  setData: (value: IProductSingle[]) => void;
+  // columns: (keyof IProduct)[];
+  code: string;
+  categorie: string;
+  marque: string;
+  setCode: (value: string) => void;
+  setCategorie: (value: string) => void;
+  setMarque: (value: string) => void;
+  categoriesArray: any;
+  marquesArray: any;
+  reyonagesArray: any;
+  setCategoriesArray: (value: any) => void;
+  setMarquesArray: (value: any) => void;
+  setReyonagesArray: (value: any) => void;
 }
 
 const ButtonsCont = ({
     data,
-    columns,
+  columns,
+    setData,
     code,
     categorie,
     marque,
     setCode,
     setCategorie,
-    setMarque,
+  setMarque,
+  categoriesArray,
+  marquesArray,
+  reyonagesArray,
+  setCategoriesArray,
+  setMarquesArray,
+  setReyonagesArray
 }: ButtonsContProps) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
   const navigate = useNavigate();
 
   const handleFilter = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const handleExportExcel = () => {
-    console.log("Export Excel not implemented");
-  };
+  // const handleExportExcel = () => {
+  //   console.log("Export Excel not implemented");
+  // };
 
   const handleAdd = () => {
     navigate("/produits/ajouter-un-produit");
@@ -74,15 +75,16 @@ const ButtonsCont = ({
     {
       icon: <BsFiletypePdf />,
       text: "Export PDF",
-      color: "#10b981",
+      // color: "#10b981",
+      color: "#ef4444",
       onClick: () => handlePrintPdf(data, columns, "Liste-de-produites.pdf"),
     },
-    {
-      icon: <AiOutlineFileExcel />,
-      text: "Export Excel",
-      color: "#ef4444",
-      onClick: handleExportExcel,
-    },
+    // {
+    //   icon: <AiOutlineFileExcel />,
+    //   text: "Export Excel",
+    //   color: "#ef4444",
+    //   onClick: handleExportExcel,
+    // },
     {
       icon: <IoIosAddCircleOutline />,
       text: "Add",
@@ -95,6 +97,7 @@ const ButtonsCont = ({
     <section className="w-full flex flex-col items-end">
       {/* Action Buttons */}
       <div className="buttons flex flex-wrap gap-2">
+
         {buttons_array.map((button, index) => (
           <ShiningButton
             key={index}
@@ -109,7 +112,12 @@ const ButtonsCont = ({
         anchor="left"
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        sx={{
+        sx={{ 
+         "& .MuiDrawer-paper": {
+            width: "80%",
+            maxWidth: "300px",
+          },
+
           "& .MuiBackdrop-root": {
             backgroundColor: "rgba(0, 0, 0, 0.2)",
             backdropFilter: "blur(5px)",
@@ -117,13 +125,20 @@ const ButtonsCont = ({
         }}
       >
               <FilterContent
-                  close={handleFilter}
+          close={handleFilter}
+          setData={setData}
                   code={code}
                   setCode={setCode}
                   categorie={categorie}
                   setCategorie={setCategorie}
                   marque={marque}
-                  setMarque={setMarque}
+          setMarque={setMarque}
+          categoriesArray={categoriesArray}
+          setCategoriesArray={setCategoriesArray}
+          marquesArray={marquesArray}
+          setMarquesArray={setMarquesArray}
+          reyonagesArray={reyonagesArray}
+          setReyonagesArray={setReyonagesArray}
               />
       </Drawer>
     </section>

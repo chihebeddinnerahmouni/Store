@@ -97,7 +97,7 @@ const AddProduct = () => {
          })
        )
        .catch((err) => {
-         console.log(err);
+        //  console.log(err);
          setLoadingPage(false);
          if (err.message === "Network Error") {
            enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -150,13 +150,14 @@ const AddProduct = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setLoading(false);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
+        window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
