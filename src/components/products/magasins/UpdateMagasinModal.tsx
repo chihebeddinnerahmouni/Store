@@ -7,18 +7,18 @@ import { Controller } from "react-hook-form";
 import InputMultiLine from "../../ui/inputs/InputMultiLine";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import IMarque from "../../../types/marque";
+import IMagasin from "../../../types/magasin";
 
 interface AddCategoryModalProps {
-  open: boolean;
-  setOpen: (open: IMarque | null) => void;
-  data: IMarque | null;
+  // setOpen: (open: IMagasin | null) => void;
+  setOpen: () => void;
+  data: IMagasin;
 }
 
-const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
-  const [name, setName] = useState<string>(data!.name_brand);
-  const [code, setCode] = useState<string>(data!.code_brand);
-  const [description, setDescription] = useState<string>(data!.description);
+const UpdateMagasinModal = ({ setOpen, data }: AddCategoryModalProps) => {
+  const [name, setName] = useState<string>(data.nom_de_magasin);
+  const [code, setCode] = useState<string>(data.code_magasin);
+  const [description, setDescription] = useState<string>(data.description);
   const [loading, setLoading] = useState<boolean>(false);
   const url = import.meta.env.VITE_BASE_URL as string;
   const mainColor = "#006233";
@@ -33,12 +33,12 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
     setLoading(true);
     axios
       .put(
-        `${url}/api/brands/${data?.id}`,
+        `${url}/api/entreports/${data.id}`,
         {
-          code_brand: code,
-          name_brand: name,
+          code_entreport: code,
+          name: name,
           description: description,
-          status: "inactive",
+          // status: "active",
         },
         {
           headers: {
@@ -50,7 +50,6 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
         // console.log(res.data);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
-        setOpen(null);
         window.location.reload();
       })
       .catch((err) => {
@@ -85,8 +84,8 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
 
   useEffect(() => {
     if (data) {
-      setValue("name", data.name_brand);
-      setValue("code", data.code_brand);
+      setValue("name", data.code_magasin);
+      setValue("code", data.nom_de_magasin);
       setValue("description", data.description);
     }
   }, [data, setValue]);
@@ -97,8 +96,8 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
 
   return (
     <Modal
-      open={open}
-      onClose={() => setOpen(null)}
+      open={true}
+      onClose={setOpen}
       BackdropProps={{
         style: {
           backgroundColor: "rgba(0, 0, 0, 0.3)",
@@ -126,7 +125,7 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
           variant="h6"
           component="h2"
         >
-          Modifier marque
+          Modifier magasin
         </Typography>
 
         {/* texts */}
@@ -138,11 +137,11 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
             name="name"
             control={control}
             rules={{
-              required: "Le nom de la marque est obligatoire",
+              required: "Le nom de la magasin est obligatoire",
             }}
             render={({ field }) => (
               <InputText
-                label="Nom de la marque*"
+                label="Nom de la magasin*"
                 {...field}
                 value={name}
                 error={!!errors.name}
@@ -162,11 +161,11 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
             name="code"
             control={control}
             rules={{
-              required: "Le code de la marque est obligatoire",
+              required: "Le code de la magasin est obligatoire",
             }}
             render={({ field }) => (
               <InputText
-                label="Code de la marque*"
+                label="Code de la magasin*"
                 {...field}
                 error={!!errors.code}
                 value={code}
@@ -220,6 +219,5 @@ const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
     </Modal>
   );
 };
-
 
 export default UpdateMagasinModal;

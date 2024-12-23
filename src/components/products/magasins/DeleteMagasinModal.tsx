@@ -3,22 +3,21 @@ import { useState } from "react";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import IMarque from "../../../types/marque";
+import IMagasin from "../../../types/magasin";
 
 interface AddCategoryModalProps {
-  open: boolean;
-  setOpen: (open: IMarque | null) => void;
-  data: IMarque | null;
-}
+  // setOpen: (open: IMagasin | null) => void;
+  setOpen: () => void;
+  data: IMagasin}
 
-const DeleteMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
+const DeleteMagasinModal = ({ setOpen, data }: AddCategoryModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const url = import.meta.env.VITE_BASE_URL as string;
 
   const deleteFunc = () => {
     setLoading(true);
     axios
-      .delete(`${url}/api/brands/${data?.id}`, {
+      .delete(`${url}/api/entreports/${data.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -27,7 +26,6 @@ const DeleteMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
         // console.log(res.data);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
-        setOpen(null);
         window.location.reload();
       })
       .catch((err) => {
@@ -47,8 +45,8 @@ const DeleteMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
 
   return (
     <Modal
-      open={open}
-      onClose={() => setOpen(null)}
+      open={true}
+      onClose={setOpen}
       BackdropProps={{
         style: {
           backgroundColor: "rgba(0, 0, 0, 0.3)",
@@ -76,7 +74,7 @@ const DeleteMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
           variant="h6"
           component="h2"
         >
-          Supprimer {data?.name_brand}
+          Supprimer {data.nom_de_magasin}
         </Typography>
 
         <Typography
@@ -87,7 +85,7 @@ const DeleteMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
           variant="body1"
           component="p"
         >
-          Voulez-vous vraiment supprimer la catégorie {data!.name_brand} ?
+          Voulez-vous vraiment supprimer la magasin {data.nom_de_magasin} ?
         </Typography>
 
         <Box mt={2} display="flex" justifyContent="flex-end">

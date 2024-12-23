@@ -13,8 +13,8 @@ import TableTop from "../../../components/ui/TableTop";
 import IMagasin from "../../../types/magasin";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
-import UpdateMarqueModal from "../../../components/products/marque/UpdateMarqueModal";
-import DeleteMarqueModal from "../../../components/products/marque/DeleteMarqueModal";
+import UpdateMagasinModal from "../../../components/products/magasins/UpdateMagasinModal";
+import DeleteMagasinModal from "../../../components/products/magasins/DeleteMagasinModal";
 
 interface Props {
   data: IMagasin[];
@@ -142,20 +142,18 @@ const TableMarques = ({ data, columns }: Props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* {updateRow && (
-          <UpdateMarqueModal
-            open={updateRow !== null}
-            setOpen={setUpdateRow}
+        {updateRow && (
+          <UpdateMagasinModal
+            setOpen={()=> setUpdateRow(null)}
             data={updateRow}
           />
         )}
         {deleteRow && (
-          <DeleteMarqueModal
-            open={deleteRow !== null}
-            setOpen={setDeleteRow}
+          <DeleteMagasinModal
+            setOpen={()=> setDeleteRow(null)}
             data={deleteRow}
           />
-        )} */}
+        )}
       </div>
     </div>
   );
