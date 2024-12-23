@@ -20,6 +20,8 @@ import ViewButton from "../../../components/ui/buttons/actions/ViewButton";
 import ViewModal from "../../../components/gens/fournisseures/ViewModal";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import UpdateFourniModal from "../../../components/gens/fournisseures/UpdateFourniModal";
+import DeleteFourniModal from "../../../components/gens/fournisseures/DeleteFourniModal";
+import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
 
 
 const mainColor = "#006233";
@@ -192,6 +194,7 @@ export default function EnhancedTable({
   const [searchQuery, setSearchQuery] = React.useState("");
   const [viewRow, setViewRow] = React.useState<IFournisseures | null>(null);
   const [updateRow, setUpdateRow] = React.useState<IFournisseures | null>(null);
+  const [deleteRow, setDeleteRow] = React.useState<IFournisseures | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -367,6 +370,10 @@ export default function EnhancedTable({
                         onClick={() => setUpdateRow(row)}
                         active={true}
                       />
+                      <DeleteButton
+                        onClick={() => setDeleteRow(row)}
+                        active={true}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -404,6 +411,12 @@ export default function EnhancedTable({
       <UpdateFourniModal
         onClose={() => setUpdateRow(null)}
           row={updateRow}
+        />
+      }
+      {deleteRow &&
+      <DeleteFourniModal
+        onClose={() => setDeleteRow(null)}
+          row={deleteRow}
         />
       }
     </Box>

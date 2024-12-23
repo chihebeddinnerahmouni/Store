@@ -50,7 +50,7 @@ const {
     
      useEffect(() => {
        if (row) {
-           setValue("name", row.name);
+           setValue("name", row.nom);
            setValue("email", row.email);
            setValue("phone", row.téléphone);
            setValue("address", row.address);    
