@@ -1,4 +1,4 @@
-import InputText from "../../../../ui/inputs/InputNumber";
+import InputText from "../../../../ui/inputs/InputText";
 import Label from "../../../../ui/Label";
 import { useContext } from "react";
 import { AchatsContext } from "../../../../../pages/achat/Achats";

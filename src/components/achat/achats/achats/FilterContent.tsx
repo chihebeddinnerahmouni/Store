@@ -11,9 +11,12 @@ import UserInvNumber from "./filter content/UserInvNumber";
 import Remark from "./filter content/Remark";
 import Category from "./filter content/Category";
 import MinLaivraison from "./filter content/MinLaivraison";
-// import { useContext } from "react";
-// import { AchatsContext } from "../../../pages/achat/Achats";
+import { useContext } from "react";
+import { AchatsContext } from "../../../../pages/achat/Achats";
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
+import { useState } from "react";
+
 
 
 interface Props {
@@ -53,51 +56,68 @@ const FilterContent = ({
 
 }: Props) => {
 
-  // const {
-  //   setData,
-  //   date,
-  //   endDate,
-  //   reference,
-  //   userInvNumber,
-  //   remark,
-  //   category,
-  //   minLaivraison,
-  //   maxLaivraison,
-  //   fournisseur,
-  //   magasin,
-  // } = useContext(AchatsContext);
+  const {
+    // setData,
+    date,
+    endDate,
+    reference,
+    userInvNumber,
+    remark,
+    // category,
+    minLaivraison,
+    maxLaivraison,
+    fournisseur,
+    magasin,
+  } = useContext(AchatsContext);
   const url = import.meta.env.VITE_BASE_URL;
+  const [loading, setLoading] = useState(false);
   
   const search = () => {
+    setLoading(true);
     axios
-      .get(
+      .post(
         url + "/api/achats/filter/get",
+        {
+          provider_id: fournisseur, // Search by provider ID
+          entrepot_id: magasin, // Search by entrepot ID
+          invoice_number: reference, // Search by invoice number (exact or partial match)
+          user_invoice_number: userInvNumber, // Search by user-defined invoice number (exact or partial match)
+          date_start: date, // Start date for filtering purchases (YYYY-MM-DD format)
+          date_end: endDate, // End date for filtering purchases (YYYY-MM-DD format, must be >= date_start)
+          // product_id: 3, // Search purchases involving a specific product ID
+          remarks: remark, // Search by remarks (exact or partial match)
+          // created_by: 1, // Search by user ID who created the purchase
+          // updated_by: 2, // Search by user ID who updated the purchase
+          livraison_cost_min: minLaivraison, // Minimum delivery cost for filtering purchases
+          livraison_cost_max: maxLaivraison, // Maximum delivery cost for filtering purchases
+        },
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
-        },
-        // {
-        //   provider_id: 1, // Search by provider ID
-        //   entrepot_id: 1, // Search by entrepot ID
-        //   invoice_number: "INV001", // Search by invoice number (exact or partial match)
-        //   user_invoice_number: "USERINV123", // Search by user-defined invoice number (exact or partial match)
-        //   date_start: "2024-01-01", // Start date for filtering purchases (YYYY-MM-DD format)
-        //   date_end: "2024-12-31", // End date for filtering purchases (YYYY-MM-DD format, must be >= date_start)
-        //   product_id: 3, // Search purchases involving a specific product ID
-        //   remarks: "urgent", // Search by remarks (exact or partial match)
-        //   created_by: 1, // Search by user ID who created the purchase
-        //   updated_by: 2, // Search by user ID who updated the purchase
-        //   livraison_cost_min: 50.0, // Minimum delivery cost for filtering purchases
-        //   livraison_cost_max: 200.0, // Maximum delivery cost for filtering purchases
-        // }
+        }
       )
       .then((res) => {
         // setData(res.data);
         console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err.response.data);
+        setLoading(false);
+        if (err.message === "Network Error") {
+          enqueueSnackbar("Erreur de connexion", { variant: "error" });
+        } else {
+          const check = typeof err.response.data.message === "string";
+          if (check) {
+            enqueueSnackbar(err.response.data.message, { variant: "error" });
+          } else {
+            Object.keys(err.response.data.message).map((key) => {
+              err.response.data.message[key].map((err: any) => {
+                enqueueSnackbar(err, { variant: "error" });
+              });
+            });
+          } 
+        };
       });
   }
 
@@ -148,6 +168,7 @@ const FilterContent = ({
               icon={button.icon}
               color={button.color}
               onClick={button.onClick}
+              loading={loading}
             />
           ))}
         </div>
