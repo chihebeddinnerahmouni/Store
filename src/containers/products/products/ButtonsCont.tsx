@@ -50,7 +50,7 @@ const ButtonsCont = ({
   setMarquesArray,
   setReyonagesArray
 }: ButtonsContProps) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleFilter = () => {

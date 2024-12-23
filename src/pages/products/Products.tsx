@@ -51,9 +51,9 @@ const Products = () => {
       });
   }, []);
 
-  // console.log(categorriesArray, marquesArray, unitesArray, reyonagesArray);
 
-useEffect(() => {
+  useEffect(() => {
+  // console.log(data);
   const filteredData = data.map((product) => ({
     id: product.id,
     designation: product.name,
