@@ -16,6 +16,9 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
 import IFournisseures from "../../../types/fournisseures";
+import ViewButton from "../../../components/ui/buttons/actions/ViewButton"; 
+import ViewModal from "../../../components/gens/fournisseures/ViewModal";
+
 
 const mainColor = "#006233";
 
@@ -185,6 +188,7 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [viewRow, setViewRow] = React.useState<IFournisseures | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -349,7 +353,10 @@ export default function EnhancedTable({
                         border: "none",
                       }}
                     >
-                      actionshh
+                      <ViewButton
+                        onClick={() => setViewRow(row)}
+                        active={true}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -377,6 +384,16 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      {/* <ViewModal
+        onClose={() => setViewRow(null)}
+        id={viewRow?.id as number}
+      /> */}
+      {viewRow && 
+      <ViewModal
+        onClose={() => setViewRow(null)}
+         row={viewRow}        
+      />
+      }
     </Box>
   );
 }
