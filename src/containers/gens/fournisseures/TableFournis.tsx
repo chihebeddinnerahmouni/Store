@@ -35,8 +35,8 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
+  a: { [key in Key]: number | string | null},
+  b: { [key in Key]: number | string | null}
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -344,6 +344,7 @@ export default function EnhancedTable({
                       </TableCell>
                     ))}
                     <TableCell
+                      align="center"
                       sx={{
                         border: "none",
                       }}
@@ -383,7 +384,7 @@ export default function EnhancedTable({
 
 const columnName = (column: string) => {
 
-  if (column === "total_dette") return "Total de la dette de retour d'achat";
+  // if (column === "total_dette") return "Total de la dette de retour d'achat";
   return column
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

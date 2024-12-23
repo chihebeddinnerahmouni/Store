@@ -47,12 +47,12 @@ const Login = () => {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
-        setLoading(false);
       });
   };
 
