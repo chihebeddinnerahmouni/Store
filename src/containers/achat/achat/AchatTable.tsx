@@ -19,6 +19,8 @@ import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import IAchat from "../../../types/achat";
+import {IAchatTable} from "../../../types/achat";
+
 
 const mainColor = "#006233";
 
@@ -52,8 +54,8 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
+  a: { [key in Key]: number | string | null | any[] },
+  b: { [key in Key]: number | string | null | any[] }
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -193,7 +195,8 @@ export default function EnhancedTable({
   columns,
 }: {
   rows: IAchat[];
-  columns: string[];
+    // columns: string[];
+    columns: (keyof IAchatTable)[];
 }) {
   // React.useEffect(() => {
   //   console.log(rows);
@@ -360,7 +363,7 @@ export default function EnhancedTable({
                         }}
                       >
                         {/* {row[column as keyof IAchat]} */}
-                        {column === "reference" ? (
+                        {/* {column === "reference" ? (
                           <p className="text-blue-500">
                             {row[column as keyof IAchat]}
                           </p>
@@ -382,7 +385,8 @@ export default function EnhancedTable({
                           )
                         ) : (
                           <p>{row[column as keyof IAchat]}</p>
-                        )}
+                        )} */}
+                        {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
@@ -421,3 +425,42 @@ export default function EnhancedTable({
     </Box>
   );
 }
+
+
+
+
+
+
+const Colval = (column: string, row: IAchat) => {
+  switch (column) {
+    case "reference":
+      return (
+        <p className="text-blue-500">{row[column as keyof IAchatTable]}</p>
+      );
+    case "status_de_paiement":
+      switch (row[column as keyof IAchatTable]) {
+        case "partiel":
+          return (
+            <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
+              {row[column as keyof IAchatTable]}
+            </span>
+          );
+        case "non paid":
+          return (
+            <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
+              {row[column as keyof IAchatTable]}
+            </span>
+          );
+        case "paid":
+          return (
+            <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
+              {row[column as keyof IAchatTable]}
+            </span>
+          );
+        default:
+          return <p>{row[column as keyof IAchatTable]}</p>;
+      }
+    default:
+      return <p>{row[column as keyof IAchatTable]}</p>;
+  }
+};
