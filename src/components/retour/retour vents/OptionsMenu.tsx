@@ -1,7 +1,6 @@
-import ActionButton from "../../ui/buttons/actions/ActionButton"
-import { SlOptions } from "react-icons/sl";
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
+import OptionsButton from "../../ui/buttons/actions/OptionsButton";
 
 
 
@@ -24,12 +23,7 @@ const OptionsMenu = () => {
 
   return (
     <div className="">
-      <ActionButton
-        icon={<SlOptions />}
-        active={true}
-        color="#3b82f6"
-        onClick={handleOpen}
-      />
+      <OptionsButton onClick={handleOpen} active={true} />
       <Menu
         anchorEl={isOptoinsOpen}
         open={Boolean(isOptoinsOpen)}

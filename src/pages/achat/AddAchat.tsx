@@ -36,8 +36,8 @@ type FormValues = {
 
 const AddAchat = () => {
   const [date, setDate] = useState<string>("");
-  const [fournisseure, setFournisseure] = useState<string>("");
-  const [magasain, setMagasain] = useState<string>("");
+  const [fournisseure, setFournisseure] = useState<number>(0);
+  const [magasain, setMagasain] = useState<number>(0);
   const [produit, setProduit] = useState<string>("");
   const [productsCommandeArray, setProductsCommandeArray] = useState<
     IProductCommandeItem[]
@@ -54,12 +54,12 @@ const AddAchat = () => {
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
-  console.log(fournisseuresArray, magasainsArray);
+  // console.log(fournisseuresArray, magasainsArray);
 
 
   useEffect(() => { 
     Promise.all([
-      axios.get(`${url}/api/entreports`, {
+      axios.get(`${url}/api/entreports/authorized/get`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -71,9 +71,9 @@ const AddAchat = () => {
       }),
     ])
       .then((res) => {
-        console.log(res);
-        setFournisseuresArray(res[0].data.providers);
-        setMagasainsArray(res[1].data.entrepots);
+        // console.log(res[0].data.entrepots);
+        setFournisseuresArray(res[1].data.providers);
+        setMagasainsArray(res[0].data.entrepots);
         setLoadingPage(false);
       })
       .catch((err) => {
@@ -100,11 +100,11 @@ const AddAchat = () => {
       .post(
         `${url}/api/achats`,
         {
-          provider_id: 1,
-          entrepot_id: 1,
+          provider_id: fournisseure,
+          entrepot_id: magasain,
           user_invoice_number: "INV029",
-          date: "2024-12-20",
-          livraison_cost: 100.5,
+          date: date,
+          // livraison_cost: 100.5,
           products: [
             {
               product_id: 6,
@@ -152,7 +152,7 @@ const AddAchat = () => {
   } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = send;
     
-
+// console.log(date);
 
     if (loadingPage) return <Loading />;
 
@@ -173,6 +173,8 @@ const AddAchat = () => {
             setFournisseur={setFournisseure}
             magasain={magasain}
             setMagasain={setMagasain}
+            fournisseuresArray={fournisseuresArray}
+            magasainsArray={magasainsArray}
           />
           <TableCont
             produit={produit}

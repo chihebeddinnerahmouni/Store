@@ -19,24 +19,11 @@ import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import IAchat from "../../../types/achat";
-import {IAchatTable} from "../../../types/achat";
+import { IAchatTable } from "../../../types/achat";
+import OptionsMenu from "../../../components/achat/achats/OptionsMenu";
 
 
 const mainColor = "#006233";
-
-// interface Data {
-//   id: number;
-//   image: string;
-//   type: string;
-//   designation: string;
-//   code: string;
-//   marque: string;
-//   categorie: string;
-//   prix: string;
-//   cout: string;
-//   unité: string;
-//   quantité: string;
-// }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -117,7 +104,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={column}
             sx={{whiteSpace: "nowrap"}}
-            align="center"
+            align="left"
             padding="normal"
             sortDirection={orderBy === column ? order : false}
           >
@@ -257,9 +244,6 @@ export default function EnhancedTable({
     setPage(0);
   };
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
@@ -288,7 +272,7 @@ export default function EnhancedTable({
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <TableContainer>
+        <TableContainer >
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
@@ -356,59 +340,30 @@ export default function EnhancedTable({
                       <TableCell
                         key={index}
                         padding="normal"
-                        align="center"
+                        align="left"
                         sx={{
                           border: "none",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {/* {row[column as keyof IAchat]} */}
-                        {/* {column === "reference" ? (
-                          <p className="text-blue-500">
-                            {row[column as keyof IAchat]}
-                          </p>
-                        ) : column === "status_de_paiement" ? (
-                          row[column as keyof IAchat] === "partiel" ? (
-                            <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
-                              {row[column as keyof IAchat]}
-                            </span>
-                          ) : row[column as keyof IAchat] === "non paid" ? (
-                            <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-                              {row[column as keyof IAchat]}
-                            </span>
-                          ) : row[column as keyof IAchat] === "paid" ? (
-                            <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
-                              {row[column as keyof IAchat]}
-                            </span>
-                          ) : (
-                            <p>{row[column as keyof IAchat]}</p>
-                          )
-                        ) : (
-                          <p>{row[column as keyof IAchat]}</p>
-                        )} */}
                         {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
+                      align="center"
                       sx={{
                         border: "none",
                       }}
                     >
-                      actionshh
+                      <OptionsMenu
+                        active={true}
+                        // onClick={() => setSelectedRow(row)}
+                        row={row}
+                      />
                     </TableCell>
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  empty
-                  <TableCell colSpan={columns.length + 1} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -147,21 +147,22 @@ import SelectInput from "../../../ui/inputs/SelectInput";
 import { Controller } from "react-hook-form";
 
 interface DesignationProps {
+  options: any[];
   control: any;
   register: any;
   errors: any;
   id: string;
-  setValue: (value: string) => void;
-  value: string;
+  setValue: (value: number) => void;
+  value: number;
   clearErrors: (name: string) => void;
 }
 
-const options_array = [
-  { id: 1, name: "magasin 1" },
-  { id: 2, name: "magasin 2" },
-  { id: 3, name: "magasin 3" },
-  { id: 4, name: "magasin 4" },
-];
+// const options_array = [
+//   { id: 1, name: "magasin 1" },
+//   { id: 2, name: "magasin 2" },
+//   { id: 3, name: "magasin 3" },
+//   { id: 4, name: "magasin 4" },
+// ];
 
 const Magasain = ({
   control,
@@ -170,7 +171,16 @@ const Magasain = ({
   value,
   setValue,
   clearErrors,
+  options,
 }: DesignationProps) => {
+  // console.log(options);
+  
+const newOptions = options.map((option) => ({
+  id: option.id,
+  name: option.name,
+}));
+
+
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={id} text={"Magasin*"} />
@@ -181,19 +191,35 @@ const Magasain = ({
         rules={{ required: "ce champ est obligatoire" }}
         render={({ field }) => (
           <SelectInput
-            options={options_array}
+            options={newOptions}
             label="Selectionnez le magasin*"
             {...field}
             error={!!errors.magasain}
             helperText={errors.magasain?.message}
-            value={value}
+            value={
+              value === 0
+                ? ""
+                : newOptions.find((option) => option.id === value)?.name
+            }
             setValue={(value: string) => {
-              setValue(value);
+              const selectedOption = newOptions.find(
+                (option) => option.name === value
+              );
+              const valueId = selectedOption ? selectedOption.id : 0;
+              setValue(valueId);
               field.onChange(value);
-              if (errors.magasain) {
+              if (errors.category) {
                 clearErrors("magasain");
               }
             }}
+            // value={value}
+            // setValue={(value: string) => {
+            //   setValue(value);
+            //   field.onChange(value);
+            //   if (errors.magasain) {
+            //     clearErrors("magasain");
+            //   }
+            // }}
           />
         )}
       />

@@ -11,10 +11,12 @@ interface ProductStContProps {
   setDate: (value: string) => void;
   // client: string;
   // setClient: (value: string) => void;
-  fournisseur: string;
-  setFournisseur: (value: string) => void;
-  magasain: string;
-  setMagasain: (value: string) => void;
+  fournisseur: number;
+  setFournisseur: (value: number) => void;
+  magasain: number;
+  setMagasain: (value: number) => void;
+  fournisseuresArray: any[];
+  magasainsArray: any[];
 }
 
 const AchatStCont = ({
@@ -30,6 +32,8 @@ const AchatStCont = ({
   setFournisseur,
   magasain,
   setMagasain,
+  fournisseuresArray,
+  magasainsArray,
 }: ProductStContProps) => {
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
@@ -44,6 +48,7 @@ const AchatStCont = ({
       />
 
       <Fournisseur
+        options={fournisseuresArray}
         control={control}
         clearErrors={clearErrors}
         register={register}
@@ -54,6 +59,7 @@ const AchatStCont = ({
       />
 
       <Magasain
+        options={magasainsArray}
         control={control}
         clearErrors={clearErrors}
         register={register}
