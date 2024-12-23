@@ -1,6 +1,6 @@
-import Date from "../../../components/achat/add achat/1stCont/Date";
-import Client from "../../../components/achat/add achat/1stCont/Fournisseur";
-import Magasain from "../../../components/achat/add achat/1stCont/Magasain";
+import Date from "../../../components/ventes/1stCont/Date";
+import Client from "../../../components/ventes/1stCont/Client";
+import Magasain from "../../../components/ventes/1stCont/Magasain";
 
 interface ProductStContProps {
   control: any;
