@@ -16,7 +16,7 @@ const ViewModal = ({ onClose, row }: ViewModalProps) => {
     >([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log(row);
+  // console.log(row);
 
   useEffect(() => {
   const table = [
