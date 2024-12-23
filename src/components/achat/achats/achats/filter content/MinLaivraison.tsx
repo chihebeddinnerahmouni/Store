@@ -1,7 +1,7 @@
-import InputNumber from "../../../ui/inputs/InputNumber";
-import Label from "../../../ui/Label";
+import InputNumber from "../../../../ui/inputs/InputNumber";
+import Label from "../../../../ui/Label";
 import { useContext } from "react";
-import { AchatsContext } from "../../../../pages/achat/Achats";
+import { AchatsContext } from "../../../../../pages/achat/Achats";
 
 const MinLaivraison = () => {
   const { minLaivraison, setMinLaivraison } = useContext(AchatsContext);

@@ -20,7 +20,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
 import IAchat from "../../../types/achat";
 import { IAchatTable } from "../../../types/achat";
-import OptionsMenu from "../../../components/achat/achats/OptionsMenu";
+import OptionsMenu from "../../../components/achat/achats/achats/OptionsMenu";
 
 
 const mainColor = "#006233";
@@ -357,7 +357,7 @@ export default function EnhancedTable({
                     >
                       <OptionsMenu
                         active={true}
-                        // onClick={() => setSelectedRow(row)}
+                        columns={columns}
                         row={row}
                       />
                     </TableCell>

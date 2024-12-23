@@ -1,7 +1,7 @@
-import SelectInput from "../../../ui/inputs/SelectInput";
-import Label from "../../../ui/Label";
+import SelectInput from "../../../../ui/inputs/SelectInput";
+import Label from "../../../../ui/Label";
 import { useContext } from "react";
-import { AchatsContext } from "../../../../pages/achat/Achats";
+import { AchatsContext } from "../../../../../pages/achat/Achats";
 
 
 

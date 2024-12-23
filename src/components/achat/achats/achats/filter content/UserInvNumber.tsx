@@ -1,7 +1,7 @@
-import InputText from "../../../ui/inputs/InputNumber";
-import Label from "../../../ui/Label";
+import InputText from "../../../../ui/inputs/InputNumber";
+import Label from "../../../../ui/Label";
 import { useContext } from "react";
-import { AchatsContext } from "../../../../pages/achat/Achats";
+import { AchatsContext } from "../../../../../pages/achat/Achats";
 
 const UserInvNumber = () => {
   const { userInvNumber, setUserInvNumber } = useContext(AchatsContext);

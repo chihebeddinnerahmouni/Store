@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { BsArrowRepeat } from "react-icons/bs";
 import { CiFilter } from "react-icons/ci";
-import FullShiningButton from "../../ui/buttons/FullShiningButton";
+import FullShiningButton from "../../../ui/buttons/FullShiningButton";
 import Fourni from "./filter content/fourni";
 import Magasin from "./filter content/Magasin";
 import StartDate from "./filter content/StartDate";

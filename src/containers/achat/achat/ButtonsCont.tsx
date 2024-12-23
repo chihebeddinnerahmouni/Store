@@ -5,7 +5,7 @@ import { BsFiletypePdf } from "react-icons/bs";
 // import { AiOutlineFileExcel } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Drawer from "@mui/material/Drawer";
-import FilterContent from "../../../components/achat/achats/FilterContent";
+import FilterContent from "../../../components/achat/achats/achats/FilterContent";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
 // import IAchat from "../../../types/achat";
@@ -53,7 +53,7 @@ const ButtonsCont = (
 ) => {
  const { data, columns } = useContext(AchatsContext);
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleFilter = () => {

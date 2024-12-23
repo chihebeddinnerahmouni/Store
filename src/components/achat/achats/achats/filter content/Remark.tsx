@@ -1,7 +1,7 @@
-import InputText from "../../../ui/inputs/InputText";
-import Label from "../../../ui/Label";
+import InputText from "../../../../ui/inputs/InputText";
+import Label from "../../../../ui/Label";
 import { useContext } from "react";
-import { AchatsContext } from "../../../../pages/achat/Achats";
+import { AchatsContext } from "../../../../../pages/achat/Achats";
 
 const Remark = () => {
   const { remark, setRemark } = useContext(AchatsContext);

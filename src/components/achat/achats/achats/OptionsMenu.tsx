@@ -1,25 +1,30 @@
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
-import OptionsButton from "../../ui/buttons/actions/OptionsButton";
-import IAchat from "../../../types/achat";
+import OptionsButton from "../../../ui/buttons/actions/OptionsButton";
+import IAchat from "../../../../types/achat";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
+import createPDF from "../../../../helper/create_pdf_from_object";
+import Details from "./Details";
+
 
 interface OptionsMenuProps {
   active: boolean;
   row: IAchat;
+  columns: any[];
 }
 
 const OptionsMenu = ({
   active,
-  row
+  row,
+  columns
 }: OptionsMenuProps) => {
 
   // console.log(row);
 
-    const [isOptoinsOpen, setIsOptionsOpen] = useState<null | HTMLElement>(
-      null
-  );
+  const [isOptoinsOpen, setIsOptionsOpen] = useState<null | HTMLElement>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+
   const url = import.meta.env.VITE_BASE_URL as string;
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -53,19 +58,19 @@ const OptionsMenu = ({
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
       });
-
   }
+
+  // console.log(columns);
+  // console.log(row);
+
+
   
 
 
   const options = [
     {
       title: "Details De L'achat",
-      onClick: () => {},
-    },
-    {
-      title: "Retour Des Achats",
-      onClick: () => {},
+      onClick: () => {setDetailsOpen(true)},
     },
     {
       title: "Modifier LA Laivraison",
@@ -73,7 +78,7 @@ const OptionsMenu = ({
     },
     {
       title: "Télécharger Le PDF",
-      onClick: () => {},
+      onClick: () => createPDF(row, columns, "Achat"),
     },
     {
       title: "Supprimer L'achat",
@@ -106,6 +111,10 @@ const OptionsMenu = ({
           </MenuItem>
         ))}
       </Menu>
+
+      {detailsOpen && 
+        <Details onClose={() => setDetailsOpen(false)} row={row} />
+      }
     </div>
   );
 }
