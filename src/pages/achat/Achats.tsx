@@ -7,33 +7,62 @@ import Loading from "../../components/ui/Loading";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { IAchatTable } from "../../types/achat";
+import { createContext } from "react";
+
+export const AchatsContext = createContext<any>(null);
 
 
 const Achats = () => {
-
-    const [date, setDate] = useState("");
-    const [reference, setReference] = useState("");
-    const [fournisseur, setFournisseur] = useState("");
-    const [magasin, setMagasin] = useState("");
-    const [status, setStatus] = useState("");
-  const [paimentStatus, setPaimentStatus] = useState("");
+  const [date, setDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [reference, setReference] = useState("");
+  const [userInvNumber, setUserInvNumber] = useState("");
+  // const [productId, setProductId] = useState("");
+  const [remark, setRemark] = useState("");
+  const [category, setCategory] = useState(0);
+  // const [createdBy, setCreatedBy] = useState("");
+  // const [updatedBy, setUpdatedBy] = useState("");
+  const [minLaivraison, setMinLaivraison] = useState("");
+  const [maxLaivraison, setMaxLaivraison] = useState("");
+  const [fournisseur, setFournisseur] = useState(0);
+  const [magasin, setMagasin] = useState(0);
+  // const [status, setStatus] = useState("");
+  // const [paimentStatus, setPaimentStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IAchat[]>([]);
-  // const [columns, setColumns] = useState<string[]>([]);
+  const [categoriesArray, setCategoriesArray] = useState<any[]>([]);
+  const [fourniArray, setFourniArray] = useState<any[]>([]);
+  const [magasinArray, setMagasinArray] = useState<any[]>([]);
+
   const columns = columns_test;
   const url = import.meta.env.VITE_BASE_URL as string;
 
-
   useEffect(() => {
-    axios
-      .get(`${url}/api/achats`, {
+    Promise.all([
+      axios.get(`${url}/api/achats`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
-      })
+        },
+      }),
+      axios.get(`${url}/api/entreports`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+      axios.get(`${url}/api/providers`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+      axios.get(`${url}/api/categories`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+    ])
       .then((res) => {
-        // console.log(res.data.achats[0]);
-        const modifiedAchats = res.data.achats.map((achat: IAchat) => {
+        // console.log(res[3].data.categories);
+        const modifiedAchats = res[0].data.achats.map((achat: IAchat) => {
           return {
             ...achat,
             date: new Date(achat.created_at).toLocaleDateString(),
@@ -45,6 +74,9 @@ const Achats = () => {
           };
         });
         setData(modifiedAchats);
+        setMagasinArray(res[1].data.entrepots);
+        setFourniArray(res[2].data.providers);
+        setCategoriesArray(res[3].data.categories);
         setLoading(false);
       })
       .catch((err) => {
@@ -55,39 +87,73 @@ const Achats = () => {
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
       });
-
-
-
     // setData(data_test);
     // setColumns(columns_test);
   }, []);
-
-
 
   if (loading) {
     return <Loading />;
   }
 
+  // console.log(endDate);
+
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Liste des achats" />
-      <ButtonsCont
-        data={data}
-        columns={columns}
-        date={date}
-        setDate={setDate}
-        reference={reference}
-        setReference={setReference}
-        fournisseur={fournisseur}
-        setFournisseur={setFournisseur}
-        magasin={magasin}
-        setMagasin={setMagasin}
-        status={status}
-        setStatus={setStatus}
-        paimentStatus={paimentStatus}
-        setPaimentStatus={setPaimentStatus}
-      />
-      <AchatTable rows={data} columns={columns} />
+      <AchatsContext.Provider
+        value={{
+          data,
+          setData,
+          columns,
+          date,
+          setDate,
+          endDate,
+          setEndDate,
+          reference,
+          setReference,
+          userInvNumber,
+          setUserInvNumber,
+          remark,
+          setRemark,
+          fournisseur,
+          setFournisseur,
+          magasin,
+          setMagasin,
+          // status,
+          // setStatus,
+          // paimentStatus,
+          // setPaimentStatus,
+          fourniArray,
+          magasinArray,
+          category,
+          setCategory,
+          categoriesArray,
+          minLaivraison,
+          setMinLaivraison,
+          maxLaivraison,
+          setMaxLaivraison,
+        }}
+      >
+        <PageTitle text="Liste des achats" />
+        <ButtonsCont
+        // data={data}
+        // columns={columns}
+        // date={date}
+        // setDate={setDate}
+        // reference={reference}
+        // setReference={setReference}
+        // fournisseur={fournisseur}
+        // setFournisseur={setFournisseur}
+        // magasin={magasin}
+        // setMagasin={setMagasin}
+        // status={status}
+        // setStatus={setStatus}
+        // paimentStatus={paimentStatus}
+        // setPaimentStatus={setPaimentStatus}
+        // fournisseurArray={fourniArray}
+        // magasinArray={magasinArray}
+        />
+        <AchatTable rows={data} columns={columns} />
+      </AchatsContext.Provider>
     </div>
   );
 };
