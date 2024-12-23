@@ -142,8 +142,8 @@
 // );
 
 // export default Client;
-import Label from "../../../ui/Label";
-import SelectInput from "../../../ui/inputs/SelectInput";
+import Label from "../../ui/Label";
+import SelectInput from "../../ui/inputs/SelectInput";
 import { Controller } from "react-hook-form";
 
 interface DesignationProps {

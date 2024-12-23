@@ -1,6 +1,6 @@
 import PageTitle from "../../components/ui/PageTitle";
 import AchatStCont from "../../containers/achat/add achat/AchatStCont";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TableCont from "../../containers/achat/add achat/TableCont";
 import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
@@ -8,7 +8,7 @@ import TotalCont from "../../containers/achat/add achat/TotalCont";
 import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
-
+import Loading from "../../components/ui/Loading";
 
 
 
@@ -30,13 +30,13 @@ interface IProductCommandeItem {
 
 type FormValues = {
   date: string;
-  client: string;
+  fournisseur: string;
   magasain: string;
 };
 
 const AddAchat = () => {
   const [date, setDate] = useState<string>("");
-  const [client, setClient] = useState<string>("");
+  const [fournisseure, setFournisseure] = useState<string>("");
   const [magasain, setMagasain] = useState<string>("");
   const [produit, setProduit] = useState<string>("");
   const [productsCommandeArray, setProductsCommandeArray] = useState<
@@ -47,11 +47,51 @@ const AddAchat = () => {
   // const [laivraison, setLaivraison] = useState<string>("");
   const [status, setStatus] = useState<string>("");
   const [remarque, setRemarque] = useState<string>("");
-
   const [loading, setLoading] = useState<boolean>(false);
+  const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
+  const [magasainsArray, setMagasainsArray] = useState<any[]>([]);
+  const [loadingPage, setLoadingPage] = useState<boolean>(true);
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
+
+
+  useEffect(() => { 
+    Promise.all([
+      axios.get(`${url}/api/entreports`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+      axios.get(`${url}/api/providers`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+    ])
+      .then((res) => {
+        console.log(res);
+        setFournisseuresArray(res[0].data.providers);
+        setMagasainsArray(res[1].data.entrepots);
+        setLoadingPage(false);
+      })
+      .catch((err) => {
+        if (err.message === "Network Error") {
+          enqueueSnackbar("Erreur de connexion", { variant: "error" });
+        } else {
+          enqueueSnackbar(err.response.data.message, { variant: "error" });
+        }
+      });
+  }, []);
+
+
+
+
+
+
+
+
+
 
   const send = () => {
     setLoading(true);
@@ -109,7 +149,11 @@ const AddAchat = () => {
     formState: { errors },
     clearErrors,
   } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = send;
+    const onSubmit: SubmitHandler<FormValues> = send;
+    
+
+
+    if (loadingPage) return <Loading />;
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -124,8 +168,8 @@ const AddAchat = () => {
             errors={errors}
             date={date}
             setDate={setDate}
-            client={client}
-            setClient={setClient}
+            fournisseur={fournisseure}
+            setFournisseur={setFournisseure}
             magasain={magasain}
             setMagasain={setMagasain}
           />
@@ -157,14 +201,14 @@ const AddAchat = () => {
           />
         </div>
         <div className="button mt-5">
-        <FullShiningButton
-          type="submit"
-          loading={loading}
-          text="Soumettre"
-          color={mainColor}
-          // onClick={send}
-          onClick={handleSubmit(send)}
-        />
+          <FullShiningButton
+            type="submit"
+            loading={loading}
+            text="Soumettre"
+            color={mainColor}
+            // onClick={send}
+            onClick={handleSubmit(send)}
+          />
         </div>
       </form>
     </div>

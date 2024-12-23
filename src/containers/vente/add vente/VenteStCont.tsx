@@ -1,5 +1,5 @@
 import Date from "../../../components/achat/add achat/1stCont/Date";
-import Client from "../../../components/achat/add achat/1stCont/Client";
+import Client from "../../../components/achat/add achat/1stCont/Fournisseur";
 import Magasain from "../../../components/achat/add achat/1stCont/Magasain";
 
 interface ProductStContProps {

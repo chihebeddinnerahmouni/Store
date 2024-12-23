@@ -1,5 +1,5 @@
 import Date from "../../../components/achat/add achat/1stCont/Date";
-import Client from "../../../components/achat/add achat/1stCont/Client";
+import Fournisseur from "../../../components/achat/add achat/1stCont/Fournisseur";
 import Magasain from "../../../components/achat/add achat/1stCont/Magasain";
 
 interface ProductStContProps {
@@ -9,8 +9,10 @@ interface ProductStContProps {
   errors: any;
   date: string;
   setDate: (value: string) => void;
-  client: string;
-  setClient: (value: string) => void;
+  // client: string;
+  // setClient: (value: string) => void;
+  fournisseur: string;
+  setFournisseur: (value: string) => void;
   magasain: string;
   setMagasain: (value: string) => void;
 }
@@ -22,8 +24,10 @@ const AchatStCont = ({
   errors,
   date,
   setDate,
-  client,
-  setClient,
+  // client,
+  // setClient,
+  fournisseur,
+  setFournisseur,
   magasain,
   setMagasain,
 }: ProductStContProps) => {
@@ -39,14 +43,14 @@ const AchatStCont = ({
         id={"date"}
       />
 
-      <Client
+      <Fournisseur
         control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
         id={"client"}
-        value={client}
-        setValue={setClient}
+        value={fournisseur}
+        setValue={setFournisseur}
       />
 
       <Magasain
