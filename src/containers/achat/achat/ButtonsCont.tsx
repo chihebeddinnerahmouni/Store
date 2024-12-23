@@ -8,7 +8,7 @@ import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/achat/achats/FilterContent";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import IAchat from "../../../types/achat";
+// import IAchat from "../../../types/achat";
 import { useContext } from "react";
 import { AchatsContext } from "../../../pages/achat/Achats";
 
