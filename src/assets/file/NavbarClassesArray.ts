@@ -12,7 +12,7 @@ import { IoManOutline } from "react-icons/io5";
 import { IoBackspaceOutline } from "react-icons/io5";
 import { IoReturnUpBack } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
-
+import { CiShop } from "react-icons/ci";
 
 
 const array = [
@@ -65,6 +65,12 @@ const array = [
         title: "Reyonnage",
         icon: PiWarehouseLight,
         url: "/produits/reyonnage",
+      },
+      {
+        id: 7,
+        title: "Magasins",
+        icon: CiShop,
+        url: "/produits/magasins",
       },
     ],
   },
@@ -164,7 +170,7 @@ const array = [
         title: "rapport de vente",
         icon: TbReportSearch,
         url: "/h",
-      }
+      },
     ],
   },
 ];

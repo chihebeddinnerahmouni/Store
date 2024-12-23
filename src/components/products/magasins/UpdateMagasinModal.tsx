@@ -1,48 +1,44 @@
 import { Modal, Box, Typography } from "@mui/material";
-import { Controller, useForm, SubmitHandler } from "react-hook-form";
+import { useState, useEffect } from "react";
 import InputText from "../../ui/inputs/InputText";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import { enqueueSnackbar } from "notistack";
-import axios from "axios";
-import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import InputMultiLine from "../../ui/inputs/InputMultiLine";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
+import IMarque from "../../../types/marque";
 
-interface AddMarqueModalProps {
+interface AddCategoryModalProps {
   open: boolean;
-  onClose: () => void;
+  setOpen: (open: IMarque | null) => void;
+  data: IMarque | null;
 }
 
-type FormValues = {
-  name: string;
-  code: string;
-  description: string;
-};
-
-const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
-  const mainColor = "#006233";
-  const url = import.meta.env.VITE_BASE_URL as string;
+const UpdateMagasinModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
+  const [name, setName] = useState<string>(data!.name_brand);
+  const [code, setCode] = useState<string>(data!.code_brand);
+  const [description, setDescription] = useState<string>(data!.description);
   const [loading, setLoading] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [code, setCode] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const url = import.meta.env.VITE_BASE_URL as string;
+  const mainColor = "#006233";
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValues>();
+  type FormValues = {
+    name: string;
+    code: string;
+    description: string;
+  };
 
-  const handleSave: SubmitHandler<FormValues> = () => {
+  const handleSave = () => {
     setLoading(true);
     axios
-      .post(
-        `${url}/api/brands`,
+      .put(
+        `${url}/api/brands/${data?.id}`,
         {
-          code_brand: name,
-          name_brand: code,
+          code_brand: code,
+          name_brand: name,
           description: description,
-          status: "active",
+          status: "inactive",
         },
         {
           headers: {
@@ -51,12 +47,14 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
         }
       )
       .then((res) => {
+        // console.log(res.data);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
-        onClose();
+        setOpen(null);
         window.location.reload();
       })
       .catch((err) => {
+        //   console.log(err);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
@@ -64,12 +62,43 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
         }
         setLoading(false);
       });
+
+    // setTimeout(() => {
+    //     setLoading(false);
+    //     // onClose();
+    // }, 2000);
+  };
+
+  const {
+    handleSubmit,
+    control,
+    clearErrors,
+    formState: { errors },
+    setValue,
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      code: "",
+      description: "",
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      setValue("name", data.name_brand);
+      setValue("code", data.code_brand);
+      setValue("description", data.description);
+    }
+  }, [data, setValue]);
+
+  const onSubmit: SubmitHandler<FormValues> = () => {
+    handleSave();
   };
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={() => setOpen(null)}
       BackdropProps={{
         style: {
           backgroundColor: "rgba(0, 0, 0, 0.3)",
@@ -97,13 +126,13 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
           variant="h6"
           component="h2"
         >
-          Ajouter une marque
+          Modifier marque
         </Typography>
 
-        {/* Form */}
+        {/* texts */}
         <form
           className="flex flex-col gap-5 mt-5"
-          onSubmit={handleSubmit(handleSave)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Controller
             name="name"
@@ -157,11 +186,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="description"
             control={control}
             rules={{
-              required: "La description de la marque est obligatoire",
+              required: "La description de la catégorie est obligatoire",
             }}
             render={({ field }) => (
               <InputMultiLine
-                label="La description de la marque*"
+                label="La description de la catégorie*"
                 {...field}
                 error={!!errors.description}
                 helperText={errors.description?.message}
@@ -176,14 +205,14 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
               />
             )}
           />
-
           <Box mt={2} display="flex" justifyContent="flex-end">
             <FullShiningButton
               text="Soumettre"
               color={mainColor}
+              //   onClick={handleSave}
+              onClick={handleSubmit(onSubmit)}
               type="submit"
               loading={loading}
-              onClick={handleSubmit(handleSave)}
             />
           </Box>
         </form>
@@ -192,4 +221,5 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
   );
 };
 
-export default AddMarqueModal;
+
+export default UpdateMagasinModal;

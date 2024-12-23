@@ -18,7 +18,7 @@ type FormValues = {
   description: string;
 };
 
-const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
+const AddMagasinModal = ({ open, onClose }: AddMarqueModalProps) => {
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL as string;
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,10 +37,10 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
     setLoading(true);
     axios
       .post(
-        `${url}/api/brands`,
+        `${url}/api/entreports`,
         {
-          code_brand: name,
-          name_brand: code,
+          code_entreport: code,
+          name: name,
           description: description,
           status: "active",
         },
@@ -97,7 +97,7 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
           variant="h6"
           component="h2"
         >
-          Ajouter une marque
+          Ajouter magasin
         </Typography>
 
         {/* Form */}
@@ -109,11 +109,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="name"
             control={control}
             rules={{
-              required: "Le nom de la marque est obligatoire",
+              required: "Le nom de la magasin est obligatoire",
             }}
             render={({ field }) => (
               <InputText
-                label="Nom de la marque*"
+                label="Nom de la magasin*"
                 {...field}
                 value={name}
                 error={!!errors.name}
@@ -133,11 +133,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="code"
             control={control}
             rules={{
-              required: "Le code de la marque est obligatoire",
+              required: "Le code de la magasin est obligatoire",
             }}
             render={({ field }) => (
               <InputText
-                label="Code de la marque*"
+                label="Code de la magasin*"
                 {...field}
                 error={!!errors.code}
                 value={code}
@@ -157,11 +157,11 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
             name="description"
             control={control}
             rules={{
-              required: "La description de la marque est obligatoire",
+              required: "La description de la magasin est obligatoire",
             }}
             render={({ field }) => (
               <InputMultiLine
-                label="La description de la marque*"
+                label="La description de la magasin*"
                 {...field}
                 error={!!errors.description}
                 helperText={errors.description?.message}
@@ -192,4 +192,4 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
   );
 };
 
-export default AddMarqueModal;
+export default AddMagasinModal;

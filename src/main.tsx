@@ -20,6 +20,7 @@ import RetourAchats from './pages/retour/RetourAchats';
 import Login from './pages/auth/Login';
 import Reyonnage from './pages/products/Reyonnage';
 import EditProduct from './pages/products/EditProduct';
+import Magasins from './pages/products/Magasins';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },
       { path: "/produits/reyonnage", element: <Reyonnage /> },
+      { path: "/produits/magasins", element: <Magasins /> },
       { path: "/produits/modifier-produit/:produitId", element: <EditProduct /> },
 
       { path: "/achats/ajouter-un-achat", element: <AddAchat /> },
