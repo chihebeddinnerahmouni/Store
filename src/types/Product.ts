@@ -8,7 +8,7 @@ interface IProduct {
   alert_stock: number;
   unité: string;
   has_serial_number: boolean;
-
+  price_sell: string;
 
   image: string;
   type: string;

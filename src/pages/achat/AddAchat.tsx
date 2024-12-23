@@ -18,7 +18,7 @@ interface IProductCommandeItem {
   name: string;
   cout_unitaire: number;
   stock_actuel: number;
-  remise: number;
+  // remise: number;
   taxe: number;
   quantite: number;
   grand_total: number;
@@ -87,33 +87,35 @@ const AddAchat = () => {
 
 
 
-
-
-
-
-
-
-
   const send = () => {
     setLoading(true);
+
+
     axios
       .post(
         `${url}/api/achats`,
         {
           provider_id: fournisseure,
           entrepot_id: magasain,
-          user_invoice_number: "INV029",
+          user_invoice_number: generateInvoiceNumber(),
           date: date,
           // livraison_cost: 100.5,
-          products: [
-            {
-              product_id: 6,
-              quantity_declared: 15,
-              remise: 5,
-              tax: 18,
-              serial_numbers: ["SN0015"],
-            },
-          ],
+          // products: [
+          //   {
+          //     product_id: 6,
+          //     quantity_declared: 15,
+          //     remise: 5,
+          //     tax: 18,
+          //     serial_numbers: ["SN0015"],
+          //   },
+          // ],
+          products: productsCommandeArray.map((product) => ({
+            product_id: product.id,
+            quantity_declared: product.quantite,
+            // remise: product.remise,
+            tax: product.taxe,
+            serial_numbers: product.serial_numbers,
+          })),
         },
         {
           headers: {
@@ -131,7 +133,17 @@ const AddAchat = () => {
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
+          // enqueueSnackbar(err.response.data.message, { variant: "error" });
+          const check = typeof err.response.data.message === "string";
+          if (check) {
+            enqueueSnackbar(err.response.data.message, { variant: "error" });
+          } else {
+           Object.keys(err.response.data.message).map((key) => {
+             err.response.data.message[key].map((err: any) => {
+               enqueueSnackbar(err, { variant: "error" });
+             });
+           });
+          }
         }
       });
 
@@ -154,7 +166,9 @@ const AddAchat = () => {
     
 // console.log(date);
 
-    if (loadingPage) return <Loading />;
+  if (loadingPage) return <Loading />;
+  
+  // console.log(productsCommandeArray[0]);
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -219,3 +233,13 @@ const AddAchat = () => {
 };
 
 export default AddAchat;
+
+
+// generate 6 digit random number with current timestamp
+const generateInvoiceNumber = () => {
+  const date = new Date();
+  const timestamp = date.getTime();
+  const random = Math.floor(Math.random() * 1000000);
+  return `${timestamp}${random}`;
+};
+

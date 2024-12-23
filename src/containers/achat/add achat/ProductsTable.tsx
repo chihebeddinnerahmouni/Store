@@ -26,7 +26,7 @@ interface IProductCommandeItem {
   name: string;
   cout_unitaire: number;
   stock_actuel: number;
-  remise: number;
+  // remise: number;
   taxe: number;
   quantite: number;
   grand_total: number;
@@ -234,9 +234,9 @@ const ProductRow = ({
             handleQuantityChange={handleQuantityChange}
           />
         </TableCell>
-        <TableCell align="center" sx={{ border: "none" }}>
+        {/* <TableCell align="center" sx={{ border: "none" }}>
           {row.remise}
-        </TableCell>
+        </TableCell> */}
         <TableCell align="center" sx={{ border: "none" }}>
           {row.taxe}
         </TableCell>
@@ -342,7 +342,7 @@ const columns = [
   "cout_unitaire",
   "stock_actuel",
   "quantite",
-  "remise",
+  // "remise",
   "taxe",
   "grand_total",
 ];
