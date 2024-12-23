@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { forwardRef } from "react";
-import Label from "../../../ui/Label";
+import Label from "../../ui/Label";
 
 // not used
 

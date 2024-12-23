@@ -54,6 +54,7 @@ const AddAchat = () => {
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
+  console.log(fournisseuresArray, magasainsArray);
 
 
   useEffect(() => { 
