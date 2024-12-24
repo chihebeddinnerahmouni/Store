@@ -18,8 +18,8 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import IAchat from "../../../types/achat";
-import { IAchatTable } from "../../../types/achat";
+import IVente from "../../../types/vente";
+import { IVenteTable } from "../../../types/vente";
 import OptionsMenu from "../../../components/achat/achats/achats/OptionsMenu";
 
 
@@ -41,8 +41,8 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string | null | any[] },
-  b: { [key in Key]: number | string | null | any[] }
+  a: { [key in Key]: number | string | null | any[] | any },
+  b: { [key in Key]: number | string | null | any[] | any}
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -53,7 +53,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IAchat
+    property: keyof IVente
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -75,7 +75,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IAchat);
+      onRequestSort(event, property as keyof IVente);
     };
 
   return (
@@ -181,16 +181,16 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IAchat[];
-    // columns: string[];
-    columns: (keyof IAchatTable)[];
+  rows: IVente[];
+  // columns: string[];
+  columns: (keyof IVenteTable)[];
 }) {
   // React.useEffect(() => {
   //   console.log(rows);
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IAchat>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IVente>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -198,7 +198,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IAchat
+    property: keyof IVente
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -272,7 +272,7 @@ export default function EnhancedTable({
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <TableContainer >
+        <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
@@ -355,11 +355,7 @@ export default function EnhancedTable({
                         border: "none",
                       }}
                     >
-                      <OptionsMenu
-                        active={true}
-                        columns={columns}
-                        row={row}
-                      />
+                      <OptionsMenu active={true} columns={columns} row={row} />
                     </TableCell>
                   </TableRow>
                 );
@@ -386,36 +382,36 @@ export default function EnhancedTable({
 
 
 
-const Colval = (column: string, row: IAchat) => {
+const Colval = (column: string, row: IVente) => {
   switch (column) {
     case "reference":
       return (
-        <p className="text-blue-500">{row[column as keyof IAchatTable]}</p>
+        <p className="text-blue-500">{row[column as keyof IVenteTable]}</p>
       );
     case "status_de_paiement":
-      switch (row[column as keyof IAchatTable]) {
+      switch (row[column as keyof IVenteTable]) {
         case "partiel":
           return (
             <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
-              {row[column as keyof IAchatTable]}
+              {row[column as keyof IVenteTable]}
             </span>
           );
         case "non paid":
           return (
             <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-              {row[column as keyof IAchatTable]}
+              {row[column as keyof IVenteTable]}
             </span>
           );
         case "paid":
           return (
             <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
-              {row[column as keyof IAchatTable]}
+              {row[column as keyof IVenteTable]}
             </span>
           );
         default:
-          return <p>{row[column as keyof IAchatTable]}</p>;
+          return <p>{row[column as keyof IVenteTable]}</p>;
       }
     default:
-      return <p>{row[column as keyof IAchatTable]}</p>;
+      return <p>{row[column as keyof IVenteTable]}</p>;
   }
 };
