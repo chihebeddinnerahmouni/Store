@@ -77,7 +77,7 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
           variant="h6"
           component="h2"
         >
-          Supprimer {row.designation}
+          Supprimer {row.name}
         </Typography>
 
         <Typography
@@ -88,7 +88,7 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
           variant="body1"
           component="p"
         >
-          Voulez-vous vraiment supprimer {row.designation} ?
+          Voulez-vous vraiment supprimer {row.name} ?
         </Typography>
 
         <Box mt={2} display="flex" justifyContent="flex-end">

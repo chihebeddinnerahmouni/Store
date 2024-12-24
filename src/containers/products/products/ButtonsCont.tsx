@@ -112,7 +112,7 @@ const ButtonsCont = ({
         anchor="left"
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        sx={{ 
+        sx={{
          "& .MuiDrawer-paper": {
             width: "80%",
             maxWidth: "300px",

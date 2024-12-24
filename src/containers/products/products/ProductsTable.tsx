@@ -25,35 +25,9 @@ import ViewModal from "../../../components/products/products/ViewModal";
 import IProduct from "../../../types/Product";
 import DeleteModal from "../../../components/products/products/DeleteModal";
 
-
 const mainColor = "#006233";
 
-
-// function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
-
 type Order = "asc" | "desc";
-
-// function getComparator<Key extends keyof any>(
-//   order: Order,
-//   orderBy: Key
-// ): (
-//   a: { [key in Key]: number | string },
-//   b: { [key in Key]: number | string }
-//   // a: { [key in Key]: number | string },
-//   // b: { [key in Key]: number | string }
-// ) => number {
-//   return order === "desc"
-//     ? (a, b) => descendingComparator(a, b, orderBy)
-//     : (a, b) => -descendingComparator(a, b, orderBy);
-// }
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -125,11 +99,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             }}
           />
         </TableCell>
-        {/* <TableCell align="center" padding="normal" sortDirection={false}>
-          <TableSortLabel>
-            <span className="capitalize">Image</span>
-          </TableSortLabel>
-        </TableCell> */}
         {columns.map((column) => (
           <TableCell
             key={column}
@@ -210,7 +179,7 @@ export default function EnhancedTable({
   columns: string[];
 }) {
   // React.useEffect(() => {
-    console.log(rows);
+  // console.log(rows);
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
@@ -273,15 +242,14 @@ export default function EnhancedTable({
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  
   const filteredUsers = React.useMemo(() => {
-  if (searchQuery !== "") {
-    return rows.filter((row: any) =>
-      row.designation.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }
-  return rows;
-}, [searchQuery, rows]);
+    if (searchQuery !== "") {
+      return rows.filter((row: any) =>
+        row.designation.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    return rows;
+  }, [searchQuery, rows]);
 
   // console.log(filteredUsers);
 
@@ -403,7 +371,10 @@ export default function EnhancedTable({
                         <UpdateButton
                           active={true}
                           onClick={() =>
-                            window.open(`/produits/modifier-produit/${row.id}`, `_blank`)
+                            window.open(
+                              `/produits/modifier-produit/${row.id}`,
+                              `_blank`
+                            )
                           }
                         />
                         <DeleteButton
@@ -421,11 +392,10 @@ export default function EnhancedTable({
                     height: 53 * emptyRows,
                   }}
                 >
-              empty
+                  empty
                   <TableCell colSpan={columns.length + 1} />
                 </TableRow>
               )}
-              
             </TableBody>
           </Table>
         </TableContainer>
@@ -445,13 +415,10 @@ export default function EnhancedTable({
           onClose={() => setViewRow(null)}
           // row={viewRow}
           id={viewRow.id}
-        /> 
+        />
       )}
       {deleteRow && (
-        <DeleteModal
-          onClose={() => setDeleteRow(null)}
-          row={deleteRow}
-        />
+        <DeleteModal onClose={() => setDeleteRow(null)} row={deleteRow} />
       )}
     </Box>
   );

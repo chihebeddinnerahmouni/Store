@@ -3,7 +3,6 @@ import ProductsTable from "../../containers/products/products/ProductsTable";
 import ButtonsCont from "../../containers/products/products/ButtonsCont";
 import { useState, useEffect } from "react";
 import IProductSingle from "../../types/IProductSingle";
-// import IProduct from "../../types/Product";
 import axios from "axios";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
@@ -35,9 +34,7 @@ const Products = () => {
         },
       })
       .then((res) => {
-        // console.log(res.data.products);
         setData(res.data.products);
-        // setColumns(Object.keys(res.data[0]) as (keyof IProduct)[]);
         setLoading(false);
       })
       .catch((err) => {

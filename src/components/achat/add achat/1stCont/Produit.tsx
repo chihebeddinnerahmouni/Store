@@ -1,201 +1,3 @@
-// import TextField from "@mui/material/TextField";
-// import Label from "../../../ui/Label";
-// import { Autocomplete, Paper } from "@mui/material";
-// import { useState, useEffect } from "react";
-// import axios from "axios";
-// import { enqueueSnackbar } from "notistack";
-// import IProduct from "../../../../types/Product";
-
-
-// interface IMainProp {
-//     id: string;
-//     setValue: (value: string) => void;
-//   value: string;
-//   productsArray: IProduct[];
-//   setProductsArray: React.Dispatch<React.SetStateAction<IProduct[]>>;
-// }
-// const Produit = ({
-//     id,
-//     value,
-//   setValue,
-//   productsArray,
-//   setProductsArray,
-// }: IMainProp) => {
-
-//   const url = import.meta.env.VITE_BASE_URL as string;
-//   const [suggestions, setSuggestions] = useState<string[]>([]);
-//   const [dataSearch, setDataSearch] = useState<any[]>([]);
-
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       axios
-//         .post(`${url}/api/products/filter`, {
-//           name: value,
-//         }, {
-//           headers: {
-//             Authorization: `Bearer ${localStorage.getItem("token")}`,
-//           },
-//         })
-//         .then((res) => {
-//           // console.log(res.data.products);
-//           const suggestionsArray = res.data.products.map((product: any) => product.name);
-//           setSuggestions(suggestionsArray);
-//           // setProductsArray(res.data.products);
-//           setDataSearch(res.data.products);
-//         })
-//         .catch((err) => {
-//           //  setLoading(false);
-//           if (err.message === "Network Error") {
-//             enqueueSnackbar("Erreur de connexion", { variant: "error" });
-//           } else {
-//             enqueueSnackbar(err.response.data.message, { variant: "error" });
-//           }
-//         });
-//     };
-
-
-//     const testFunction = () => {
-//       const suggestionsArray = test.products.map((product: any) => product.name);
-//       setSuggestions(suggestionsArray);
-//       setDataSearch(test.products);
-//     }
-
-//     //  value && fetchData();
-//     const handler = setTimeout(() => {
-//       if (value) {
-//         // fetchData();
-//         testFunction();
-//       }
-//     }, 1000);
-
-//     return () => {
-//       clearTimeout(handler);
-//     };
-//   }, [value]);
-
-  
-
-
-//     return (
-//         <div className="bg-red200 flex flex-col gap-3">
-//             <Label id={id} text="Produit" />
-//             <InputAutocomplete
-//                 value={value}
-//           setValue={setValue}
-//                 label="Entrez le nom/code du produit"
-//                 id={id}
-//           suggestions={suggestions}
-//           setProductsArray={setProductsArray}
-//           dataSearch={dataSearch}
-//           productsArray={productsArray}
-//             />
-//         </div>
-//     );
-// };
-
-// interface InputAutocompleteProps {
-//     value: string;
-//     setValue: (value: string) => void;
-//     label: string;
-//     id: string;
-//   suggestions: string[];
-//   setProductsArray: React.Dispatch<React.SetStateAction<IProduct[]>>;
-//   dataSearch: IProduct[];
-//   productsArray: IProduct[];
-// }
-
-// const InputAutocomplete = ({
-//     value,
-//     setValue,
-//     label,
-//     id,
-//   suggestions,
-//   setProductsArray,
-//   dataSearch,
-//   // productsArray,
-// }: InputAutocompleteProps) => {
-//     const mainColor = "#006233";
-//   const [inputValue, setInputValue] = useState(value);
-
-//     return (
-//       <div>
-//         <Autocomplete
-//           freeSolo
-//           options={suggestions}
-//           value={value}
-//           onChange={(_event, newValue) => {
-//             const product = dataSearch.find(
-//               (product) => product.name === newValue
-//             );
-//             if (product) {
-//               setProductsArray((prevProductsArray) => {
-//                 if (!prevProductsArray.some((p) => p.name === product.name)) {
-//                   return [...prevProductsArray, product];
-//                 } else {
-//                   enqueueSnackbar("Product already in the array", {
-//                     variant: "warning",
-//                   });
-//                 }
-//                 return prevProductsArray;
-//               });
-//             }
-//             setValue(newValue || "");
-//           }}
-//           inputValue={inputValue}
-//           onInputChange={(_event, newInputValue) => {
-//             setInputValue(newInputValue);
-//             setValue(newInputValue);
-//           }}
-//           // onChange={addFunction}
-//           slots={{
-//             paper: (props) => (
-//               <Paper {...props} sx={{ height: "200px", overflowY: "scroll" }} />
-//             ),
-//           }}
-//           renderInput={(params) => (
-//             <TextField
-//               {...params}
-//               label={label}
-//               variant="outlined"
-//               fullWidth
-//               id={id}
-//               sx={{
-//                 "& input": {
-//                   color: "black",
-//                 },
-//                 "& label.Mui-focused": {
-//                   color: mainColor,
-//                 },
-//                 "& label": {
-//                   color: "grey",
-//                 },
-//                 "& .MuiInput-underline:after": {
-//                   borderBottomColor: mainColor,
-//                 },
-//                 "& .MuiOutlinedInput-root": {
-//                   "& fieldset": {
-//                     borderColor: "grey",
-//                   },
-//                   "&:hover fieldset": {
-//                     borderColor: mainColor,
-//                   },
-//                   "&.Mui-focused fieldset": {
-//                     borderColor: mainColor,
-//                   },
-//                 },
-//               }}
-//             />
-//           )}
-//         />
-//         {/* <FormHelperText error={error}>{helperText}</FormHelperText> */}
-//       </div>
-//     );
-// };
-
-// export default Produit;
-
-
 import TextField from "@mui/material/TextField";
 import Label from "../../../ui/Label";
 import { Autocomplete, Paper } from "@mui/material";
@@ -204,43 +6,54 @@ import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import IProduct from "../../../../types/Product";
 
-
 interface IMainProp {
-    id: string;
-    setValue: (value: string) => void;
+  id: string;
+  setValue: (value: string) => void;
   value: string;
   selectedProduct: IProduct | null;
   setSelectedProduct: React.Dispatch<React.SetStateAction<IProduct | null>>;
 }
 const Produit = ({
-    id,
-    value,
+  id,
+  value,
   setValue,
   selectedProduct,
   setSelectedProduct,
 }: IMainProp) => {
-
   const url = import.meta.env.VITE_BASE_URL as string;
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [dataSearch, setDataSearch] = useState<any[]>([]);
 
-
-  useEffect(() => { 
+  useEffect(() => {
     const fetchData = async () => {
       axios
-        .post(`${url}/api/products/filter`, {
-          name: value,
-        }, {
-          headers: {  
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        .post(
+          `${url}/api/products/filter`,
+          {
+            name: value,
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((res) => {
           // console.log(res.data.products);
-          const suggestionsArray = res.data.products.map((product: any) => product.name);
+          const suggestionsArray = res.data.products.map(
+            (product: any) => product.name
+          );
           setSuggestions(suggestionsArray);
-          // setProductsArray(res.data.products);
           setDataSearch(res.data.products);
+          if (suggestionsArray.length === 0) {
+            enqueueSnackbar("Produit non trouvé", { variant: "error" });
+          }
+
+          if (suggestionsArray.length === 1) {
+            setSelectedProduct(res.data.products[0]);
+            setValue("");
+            setSuggestions([]);
+          }
         })
         .catch((err) => {
           //  setLoading(false);
@@ -252,7 +65,6 @@ const Produit = ({
         });
     };
 
-
     // const testFunction = () => {
     //   const suggestionsArray = test.products.map((product: any) => product.name);
     //   setSuggestions(suggestionsArray);
@@ -260,8 +72,10 @@ const Produit = ({
     // }
 
     //  value && fetchData();
+    // console.log("hzreee");
     const handler = setTimeout(() => {
       if (value) {
+        // console.log("here");
         fetchData();
         // testFunction();
       }
@@ -272,31 +86,30 @@ const Produit = ({
     };
   }, [value]);
 
-  
+  // console.log(value);
 
-
-    return (
-        <div className="bg-red200 flex flex-col gap-3">
-            <Label id={id} text="Produit" />
-            <InputAutocomplete
-                value={value}
-          setValue={setValue}
-                label="Entrez le nom/code du produit"
-                id={id}
-          suggestions={suggestions}
-          dataSearch={dataSearch}
-          setSelectedProduct={setSelectedProduct}
-          selectedProduct={selectedProduct}
-            />
-        </div>
-    );
+  return (
+    <div className="bg-red200 flex flex-col gap-3">
+      <Label id={id} text="Produit" />
+      <InputAutocomplete
+        value={value}
+        setValue={setValue}
+        label="Entrez le nom/code du produit"
+        id={id}
+        suggestions={suggestions}
+        dataSearch={dataSearch}
+        setSelectedProduct={setSelectedProduct}
+        selectedProduct={selectedProduct}
+      />
+    </div>
+  );
 };
 
 interface InputAutocompleteProps {
-    value: string;
-    setValue: (value: string) => void;
-    label: string;
-    id: string;
+  value: string;
+  setValue: (value: string) => void;
+  label: string;
+  id: string;
   suggestions: string[];
   dataSearch: IProduct[];
   selectedProduct: IProduct | null;
@@ -304,143 +117,86 @@ interface InputAutocompleteProps {
 }
 
 const InputAutocomplete = ({
-    value,
-    setValue,
-    label,
-    id,
+  value,
+  setValue,
+  label,
+  id,
   suggestions,
   dataSearch,
   // selectedProduct,
   setSelectedProduct,
 }: InputAutocompleteProps) => {
-    const mainColor = "#006233";
+  const mainColor = "#006233";
   const [inputValue, setInputValue] = useState(value);
 
-    return (
-      <div>
-        <Autocomplete
-          freeSolo
-          options={suggestions}
-          value={value}
-          onChange={(_event, newValue) => {
-            const product = dataSearch.find(
-              (product) => product.name === newValue
-            );
-            if (product) {
-              setSelectedProduct(product);
-            }
-            setValue(newValue || "");
-          }}
-          inputValue={inputValue}
-          onInputChange={(_event, newInputValue) => {
-            setInputValue(newInputValue);
-            setValue(newInputValue);
-          }}
-          // onChange={addFunction}
-          slots={{
-            paper: (props) => (
-              <Paper {...props} sx={{ height: "200px", overflowY: "scroll" }} />
-            ),
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={label}
-              variant="outlined"
-              fullWidth
-              id={id}
-              sx={{
-                "& input": {
-                  color: "black",
+  // console.log(value);
+
+  return (
+    <div>
+      <Autocomplete
+        freeSolo
+        options={suggestions}
+        value={value}
+        onChange={(_event, newValue) => {
+          const product = dataSearch.find(
+            (product) => product.name === newValue
+          );
+          if (product) {
+            setSelectedProduct(product);
+          }
+          setValue(newValue || "");
+        }}
+        inputValue={inputValue}
+        onInputChange={(_event, newInputValue) => {
+          setInputValue(newInputValue);
+          setValue(newInputValue);
+        }}
+        // onChange={addFunction}
+        slots={{
+          paper: (props) => (
+            <Paper {...props} sx={{ height: "200px", overflowY: "scroll" }} />
+          ),
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            variant="outlined"
+            fullWidth
+            id={id}
+            sx={{
+              "& input": {
+                color: "black",
+              },
+              "& label.Mui-focused": {
+                color: mainColor,
+              },
+              "& label": {
+                color: "grey",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: mainColor,
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "grey",
                 },
-                "& label.Mui-focused": {
-                  color: mainColor,
+                "&:hover fieldset": {
+                  borderColor: mainColor,
                 },
-                "& label": {
-                  color: "grey",
+                "&.Mui-focused fieldset": {
+                  borderColor: mainColor,
                 },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: mainColor,
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "grey",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: mainColor,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: mainColor,
-                  },
-                },
-              }}
-            />
-          )}
-        />
-      </div>
-    );
+              },
+            }}
+          />
+        )}
+      />
+    </div>
+  );
 };
 
 export default Produit;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const test = {
 //   products: [

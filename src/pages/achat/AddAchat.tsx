@@ -99,16 +99,6 @@ const AddAchat = () => {
           entrepot_id: magasain,
           user_invoice_number: generateInvoiceNumber(),
           date: date,
-          // livraison_cost: 100.5,
-          // products: [
-          //   {
-          //     product_id: 6,
-          //     quantity_declared: 15,
-          //     remise: 5,
-          //     tax: 18,
-          //     serial_numbers: ["SN0015"],
-          //   },
-          // ],
           products: productsCommandeArray.map((product) => ({
             product_id: product.id,
             quantity_declared: product.quantite,
@@ -124,8 +114,10 @@ const AddAchat = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setLoading(false);
+        enqueueSnackbar(res.data.message, { variant: "success" });
+        window.location.reload()
       })
       .catch((err) => {
         console.log(err);

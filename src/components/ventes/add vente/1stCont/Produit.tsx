@@ -237,10 +237,20 @@ const Produit = ({
         })
         .then((res) => {
           // console.log(res.data.products);
-          const suggestionsArray = res.data.products.map((product: any) => product.name);
+          const suggestionsArray = res.data.products.map(
+            (product: any) => product.name
+          );
           setSuggestions(suggestionsArray);
-          // setProductsArray(res.data.products);
           setDataSearch(res.data.products);
+          if (suggestionsArray.length === 0) {
+            enqueueSnackbar("Produit non trouvé", { variant: "error" });
+          }
+
+          if (suggestionsArray.length === 1) {
+            setSelectedProduct(res.data.products[0]);
+            setValue("");
+            setSuggestions([]);
+          }
         })
         .catch((err) => {
           //  setLoading(false);

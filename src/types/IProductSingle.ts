@@ -1,4 +1,4 @@
-interface ICategory {
+export interface ICategory {
     id: number;
     code_category: string;
     name_category: string;
@@ -11,40 +11,40 @@ interface ICategory {
     updated_at: string;
 }
 
-interface IBrand {
-    id: number;
-    code_brand: string;
-    name_brand: string;
-    description: string;
-    created_by: number;
-    updated_by: number | null;
-    deleted_by: number | null;
-    created_at: string;
-    updated_at: string;
+export interface IBrand {
+  id: number;
+  code_brand: string;
+  name_brand: string;
+  description: string;
+  created_by: number;
+  updated_by: number | null;
+  deleted_by: number | null;
+  created_at: string;
+  updated_at: string;
 }
 
-interface IUnit {
-    id: number;
-    code_unit: string;
-    name_unit: string;
-    description: string;
-    created_by: number;
-    updated_by: number | null;
-    deleted_by: number | null;
-    created_at: string;
-    updated_at: string;
+export interface IUnit {
+  id: number;
+  code_unit: string;
+  name_unit: string;
+  description: string;
+  created_by: number;
+  updated_by: number | null;
+  deleted_by: number | null;
+  created_at: string;
+  updated_at: string;
 }
 
-interface IReyonage {
-    id: number;
-    code_location: string;
-    name: string;
-    description: string;
-    created_by: number;
-    updated_by: number | null;
-    deleted_by: number | null;
-    created_at: string;
-    updated_at: string;
+export interface IReyonage {
+  id: number;
+  code_location: string;
+  name: string;
+  description: string;
+  created_by: number;
+  updated_by: number | null;
+  deleted_by: number | null;
+  created_at: string;
+  updated_at: string;
 }
 
 interface IProductSingle {

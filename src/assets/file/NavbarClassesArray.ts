@@ -9,8 +9,8 @@ import { CiShoppingCart } from "react-icons/ci";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { IoPeopleOutline } from "react-icons/io5";
 import { IoManOutline } from "react-icons/io5";
-import { IoBackspaceOutline } from "react-icons/io5";
-import { IoReturnUpBack } from "react-icons/io5";
+// import { IoBackspaceOutline } from "react-icons/io5";
+// import { IoReturnUpBack } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { CiShop } from "react-icons/ci";
 

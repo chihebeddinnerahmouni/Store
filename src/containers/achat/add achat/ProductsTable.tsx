@@ -126,15 +126,7 @@ const ProductRow = ({
   const updateData = (id: number, newQuantity: number) => {
     const updatedData = data.map((product) => {
       if (product.id === id) {
-        if (product.stock_actuel < newQuantity) {
-          enqueueSnackbar("Stock insuffisant");
-          return product;
-        }
-
-        // Open modal for serial number input if required
-        // if (product.has_serial_number && newQuantity > product.quantite) {
-        //   setIsModalOpen(true);
-        // }
+        
 
         return {
           ...product,
@@ -234,9 +226,6 @@ const ProductRow = ({
             handleQuantityChange={handleQuantityChange}
           />
         </TableCell>
-        {/* <TableCell align="center" sx={{ border: "none" }}>
-          {row.remise}
-        </TableCell> */}
         <TableCell align="center" sx={{ border: "none" }}>
           {row.taxe}
         </TableCell>
