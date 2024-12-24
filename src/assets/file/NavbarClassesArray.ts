@@ -171,6 +171,12 @@ const array = [
         icon: CiCircleAlert,
         url: "/rapports/alerte-produit",
       },
+      {
+        id: 2,
+        title: "Rapport d'entrepôt",
+        icon: CiShop,
+        url: "/rapports/entrepot",
+      },
     ],
   },
 ];

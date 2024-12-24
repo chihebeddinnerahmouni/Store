@@ -11,7 +11,7 @@ import TableAlerte from "../../containers/raports/alerte/TableAlerte";
 
 
 const AlertProduit = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IAlerte[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
@@ -40,6 +40,7 @@ const AlertProduit = () => {
             const newArray = createNewArray(data_test);
             setData(newArray);
             setMagasinsArray(magasins.data.entrepots);
+            setLoading(false);
           }
         )
       )
@@ -65,10 +66,12 @@ const AlertProduit = () => {
   if (loading) {
     return <Loading />;
   }
+
+
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Alertes de quantité de produits" />
-      <div className="w-full flex flex-col gap-5 items-center bgred-200">
+      <div className="w-full flex flex-col gap-5 items-center bgred-200 md:flex-row">
         <MagasinSelect
           value={magasinId}
           setValue={setMagasinId}
@@ -76,8 +79,6 @@ const AlertProduit = () => {
         />
         <ButtonsCont columns={columns} data={data} />
       </div>
-
-      
       <TableAlerte columns={columns} rows={data} />
     </div>
   );

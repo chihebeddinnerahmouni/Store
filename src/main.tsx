@@ -22,6 +22,7 @@ import Reyonnage from './pages/products/Reyonnage';
 import EditProduct from './pages/products/EditProduct';
 import Magasins from './pages/products/Magasins';
 import AlertProduit from './pages/rapport/AlertProduit';
+import EntrepotsReport from './pages/rapport/EntrepotsReport';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
       { path: "/retour/retour-des-achats", element: <RetourAchats /> },
 
       { path: "/rapports/alerte-produit", element: <AlertProduit /> },
+      { path: "/rapports/entrepot", element: <EntrepotsReport /> },
     ],
   },
   { path: "/test", element: <Test /> },

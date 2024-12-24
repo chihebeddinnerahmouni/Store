@@ -23,7 +23,7 @@ const ButtonsCont = ({data, columns}: ButtonsContProps) =>{
     ];
 
     return (
-      <section className="w-full flex flex-col items-center">
+      <section className="w-full flex flex-col items-center md:items-end">
         <div className="buttons flex flex-wrap gap-2">
           {buttons_array.map((button, index) => (
             <ShiningButton
