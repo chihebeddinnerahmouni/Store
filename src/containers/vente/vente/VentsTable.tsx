@@ -13,12 +13,17 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
+// import IconButton from "@mui/material/IconButton";
+// import Tooltip from "@mui/material/Tooltip";
 import { IoSearchSharp } from "react-icons/io5";
+// import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import IVente from "../../../types/vente";
+import IAchat from "../../../types/achat";
+import { IAchatTable } from "../../../types/achat";
+import OptionsMenu from "../../../components/achat/achats/achats/OptionsMenu";
+
 
 const mainColor = "#006233";
-
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -36,8 +41,8 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
+  a: { [key in Key]: number | string | null | any[] },
+  b: { [key in Key]: number | string | null | any[] }
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -48,7 +53,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IVente
+    property: keyof IAchat
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -70,7 +75,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IVente);
+      onRequestSort(event, property as keyof IAchat);
     };
 
   return (
@@ -99,7 +104,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={column}
             sx={{whiteSpace: "nowrap"}}
-            align="center"
+            align="left"
             padding="normal"
             sortDirection={orderBy === column ? order : false}
           >
@@ -155,14 +160,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Ventes
+        Achats
       </Typography>
       <div className="search relative">
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Chercher un reference"
+          placeholder="Chercher un produit"
           className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
         />
         <IoSearchSharp
@@ -176,15 +181,16 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IVente[];
-  columns: string[];
+  rows: IAchat[];
+    // columns: string[];
+    columns: (keyof IAchatTable)[];
 }) {
   // React.useEffect(() => {
   //   console.log(rows);
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IVente>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IAchat>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -192,7 +198,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IVente
+    property: keyof IAchat
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -238,9 +244,6 @@ export default function EnhancedTable({
     setPage(0);
   };
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
@@ -269,7 +272,7 @@ export default function EnhancedTable({
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <TableContainer>
+        <TableContainer >
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
@@ -337,35 +340,30 @@ export default function EnhancedTable({
                       <TableCell
                         key={index}
                         padding="normal"
-                        align="center"
+                        align="left"
                         sx={{
                           border: "none",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {renderColumnContent(column, row)}
+                        {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
+                      align="center"
                       sx={{
                         border: "none",
                       }}
                     >
-                      actionshh
+                      <OptionsMenu
+                        active={true}
+                        columns={columns}
+                        row={row}
+                      />
                     </TableCell>
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  empty
-                  <TableCell colSpan={columns.length + 1} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -383,40 +381,41 @@ export default function EnhancedTable({
   );
 }
 
-const renderColumnContent = (column: string, row: IVente) => {
-  if (column === "reference") {
-    return <p className="text-blue-500">{row[column as keyof IVente]}</p>;
-  } else if (column === "status_de_paiement") {
-    if (row[column as keyof IVente] === "partiel") {
+
+
+
+
+
+const Colval = (column: string, row: IAchat) => {
+  switch (column) {
+    case "reference":
       return (
-        <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
-          {row[column as keyof IVente]}
-        </span>
+        <p className="text-blue-500">{row[column as keyof IAchatTable]}</p>
       );
-    } else if (row[column as keyof IVente] === "non paid") {
-      return (
-        <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-          {row[column as keyof IVente]}
-        </span>
-      );
-    } else if (row[column as keyof IVente] === "paid") {
-      return (
-        <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
-          {row[column as keyof IVente]}
-        </span>
-      );
-    } else {
-      return <p>{row[column as keyof IVente]}</p>;
-    }
-  } else if (column === "status") {
-    if (row[column as keyof IVente] === "Complété") {
-      return <p className="text-green-500">{row[column as keyof IVente]}</p>;
-    } else if (row[column as keyof IVente] === "En cours") {
-      return <p className="text-red-500">{row[column as keyof IVente]}</p>;
-    } else {
-      return <p>{row[column as keyof IVente]}</p>;
-    }
-  } else {
-    return <p>{row[column as keyof IVente]}</p>;
+    case "status_de_paiement":
+      switch (row[column as keyof IAchatTable]) {
+        case "partiel":
+          return (
+            <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
+              {row[column as keyof IAchatTable]}
+            </span>
+          );
+        case "non paid":
+          return (
+            <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
+              {row[column as keyof IAchatTable]}
+            </span>
+          );
+        case "paid":
+          return (
+            <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
+              {row[column as keyof IAchatTable]}
+            </span>
+          );
+        default:
+          return <p>{row[column as keyof IAchatTable]}</p>;
+      }
+    default:
+      return <p>{row[column as keyof IAchatTable]}</p>;
   }
 };

@@ -210,7 +210,7 @@ export default function EnhancedTable({
   columns: string[];
 }) {
   // React.useEffect(() => {
-  //   console.log(rows);
+    console.log(rows);
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
@@ -399,10 +399,11 @@ export default function EnhancedTable({
                           active={true}
                           onClick={() => setViewRow(row)}
                         />
+                        {/* <p>{row.id}</p> */}
                         <UpdateButton
                           active={true}
                           onClick={() =>
-                            window.open(`/produits/modifier-produit/${row.id}, _blank`)
+                            window.open(`/produits/modifier-produit/${row.id}`, `_blank`)
                           }
                         />
                         <DeleteButton

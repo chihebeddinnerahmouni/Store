@@ -1,8 +1,8 @@
-import Taxe from "../../../components/ventes/2ndCont/Taxe";
+import Taxe from "../../../components/ventes/2ndCont(or)/Taxe";
 // import Remise from "../../../components/achat/add achat/2ndCont/Remise";
 // import Laivraison from "../../../components/achat/add achat/2ndCont/Laivraison";
-import Status from "../../../components/ventes/2ndCont/Status";
-import Remarque from "../../../components/ventes/2ndCont/Remarque";
+import Status from "../../../components/ventes/2ndCont(or)/Status";
+import Remarque from "../../../components/ventes/2ndCont(or)/Remarque";
 
 interface ProductStContProps {
   taxe: string;
