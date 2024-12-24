@@ -15,6 +15,36 @@ interface IProduct {
   updated_at: string;
 }
 
+interface IProvider {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+  created_by: number;
+  updated_by: number | null;
+  deleted_by: number | null;
+  created_at: string;
+  updated_at: string;
+  amount_paid: string;
+  code_provider: string;
+  outstanding_balance: string;
+  status: string;
+  total_supplies: string;
+}
+
+interface IWarehouse {
+  id: number;
+  name: string;
+  code_entreport: string;
+  description: string;
+  created_by: number;
+  updated_by: number | null;
+  deleted_by: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
 interface IAchat {
   id: number;
   provider_id: number;
@@ -30,17 +60,15 @@ interface IAchat {
   created_at: string;
   updated_at: string;
   products: IProduct[];
+  provider: IProvider;
+  entrepot: IWarehouse;
 
   // table achat
   date: string;
   reference: string;
   fournisseur: string;
   magasin: string;
-  // status: string;
   total: string;
-  // payé: string;
-  // dû: string;
-  // status_de_paiement: string;
 }
 
 export interface IAchatTable {
@@ -48,23 +76,8 @@ export interface IAchatTable {
   reference: string;
   fournisseur: string;
   magasin: string;
-  // status: string;
   total: string;
-  // payé: string;
-  // dû: string;
-  // status_de_paiement: string;
 }
 
 export default IAchat;
 
-
-// id: number;
-// date: string;
-// reference: string;
-// fournisseur: string;
-// magasin: string;
-// status: string;
-// total: string;
-// payé: string;
-// dû: string;
-// status_de_paiement: string;

@@ -62,14 +62,14 @@ const Achats = () => {
       }),
     ])
       .then((res) => {
-        // console.log(res[3].data.categories);
+        // console.log(res[0].data.achats);
         const modifiedAchats = res[0].data.achats.map((achat: IAchat) => {
           return {
             ...achat,
             date: new Date(achat.created_at).toLocaleDateString(),
             reference: achat.invoice_number,
-            fournisseur: achat.provider_id.toString(),
-            magasin: achat.entrepot_id.toString(),
+            fournisseur: achat.provider.name,
+            magasin: achat.entrepot.name,
             // status: achat.status,
             total: achat.total_cost,
           };

@@ -4,46 +4,60 @@ import InputText from "../../ui/inputs/InputText";
 import InputNumber from "../../ui/inputs/InputNumber";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
 import InputEmail from "../../ui/inputs/InputEmail";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import IClient from "../../../types/client";
 
 interface AddCategoryModalProps {
   open: boolean;
   onClose: () => void;
+  row: IClient;
 }
 
-const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
+  const [name, setName] = useState(row.name);
+  const [code, setCode] = useState(row.code_client);
+  const [email, setEmail] = useState(row.email);
+  //   const [phone, setPhone] = useState((row.téléphone).toString());
+  const [phone, setPhone] = useState(
+    (row.phone || row.téléphone).replace(/\D/g, "")
+  );
+  const [address, setAddress] = useState(row.address);
   const [loading, setLoading] = useState<boolean>(false);
   const url = import.meta.env.VITE_BASE_URL as string;
+  const mainColor = "#006233";
+
+  // console.log(row);
+  type FormValues = {
+    name: string;
+    code: string;
+    email: string;
+    phone: string;
+    address: string;
+  };
 
   const {
     control,
     handleSubmit,
     clearErrors,
+    setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormValues>({
     defaultValues: {
-      name,
-      email,
-      phone,
-      address,
-      code,
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      code: "",
     },
   });
 
-  const mainColor = "#006233";
-
   const onSubmit = () => {
-    setLoading(true)
+    setLoading(true);
     axios
-      .post(
-        `${url}/api/clients`,
+      .put(
+        `${url}/api/clients/${row.id}`,
         {
           code_client: code,
           name: name,
@@ -71,6 +85,16 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
         }
       });
   };
+
+  useEffect(() => {
+    if (row) {
+      setValue("name", row.name);
+      setValue("email", row.email);
+      setValue("phone", row.phone);
+      setValue("address", row.address);
+      setValue("code", row.code_client);
+    }
+  }, [row, setValue]);
 
   return (
     <Modal
@@ -131,7 +155,6 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
                 />
               )}
             />
-
 
             {/* Name */}
             <Controller
@@ -254,4 +277,4 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
   );
 };
 
-export default AddClientModal;
+export default UpdateClientModal;

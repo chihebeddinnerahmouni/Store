@@ -68,7 +68,6 @@ const Achats = () => {
             reference: achat.invoice_number,
             fournisseur: achat.provider_id.toString(),
             magasin: achat.entrepot_id.toString(),
-            // status: achat.status,
             total: achat.total_cost,
           };
         });
@@ -117,10 +116,6 @@ const Achats = () => {
           setFournisseur,
           magasin,
           setMagasin,
-          // status,
-          // setStatus,
-          // paimentStatus,
-          // setPaimentStatus,
           fourniArray,
           magasinArray,
           category,
@@ -133,24 +128,7 @@ const Achats = () => {
         }}
       >
         <PageTitle text="Liste des vents" />
-        <ButtonsCont
-        // data={data}
-        // columns={columns}
-        // date={date}
-        // setDate={setDate}
-        // reference={reference}
-        // setReference={setReference}
-        // fournisseur={fournisseur}
-        // setFournisseur={setFournisseur}
-        // magasin={magasin}
-        // setMagasin={setMagasin}
-        // status={status}
-        // setStatus={setStatus}
-        // paimentStatus={paimentStatus}
-        // setPaimentStatus={setPaimentStatus}
-        // fournisseurArray={fourniArray}
-        // magasinArray={magasinArray}
-        />
+        <ButtonsCont/>
         <VentsTable rows={data} columns={columns} />
       </VentsContext.Provider>
     </div>

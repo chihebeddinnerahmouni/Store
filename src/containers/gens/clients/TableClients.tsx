@@ -16,6 +16,10 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
 import IClient from "../../../types/client";
+import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
+import UpdateClientModal from "../../../components/gens/clients/UpdateClientModal";
+import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+import DeleteClientModal from "../../../components/gens/clients/DeleteClientModal";
 
 const mainColor = "#006233";
 
@@ -35,8 +39,8 @@ function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
+  a: { [key in Key]: number | string | null },
+  b: { [key in Key]: number | string | null }
 ) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -98,7 +102,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={column}
             sx={{ whiteSpace: "nowrap" }}
-            align="center"
+            align="left"
             padding="normal"
             sortDirection={orderBy === column ? order : false}
           >
@@ -120,9 +124,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        <TableCell align="center" padding="normal" sortDirection={false}>
+        <TableCell align="left" padding="normal" sortDirection={false}>
           <TableSortLabel>
-            <span className="capitalize">Actions</span>
+            Actions
           </TableSortLabel>
         </TableCell>
       </TableRow>
@@ -188,6 +192,8 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [updateRow, setUpdateRow] = React.useState<IClient | null>(null);
+  const [deleteRow, setDeleteRow] = React.useState<IClient | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -336,7 +342,7 @@ export default function EnhancedTable({
                       <TableCell
                         key={index}
                         padding="normal"
-                        align="center"
+                        align="left"
                         sx={{
                           border: "none",
                           whiteSpace: "nowrap",
@@ -349,9 +355,19 @@ export default function EnhancedTable({
                     <TableCell
                       sx={{
                         border: "none",
+                        display: "flex",
+                        gap: "10px",
                       }}
+                      align="left"
                     >
-                      actionshh
+                      <UpdateButton
+                        active={true}
+                        onClick={() => setUpdateRow(row)}
+                      />
+                      <DeleteButton
+                        active={true}
+                        onClick={() => setDeleteRow(row)}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -379,6 +395,20 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      {updateRow && 
+        <UpdateClientModal
+          open={true} 
+          onClose={() => setUpdateRow(null)}
+          row={updateRow}
+        />
+      }
+      {deleteRow && 
+        <DeleteClientModal
+          open={true} 
+          onClose={() => setDeleteRow(null)}
+          row={deleteRow}
+        />
+      }
     </Box>
   );
 }
