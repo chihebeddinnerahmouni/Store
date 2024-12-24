@@ -135,24 +135,7 @@ const Achats = () => {
         }}
       >
         <PageTitle text="Liste des achats" />
-        <ButtonsCont
-        // data={data}
-        // columns={columns}
-        // date={date}
-        // setDate={setDate}
-        // reference={reference}
-        // setReference={setReference}
-        // fournisseur={fournisseur}
-        // setFournisseur={setFournisseur}
-        // magasin={magasin}
-        // setMagasin={setMagasin}
-        // status={status}
-        // setStatus={setStatus}
-        // paimentStatus={paimentStatus}
-        // setPaimentStatus={setPaimentStatus}
-        // fournisseurArray={fourniArray}
-        // magasinArray={magasinArray}
-        />
+        <ButtonsCont/>
         <AchatTable rows={data} columns={columns} />
       </AchatsContext.Provider>
     </div>

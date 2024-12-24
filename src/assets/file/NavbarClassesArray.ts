@@ -13,7 +13,7 @@ import { IoManOutline } from "react-icons/io5";
 // import { IoReturnUpBack } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { CiShop } from "react-icons/ci";
-
+import { CiCircleAlert } from "react-icons/ci";
 
 const array = [
   // {
@@ -167,9 +167,9 @@ const array = [
     subList: [
       {
         id: 1,
-        title: "Paiment des achats",
-        icon: TbReportSearch,
-        url: "/rapports/paiment-des-achats",
+        title: "Alertes de quantité de produits",
+        icon: CiCircleAlert,
+        url: "/rapports/alerte-produit",
       },
     ],
   },

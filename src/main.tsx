@@ -21,7 +21,7 @@ import Login from './pages/auth/Login';
 import Reyonnage from './pages/products/Reyonnage';
 import EditProduct from './pages/products/EditProduct';
 import Magasins from './pages/products/Magasins';
-import PaimentAchats from './pages/rapport/PaimentAchats';
+import AlertProduit from './pages/rapport/AlertProduit';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +35,10 @@ const router = createBrowserRouter([
       { path: "/produits/unite", element: <Unite /> },
       { path: "/produits/reyonnage", element: <Reyonnage /> },
       { path: "/produits/magasins", element: <Magasins /> },
-      { path: "/produits/modifier-produit/:produitId", element: <EditProduct /> },
+      {
+        path: "/produits/modifier-produit/:produitId",
+        element: <EditProduct />,
+      },
 
       { path: "/achats/ajouter-un-achat", element: <AddAchat /> },
       { path: "/achats", element: <Achats /> },
@@ -49,7 +52,7 @@ const router = createBrowserRouter([
       { path: "/retour/retour-des-ventes", element: <RetourVantes /> },
       { path: "/retour/retour-des-achats", element: <RetourAchats /> },
 
-      { path: "/rapports/paiment-des-achats", element: <PaimentAchats /> },
+      { path: "/rapports/alerte-produit", element: <AlertProduit /> },
     ],
   },
   { path: "/test", element: <Test /> },
