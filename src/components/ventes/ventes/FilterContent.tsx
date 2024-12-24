@@ -2,95 +2,38 @@ import { Box } from "@mui/material";
 import { BsArrowRepeat } from "react-icons/bs";
 import { CiFilter } from "react-icons/ci";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import Fourni from "./filter content/fourni";
 import Magasin from "./filter content/Magasin";
 import StartDate from "./filter content/StartDate";
-import EndDate from "./filter content/EndDate";
-import InvNumber from "./filter content/InvNumber";
 import UserInvNumber from "./filter content/UserInvNumber";
-import Remark from "./filter content/Remark";
-import Category from "./filter content/Category";
-import MinLaivraison from "./filter content/MinLaivraison";
+import Client from "./filter content/Client";
 import { useContext } from "react";
 import { VentsContext } from "../../../pages/vente/Vents";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 
-
-
 interface Props {
   close: () => void;
-  // date: string;
-  // setDate: (value: string) => void;
-  // reference: string;
-  // setReference: (value: string) => void;
-  // fournisseur: string;
-  // setFournisseur: (value: string) => void;
-  // magasin: string;
-  // setMagasin: (value: string) => void;
-  // status: string;
-  // setStatus: (value: string) => void;
-  // paimentStatus: string;
-  // setPaimentStatus: (value: string) => void;
-  // fournisseurArray: any[];
-  // magasinArray: any[];
 }
 
-const FilterContent = ({
-  // close,
-  // date,
-  // setDate,
-  // reference,
-  // setReference,
-  // fournisseur,
-  // setFournisseur,
-  // magasin,
-  // setMagasin,
-  // status,
-  // setStatus,
-  // paimentStatus,
-  // setPaimentStatus,
-  // fournisseurArray,
-  // magasinArray,
-
-}: Props) => {
-
-  const {
-    // setData,
-    date,
-    endDate,
-    reference,
-    userInvNumber,
-    remark,
-    // category,
-    minLaivraison,
-    maxLaivraison,
-    fournisseur,
-    magasin,
-  } = useContext(VentsContext);
+const FilterContent = ({close}: Props) => {
+  const { date, userInvNumber, magasin, clientId, setData } = useContext(VentsContext);
   const url = import.meta.env.VITE_BASE_URL;
   const [loading, setLoading] = useState(false);
-  
+
   const search = () => {
     setLoading(true);
+
+    const body = {
+      ...(clientId && { client_id: clientId }),
+      ...(userInvNumber && { user_invoice_number: userInvNumber }),
+      ...(magasin && { entrepot_id: magasin }),
+      ...(date && { date: date }),
+    }
+    console.log(body);
     axios
       .post(
-        url + "/api/achats/filter/get",
-        {
-          provider_id: fournisseur, // Search by provider ID
-          entrepot_id: magasin, // Search by entrepot ID
-          invoice_number: reference, // Search by invoice number (exact or partial match)
-          user_invoice_number: userInvNumber, // Search by user-defined invoice number (exact or partial match)
-          date_start: date, // Start date for filtering purchases (YYYY-MM-DD format)
-          date_end: endDate, // End date for filtering purchases (YYYY-MM-DD format, must be >= date_start)
-          // product_id: 3, // Search purchases involving a specific product ID
-          remarks: remark, // Search by remarks (exact or partial match)
-          // created_by: 1, // Search by user ID who created the purchase
-          // updated_by: 2, // Search by user ID who updated the purchase
-          livraison_cost_min: minLaivraison, // Minimum delivery cost for filtering purchases
-          livraison_cost_max: maxLaivraison, // Maximum delivery cost for filtering purchases
-        },
+        url + "/api/vente/filter", body,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -98,11 +41,10 @@ const FilterContent = ({
         }
       )
       .then((res) => {
-        // setData(res.data);
-        console.log(res.data);
+        setData(res.data.ventes);
+        close();
       })
       .catch((err) => {
-        // console.log(err.response.data);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -116,10 +58,10 @@ const FilterContent = ({
                 enqueueSnackbar(err, { variant: "error" });
               });
             });
-          } 
-        };
+          }
+        }
       });
-  }
+  };
 
   const buttons_array = [
     {
@@ -142,23 +84,24 @@ const FilterContent = ({
 
   return (
     <Box
-    sx={{
+      sx={{
         padding: 2,
       }}
       role="presentation"
-      >
+    >
       <p className="font-bold text-[25px]">Filtre</p>
       <div className="content flex flex-col gap-6 mt-5">
-        <Fourni />
-        <Magasin />
+        {/* <Fourni /> */}
         <StartDate />
-        <EndDate />
-        <InvNumber />
+        <Client />
+        <Magasin />
+        {/* <EndDate /> */}
+        {/* <InvNumber /> */}
         <UserInvNumber />
-        <Remark />
-        <Category />
-        <MinLaivraison />
-      
+        {/* <Remark /> */}
+        {/* <Category /> */}
+        {/* <MinLaivraison /> */}
+
         {/* buttons */}
         <div className="buttons flex gap-2 mt-5">
           {buttons_array.map((button, index) => (

@@ -2,7 +2,7 @@ import InputText from "../../../ui/inputs/InputText";
 import Label from "../../../ui/Label";
 import { useContext } from "react";
 import { VentsContext } from "../../../../pages/vente/Vents";
-
+// not used
 const Remark = () => {
   const { remark, setRemark } = useContext(VentsContext);
 

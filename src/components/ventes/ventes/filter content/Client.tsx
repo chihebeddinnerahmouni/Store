@@ -2,34 +2,34 @@ import SelectInput from "../../../ui/inputs/SelectInput";
 import Label from "../../../ui/Label";
 import { useContext } from "react";
 import { VentsContext } from "../../../../pages/vente/Vents";
-// not used
-const Category = () => {
-  const { category, setCategory, categoriesArray } = useContext(VentsContext);
 
-    // console.log(categoriesArray);
+const Client = () => {
+  const { clientId, setClientId, clientsArray } = useContext(VentsContext);
 
-  const newOptions = categoriesArray.map((option: any) => ({
+//   console.log(clientsArray);
+
+  const newOptions = clientsArray.map((option: any) => ({
     id: option.id,
-    name: option.name_category,
+    name: option.name,
   }));
 
   return (
     <div className="bg-red200 flex flex-col gap-3">
-      <Label id={"filterProductsFourni"} text={"Categorie"} />
+      <Label id={"filterProductsFourni"} text={"Client"} />
       <SelectInput
         options={newOptions}
-        label="Selectionner une categorie"
+        label="Par client"
         value={
-          category === 0
+          clientId === 0
             ? ""
-            : newOptions.find((option: any) => option.id === category)?.name
+            : newOptions.find((option: any) => option.id === clientId)?.name
         }
         setValue={(value: string) => {
           const selectedOption = newOptions.find(
             (option: any) => option.name === value
           );
           const valueId = selectedOption ? selectedOption.id : 0;
-          setCategory(valueId);
+          setClientId(valueId);
         }}
       />
     </div>
@@ -37,4 +37,4 @@ const Category = () => {
 };
 
 
-export default Category;
+export default Client;

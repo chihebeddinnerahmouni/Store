@@ -2,7 +2,7 @@ import InputNumber from "../../../ui/inputs/InputNumber";
 import Label from "../../../ui/Label";
 import { useContext } from "react";
 import { VentsContext } from "../../../../pages/vente/Vents";
-
+// not used
 const MinLaivraison = () => {
   const { minLaivraison, setMinLaivraison } = useContext(VentsContext);
 

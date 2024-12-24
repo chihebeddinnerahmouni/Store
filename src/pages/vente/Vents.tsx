@@ -13,25 +13,27 @@ export const VentsContext = createContext<any>({});
 
 const Achats = () => {
   const [date, setDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [reference, setReference] = useState("");
+  // const [endDate, setEndDate] = useState("");
+  // const [reference, setReference] = useState("");
   const [userInvNumber, setUserInvNumber] = useState("");
   // const [productId, setProductId] = useState("");
-  const [remark, setRemark] = useState("");
-  const [category, setCategory] = useState(0);
+  // const [remark, setRemark] = useState("");
+  // const [category, setCategory] = useState(0);
   // const [createdBy, setCreatedBy] = useState("");
   // const [updatedBy, setUpdatedBy] = useState("");
-  const [minLaivraison, setMinLaivraison] = useState("");
-  const [maxLaivraison, setMaxLaivraison] = useState("");
-  const [fournisseur, setFournisseur] = useState(0);
+  // const [minLaivraison, setMinLaivraison] = useState("");
+  // const [maxLaivraison, setMaxLaivraison] = useState("");
+  // const [fournisseur, setFournisseur] = useState(0);
   const [magasin, setMagasin] = useState(0);
+  const [clientId, setClientId] = useState(0);
   // const [status, setStatus] = useState("");
   // const [paimentStatus, setPaimentStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IVente[]>([]);
-  const [categoriesArray, setCategoriesArray] = useState<any[]>([]);
-  const [fourniArray, setFourniArray] = useState<any[]>([]);
+  // const [categoriesArray, setCategoriesArray] = useState<any[]>([]);
+  // const [fourniArray, setFourniArray] = useState<any[]>([]);
   const [magasinArray, setMagasinArray] = useState<any[]>([]);
+  const [clientsArray, setClientsArray] = useState<any[]>([]);
 
   const columns = columns_test;
   const url = import.meta.env.VITE_BASE_URL as string;
@@ -48,12 +50,7 @@ const Achats = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/providers`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      axios.get(`${url}/api/categories`, {
+      axios.get(`${url}/api/clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -72,8 +69,7 @@ const Achats = () => {
         });
         setData(modifiedAchats);
         setMagasinArray(res[1].data.entrepots);
-        setFourniArray(res[2].data.providers);
-        setCategoriesArray(res[3].data.categories);
+        setClientsArray(res[2].data.clients);
         setLoading(false);
       })
       .catch((err) => {
@@ -103,27 +99,30 @@ const Achats = () => {
           columns,
           date,
           setDate,
-          endDate,
-          setEndDate,
-          reference,
-          setReference,
+          // endDate,
+          // setEndDate,
+          // reference,
+          // setReference,
           userInvNumber,
           setUserInvNumber,
-          remark,
-          setRemark,
-          fournisseur,
-          setFournisseur,
+          // remark,
+          // setRemark,
+          // fournisseur,
+          // setFournisseur,
           magasin,
           setMagasin,
-          fourniArray,
+          clientId,
+          setClientId,
+          clientsArray,
+          // fourniArray,
           magasinArray,
-          category,
-          setCategory,
-          categoriesArray,
-          minLaivraison,
-          setMinLaivraison,
-          maxLaivraison,
-          setMaxLaivraison,
+          // category,
+          // setCategory,
+          // categoriesArray,
+          // minLaivraison,
+          // setMinLaivraison,
+          // maxLaivraison,
+          // setMaxLaivraison,
         }}
       >
         <PageTitle text="Liste des vents" />
