@@ -2,70 +2,56 @@ import Label from "../../../ui/Label";
 import SelectInput from "../../../ui/inputs/SelectInput";
 import { Controller } from "react-hook-form";
 
-// not used
-
-interface DesignationProps {
-  options: any[];
+interface Props {
+    clientsArray: any[];
   control: any;
-  register: any;
   errors: any;
-  id: string;
   setValue: (value: number) => void;
   value: number;
-  clearErrors: (name: string) => void;
+    clearErrors: (name: string) => void;
+    id: string;
 }
 
-// const options_array = [
-//   { id: 1, name: "client 1" },
-//   { id: 2, name: "client 2" },
-//   { id: 3, name: "client 3" },
-//   { id: 4, name: "client 4" },
-// ];
-
-const Fournisseur = ({
+const Clients = ({
   control,
-  errors,
-  id,
+    errors,
+    clientsArray,
   value,
   setValue,
-  clearErrors,
-  options,
-}: DesignationProps) => {
+    clearErrors,
+    id,
 
-  // console.log(options);
+}: Props) => {
+    // console.log(value);
 
-   const newOptions = options.map((option) => ({
-     id: option.id,
-     name: option.name,
-   }));
+    const newOptions = clientsArray.map((client: any) => ({
+        id: client.id,
+        name: client.name,
+    }));
+    
 
+  
 
   return (
     <div className="bg-red200 flex flex-col gap-3">
-      <Label id={id} text={"Fournisseur*"} />
+      <Label id={id} text={"Client*"} />
+
       <Controller
-        name="fournisseur"
+        name="magasain"
         control={control}
         rules={{ required: "ce champ est obligatoire" }}
         render={({ field }) => (
           <SelectInput
             options={newOptions}
-            label="Selectionnez le fournisseur*"
+            label="Selectionnez le client*"
             {...field}
-            error={!!errors.fournisseur}
-            helperText={errors.fournisseur?.message}
+            error={!!errors.magasain}
+            helperText={errors.magasain?.message}
             value={
               value === 0
                 ? ""
                 : newOptions.find((option) => option.id === value)?.name
             }
-            // setValue={(value: string) => {
-            //   setValue(value);
-            //   field.onChange(value);
-            //   if (errors.fournisseur) {
-            //     clearErrors("fournisseur");
-            //   }
-            // }}
             setValue={(value: string) => {
               const selectedOption = newOptions.find(
                 (option) => option.name === value
@@ -74,7 +60,7 @@ const Fournisseur = ({
               setValue(valueId);
               field.onChange(value);
               if (errors.category) {
-                clearErrors("fournisseur");
+                clearErrors("magasain");
               }
             }}
           />
@@ -85,6 +71,4 @@ const Fournisseur = ({
 };
 
 
-
-
-export default Fournisseur;
+export default Clients;

@@ -65,7 +65,7 @@ const ButtonsCont = (
   // };
 
   const handleAdd = () => {
-    navigate("/achats/ajouter-un-achat");
+    navigate("/ventes/ajouter-un-vente");
   };
 
   const buttons_array = [

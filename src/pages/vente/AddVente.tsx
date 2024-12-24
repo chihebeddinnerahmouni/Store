@@ -27,13 +27,15 @@ interface IProductCommandeItem {
 
 type FormValues = {
   date: string;
-  fournisseur: string;
+  // fournisseur: string;
   magasain: string;
+  client: string;
 };
 
 const AddAchat = () => {
   const [date, setDate] = useState<string>("");
-  const [fournisseure, setFournisseure] = useState<number>(0);
+  // const [fournisseure, setFournisseure] = useState<number>(0);
+  const [clientId, setClientId] = useState<number>(0);
   const [magasain, setMagasain] = useState<number>(0);
   const [produit, setProduit] = useState<string>("");
   const [productsCommandeArray, setProductsCommandeArray] = useState<
@@ -45,9 +47,10 @@ const AddAchat = () => {
   const [status, setStatus] = useState<string>("");
   const [remarque, setRemarque] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
+  // const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
   const [magasainsArray, setMagasainsArray] = useState<any[]>([]);
   const [loadingPage, setLoadingPage] = useState<boolean>(true);
+  const [clientArray, setClientArray] = useState<any[]>([]);
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
@@ -60,15 +63,16 @@ const AddAchat = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/providers`, {
+      axios.get(`${url}/api/clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
     ])
       .then((res) => {
-        // console.log(res[0].data.entrepots);
-        setFournisseuresArray(res[1].data.providers);
+        // console.log(res[1].data.clients);
+        // setFournisseuresArray(res[1].data.providers);
+        setClientArray(res[1].data.clients);
         setMagasainsArray(res[0].data.entrepots);
         setLoadingPage(false);
       })
@@ -82,22 +86,28 @@ const AddAchat = () => {
   }, []);
 
   const send = () => {
+    // console.log(productsCommandeArray); 
     setLoading(true);
 
     axios
       .post(
-        `${url}/api/achats`,
+        `${url}/api/vente/add-vente`,
         {
-          provider_id: fournisseure,
+          client_id: clientId,
           entrepot_id: magasain,
-          user_invoice_number: generateInvoiceNumber(),
           date: date,
-          // livraison_cost: 100.5,
+          user_invoice_number: generateInvoiceNumber(),
+          livraison_cost: parseFloat(laivraison),
+          tax: parseFloat(taxe),
+          remise: parseFloat(remise),
+          status: status,
+          remarks: remarque,
           products: productsCommandeArray.map((product) => ({
             product_id: product.id,
-            quantity_declared: product.quantite,
-            // remise: product.remise,
-            tax: product.taxe,
+            quantity_sold: product.quantite,
+            unit_price: product.cout_unitaire,
+            remise: parseFloat(remise),
+            tax: parseFloat(taxe),
             serial_numbers: product.serial_numbers,
           })),
         },
@@ -108,11 +118,13 @@ const AddAchat = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setLoading(false);
+        enqueueSnackbar(res.data.message, { variant: "success" });
+        window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -163,12 +175,15 @@ const AddAchat = () => {
             errors={errors}
             date={date}
             setDate={setDate}
-            fournisseur={fournisseure}
-            setFournisseur={setFournisseure}
+            // fournisseur={fournisseure}
+            // setFournisseur={setFournisseure}
             magasain={magasain}
             setMagasain={setMagasain}
-            fournisseuresArray={fournisseuresArray}
+            // fournisseuresArray={fournisseuresArray}
+            clientsArray={clientArray}
             magasainsArray={magasainsArray}
+            clientId={clientId}
+            setClientId={setClientId}
           />
           <TableCont
             produit={produit}
@@ -220,4 +235,3 @@ const generateInvoiceNumber = () => {
   const random = Math.floor(Math.random() * 1000000);
   return `${timestamp}${random}`;
 };
-
