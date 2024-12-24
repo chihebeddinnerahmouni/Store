@@ -2,7 +2,7 @@ import Date from "../../../components/ventes/add vente/1stCont/Date";
 // import Fournisseur from "../../../components/ventes/add vente/1stCont/Fournisseur";
 import Magasain from "../../../components/ventes/add vente/1stCont/Magasain";
 import Client from "../../../components/ventes/add vente/1stCont/Clients";
-
+import UserInvNumber from "../../../components/ventes/add vente/1stCont/UserInvNumber";
 
 
 interface ProductStContProps {
@@ -23,6 +23,8 @@ interface ProductStContProps {
   clientsArray: any[];
   clientId: number;
   setClientId: (value: number) => void;
+  user_invoice_number: string;
+  setUser_invoice_number: (value: string) => void;
 }
 
 const VenteStCont = ({
@@ -43,6 +45,8 @@ const VenteStCont = ({
   clientsArray,
   clientId,
   setClientId,
+  user_invoice_number,
+  setUser_invoice_number,
 }: ProductStContProps) => {
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
@@ -54,6 +58,16 @@ const VenteStCont = ({
         value={date}
         setValue={setDate}
         id={"date"}
+      />
+
+      <UserInvNumber
+        control={control}
+        clearErrors={clearErrors}
+        register={register}
+        errors={errors}
+        value={user_invoice_number}
+        setValue={setUser_invoice_number}
+        id={"user_invoice_number"}
       />
 
       {/* <Fournisseur

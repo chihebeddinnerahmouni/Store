@@ -1,7 +1,7 @@
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import OptionsButton from "../../ui/buttons/actions/OptionsButton";
-import IAchat from "../../../types/achat";
+import IVente from "../../../types/vente";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
 import createPDF from "../../../helper/create_pdf_from_object";
@@ -10,7 +10,7 @@ import Details from "./Details";
 
 interface OptionsMenuProps {
   active: boolean;
-  row: IAchat;
+  row: IVente;
   columns: any[];
 }
 
@@ -78,7 +78,7 @@ const OptionsMenu = ({
     },
     {
       title: "Télécharger Le PDF",
-      onClick: () => createPDF(row, columns, "Achat"),
+      onClick: () => createPDF(row, columns, "vente"),
     },
     {
       title: "Supprimer L'achat",

@@ -2,11 +2,11 @@ import { Modal, Box, Typography, Grid } from "@mui/material";
 import { useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
-import IAchat from "../../../types/achat";
+import IVente from "../../../types/vente";
 
 interface ViewModalProps {
   onClose: () => void;
-  row: IAchat;
+  row: IVente;
 }
 
 const Details = ({ onClose, row }: ViewModalProps) => {
@@ -19,28 +19,20 @@ const Details = ({ onClose, row }: ViewModalProps) => {
         
      useEffect(() => {
        setProductDetails([
-         //  { label: "Date de création", value: row.created_at },
-        //  { label: "Date de création", value: formatDate(row.created_at) },
          { label: "Créé par", value: row.created_by.toString() },
          { label: "Date", value: row.date },
          {
            label: "Supprimé par",
            value: row.deleted_by ? row.deleted_by.toString() : "N/A",
          },
-         //  { label: "Entrepôt", value: row.entrepot.name },
          { label: "ID Entrepôt", value: row.entrepot_id.toString() },
-         { label: "Fournisseur", value: row.fournisseur },
+         { label: "Client", value: row.nom_du_client },
          { label: "ID", value: row.id.toString() },
          { label: "Numéro de facture", value: row.invoice_number },
          { label: "Coût de livraison", value: row.livraison_cost },
          { label: "Magasin", value: row.magasin },
-         //  { label: "Fournisseur", value: row.provider.name },
-         { label: "ID Fournisseur", value: row.provider_id.toString() },
-         { label: "Référence", value: row.reference },
+         { label: "Référence", value: row.référence },
          { label: "Remarques", value: row.remarks ? row.remarks : "N/A" },
-         { label: "Total", value: row.total },
-         { label: "Coût total", value: row.total_cost },
-        //   { label: "Date de mise à jour", value: formatDate(row.updated_at) },
          {
            label: "Mis à jour par",
            value: row.updated_by ? row.updated_by.toString() : "N/A",

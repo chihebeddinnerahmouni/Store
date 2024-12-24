@@ -1,42 +1,24 @@
-interface IProduct {
+interface Client {
   id: number;
-  achat_id: number;
-  product_id: number;
-  unit_price: string;
-  quantity_declared: number;
-  quantity_remaining: number;
-  remise: string;
-  tax: string;
-  subtotal: string;
-  created_by: number;
-  updated_by: number | null;
-  deleted_by: number | null;
-  created_at: string;
-  updated_at: string;
-}
-
-interface IProvider {
-  id: number;
+  code_client: string;
   name: string;
-  phone: string;
   email: string;
+  phone: string;
   address: string;
+  status: string;
+  total_purchases: string;
+  outstanding_balance: string;
   created_by: number;
-  updated_by: number | null;
+  updated_by: number;
   deleted_by: number | null;
   created_at: string;
   updated_at: string;
-  amount_paid: string;
-  code_provider: string;
-  outstanding_balance: string;
-  status: string;
-  total_supplies: string;
 }
 
-interface IWarehouse {
+interface Entrepot {
   id: number;
-  name: string;
   code_entreport: string;
+  name: string;
   description: string;
   created_by: number;
   updated_by: number | null;
@@ -45,38 +27,44 @@ interface IWarehouse {
   updated_at: string;
 }
 
-interface IVente {
+interface Vente {
   id: number;
-  provider_id: number;
+  client_id: number;
+  entrepot_id: number;
   invoice_number: string;
   user_invoice_number: string;
-  entrepot_id: number;
-  total_cost: string;
+  date: string;
   livraison_cost: string;
+  tax: string;
+  remise: string;
   remarks: string | null;
+  status: string;
   created_by: number;
   updated_by: number | null;
   deleted_by: number | null;
   created_at: string;
   updated_at: string;
-  products: IProduct[];
-  provider: IProvider;
-  entrepot: IWarehouse;
+  client: Client;
+  entrepot: Entrepot;
 
-  // table achat
-  date: string;
-  reference: string;
-  fournisseur: string;
+  // table
+  nom_du_client: string;
   magasin: string;
-  total: string;
+  référence: string;
+  // date: string;  ca exists in the interface
+  // status: string; ca exists in the interface
 }
+
+
+
+export default Vente;
+
 
 export interface IVenteTable {
-  date: string;
-  reference: string;
-  fournisseur: string;
+  id: number;
+  nom_du_client: string;
   magasin: string;
-  total: string;
+  référence: string;
+  date: string;
+  status: string;
 }
-
-export default IVente;

@@ -2,11 +2,11 @@ import PageTitle from "../../components/ui/PageTitle";
 import VentsTable from "../../containers/vente/vente/VentsTable";
 import ButtonsCont from "../../containers/vente/vente/ButtonsCont";
 import { useState, useEffect } from "react";
-import IAchat from "../../types/achat";
+import IVente from "../../types/vente";
 import Loading from "../../components/ui/Loading";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import { IAchatTable } from "../../types/achat";
+import { IVenteTable } from "../../types/vente";
 import { createContext } from "react";
 
 export const VentsContext = createContext<any>({});
@@ -28,7 +28,7 @@ const Achats = () => {
   // const [status, setStatus] = useState("");
   // const [paimentStatus, setPaimentStatus] = useState("");
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<IAchat[]>([]);
+  const [data, setData] = useState<IVente[]>([]);
   const [categoriesArray, setCategoriesArray] = useState<any[]>([]);
   const [fourniArray, setFourniArray] = useState<any[]>([]);
   const [magasinArray, setMagasinArray] = useState<any[]>([]);
@@ -38,7 +38,7 @@ const Achats = () => {
 
   useEffect(() => {
     Promise.all([
-      axios.get(`${url}/api/achats`, {
+      axios.get(`${url}/api/vente`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -60,15 +60,14 @@ const Achats = () => {
       }),
     ])
       .then((res) => {
-        // console.log(res[3].data.categories);
-        const modifiedAchats = res[0].data.achats.map((achat: IAchat) => {
+        // console.log(res[0].data.ventes);
+        const modifiedAchats = res[0].data.ventes.map((vente: IVente) => {
           return {
-            ...achat,
-            date: new Date(achat.created_at).toLocaleDateString(),
-            reference: achat.invoice_number,
-            fournisseur: achat.provider_id.toString(),
-            magasin: achat.entrepot_id.toString(),
-            total: achat.total_cost,
+            ...vente,
+            // date: new Date(achat.created_at).toLocaleDateString(),
+            référence: vente.invoice_number,
+            nom_du_client: vente.client.name,
+            magasin: vente.entrepot.name,
           };
         });
         setData(modifiedAchats);
@@ -137,12 +136,12 @@ const Achats = () => {
 
 export default Achats;
 
-const columns_test: (keyof IAchatTable)[] = [
-  "date",
-  "reference",
-  "fournisseur",
+const columns_test: (keyof IVenteTable)[] = [
+  "id", 
+  "nom_du_client",
   "magasin",
-  "total",
+  "référence",
+  "date",
 ];
 
 
