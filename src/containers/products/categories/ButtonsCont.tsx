@@ -35,7 +35,7 @@
 //     },
 //     {
 //       icon: <IoIosAddCircleOutline />,
-//       text: "Add",
+//       text: "Ajouter",
 //       color: "#8b5cf6",
 //       onClick: handleAdd,
 //     },
@@ -90,7 +90,7 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
     },
     {
       icon: <IoIosAddCircleOutline />,
-      text: "Add",
+      text: "Ajouter",
       color: "#8b5cf6",
       onClick: handleAdd,
     },

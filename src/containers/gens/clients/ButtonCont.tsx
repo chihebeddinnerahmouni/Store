@@ -22,9 +22,9 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
 //     setIsDrawerOpen(!isDrawerOpen);
 //   };
 
-  const handleExportExcel = () => {
-    console.log("Export Excel not implemented");
-  };
+  // const handleExportExcel = () => {
+  //   console.log("Export Excel not implemented");
+  // };
 
   const handleAdd = () => {
     setIsAddOpen(true);
@@ -43,15 +43,15 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
       color: "#10b981",
       onClick: () => handlePrintPdf(data, columns, "Liste-du-clients.pdf"),
     },
-    {
-      icon: <AiOutlineFileExcel />,
-      text: "Export Excel",
-      color: "#ef4444",
-      onClick: handleExportExcel,
-    },
+    // {
+    //   icon: <AiOutlineFileExcel />,
+    //   text: "Export Excel",
+    //   color: "#ef4444",
+    //   onClick: handleExportExcel,
+    // },
     {
       icon: <IoIosAddCircleOutline />,
-      text: "Add",
+      text: "Ajouter",
       color: "#8b5cf6",
       onClick: handleAdd,
     },

@@ -1,6 +1,6 @@
-import Date from "../../../components/ventes/1stCont(or)/Date";
-import Client from "../../../components/ventes/1stCont(or)/Client";
-import Magasain from "../../../components/ventes/1stCont(or)/Magasain";
+import Date from "../../../components/ventes/add vente/1stCont/Date";
+import Fournisseur from "../../../components/ventes/add vente/1stCont/Fournisseur";
+import Magasain from "../../../components/ventes/add vente/1stCont/Magasain";
 
 interface ProductStContProps {
   control: any;
@@ -9,10 +9,14 @@ interface ProductStContProps {
   errors: any;
   date: string;
   setDate: (value: string) => void;
-  client: string;
-  setClient: (value: string) => void;
-  magasain: string;
-  setMagasain: (value: string) => void;
+  // client: string;
+  // setClient: (value: string) => void;
+  fournisseur: number;
+  setFournisseur: (value: number) => void;
+  magasain: number;
+  setMagasain: (value: number) => void;
+  fournisseuresArray: any[];
+  magasainsArray: any[];
 }
 
 const VenteStCont = ({
@@ -22,10 +26,14 @@ const VenteStCont = ({
   errors,
   date,
   setDate,
-  client,
-  setClient,
+  // client,
+  // setClient,
+  fournisseur,
+  setFournisseur,
   magasain,
   setMagasain,
+  fournisseuresArray,
+  magasainsArray,
 }: ProductStContProps) => {
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
@@ -39,17 +47,19 @@ const VenteStCont = ({
         id={"date"}
       />
 
-      <Client
+      <Fournisseur
+        options={fournisseuresArray}
         control={control}
         clearErrors={clearErrors}
         register={register}
         errors={errors}
         id={"client"}
-        value={client}
-        setValue={setClient}
+        value={fournisseur}
+        setValue={setFournisseur}
       />
 
       <Magasain
+        options={magasainsArray}
         control={control}
         clearErrors={clearErrors}
         register={register}
@@ -61,6 +71,5 @@ const VenteStCont = ({
     </section>
   );
 };
-
 
 export default VenteStCont;

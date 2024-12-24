@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { forwardRef } from "react";
-import Label from "../../ui/Label";
+import Label from "../../../ui/Label";
 
 interface DesignationProps {
   id: string;
@@ -8,22 +8,20 @@ interface DesignationProps {
   value: string;
 }
 
-// not used
-
-const Laivraison = ({
+const Remarque = ({
   id,
   value,
   setValue,
 }: DesignationProps) => {
   return (
-    <div className="bg-red200 flex flex-col gap-3">
-      <Label id={id} text="Laivraison" />
+    <div className="bg-red200 flex flex-col gap-3 lg:col-span-2">
+      <Label id={id} text="Remarque" />
       <InputText
         value={value}
         setValue={(val: string) => {
           setValue(val);
         }}
-        label="Laivraison"
+        label="Quelque chose à ajouter ?"
         id={id}
       />
     </div>
@@ -47,7 +45,8 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
           inputRef={ref}
           label={label}
           value={value}
-          type="number"
+          multiline
+          rows={6}
           onChange={(e) => setValue(e.target.value)}
           variant="outlined"
           fullWidth
@@ -92,4 +91,4 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(
 );
 
 
-export default Laivraison;
+export default Remarque;

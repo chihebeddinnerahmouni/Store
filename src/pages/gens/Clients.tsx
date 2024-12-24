@@ -24,7 +24,7 @@ const Clients = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.clients);
+        // console.log(res.data.clients);
         const newClientsArray = res.data.clients.map((client: IClient) => {
           return {
             ...client,
@@ -60,7 +60,7 @@ const Clients = () => {
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
           <PageTitle text="Gestion Du Clients" />
           <ButtonsCont data={clients} columns={columns} />
-            <TableClients rows={clients} columns={columns} />
+          <TableClients rows={clients} columns={columns} />
     </div>
   );
 }
@@ -69,10 +69,12 @@ export default Clients
 
 
 const columns_test: (keyof IClient)[] = [
-    "id", 
-    "nom",
-    "téléphone",
-    "email",
+  "id", 
+  "nom",
+  "téléphone",
+  "email",
+  "address",
+    
     // "vente_total_dû",
     // "retour_de_vente_total_dû",
 ]

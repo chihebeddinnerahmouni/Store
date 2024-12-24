@@ -1,5 +1,5 @@
-import Label from "../../ui/Label";
-import InputDate from "../../ui/inputs/InputDate";
+import Label from "../../../ui/Label";
+import InputDate from "../../../ui/inputs/InputDate";
 import { Controller } from "react-hook-form";
 
 interface Props {

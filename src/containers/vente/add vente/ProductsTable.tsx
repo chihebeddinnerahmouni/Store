@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { CiBarcode } from "react-icons/ci";
 import ActionsButton from "../../../components/ui/buttons/actions/ActionButton";
-
 import {
   Table,
   TableBody,
@@ -27,7 +26,7 @@ interface IProductCommandeItem {
   name: string;
   cout_unitaire: number;
   stock_actuel: number;
-  remise: number;
+  // remise: number;
   taxe: number;
   quantite: number;
   grand_total: number;
@@ -54,7 +53,7 @@ const ProductsTable = ({ data, setData }: Props) => {
   }, [searchQuery, data]);
 
   return (
-    <div className="cardCss mt-5 w-full">
+    <div className="cardCs mt-5 w-full scrollableCs">
       <TableTop
         title="Produits"
         value={searchQuery}
@@ -131,6 +130,11 @@ const ProductRow = ({
           enqueueSnackbar("Stock insuffisant");
           return product;
         }
+
+        // Open modal for serial number input if required
+        // if (product.has_serial_number && newQuantity > product.quantite) {
+        //   setIsModalOpen(true);
+        // }
 
         return {
           ...product,
@@ -230,9 +234,9 @@ const ProductRow = ({
             handleQuantityChange={handleQuantityChange}
           />
         </TableCell>
-        <TableCell align="center" sx={{ border: "none" }}>
+        {/* <TableCell align="center" sx={{ border: "none" }}>
           {row.remise}
-        </TableCell>
+        </TableCell> */}
         <TableCell align="center" sx={{ border: "none" }}>
           {row.taxe}
         </TableCell>
@@ -245,7 +249,7 @@ const ProductRow = ({
             icon={<CiBarcode />}
             onClick={(e) => {
               e.preventDefault();
-              setIsModalOpen(true);
+              setIsModalOpen(true)
             }}
             color={mainColor}
           />
@@ -254,13 +258,11 @@ const ProductRow = ({
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DialogTitle>Saisir les numéros de série</DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-          }}
-        >
+        <DialogContent sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}>
           {[...Array(row.quantite)].map((_, idx) => (
             <InputText
               key={idx}
@@ -278,6 +280,7 @@ const ProductRow = ({
           <FullShiningButton
             text="Annuler"
             color="#f00"
+            // onClick={() => setIsModalOpen(false)}
             onClick={handleModalClose}
           />
           <FullShiningButton
@@ -308,16 +311,25 @@ const StockStatus = ({
     );
   if (stock < alertStock)
     return (
-      <p className="border-2 border-yellow-500 rounded inline px-1 text-yellow-500">
-        {stock} <span className="text-xs">{unité}</span>
-      </p>
-    );
-  return (
-    <p>
-      {stock} <span className="text-xs">{unité}</span>
-    </p>
-  );
-};
+        <p className="border-2 border-yellow-500 rounded inline px-1 text-yellow-500">
+          {stock} <span className="text-xs">{unité}</span>
+        </p>
+      );
+    return (
+        <p>
+          {stock} <span className="text-xs">{unité}</span>
+        </p>
+      );
+    };
+
+
+
+
+
+
+
+
+
 
 const formatColumnName = (column: string) =>
   column.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -330,7 +342,7 @@ const columns = [
   "cout_unitaire",
   "stock_actuel",
   "quantite",
-  "remise",
+  // "remise",
   "taxe",
   "grand_total",
 ];
