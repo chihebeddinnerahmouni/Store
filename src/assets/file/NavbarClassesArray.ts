@@ -137,27 +137,27 @@ const array = [
       },
     ],
   },
-  {
-    id: 6,
-    title: "Retour",
-    icon: IoBackspaceOutline,
-    url: "about-us",
-    blank: false,
-    subList: [
-      {
-        id: 1,
-        title: "Retour des ventes",
-        icon: IoReturnUpBack,
-        url: "/retour/retour-des-ventes",
-      },
-      {
-        id: 1,
-        title: "Retour des achats",
-        icon: IoReturnUpBack,
-        url: "/retour/retour-des-achats",
-      },
-    ],
-  },
+  // {
+  //   id: 6,
+  //   title: "Retour",
+  //   icon: IoBackspaceOutline,
+  //   url: "about-us",
+  //   blank: false,
+  //   subList: [
+  //     {
+  //       id: 1,
+  //       title: "Retour des ventes",
+  //       icon: IoReturnUpBack,
+  //       url: "/retour/retour-des-ventes",
+  //     },
+  //     {
+  //       id: 1,
+  //       title: "Retour des achats",
+  //       icon: IoReturnUpBack,
+  //       url: "/retour/retour-des-achats",
+  //     },
+  //   ],
+  // },
   {
     id: 7,
     title: "Rapports",
@@ -167,9 +167,9 @@ const array = [
     subList: [
       {
         id: 1,
-        title: "rapport de vente",
+        title: "Paiment des achats",
         icon: TbReportSearch,
-        url: "/h",
+        url: "/rapports/paiment-des-achats",
       },
     ],
   },

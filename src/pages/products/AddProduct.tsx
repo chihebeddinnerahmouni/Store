@@ -85,10 +85,6 @@ const AddProduct = () => {
      ])
        .then(
          axios.spread((response1, response2, response3, response4) => {
-          //  console.log("response1", response1.data.categories);
-          //  console.log("response2", response2.data.brands);
-          //  console.log("response3", response3);
-            // console.log("response4", response4);
            setCategoriesArray(response1.data.categories);
            setMarquesArray(response2.data.brands);
            setUnitesArray(response3.data.units);
@@ -124,6 +120,7 @@ const AddProduct = () => {
 
 
   const send = () => {
+    // console.log(reyonage);
     setLoading(true);
     axios
       .post(
@@ -134,7 +131,8 @@ const AddProduct = () => {
           category_id: category,
           brand_id: marque,
           unit_id: unite,
-          reyonage_id: reyonage,
+          rayonage_id: reyonage,
+          has_serial_number: numSerie,
 
           tax_percentage: Number(tax),
           description: description,
@@ -157,7 +155,7 @@ const AddProduct = () => {
         window.location.reload();
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });

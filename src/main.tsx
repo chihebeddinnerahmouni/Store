@@ -21,6 +21,7 @@ import Login from './pages/auth/Login';
 import Reyonnage from './pages/products/Reyonnage';
 import EditProduct from './pages/products/EditProduct';
 import Magasins from './pages/products/Magasins';
+import PaimentAchats from './pages/rapport/PaimentAchats';
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
       { path: "/retour/retour-des-ventes", element: <RetourVantes /> },
       { path: "/retour/retour-des-achats", element: <RetourAchats /> },
 
-      { path: "/rapports/paiment-des-achats", element: <Fournisseurs /> },
+      { path: "/rapports/paiment-des-achats", element: <PaimentAchats /> },
     ],
   },
   { path: "/test", element: <Test /> },

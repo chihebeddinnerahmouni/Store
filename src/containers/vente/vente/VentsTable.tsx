@@ -20,7 +20,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
 import IVente from "../../../types/vente";
 import { IVenteTable } from "../../../types/vente";
-import OptionsMenu from "../../../components/achat/achats/achats/OptionsMenu";
+import OptionsMenu from "../../../components/ventes/ventes/OptionsMenu";
 
 
 const mainColor = "#006233";
@@ -160,7 +160,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Achats
+        Vents
       </Typography>
       <div className="search relative">
         <input
@@ -185,9 +185,6 @@ export default function EnhancedTable({
   // columns: string[];
   columns: (keyof IVenteTable)[];
 }) {
-  // React.useEffect(() => {
-  //   console.log(rows);
-  // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof IVente>("id");

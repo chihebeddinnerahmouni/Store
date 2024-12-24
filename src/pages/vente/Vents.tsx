@@ -142,11 +142,7 @@ const columns_test: (keyof IAchatTable)[] = [
   "reference",
   "fournisseur",
   "magasin",
-  // "status",
   "total",
-  // "payé",
-  // "dû",
-  // "status_de_paiement",
 ];
 
 

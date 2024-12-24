@@ -42,7 +42,7 @@ const OptionsMenu = ({
     e.preventDefault();
     e.stopPropagation();
     axios
-      .delete(`${url}/api/achats/${row.id}`, {
+      .delete(`${url}/api/vente/${row.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
