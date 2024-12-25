@@ -10,16 +10,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-// import IconButton from "@mui/material/IconButton";
-// import Tooltip from "@mui/material/Tooltip";
-import { IoSearchSharp } from "react-icons/io5";
-// import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import IAlerte from "../../../types/rapport/alert_quantite";
-// import { IAlerteTAble } from "../../../types/rapport/alert_quantite";
+import TableTop from "../../../components/ui/TableTop";
 
 const mainColor = "#006233";
 
@@ -145,27 +140,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-        padding={2}
-      >
-        Alertes
-      </Typography>
-      <div className="search relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Chercher un produit"
-          className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
-        />
-        <IoSearchSharp
-          className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
-        />
-      </div>
+      <TableTop
+        title="Alertes"
+        value={searchQuery}
+        setValue={setSearchQuery}
+        label="Chercher par code"
+      />
     </Toolbar>
   );
 }
@@ -235,7 +215,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row.Produits.toLowerCase().includes(searchQuery.toLowerCase())
+        row["Code Produit"].toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;

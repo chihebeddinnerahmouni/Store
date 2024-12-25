@@ -12,58 +12,45 @@ import TableAchat from "../../../containers/raports/inventaire/details/achat/Tab
 // import TableVentes from "../../../containers/raports/inventaire/details/vente/TableVentes";
 import SwitchButtons from "../../../components/rapport/SwitchButtons";
 import { Modal, Box } from "@mui/material";
-import QuatiteTable from "../../../containers/raports/inventaire/details/QuatiteTable";
+// import QuatiteTable from "../../../containers/raports/inventaire/details/QuatiteTable";
 
 interface ViewModalProps {
   onClose: () => void;
   id: number;
 }
 
-const DetailsModal = ({ onClose }: ViewModalProps) => {
+const DetailsModal = ({ onClose, id }: ViewModalProps) => {
   const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState<any>({});
   const [dataAchats, setDataAchats] = useState<IInvDetails_achats[]>([]);
   //   const [dataVentes, setDataVentes] = useState<IEntVente[]>([]);
-  const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
-//   const [magasinId, setMagasinId] = useState<number>(0);
-  const [statsArray, setStatsArray] = useState<
-    { magasin: string; quantité: number }[]
-  >([]);
+  // const [statsArray, setStatsArray] = useState<
+  //   { magasin: string; quantité: number }[]
+  // >([]);
   const url = import.meta.env.VITE_BASE_URL as string;
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   const [selected, setSelected] = useState<string>("achats");
 
-    console.log(magasinsArray);
-    
+  // console.log(magasinsArray);
+  // console.log(id);
+
   useEffect(() => {
-    Promise.all([
-      axios.get(url + "/api/entreports/authorized/get", {
+    axios
+      .get(url + "/api/reports/product/" + id + "/details", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }),
-      // axios.get(url + "/api/reports/stock-alerts/" + magasinId , {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-      //   },
-      // }),
-    ])
-      .then(
-        axios.spread(
-          (
-            // data,
-            magasins
-          ) => {
-            // console.log(magasins.data.entrepots);
-            const newArrayAchats = createNewArrayAchats(data_test_achat);
-            // const newArrayVentes = createNewArrayVentes(data_test_ventes);
-            // setDataVentes(newArrayVentes);
-            setStatsArray(statsArray_test);
-            setDataAchats(newArrayAchats);
-            setMagasinsArray(magasins.data.entrepots);
-            setLoading(false);
-          }
-        )
-      )
+      })
+      .then((res) => {
+        console.log(res.data);
+        const newArrayAchats = createNewArrayAchats(res.data.achats);
+        // const newArrayVentes = createNewArrayVentes(data_test_ventes);
+        // setDataVentes(newArrayVentes);
+        setProduct(res.data.product);
+        // setStatsArray(statsArray_test);
+        setDataAchats(newArrayAchats);
+        setLoading(false);
+      })
       .catch((err) => {
         // console.log(err);
         setLoading(false);
@@ -95,6 +82,7 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: "90%",
+          maxWidth: "1500px",
           overflow: "auto",
           bgcolor: "background.paper",
           boxShadow: 24,
@@ -109,12 +97,14 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
           <CircularProgress color="inherit" />
         ) : (
           <div className="w-full">
+            <p className="text-center font-bold text-xl mb-5">{product.name}</p>
+
             {/* {selected === "achats" ? ( */}
             <ButtonsContAchat columns={columnsAchats} data={dataAchats} />
             {/* ) : (
                <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
              )} */}
-            <QuatiteTable data={statsArray} />
+            {/* <QuatiteTable data={statsArray} /> */}
             <SwitchButtons
               options={["achats", "ventes"]}
               setSelected={setSelected}
@@ -135,243 +125,45 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
 export default DetailsModal;
 
 const columnsAchats: (keyof IInvDetails_achats_Table)[] = [
-  "date",
+  "référence de l'utilisateur",
   "référence",
-  "nom_du_produit",
   "fournisseur",
   "magasin",
   "quantité",
   "total",
 ];
+const createNewArrayAchats = (data: any) => {
+  return data.map((item: any, index:number) => {
+    return {
+      ...item,
+      id: index,
+      "référence de l'utilisateur": item.user_invoice_number,
+      référence: item.invoice_number,
+      fournisseur: item.provider_name,
+      magasin: item.entrepot_name,
+      quantité: item.quantity_declared,
+      // total: item.total,
+    };
+  });
+};
 
-const data_test_achat = [
-  {
-    id: 1,
-    provider_id: 1,
-    invoice_number: "INV001",
-    user_invoice_number: "USR001",
-    entrepot_id: 1,
-    total_cost: "1500.00",
-    livraison_cost: "50.00",
-    remarks: "First purchase",
-    created_by: 101,
-    updated_by: null,
-    deleted_by: null,
-    created_at: "2023-01-01T10:00:00Z",
-    updated_at: "2023-01-01T10:00:00Z",
-    produit: {
-      id: 11,
-      name: "toyota",
-      code_barre: "8345588766",
-      category_id: 2,
-      brand_id: 1,
-      unit_id: 1,
-      rayonage_id: 2,
-      tax_percentage: "0.00",
-      description: "hh",
-      price_buy: "7000.00",
-      price_sell: "9000.00",
-      stock_alert: 30,
-      quantity: 13,
-      has_serial_number: 1,
-      created_by: 2,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2024-12-24T16:39:42.000000Z",
-      updated_at: "2024-12-24T16:39:42.000000Z",
-      category: {
-        id: 2,
-        code_category: "TS",
-        name_category: "test",
-        description: "test",
-        status: "active",
-        deleted_by: null,
-        created_by: 2,
-        updated_by: null,
-        created_at: "2024-12-24T16:34:03.000000Z",
-        updated_at: "2024-12-24T16:34:03.000000Z",
-      },
-      brand: {
-        id: 1,
-        code_brand: "BR001",
-        name_brand: "Brand Name",
-        description: "Brand description",
-        created_by: 1,
-        updated_by: null,
-        deleted_by: null,
-        created_at: "2024-12-24T11:18:46.000000Z",
-        updated_at: "2024-12-24T11:18:46.000000Z",
-      },
-      unit: {
-        id: 1,
-        code_unit: "KG",
-        name_unit: "Kilogram",
-        description: "Unit of mass",
-        created_by: 1,
-        updated_by: null,
-        deleted_by: null,
-        created_at: "2024-12-24T11:27:08.000000Z",
-        updated_at: "2024-12-24T11:27:08.000000Z",
-      },
-      rayonage: {
-        id: 2,
-        code_location: "test",
-        name: "testjhjlhj",
-        description: "test",
-        created_by: 2,
-        updated_by: null,
-        deleted_by: null,
-        created_at: "2024-12-24T16:34:58.000000Z",
-        updated_at: "2024-12-24T16:34:58.000000Z",
-      },
-    },
-    provider: {
-      id: 1,
-      name: "Provider One",
-      phone: "1234567890",
-      email: "provider1@example.com",
-      address: "123 Provider St",
-      created_by: 101,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2023-01-01T10:00:00Z",
-      updated_at: "2023-01-01T10:00:00Z",
-      amount_paid: "1500.00",
-      code_provider: "PROV001",
-      outstanding_balance: "0.00",
-      status: "active",
-      total_supplies: "1",
-    },
-    entrepot: {
-      id: 1,
-      name: "Warehouse One",
-      code_entreport: "WH001",
-      description: "Main warehouse",
-      created_by: 101,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2023-01-01T10:00:00Z",
-      updated_at: "2023-01-01T10:00:00Z",
-    },
-  },
-  {
-    id: 2,
-    provider_id: 2,
-    invoice_number: "INV002",
-    user_invoice_number: "USR002",
-    entrepot_id: 2,
-    total_cost: "2000.00",
-    livraison_cost: "100.00",
-    remarks: "Second purchase",
-    created_by: 102,
-    updated_by: null,
-    deleted_by: null,
-    created_at: "2023-02-01T11:00:00Z",
-    updated_at: "2023-02-01T11:00:00Z",
-    produit: {
-      id: 11,
-      name: "toyota",
-      code_barre: "8345588766",
-      category_id: 2,
-      brand_id: 1,
-      unit_id: 1,
-      rayonage_id: 2,
-      tax_percentage: "0.00",
-      description: "hh",
-      price_buy: "7000.00",
-      price_sell: "9000.00",
-      stock_alert: 30,
-      quantity: 13,
-      has_serial_number: 1,
-      created_by: 2,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2024-12-24T16:39:42.000000Z",
-      updated_at: "2024-12-24T16:39:42.000000Z",
-      category: {
-        id: 2,
-        code_category: "TS",
-        name_category: "test",
-        description: "test",
-        status: "active",
-        deleted_by: null,
-        created_by: 2,
-        updated_by: null,
-        created_at: "2024-12-24T16:34:03.000000Z",
-        updated_at: "2024-12-24T16:34:03.000000Z",
-      },
-      brand: {
-        id: 1,
-        code_brand: "BR001",
-        name_brand: "Brand Name",
-        description: "Brand description",
-        created_by: 1,
-        updated_by: null,
-        deleted_by: null,
-        created_at: "2024-12-24T11:18:46.000000Z",
-        updated_at: "2024-12-24T11:18:46.000000Z",
-      },
-      unit: {
-        id: 1,
-        code_unit: "KG",
-        name_unit: "Kilogram",
-        description: "Unit of mass",
-        created_by: 1,
-        updated_by: null,
-        deleted_by: null,
-        created_at: "2024-12-24T11:27:08.000000Z",
-        updated_at: "2024-12-24T11:27:08.000000Z",
-      },
-      rayonage: {
-        id: 2,
-        code_location: "test",
-        name: "testjhjlhj",
-        description: "test",
-        created_by: 2,
-        updated_by: null,
-        deleted_by: null,
-        created_at: "2024-12-24T16:34:58.000000Z",
-        updated_at: "2024-12-24T16:34:58.000000Z",
-      },
-    },
+// const data_test_achat = [
+//   {
+//     user_invoice_number: "INV02",
+//     invoice_number: "INV002",
+//     provider_name: "Supplier Inc.",
+//     entrepot_name: "Main Warehouse",
+//     quantity_declared: 250,
+//     total: "25000.00",
+//   },
+// ];
 
-    provider: {
-      id: 2,
-      name: "Provider Two",
-      phone: "0987654321",
-      email: "provider2@example.com",
-      address: "456 Provider Ave",
-      created_by: 102,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2023-02-01T11:00:00Z",
-      updated_at: "2023-02-01T11:00:00Z",
-      amount_paid: "2000.00",
-      code_provider: "PROV002",
-      outstanding_balance: "0.00",
-      status: "active",
-      total_supplies: "1",
-    },
-    entrepot: {
-      id: 2,
-      name: "Warehouse Two",
-      code_entreport: "WH002",
-      description: "Secondary warehouse",
-      created_by: 102,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2023-02-01T11:00:00Z",
-      updated_at: "2023-02-01T11:00:00Z",
-    },
-  },
-];
-
-const statsArray_test = data_test_achat.map((item: any) => {
-  return {
-    magasin: item.entrepot.name,
-    quantité: item.produit.quantity,
-  };
-});
+// const statsArray_test = data_test_achat.map((item: any) => {
+//   return {
+//     magasin: item.entrepot.name,
+//     quantité: item.produit.quantity,
+//   };
+// });
 
 // const columnsVentes: (keyof ITableEntrepotVente)[] = [
 //   "référence",
@@ -455,21 +247,6 @@ const statsArray_test = data_test_achat.map((item: any) => {
 //     magasin: "Warehouse B",
 //   },
 // ];
-
-const createNewArrayAchats = (data: any) => {
-  return data.map((item: any) => {
-    return {
-      ...item,
-      date: new Date(item.created_at).toLocaleString(),
-      référence: item.invoice_number,
-      nom_du_produit: item.produit.name,
-      fournisseur: item.provider.name,
-      magasin: item.entrepot.name,
-      quantité: item.produit.quantity,
-      total: item.total_cost,
-    };
-  });
-};
 
 // const createNewArrayVentes = (data: any) => {
 //   return data.map((item: any) => {

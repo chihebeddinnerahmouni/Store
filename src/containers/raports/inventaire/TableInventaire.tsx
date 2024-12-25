@@ -10,15 +10,16 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import { IoSearchSharp } from "react-icons/io5";
 import { visuallyHidden } from "@mui/utils";
 import IInventaire from "../../../types/rapport/inventaire/inventaire";
 import { IIventaireTable } from "../../../types/rapport/inventaire/inventaire";
 import ViewButton from "../../../components/ui/buttons/actions/ViewButton";
 import DetailsModal from "../../../pages/rapport/inventaire/DetailsModal";
+import TableTop from "../../../components/ui/TableTop";
+
+
 
 const mainColor = "#006233";
 
@@ -144,27 +145,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-        padding={2}
-      >
-        Inventaire
-      </Typography>
-      <div className="search relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Chercher un produit"
-          className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
-        />
-        <IoSearchSharp
-          className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
-        />
-      </div>
+      <TableTop
+        title="Inventaire"
+        value={searchQuery}
+        setValue={setSearchQuery}
+        label="Chercher par code"
+      />
     </Toolbar>
   );
 }
@@ -234,7 +220,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row.désignation.toLowerCase().includes(searchQuery.toLowerCase())
+        row.code.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -331,8 +317,8 @@ export default function EnhancedTable({
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {row[column]}
-                        {/* {Colval(column, row)} */}
+                        {/* {row[column]} */}
+                        {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
@@ -371,15 +357,15 @@ export default function EnhancedTable({
   );
 }
 
-// const Colval = (column: string, row: IInventaire) => {
-//   switch (column) {
-//     case "référence":
-//       return (
-//         <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
-//           {row[column as keyof IIventaireTable]}
-//         </span>
-//       );
-//     default:
-//       return <p>{row[column as keyof IIventaireTable]}</p>;
-//   }
-// };
+const Colval = (column: string, row: IInventaire) => {
+  switch (column) {
+    case "code":
+      return (
+        <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
+          {row[column as keyof IIventaireTable]}
+        </span>
+      );
+    default:
+      return <p>{row[column as keyof IIventaireTable]}</p>;
+  }
+};
