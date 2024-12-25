@@ -234,7 +234,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row.produit.toLowerCase().includes(searchQuery.toLowerCase())
+        row.nom_du_client.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;

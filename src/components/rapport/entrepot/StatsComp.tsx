@@ -8,7 +8,6 @@ interface ButtonTopProps {
 const StatsComp = ({ title, Icon, value }: ButtonTopProps) => {
   return (
     <div className="cardCss flex items-center gap-2 transition-transform duration-300  whitespace-nowrap flex-grow lg:gap-5">
-      {/* <Icon className="w-[30px] h-[30px] object-cover text-main lg:w-[40px] lg:h-[40px]" /> */}
       <Icon className="text-[30px] object-cover text-main lg:text-[50px]" />
       <div className="text">
         <p className="text-xs text-writingGrey lg:text-base">{title}</p>
