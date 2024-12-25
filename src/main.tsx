@@ -23,6 +23,7 @@ import EditProduct from './pages/products/EditProduct';
 import Magasins from './pages/products/Magasins';
 import AlertProduit from './pages/rapport/AlertProduit';
 import EntrepotsReport from './pages/rapport/EntrepotsReport';
+import Inventaire from './pages/rapport/Inventaire';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
 
       { path: "/rapports/alerte-produit", element: <AlertProduit /> },
       { path: "/rapports/entrepot", element: <EntrepotsReport /> },
+      { path: "/rapports/inventaire", element: <Inventaire /> },
     ],
   },
   { path: "/test", element: <Test /> },

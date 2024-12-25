@@ -6,7 +6,7 @@ import { IAlerteTAble } from "../../types/rapport/alert_quantite";
 import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../components/ui/PageTitle";
 import ButtonsCont from "../../containers/raports/alerte/ButtonsCont";
-import MagasinSelect from "../../containers/raports/alerte/MagasinSelect";
+import MagasinSelect from "../../containers/raports/MagasinSelect";
 import TableAlerte from "../../containers/raports/alerte/TableAlerte";
 
 

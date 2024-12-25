@@ -1,4 +1,4 @@
-import SelectInput from "../../../components/ui/inputs/SelectInput";
+import SelectInput from "../../components/ui/inputs/SelectInput";
 
 interface DesignationProps {
   options: any[];

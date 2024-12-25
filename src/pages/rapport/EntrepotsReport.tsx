@@ -7,7 +7,7 @@ import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../components/ui/PageTitle";
 import ButtonsContAchat from "../../containers/raports/entrepot/achat/ButtonsCont";
 import ButtonsContVentes from "../../containers/raports/entrepot/vente/ButtonsCont";
-import MagasinSelect from "../../containers/raports/alerte/MagasinSelect";
+import MagasinSelect from "../../containers/raports/MagasinSelect";
 import TableAchat from "../../containers/raports/entrepot/achat/TableAchat";
 import { ITableEntrepotVente } from "../../types/rapport/entrepot/entrepot_vente";
 import IEntVente from "../../types/rapport/entrepot/entrepot_vente";

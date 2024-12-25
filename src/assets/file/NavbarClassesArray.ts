@@ -14,6 +14,9 @@ import { IoManOutline } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { CiShop } from "react-icons/ci";
 import { CiCircleAlert } from "react-icons/ci";
+import { MdOutlineInventory } from "react-icons/md";
+
+
 
 const array = [
   // {
@@ -176,6 +179,12 @@ const array = [
         title: "Rapport d'entrepôt",
         icon: CiShop,
         url: "/rapports/entrepot",
+      },
+      {
+        id: 3,
+        title: "Rapport d'inventaire",
+        icon: MdOutlineInventory ,
+        url: "/rapports/inventaire",
       },
     ],
   },
