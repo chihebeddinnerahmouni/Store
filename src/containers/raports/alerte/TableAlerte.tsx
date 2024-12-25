@@ -19,7 +19,7 @@ import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import IAlerte from "../../../types/rapport/alert_quantite";
-import { IAlerteTAble } from "../../../types/rapport/alert_quantite";
+// import { IAlerteTAble } from "../../../types/rapport/alert_quantite";
 
 const mainColor = "#006233";
 
@@ -174,7 +174,7 @@ export default function EnhancedTable({
   columns,
 }: {
   rows: IAlerte[];
-  columns: (keyof IAlerteTAble)[];
+  columns: string[];
 }) {
 
   const [order, setOrder] = React.useState<Order>("asc");
@@ -235,7 +235,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row.produit.toLowerCase().includes(searchQuery.toLowerCase())
+        row.Produits.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -365,14 +365,14 @@ export default function EnhancedTable({
 
 const Colval = (column: string, row: IAlerte) => {
     switch (column) {
-        case "quantité_alert":
-            return (
-              <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-                {row[column as keyof IAlerteTAble]}
-              </span>
-            );
-        default:
-            return <p>{row[column as keyof IAlerteTAble]}</p>;
+      case "Quantité Alerte":
+        return (
+          <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
+            {row[column as keyof IAlerte]}
+          </span>
+        );
+      default:
+        return <p>{row[column as keyof IAlerte]}</p>;
     }
 };
 
