@@ -57,6 +57,7 @@ const router = createBrowserRouter([
       { path: "/rapports/alerte-produit", element: <AlertProduit /> },
       { path: "/rapports/entrepot", element: <EntrepotsReport /> },
       { path: "/rapports/inventaire", element: <Inventaire /> },
+      { path: "/rapports/inventaire/:produitId", element: <Inventaire /> },
     ],
   },
   { path: "/test", element: <Test /> },

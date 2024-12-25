@@ -13,13 +13,15 @@ import TableAchat from "../../../containers/raports/inventaire/details/achat/Tab
 import SwitchButtons from "../../../components/rapport/SwitchButtons";
 import { Modal, Box } from "@mui/material";
 // import QuatiteTable from "../../../containers/raports/inventaire/details/QuatiteTable";
+import { useParams } from "react-router-dom";
+
 
 interface ViewModalProps {
   onClose: () => void;
-  id: number;
+  // id: number;
 }
 
-const DetailsModal = ({ onClose, id }: ViewModalProps) => {
+const DetailsModal = ({ onClose }: ViewModalProps) => {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<any>({});
   const [dataAchats, setDataAchats] = useState<IInvDetails_achats[]>([]);
@@ -30,6 +32,8 @@ const DetailsModal = ({ onClose, id }: ViewModalProps) => {
   const url = import.meta.env.VITE_BASE_URL as string;
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   const [selected, setSelected] = useState<string>("achats");
+  const { produitId } = useParams();
+  const id = Number(produitId);
 
   // console.log(magasinsArray);
   // console.log(id);

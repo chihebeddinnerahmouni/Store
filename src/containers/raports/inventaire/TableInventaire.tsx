@@ -18,7 +18,8 @@ import { IIventaireTable } from "../../../types/rapport/inventaire/inventaire";
 import ViewButton from "../../../components/ui/buttons/actions/ViewButton";
 import DetailsModal from "../../../pages/rapport/inventaire/DetailsModal";
 import TableTop from "../../../components/ui/TableTop";
-
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 const mainColor = "#006233";
@@ -167,7 +168,8 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [viewRow, setViewRow] = React.useState<IInventaire | null>(null);
+  const navigate = useNavigate();
+  const { produitId } = useParams();
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -329,7 +331,10 @@ export default function EnhancedTable({
                     >
                       <ViewButton
                         active={true}
-                        onClick={() => setViewRow(row)}
+                        // onClick={() => setViewRow(row)}
+                        onClick={() =>
+                          navigate(`/rapports/inventaire/${row.id}`)
+                        }
                       />
                     </TableCell>
                   </TableRow>
@@ -348,11 +353,9 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {viewRow &&
-        <DetailsModal
-        onClose={() => setViewRow(null)}
-        id={viewRow.id}
-        />}
+      {produitId && (
+        <DetailsModal onClose={() => navigate("/rapports/inventaire")} />
+      )}
     </Box>
   );
 }
