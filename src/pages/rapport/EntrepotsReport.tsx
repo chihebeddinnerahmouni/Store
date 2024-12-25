@@ -13,7 +13,7 @@ import { ITableEntrepotVente } from "../../types/rapport/entrepot/entrepot_vente
 import IEntVente from "../../types/rapport/entrepot/entrepot_vente";
 import TableVentes from "../../containers/raports/entrepot/vente/TableVentes";
 import SwitchButtons from "../../components/rapport/SwitchButtons";
-
+import StatsCont from "../../containers/raports/entrepot/StatsCont";
 
 const EntrepotsReport = () => {
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,8 @@ const EntrepotsReport = () => {
   const [dataVentes, setDataVentes] = useState<IEntVente[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
+  const [achatStat, setAchatStat] = useState<number>(0);
+  const [venteStat, setVenteStat] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   const [selected, setSelected] = useState<string>("achats");
@@ -50,6 +52,8 @@ const EntrepotsReport = () => {
             setDataVentes(newArrayVentes);
             setDataAchats(newArrayAchats);
             setMagasinsArray(magasins.data.entrepots);
+            setAchatStat(90);
+            setVenteStat(45);
             setLoading(false);
           }
         )
@@ -63,14 +67,6 @@ const EntrepotsReport = () => {
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
       });
-
-    // fetshData()
-    // const timer = setTimeout(() => {
-    //   const newArray = createNewArray(data)
-    //   setData(newArray);
-    //   setLoading(false)
-    // }, 1000)
-    // return () => clearTimeout(timer)
   }, []);
 
   if (loading) {
@@ -92,7 +88,10 @@ const EntrepotsReport = () => {
           <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
         )}
       </div>
-      {/* <SwitchCont selected={selected} setSelected={setSelected} /> */}
+      <StatsCont
+        achatStat={achatStat}
+        venteStat={venteStat}
+      />
       <SwitchButtons options={["achats", "ventes"]} setSelected={setSelected} selected={selected} />
       {selected === "achats" ? (
         <TableAchat columns={columnsAchats} rows={dataAchats} />
