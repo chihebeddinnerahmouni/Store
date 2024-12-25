@@ -38,7 +38,9 @@ const AlertProduit = () => {
             magasins,
             data
           ) => {
-            const newColumns = Object.keys(data.data.alerts[0]);
+            const newColumns = Object.keys(data.data.alerts[0]).filter(
+              (key) => key !== "id"
+            );
             setColumns(newColumns);
             setData(data.data.alerts);
             setMagasinsArray(magasins.data.entrepots);
