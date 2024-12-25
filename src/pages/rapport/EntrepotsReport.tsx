@@ -9,10 +9,11 @@ import ButtonsContAchat from "../../containers/raports/entrepot/achat/ButtonsCon
 import ButtonsContVentes from "../../containers/raports/entrepot/vente/ButtonsCont";
 import MagasinSelect from "../../containers/raports/alerte/MagasinSelect";
 import TableAchat from "../../containers/raports/entrepot/achat/TableAchat";
-import SwitchCont from "../../containers/raports/entrepot/SwitchCont";
 import { ITableEntrepotVente } from "../../types/rapport/entrepot/entrepot_vente";
 import IEntVente from "../../types/rapport/entrepot/entrepot_vente";
 import TableVentes from "../../containers/raports/entrepot/vente/TableVentes";
+import SwitchButtons from "../../components/rapport/SwitchButtons";
+
 
 const EntrepotsReport = () => {
   const [loading, setLoading] = useState(true);
@@ -21,7 +22,8 @@ const EntrepotsReport = () => {
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
-  const [selected, setSelected] = useState<"achats" | "ventes">("achats");
+  // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
+  const [selected, setSelected] = useState<string>("achats");
 
   useEffect(() => {
     Promise.all([
@@ -90,7 +92,8 @@ const EntrepotsReport = () => {
           <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
         )}
       </div>
-      <SwitchCont selected={selected} setSelected={setSelected} />
+      {/* <SwitchCont selected={selected} setSelected={setSelected} /> */}
+      <SwitchButtons options={["achats", "ventes"]} setSelected={setSelected} selected={selected} />
       {selected === "achats" ? (
         <TableAchat columns={columnsAchats} rows={dataAchats} />
       ) : (
