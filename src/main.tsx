@@ -23,7 +23,7 @@ import EditProduct from './pages/products/EditProduct';
 import Magasins from './pages/products/Magasins';
 import AlertProduit from './pages/rapport/AlertProduit';
 import EntrepotsReport from './pages/rapport/EntrepotsReport';
-import Inventaire from './pages/rapport/Inventaire';
+import Inventaire from './pages/rapport/inventaire/Inventaire';
 
 const router = createBrowserRouter([
   {

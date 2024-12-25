@@ -1,13 +1,13 @@
-import Loading from "../../components/ui/Loading";
+import Loading from "../../../components/ui/Loading";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import IInventaire from "../../types/rapport/inventaire/inventaire";
-import { IIventaireTable } from "../../types/rapport/inventaire/inventaire";
+import IInventaire from "../../../types/rapport/inventaire/inventaire";
+import { IIventaireTable } from "../../../types/rapport/inventaire/inventaire";
 import { enqueueSnackbar } from "notistack";
-import PageTitle from "../../components/ui/PageTitle";
-import ButtonsCont from "../../containers/raports/inventaire/ButtonsCont";
-import MagasinSelect from "../../containers/raports/MagasinSelect";
-import TableInventaire from "../../containers/raports/inventaire/TableInventaire";
+import PageTitle from "../../../components/ui/PageTitle";
+import ButtonsCont from "../../../containers/raports/inventaire/ButtonsCont";
+import MagasinSelect from "../../../containers/raports/MagasinSelect";
+import TableInventaire from "../../../containers/raports/inventaire/TableInventaire";
 
 const Inventaire = () => {
   const [loading, setLoading] = useState(true);

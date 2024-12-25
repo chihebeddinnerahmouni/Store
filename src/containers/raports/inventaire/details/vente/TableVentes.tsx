@@ -18,8 +18,8 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import IAlerte from "../../../types/rapport/alert_quantite";
-import { IAlerteTAble } from "../../../types/rapport/alert_quantite";
+import IEntvente from "../../../../../types/rapport/entrepot/entrepot_vente";
+import { ITableEntrepotVente } from "../../../../../types/rapport/entrepot/entrepot_vente";
 
 const mainColor = "#006233";
 
@@ -51,7 +51,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IAlerte
+    property: keyof IEntvente
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -73,7 +73,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IAlerte);
+      onRequestSort(event, property as keyof IEntvente);
     };
 
   return (
@@ -102,8 +102,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={column}
             sx={{ whiteSpace: "nowrap" }}
-                align="left"
-                sortDirection={orderBy === column ? order : false}
+            align="left"
+            sortDirection={orderBy === column ? order : false}
           >
             <TableSortLabel
               active={orderBy === column}
@@ -152,7 +152,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Alertes
+        Achats
       </Typography>
       <div className="search relative">
         <input
@@ -173,12 +173,11 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IAlerte[];
-  columns: (keyof IAlerteTAble)[];
+  rows: IEntvente[];
+  columns: (keyof ITableEntrepotVente)[];
 }) {
-
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IAlerte>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IEntvente>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -186,7 +185,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IAlerte
+    property: keyof IEntvente
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -235,7 +234,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row.produit.toLowerCase().includes(searchQuery.toLowerCase())
+        row.nom_du_client.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -332,8 +331,8 @@ export default function EnhancedTable({
                           whiteSpace: "nowrap",
                         }}
                       >
-                            {/* {row[column]} */}
-                            {Colval(column, row)}
+                        {/* {row[column]} */}
+                        {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
@@ -362,17 +361,15 @@ export default function EnhancedTable({
   );
 }
 
-
-const Colval = (column: string, row: IAlerte) => {
-    switch (column) {
-        case "quantité_alert":
-            return (
-              <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-                {row[column as keyof IAlerteTAble]}
-              </span>
-            );
-        default:
-            return <p>{row[column as keyof IAlerteTAble]}</p>;
-    }
+const Colval = (column: string, row: IEntvente) => {
+  switch (column) {
+    case "référence":
+      return (
+        <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
+          {row[column as keyof ITableEntrepotVente]}
+        </span>
+      );
+    default:
+      return <p>{row[column as keyof ITableEntrepotVente]}</p>;
+  }
 };
-

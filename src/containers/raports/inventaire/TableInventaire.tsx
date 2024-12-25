@@ -13,13 +13,12 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-// import IconButton from "@mui/material/IconButton";
-// import Tooltip from "@mui/material/Tooltip";
 import { IoSearchSharp } from "react-icons/io5";
-// import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import IInventaire from "../../../types/rapport/inventaire/inventaire";
 import { IIventaireTable } from "../../../types/rapport/inventaire/inventaire";
+import ViewButton from "../../../components/ui/buttons/actions/ViewButton";
+import DetailsModal from "../../../pages/rapport/inventaire/DetailsModal";
 
 const mainColor = "#006233";
 
@@ -152,7 +151,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         component="div"
         padding={2}
       >
-        Achats
+        Inventaire
       </Typography>
       <div className="search relative">
         <input
@@ -182,6 +181,7 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [viewRow, setViewRow] = React.useState<IInventaire | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -234,7 +234,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row.nom_du_client.toLowerCase().includes(searchQuery.toLowerCase())
+        row.désignation.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -340,7 +340,12 @@ export default function EnhancedTable({
                       sx={{
                         border: "none",
                       }}
-                    ></TableCell>
+                    >
+                      <ViewButton
+                        active={true}
+                        onClick={() => setViewRow(row)}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -357,6 +362,11 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      {viewRow &&
+        <DetailsModal
+        onClose={() => setViewRow(null)}
+        id={viewRow.id}
+        />}
     </Box>
   );
 }
