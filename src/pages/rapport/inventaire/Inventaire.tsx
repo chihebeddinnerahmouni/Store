@@ -18,27 +18,17 @@ const Inventaire = () => {
   const url = import.meta.env.VITE_BASE_URL as string;
 
   useEffect(() => {
-    Promise.all([
-      axios.get(url + "/api/entreports/authorized/get", {
+    setLoading(true);
+    axios
+      .get(url + "/api/entreports/authorized/get", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }),
-      axios.get(url + "/api/reports/inventory/" + magasinId, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-    ])
-      .then(
-        axios.spread((magasins, data) => {
-          // console.log(data.data.inventory);
-          const newArrayAchats = createNewArrayAchats(data.data.inventory);
-          setData(newArrayAchats);
-          setMagasinsArray(magasins.data.entrepots);
-          setLoading(false);
-        })
-      )
+      })
+      .then((magasins) => {
+        setMagasinsArray(magasins.data.entrepots);
+        setMagasinId(magasins.data.entrepots[0].id);
+      })
       .catch((err) => {
         // console.log(err);
         setLoading(false);
@@ -52,6 +42,9 @@ const Inventaire = () => {
 
 
   useEffect(() => { 
+    if (magasinId === 0) {
+      return
+    }
     setLoading(true);
     axios
       .get(url + "/api/reports/inventory/" + magasinId, {

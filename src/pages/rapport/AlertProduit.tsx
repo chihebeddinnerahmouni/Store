@@ -14,41 +14,24 @@ const AlertProduit = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IAlerte[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
-  const [magasinId, setMagasinId] = useState<number>(1);
+  const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
   const [columns, setColumns] = useState<string[]>([]);
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([
       axios.get(url + "/api/entreports/authorized/get", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }),
-      axios.get(url + "/api/reports/stock-alerts/" + magasinId, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-    ])
-      .then(
-        axios.spread(
-          (
-            magasins,
-            data
-          ) => {
-            const newColumns = Object.keys(data.data.alerts[0]).filter(
-              (key) => key !== "id"
-            );
-            setColumns(newColumns);
-            setData(data.data.alerts);
-            setMagasinsArray(magasins.data.entrepots);
-            setLoading(false);
+      })
+      .then((magasins) => {
+        setMagasinsArray(magasins.data.entrepots);
+        setMagasinId(magasins.data.entrepots[0].id);
           }
         )
-      )
       .catch((err) => {
+        // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -56,14 +39,6 @@ const AlertProduit = () => {
           enqueueSnackbar(err.response.data.erreur, { variant: "error" });
         }
       });
-
-    // fetshData()
-    // const timer = setTimeout(() => {
-    //   const newArray = createNewArray(data)
-    //   setData(newArray);
-    //   setLoading(false)
-    // }, 1000)
-    // return () => clearTimeout(timer)
   }, []);
 
 
@@ -78,6 +53,10 @@ const AlertProduit = () => {
       },
     })
       .then((res) => {
+         const newColumns = Object.keys(res.data.alerts[0]).filter(
+              (key) => key !== "id"
+            );
+            setColumns(newColumns);
         setData(res.data.alerts);
         setLoading(false);
       })

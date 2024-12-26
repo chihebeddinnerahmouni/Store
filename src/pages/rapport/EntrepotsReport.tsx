@@ -20,7 +20,7 @@ const EntrepotsReport = () => {
   const [dataAchats, setDataAchats] = useState<IEntAchat[]>([]);
   const [dataVentes, setDataVentes] = useState<IEntVente[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
-  const [magasinId, setMagasinId] = useState<number>(1);
+  const [magasinId, setMagasinId] = useState<number>(0);
   const [achatStat, setAchatStat] = useState<number>(0);
   const [venteStat, setVenteStat] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
@@ -28,43 +28,24 @@ const EntrepotsReport = () => {
   const [selected, setSelected] = useState<string>("achats");
 
   useEffect(() => {
-    Promise.all([
-      axios.get(url + "/api/entreports/authorized/get", {
+    setLoading(true);
+    axios
+      .get(url + "/api/entreports/authorized/get", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }),
-      axios.get(url + "/api/reports/entrepot/" + magasinId, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-    ])
-      .then(
-        axios.spread(
-          (
-            magasins,
-            data
-          ) => {
-            // console.log(data.data);
-            const newArrayAchats = createNewArrayAchats(data.data.achats);
-            const newArrayVentes = createNewArrayVentes(data.data.ventes);
-            setDataVentes(newArrayVentes);
-            setDataAchats(newArrayAchats);
-            setMagasinsArray(magasins.data.entrepots);
-            setAchatStat(data.data.summary.total_achats);
-            setVenteStat(data.data.summary.total_ventes);
-            setLoading(false);
-          }
-        )
-      )
+      })
+      .then((magasins) => {
+        setMagasinsArray(magasins.data.entrepots);
+        setMagasinId(magasins.data.entrepots[0].id);
+      })
       .catch((err) => {
         // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
+          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
         }
       });
   }, []);

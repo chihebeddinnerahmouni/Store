@@ -183,8 +183,14 @@ const array = [
       {
         id: 3,
         title: "Rapport d'inventaire",
-        icon: MdOutlineInventory ,
+        icon: MdOutlineInventory,
         url: "/rapports/inventaire",
+      },
+      {
+        id: 4,
+        title: "Rapport de produit",
+        icon: IoPricetagsOutline,
+        url: "/rapports/produits",
       },
     ],
   },
