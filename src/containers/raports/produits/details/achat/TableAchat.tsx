@@ -13,8 +13,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import { visuallyHidden } from "@mui/utils";
-import IAlerte from "../../../types/rapport/alerts/alert_quantite";
-import TableTop from "../../../components/ui/TableTop";
+import { IProductDetails } from "../../../../../types/rapport/produits/details/product";
+import { IProductDetailsTable } from "../../../../../types/rapport/produits/details/product";
+import TableTop from "../../../../../components/ui/TableTop";
 
 const mainColor = "#006233";
 
@@ -46,7 +47,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IAlerte
+    property: keyof IProductDetails
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -68,7 +69,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IAlerte);
+      onRequestSort(event, property as keyof IProductDetails);
     };
 
   return (
@@ -97,8 +98,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={column}
             sx={{ whiteSpace: "nowrap" }}
-                align="left"
-                sortDirection={orderBy === column ? order : false}
+            align="left"
+            sortDirection={orderBy === column ? order : false}
           >
             <TableSortLabel
               active={orderBy === column}
@@ -141,10 +142,10 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       ]}
     >
       <TableTop
-        title="Alertes"
+        title="Produit"
         value={searchQuery}
         setValue={setSearchQuery}
-        label="Chercher par code"
+        label="Chercher par référence"
       />
     </Toolbar>
   );
@@ -153,12 +154,11 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IAlerte[];
-  columns: string[];
+  rows: IProductDetails[];
+  columns: (keyof IProductDetailsTable)[];
 }) {
-
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IAlerte>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IProductDetails>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -166,7 +166,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IAlerte
+    property: keyof IProductDetails
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -215,7 +215,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row["Code Produit"].toLowerCase().includes(searchQuery.toLowerCase())
+        row.référence.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -312,8 +312,8 @@ export default function EnhancedTable({
                           whiteSpace: "nowrap",
                         }}
                       >
-                            {/* {row[column]} */}
-                            {Colval(column, row)}
+                        {/* {row[column]} */}
+                        {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
@@ -342,17 +342,15 @@ export default function EnhancedTable({
   );
 }
 
-
-const Colval = (column: string, row: IAlerte) => {
-    switch (column) {
-      case "Quantité Alerte":
-        return (
-          <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-            {row[column as keyof IAlerte]}
-          </span>
-        );
-      default:
-        return <p>{row[column as keyof IAlerte]}</p>;
-    }
+const Colval = (column: string, row: IProductDetails) => {
+  switch (column) {
+    case "référence":
+      return (
+        <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
+          {row[column as keyof IProductDetailsTable]}
+        </span>
+      );
+    default:
+      return <p>{row[column as keyof IProductDetailsTable]}</p>;
+  }
 };
-

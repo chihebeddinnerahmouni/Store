@@ -1,7 +1,7 @@
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { BsFiletypePdf } from "react-icons/bs";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import IAlerte from "../../../types/rapport/alert_quantite";
+import IAlerte from "../../../types/rapport/alerts/alert_quantite";
 // import { IAlerteTAble } from "../../../types/rapport/alert_quantite";
 
 

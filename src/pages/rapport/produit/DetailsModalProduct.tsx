@@ -1,58 +1,70 @@
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import IInvDetails_achats from "../../../types/rapport/inventaire/inv_details_achat";
-import { IInvDetails_achats_Table } from "../../../types/rapport/inventaire/inv_details_achat";
+import { IProductDetails } from "../../../types/rapport/produits/details/product";
+import { IProductDetailsTable } from "../../../types/rapport/produits/details/product";
 import { enqueueSnackbar } from "notistack";
-import ButtonsContAchat from "../../../containers/raports/inventaire/details/achat/ButtonsCont";
+import ButtonsContAchat from "../../../containers/raports/produits/details/achat/ButtonsCont";
 // import ButtonsContVentes from "../../../containers/raports/inventaire/details/vente/ButtonsCont";
-import TableAchat from "../../../containers/raports/inventaire/details/achat/TableAchat";
+import TableAchat from "../../../containers/raports/produits/details/achat/TableAchat";
 // import { ITableEntrepotVente } from "../../../types/rapport/entrepot/entrepot_vente";
 // import IEntVente from "../../../types/rapport/entrepot/entrepot_vente";
 // import TableVentes from "../../../containers/raports/inventaire/details/vente/TableVentes";
-import SwitchButtons from "../../../components/rapport/SwitchButtons";
+// import SwitchButtons from "../../../components/rapport/SwitchButtons";
 import { Modal, Box } from "@mui/material";
 // import QuatiteTable from "../../../containers/raports/inventaire/details/QuatiteTable";
 import { useParams } from "react-router-dom";
+import DatesCont from "../../../containers/raports/produits/produits/DatesCont";
+import QuatiteTable from "../../../containers/raports/QuatiteTable";
+
 
 
 interface ViewModalProps {
   onClose: () => void;
-  // id: number;
 }
 
-const DetailsModal = ({ onClose }: ViewModalProps) => {
+const DetailsModalProduct = ({ onClose }: ViewModalProps) => {
+
+  const today = new Date();
+  today.setMonth(today.getMonth() - 2);
+  const formattedDate = today.toISOString().split("T")[0];
+
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<any>({});
-  const [dataAchats, setDataAchats] = useState<IInvDetails_achats[]>([]);
+  const [dataAchats, setDataAchats] = useState<IProductDetails[]>([]);
   //   const [dataVentes, setDataVentes] = useState<IEntVente[]>([]);
   // const [statsArray, setStatsArray] = useState<
   //   { magasin: string; quantité: number }[]
   // >([]);
-  const url = import.meta.env.VITE_BASE_URL as string;
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
-  const [selected, setSelected] = useState<string>("Achats");
+  // const [selected, setSelected] = useState<string>("Achats");
+  const [startDate, setStartDate] = useState<string>(formattedDate);
+  const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [quantityArray, setQuantityArray] = useState<{ entrepot_name: string; quantity: number }[]>([]);
   const { produitId } = useParams();
   const id = Number(produitId);
+  const url = import.meta.env.VITE_BASE_URL as string;
 
   // console.log(magasinsArray);
   // console.log(id);
 
   useEffect(() => {
     axios
-      .get(url + "/api/reports/product/" + id + "/details", {
+      // .get(url + "/api/reports/product/" + id + "/details", {
+      .get(`${url}/api/reports/products/${id}/detailed-report?start_date=${startDate}&end_date=${endDate}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
         console.log(res.data);
-        const newArrayAchats = createNewArrayAchats(res.data.achats);
         // const newArrayVentes = createNewArrayVentes(data_test_ventes);
         // setDataVentes(newArrayVentes);
-        setProduct(res.data.product);
         // setStatsArray(statsArray_test);
+        const newArrayAchats = createNewArrayAchats(res.data.details);
+        setProduct(res.data.product);
         setDataAchats(newArrayAchats);
+        setQuantityArray(res.data.entrepot_quantities);
         setLoading(false);
       })
       .catch((err) => {
@@ -108,12 +120,14 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
             {/* ) : (
                <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
              )} */}
-            {/* <QuatiteTable data={statsArray} /> */}
-            <SwitchButtons
+              {/* <QuatiteTable data={statsArray} /> */}
+              <DatesCont startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
+              <QuatiteTable data={quantityArray} />
+            {/* <SwitchButtons
               options={["Achats", "Ventes"]}
               setSelected={setSelected}
               selected={selected}
-            />
+            /> */}
             {/* {selected === "achats" ? ( */}
             <TableAchat columns={columnsAchats} rows={dataAchats} />
             {/* ) : (
@@ -126,26 +140,30 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
   );
 };
 
-export default DetailsModal;
+export default DetailsModalProduct;
 
-const columnsAchats: (keyof IInvDetails_achats_Table)[] = [
-  "référence de l'utilisateur",
+const columnsAchats: (keyof IProductDetailsTable)[] = [
+  "date",
   "référence",
-  "fournisseur",
+  "ajouter par",
+  "produit",
+  "client",
   "magasin",
   "quantité",
   "total",
 ];
-const createNewArrayAchats = (data: any) => {
-  return data.map((item: any, index:number) => {
+const createNewArrayAchats = (data: IProductDetails[]) => {
+  return data.map((item: IProductDetails, index: number) => {
     return {
       ...item,
       id: index,
-      "référence de l'utilisateur": item.user_invoice_number,
-      référence: item.invoice_number,
-      fournisseur: item.provider_name,
+      // date: item.date,
+      référence: item.code_barre,
+      "ajouter par": item.created_by,
+      produit: item.name,
+      client: item.client_name,
       magasin: item.entrepot_name,
-      quantité: item.quantity_declared,
+      quantité: item.quantity,
       // total: item.total,
     };
   });
@@ -153,12 +171,13 @@ const createNewArrayAchats = (data: any) => {
 
 // const data_test_achat = [
 //   {
-//     user_invoice_number: "INV02",
-//     invoice_number: "INV002",
-//     provider_name: "Supplier Inc.",
-//     entrepot_name: "Main Warehouse",
-//     quantity_declared: 250,
-//     total: "25000.00",
+//     id: 1,
+// user_invoice_number: string;
+// invoice_number: string;
+// provider_name: string;
+// entrepot_name: string;
+// quantity_declared: number;
+// total: string;
 //   },
 // ];
 

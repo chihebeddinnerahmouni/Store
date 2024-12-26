@@ -10,11 +10,16 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
+// import IconButton from "@mui/material/IconButton";
+// import Tooltip from "@mui/material/Tooltip";
+import { IoSearchSharp } from "react-icons/io5";
+// import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import IAlerte from "../../../types/rapport/alerts/alert_quantite";
-import TableTop from "../../../components/ui/TableTop";
+import IEntvente from "../../../../../types/rapport/entrepot/entrepot_vente";
+import { ITableEntrepotVente } from "../../../../../types/rapport/entrepot/entrepot_vente";
 
 const mainColor = "#006233";
 
@@ -46,7 +51,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IAlerte
+    property: keyof IEntvente
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -68,7 +73,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IAlerte);
+      onRequestSort(event, property as keyof IEntvente);
     };
 
   return (
@@ -97,8 +102,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <TableCell
             key={column}
             sx={{ whiteSpace: "nowrap" }}
-                align="left"
-                sortDirection={orderBy === column ? order : false}
+            align="left"
+            sortDirection={orderBy === column ? order : false}
           >
             <TableSortLabel
               active={orderBy === column}
@@ -140,12 +145,27 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <TableTop
-        title="Alertes"
-        value={searchQuery}
-        setValue={setSearchQuery}
-        label="Chercher par code"
-      />
+      <Typography
+        sx={{ flex: "1 1 100%" }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
+        padding={2}
+      >
+        Achats
+      </Typography>
+      <div className="search relative">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Chercher un produit"
+          className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
+        />
+        <IoSearchSharp
+          className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
+        />
+      </div>
     </Toolbar>
   );
 }
@@ -153,12 +173,11 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IAlerte[];
-  columns: string[];
+  rows: IEntvente[];
+  columns: (keyof ITableEntrepotVente)[];
 }) {
-
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IAlerte>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IEntvente>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -166,7 +185,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IAlerte
+    property: keyof IEntvente
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -215,7 +234,7 @@ export default function EnhancedTable({
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
       return rows.filter((row: any) =>
-        row["Code Produit"].toLowerCase().includes(searchQuery.toLowerCase())
+        row.nom_du_client.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -312,8 +331,8 @@ export default function EnhancedTable({
                           whiteSpace: "nowrap",
                         }}
                       >
-                            {/* {row[column]} */}
-                            {Colval(column, row)}
+                        {/* {row[column]} */}
+                        {Colval(column, row)}
                       </TableCell>
                     ))}
                     <TableCell
@@ -342,17 +361,15 @@ export default function EnhancedTable({
   );
 }
 
-
-const Colval = (column: string, row: IAlerte) => {
-    switch (column) {
-      case "Quantité Alerte":
-        return (
-          <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-            {row[column as keyof IAlerte]}
-          </span>
-        );
-      default:
-        return <p>{row[column as keyof IAlerte]}</p>;
-    }
+const Colval = (column: string, row: IEntvente) => {
+  switch (column) {
+    case "référence":
+      return (
+        <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
+          {row[column as keyof ITableEntrepotVente]}
+        </span>
+      );
+    default:
+      return <p>{row[column as keyof ITableEntrepotVente]}</p>;
+  }
 };
-

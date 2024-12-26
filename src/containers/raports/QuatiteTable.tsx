@@ -1,11 +1,11 @@
 
 interface Props {
-    data: { magasin: string, quantité: number }[]
+  data: { entrepot_name: string; quantity: number }[];
 }
 
 const QuatiteTable = ({ data }: Props) => {
     return (
-        <div className='mt-5 lg:mt-10'>
+        <div className='mt-5 max-h-[200px] overflow-auto lg:mt-10'>
             <table className='w-full border-collapse'>
                 <thead>
                     <tr>
@@ -16,8 +16,8 @@ const QuatiteTable = ({ data }: Props) => {
                 <tbody className="text-black/70">
                     {data.map((item, index) => (
                         <tr key={index} className='hover:bg-gray-200'>
-                            <td className='text-left border-b border-writingGrey/30 py-2'>{item.magasin}</td>
-                            <td className='text-left border-b border-writingGrey/30 py-2'>{item.quantité}</td>
+                            <td className='text-left border-b border-writingGrey/30 py-2'>{item.entrepot_name}</td>
+                            <td className='text-left border-b border-writingGrey/30 py-2'>{item.quantity}</td>
                         </tr>
                     ))}
                 </tbody>

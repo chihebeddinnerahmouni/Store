@@ -25,7 +25,7 @@ const EntrepotsReport = () => {
   const [venteStat, setVenteStat] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
-  const [selected, setSelected] = useState<string>("achats");
+  const [selected, setSelected] = useState<string>("Achats");
 
   useEffect(() => {
     setLoading(true);
@@ -106,7 +106,7 @@ const EntrepotsReport = () => {
         achatStat={achatStat}
         venteStat={venteStat}
       />
-      <SwitchButtons options={["achats", "ventes"]} setSelected={setSelected} selected={selected} />
+      <SwitchButtons options={["Achats", "Ventes"]} setSelected={setSelected} selected={selected} />
       {selected === "achats" ? (
         <TableAchat columns={columnsAchats} rows={dataAchats} />
       ) : (

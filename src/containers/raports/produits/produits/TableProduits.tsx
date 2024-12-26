@@ -16,7 +16,7 @@ import { visuallyHidden } from "@mui/utils";
 import { IProduit } from "../../../../types/rapport/produits/produits";
 import { IProduitTable } from "../../../../types/rapport/produits/produits";
 import ViewButton from "../../../../components/ui/buttons/actions/ViewButton";
-import DetailsModal from "../../../../pages/rapport/inventaire/DetailsModal";
+import DetailsModalProduct from "../../../../pages/rapport/produit/DetailsModalProduct";
 import TableTop from "../../../../components/ui/TableTop";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -335,9 +335,7 @@ export default function EnhancedTable({
                       <ViewButton
                         active={true}
                         // onClick={() => setViewRow(row)}
-                        onClick={() =>
-                          navigate(`/rapports/inventaire/${row.id}`)
-                        }
+                        onClick={() => navigate(`/rapports/produits/${row.id}`)}
                       />
                     </TableCell>
                   </TableRow>
@@ -357,7 +355,7 @@ export default function EnhancedTable({
         />
       </Paper>
       {produitId && (
-        <DetailsModal onClose={() => navigate("/rapports/inventaire")} />
+        <DetailsModalProduct onClose={() => navigate("/rapports/produits")} />
       )}
     </Box>
   );
