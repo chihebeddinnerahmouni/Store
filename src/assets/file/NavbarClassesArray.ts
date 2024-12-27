@@ -210,6 +210,12 @@ const array = [
         icon: MdOutlineShoppingCartCheckout,
         url: "/rapports/achats",
       },
+      {
+        id: 8,
+        title: "Rapport des achats de produits",
+        icon: MdOutlineShoppingCartCheckout,
+        url: "/rapports/achats-produits",
+      },
     ],
   },
 ];

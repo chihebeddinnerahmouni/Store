@@ -25,6 +25,7 @@ const Achats = () => {
   const [fournisseurName, setFournisseurName] = useState<string>("");
   const [fournisseurArray, setFournisseurArray] = useState<any[]>([]);
   const [userInvNumber, setUserInvNumber] = useState<string>("");
+  const [total, setTotal] = useState<number>(0);
 
   const url = import.meta.env.VITE_BASE_URL as string;
 
@@ -51,17 +52,18 @@ const Achats = () => {
     ])
       .then(
         axios.spread((data, magasinsResult, fourniResult) => {
-          //   console.log(data.data);
+            // console.log(data.data);
           // console.log(fourniResult.data.providers);
           const newArrayAchats = createNewArrayAchats(data.data.achats);
           setData(newArrayAchats);
+          setTotal(data.data.total_sum);
           setMagasinsArray(magasinsResult.data.entrepots);
           setFournisseurArray(fourniResult.data.providers);
           setLoading(false);
         })
       )
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        // console.log(err);
         enqueueSnackbar("Erreur lors de la récupération des données", {
           variant: "error",
         });
@@ -100,7 +102,7 @@ const Achats = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Rapport de vente de produits" />
+      <PageTitle text="Rapport d'achats" />
       <div className="w-full">
         <ButtonsCont
           setData={setData}
@@ -121,6 +123,10 @@ const Achats = () => {
           endDate={endDate}
           setEndDate={setEndDate}
         />
+
+          <h2 className="text-xl font-bold mt-5 lg:text-2xl lg:mt-10">
+            Total : {total} DA
+          </h2>
         <TableAchats columns={columns} rows={data} />
       </div>
     </div>

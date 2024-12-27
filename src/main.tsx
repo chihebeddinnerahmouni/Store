@@ -29,6 +29,7 @@ import DetailsProduct from "./pages/rapport/produit/DetailsProduct";
 import Ventes from './pages/rapport/Ventes';
 import VenteProduit from './pages/rapport/VenteProduit';
 import AchatsReport from './pages/rapport/Achats';
+import AchatsProduits from './pages/rapport/AchatsProduits';
 
 
 const router = createBrowserRouter([
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
       { path: "/rapports/ventes", element: <Ventes /> },
       { path: "/rapports/vente-produits", element: <VenteProduit /> },
       { path: "/rapports/achats", element: <AchatsReport /> },
+      { path: "/rapports/achats-produits", element: <AchatsProduits /> },
     ],
   },
   { path: "/test", element: <Test /> },

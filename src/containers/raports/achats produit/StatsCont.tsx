@@ -14,14 +14,14 @@ const StatsCont = ({ data }: Props) => {
   return (
     <section className="mt-5 flex gap-5 overflow-auto pb-2 lg:mt-10">
       <StatsComp
-        title="montant total"
+        title="Coût total"
         Icon={CiCoinInsert}
-        value={data.total_amount + " " + "DA"}
+        value={data.total_cost + " " + "DA"}
       />
       <StatsComp
-        title="Quantité vendue"
+        title="Quantité total"
         Icon={CiBoxes}
-        value={data.total_quantity_sold}
+        value={(data.total_quantity).toFixed()}
       />
     </section>
   );
