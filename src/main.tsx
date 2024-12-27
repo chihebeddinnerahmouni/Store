@@ -28,6 +28,8 @@ import ProduitsReport from './pages/rapport/produit/ProduitsReport';
 import DetailsProduct from "./pages/rapport/produit/DetailsProduct";
 import Ventes from './pages/rapport/Ventes';
 import VenteProduit from './pages/rapport/VenteProduit';
+import AchatsReport from './pages/rapport/Achats';
+
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,7 @@ const router = createBrowserRouter([
       { path: "/rapports/produits/:produitId", element: <DetailsProduct /> },
       { path: "/rapports/ventes", element: <Ventes /> },
       { path: "/rapports/vente-produits", element: <VenteProduit /> },
+      { path: "/rapports/achats", element: <AchatsReport /> },
     ],
   },
   { path: "/test", element: <Test /> },
