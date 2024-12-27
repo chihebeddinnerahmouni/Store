@@ -38,7 +38,7 @@ const ClientDetails = () => {
         },
       })
         .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             // setDataAchats(createNewArrayAchats(res.data.achats));
             setDataVentes(createNewArrayVentes(res.data.ventes));
             setClient(res.data.client);

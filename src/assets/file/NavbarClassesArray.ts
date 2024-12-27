@@ -222,6 +222,12 @@ const array = [
         icon: MdOutlineShoppingCartCheckout,
         url: "/rapports/clients",
       },
+      {
+        id: 10,
+        title: "Rapport de fournisseurs",
+        icon: MdOutlineShoppingCartCheckout,
+        url: "/rapports/fournisseurs",
+      },
     ],
   },
 ];
