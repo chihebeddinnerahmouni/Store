@@ -14,7 +14,7 @@ const StatsCont = ({ achatStat, venteStat }: Props) => {
 
 
   return (
-    <section className="mt-5 flex gap-5 lg:mt-10">
+    <section className="mt-5 flex gap-5 pb-2 overflow-auto lg:mt-10">
       <StatsComp
         title="Achats"
         Icon={CiShoppingCart}
