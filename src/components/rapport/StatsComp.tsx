@@ -2,7 +2,7 @@
 interface ButtonTopProps {
   title: string;
   Icon: any;
-  value: number;
+  value: string;
 }
 
 const StatsComp = ({ title, Icon, value }: ButtonTopProps) => {
@@ -11,7 +11,7 @@ const StatsComp = ({ title, Icon, value }: ButtonTopProps) => {
       <Icon className="text-[30px] object-cover text-main lg:text-[50px]" />
       <div className="text">
         <p className="text-xs text-writingGrey lg:text-base">{title}</p>
-        <p className="text-lg font-semibold lg:text-2xl">{value} DA</p>
+        <p className="text-lg font-semibold lg:text-2xl">{value}</p>
       </div>
     </div>
   );

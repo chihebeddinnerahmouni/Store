@@ -8,6 +8,7 @@ import PageTitle from "../../components/ui/PageTitle";
 import Loading from "../../components/ui/Loading";
 import { IProductVente } from "../../types/rapport/vente produit/vente_produit";
 import { IProductVenteTable } from "../../types/rapport/vente produit/vente_produit";
+import StatsCont from "../../containers/raports/vente produit/StatsCont";
 
 const VenteProduit = () => {
   const today = new Date();
@@ -24,6 +25,7 @@ const VenteProduit = () => {
   const [magasinName, setMagasinName] = useState<string>("");
   const [clientName, setClientName] = useState<string>("");
   const [clientsArray, setClientsArray] = useState<any[]>([]);
+  const [stats, setStats] = useState<any>({});
 
   const url = import.meta.env.VITE_BASE_URL as string;
 
@@ -53,6 +55,7 @@ const VenteProduit = () => {
             // console.log(data.data);
           const newArrayAchats = createNewArrayAchats(data.data.ventes);
           setData(newArrayAchats);
+          setStats(data.data.totals);
           setMagasinsArray(magasinsResult.data.entrepots);
           setClientsArray(clientsResult.data.clients);
           setLoading(false);
@@ -111,6 +114,7 @@ const VenteProduit = () => {
           clientName={clientName}
           setClientName={setClientName}
         />
+        <StatsCont data={stats} />
         <DatesCont
           startDate={startDate}
           setStartDate={setStartDate}
