@@ -16,10 +16,7 @@ import { visuallyHidden } from "@mui/utils";
 import { IProduit } from "../../../../types/rapport/produits/produits";
 import { IProduitTable } from "../../../../types/rapport/produits/produits";
 import ViewButton from "../../../../components/ui/buttons/actions/ViewButton";
-import DetailsModalProduct from "../../../../pages/rapport/produit/DetailsModalProduct";
 import TableTop from "../../../../components/ui/TableTop";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 
 const mainColor = "#006233";
@@ -168,8 +165,6 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
-  const navigate = useNavigate();
-  const { produitId } = useParams();
 
 
   // console.log(rows);
@@ -334,8 +329,7 @@ export default function EnhancedTable({
                     >
                       <ViewButton
                         active={true}
-                        // onClick={() => setViewRow(row)}
-                        onClick={() => navigate(`/rapports/produits/${row.id}`)}
+                        onClick={() => window.open(`/rapports/produits/${row.id}`, "_blank")}
                       />
                     </TableCell>
                   </TableRow>
@@ -354,9 +348,6 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {produitId && (
-        <DetailsModalProduct onClose={() => navigate("/rapports/produits")} />
-      )}
     </Box>
   );
 }

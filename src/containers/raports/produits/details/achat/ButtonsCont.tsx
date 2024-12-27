@@ -9,17 +9,24 @@ import FilterContent from "../../../../../components/rapport/produit/details/Fil
 import { useState } from "react";
 
 interface ButtonsContProps {
+  setData: (value: IProductDetails[]) => void;
   data: IProductDetails[];
   columns: (keyof IProductDetailsTable)[];
   magasinsArray: any[];
   usersArray: any[];
-  magasinName: number;
-  setMagasinName: (value: number) => void;
+  magasinName: string;
+  setMagasinName: (value: string) => void;
   userName: string;
   setUserName: (value: string) => void;
+  clientsArray: any[];
+  setClientName: (value: string) => void;
+  clientName: string;
+  userInvNumber: string;
+  setUserInvNumber: (value: string) => void;
 }
 
 const ButtonsCont = ({
+  setData,
   data,
   columns,
   magasinsArray,
@@ -28,6 +35,11 @@ const ButtonsCont = ({
   userName,
   setMagasinName,
   setUserName,
+  clientsArray,
+  setClientName,
+  clientName,
+  userInvNumber,
+  setUserInvNumber,
 }: ButtonsContProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -69,7 +81,7 @@ const ButtonsCont = ({
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         sx={{
-          zIndex: 1400,
+          // zIndex: 1400,
           "& .MuiBackdrop-root": {
             backgroundColor: "rgba(0, 0, 0, 0.2)",
             backdropFilter: "blur(5px)",
@@ -77,6 +89,7 @@ const ButtonsCont = ({
         }}
       >
         <FilterContent
+          setData={setData}
           close={handleFilter}
           magasinsArray={magasinsArray}
           usersArray={usersArray}
@@ -84,6 +97,11 @@ const ButtonsCont = ({
           userName={userName}
           setMagasinName={setMagasinName}
           setUserName={setUserName}
+          clientsArray={clientsArray}
+          setClientName={setClientName}
+          clientName={clientName}
+          userInvNumber={userInvNumber}
+          setUserInvNumber={setUserInvNumber}
         />
       </Drawer>
     </section>
