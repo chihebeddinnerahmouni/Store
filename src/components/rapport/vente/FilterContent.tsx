@@ -1,17 +1,15 @@
 import { Box } from "@mui/material";
 import { BsArrowRepeat } from "react-icons/bs";
 import { CiFilter } from "react-icons/ci";
-import FullShiningButton from "../../../ui/buttons/FullShiningButton";
+import FullShiningButton from "../../ui/buttons/FullShiningButton";
 // import Fourni from "./filter content/fourni";
 import Magasin from "./filter content/Magasin";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-import Users from "./filter content/Users";
 import Clients from "./filter content/Clients";
 import UserInvNum from "./filter content/UserInvNum";
-import { useParams } from "react-router-dom";
-import { IProductDetails } from "../../../../types/rapport/produits/details/product";
+import { IVente } from "../../../types/rapport/ventes/vente";
 
 
 
@@ -19,11 +17,8 @@ interface Props {
   setData: (value: any) => void;
   close: () => void;
   magasinsArray: any[];
-  usersArray: any[];
   magasinName: string;
   setMagasinName: (value: string) => void;
-  userName: string;
-  setUserName: (value: string) => void;
   clientsArray: any[];
   setClientName: (value: string) => void;
   clientName: string;
@@ -35,11 +30,8 @@ const FilterContent = ({
     setData,
     close,
     magasinsArray,
-  usersArray,
   magasinName,
-  userName,
   setMagasinName,
-  setUserName,
   clientsArray,
   setClientName,
   clientName,
@@ -49,20 +41,18 @@ const FilterContent = ({
 
   const [loading, setLoading] = useState(false);
   const url = import.meta.env.VITE_BASE_URL;
-  const { produitId } = useParams();
-  const id = produitId;
-  const search = () => {
 
-    const check = magasinName === "" && userName === "" && clientName === "" && userInvNumber === "";
+
+  const search = () => {
+    const check = magasinName === "" && clientName === "" && userInvNumber === "";
     if (check) {
       enqueueSnackbar("Veuillez remplir au moins un champ", { variant: "error" });
       return;
     }
     setLoading(true);
-    const params = createParams(clientName, magasinName, userName, userInvNumber);
+    const params = createParams(clientName, magasinName, userInvNumber);
     axios
-      .post( url + `/api/reports/products/${id}/detailed-report/filter?${params.toString()}`,
-        {},
+      .get( url + `/api/reports/ventes/filter?${params.toString()}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -70,13 +60,13 @@ const FilterContent = ({
         }
       )
       .then((res) => {
-        // console.log(res.data.details);
-        const newArray = createNewArrayAchats(res.data.details);
+        // console.log(res.data);
+        const newArray = createNewArrayAchats(res.data.ventes);
         setData(newArray);
         close();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -109,7 +99,6 @@ const FilterContent = ({
       color: "#8b5cf6",
       onClick: () => {
         setMagasinName("");
-        setUserName("");
         setClientName("");
         setUserInvNumber("");
       },
@@ -130,13 +119,6 @@ const FilterContent = ({
           magasinName={magasinName}
           setMagasinName={setMagasinName}
           magasinsArray={magasinsArray}
-        />
-
-
-        <Users
-          userName={userName}
-          setUserName={setUserName}
-          usersArray={usersArray}
         />
 
         <Clients
@@ -173,29 +155,27 @@ const FilterContent = ({
 export default FilterContent;
 
 
-const createNewArrayAchats = (data: IProductDetails[]) => {
-  return data.map((item: IProductDetails, index: number) => {
+const createNewArrayAchats = (data: IVente[]) => {
+  return data.map((item: IVente, index: number) => {
     return {
       ...item,
       id: index,
       // date: item.date,
-      référence: item.code_bar,
-      "ajouter par": item.created_by_user,
-      // produit: item.name,
+      référence: item.invoice_number,
+      "réference de l'utilisateur": item.user_invoice_number,
       client: item.client_name,
       magasin: item.entrepot_name,
-      "quantité vendu": item.quantity_sold,
       // total: item.total,
+      "ajouter par": item.created_by_user,
     };
   });
 };
 
 
-const createParams = (clientName: string, magasinName: string, userName: string, userInvNumber: string) => {
+const createParams = (clientName: string, magasinName: string, userInvNumber: string) => {
   const params = new URLSearchParams();
   if (clientName) params.append("client_name", clientName);
   if (magasinName) params.append("entrepot_name", magasinName);
-  if (userName) params.append("created_by_user", userName);
   if (userInvNumber) params.append("user_invoice_number", userInvNumber);
   return params;
 }

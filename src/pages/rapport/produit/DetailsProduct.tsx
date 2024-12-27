@@ -12,7 +12,7 @@ import TableAchat from "../../../containers/raports/produits/details/achat/Table
 // import SwitchButtons from "../../../components/rapport/SwitchButtons";
 // import QuatiteTable from "../../../containers/raports/inventaire/details/QuatiteTable";
 import { useParams } from "react-router-dom";
-import DatesCont from "../../../containers/raports/produits/produits/DatesCont";
+import DatesCont from "../../../containers/raports/DatesCont";
 import QuatiteTable from "../../../containers/raports/QuatiteTable";
 import PageTitle from "../../../components/ui/PageTitle"; 
 import Loading from "../../../components/ui/Loading";
@@ -25,6 +25,9 @@ const DetailsProduct = () => {
   today.setMonth(today.getMonth() - 2);
   const formattedDate = today.toISOString().split("T")[0];
 
+    const todatSratDate = new Date().toISOString().split("T")[0];
+
+
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<any>({});
   const [dataAchats, setDataAchats] = useState<IProductDetails[]>([]);
@@ -35,7 +38,7 @@ const DetailsProduct = () => {
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   // const [selected, setSelected] = useState<string>("Achats");
   const [startDate, setStartDate] = useState<string>(formattedDate);
-  const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [endDate, setEndDate] = useState<string>(todatSratDate);
   const [quantityArray, setQuantityArray] = useState<{ entrepot_name: string; quantity: number }[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [usersArray, setUsersArray] = useState<any[]>([]);
@@ -94,6 +97,9 @@ const DetailsProduct = () => {
 
 
   useEffect(() => { 
+    if (startDate === todatSratDate && endDate === formattedDate) {
+      return;
+    }
     setLoading(true);
     axios
       .get(

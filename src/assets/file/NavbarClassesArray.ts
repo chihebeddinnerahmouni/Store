@@ -192,6 +192,12 @@ const array = [
         icon: IoPricetagsOutline,
         url: "/rapports/produits",
       },
+      {
+        id: 5,
+        title: "Rapport de vente",
+        icon: MdOutlineShoppingCartCheckout,
+        url: "/rapports/ventes",
+      },
     ],
   },
 ];

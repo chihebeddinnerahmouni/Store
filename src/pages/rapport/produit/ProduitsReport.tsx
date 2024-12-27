@@ -8,7 +8,7 @@ import PageTitle from "../../../components/ui/PageTitle";
 import ButtonsCont from "../../../containers/raports/produits/produits/ButtonsCont";
 import MagasinSelect from "../../../containers/raports/MagasinSelect";
 import TableProduits from "../../../containers/raports/produits/produits/TableProduits";
-import DatesCont from "../../../containers/raports/produits/produits/DatesCont";
+import DatesCont from "../../../containers/raports/DatesCont";
 
 
 
@@ -18,12 +18,14 @@ const ProduitsReport = () => {
   const today = new Date();
   today.setMonth(today.getMonth() - 2);
   const formattedDate = today.toISOString().split("T")[0];
+
+  const todatSratDate = new Date().toISOString().split("T")[0];
   
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IProduit[]>([]);
   const [startDate, setStartDate] = useState<string>(formattedDate);
-  const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [endDate, setEndDate] = useState<string>(todatSratDate);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
@@ -52,8 +54,11 @@ const ProduitsReport = () => {
       });
   }, []);
 
+  
+
   useEffect(() => {
-    if (magasinId === 0) {
+    const check = (magasinId === 0 || (startDate === todatSratDate && endDate === formattedDate));
+    if (check) {
       return;
     }
     setLoading(true);
