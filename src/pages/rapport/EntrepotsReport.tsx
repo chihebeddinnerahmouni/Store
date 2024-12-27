@@ -21,8 +21,7 @@ const EntrepotsReport = () => {
   const [dataVentes, setDataVentes] = useState<IEntVente[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
-  const [achatStat, setAchatStat] = useState<number>(0);
-  const [venteStat, setVenteStat] = useState<number>(0);
+  const [stats, setStats] = useState<any>({});
   const url = import.meta.env.VITE_BASE_URL as string;
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   const [selected, setSelected] = useState<string>("Achats");
@@ -61,12 +60,12 @@ const EntrepotsReport = () => {
           },
         })
         .then((res) => {
+          // console.log(res.data.summary);
           const newArrayAchats = createNewArrayAchats(res.data.achats);
           const newArrayVentes = createNewArrayVentes(res.data.ventes);
           setDataVentes(newArrayVentes);
           setDataAchats(newArrayAchats);
-          setAchatStat(res.data.summary.total_achats);
-          setVenteStat(res.data.summary.total_ventes);
+          setStats(res.data.summary);
           setLoading(false);
         })
         .catch((err) => {
@@ -95,7 +94,7 @@ const EntrepotsReport = () => {
           setValue={setMagasinId}
           options={magasinsArray}
         />
-        {selected === "achats" ? (
+        {selected === "Achats" ? (
           <ButtonsContAchat columns={columnsAchats} data={dataAchats} />
         ) : (
             <ButtonsContVentes columns={columnsVentes} data={dataVentes} /> 
@@ -103,11 +102,11 @@ const EntrepotsReport = () => {
         )}
       </div>
       <StatsCont
-        achatStat={achatStat}
-        venteStat={venteStat}
+
+        data={stats}
       />
       <SwitchButtons options={["Achats", "Ventes"]} setSelected={setSelected} selected={selected} />
-      {selected === "achats" ? (
+      {selected === "Achats" ? (
         <TableAchat columns={columnsAchats} rows={dataAchats} />
       ) : (
           <TableVentes columns={columnsVentes} rows={dataVentes} />

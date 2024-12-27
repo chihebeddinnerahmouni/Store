@@ -135,7 +135,7 @@ const DetailsProduct = () => {
         <div className="w-full">
           <p className="text-center font-bold text-xl mb-5">{product.name}</p>
 
-          {/* {selected === "achats" ? ( */}
+          {/* {selected === "Achats" ? ( */}
         <ButtonsContAchat
           setData={setDataAchats}
             columns={columnsAchats}
@@ -168,7 +168,7 @@ const DetailsProduct = () => {
               setSelected={setSelected}
               selected={selected}
             /> */}
-          {/* {selected === "achats" ? ( */}
+          {/* {selected === "Achats" ? ( */}
           <TableAchat columns={columnsAchats} rows={dataAchats} />
           {/* ) : (
             <TableVentes columns={columnsVentes} rows={dataVentes} />
@@ -181,8 +181,8 @@ const DetailsProduct = () => {
 export default DetailsProduct;
 
 const columnsAchats: (keyof IProductDetailsTable)[] = [
-  "date",
   "référence",
+  "date",
   "ajouter par",
   // "produit",
   "client",

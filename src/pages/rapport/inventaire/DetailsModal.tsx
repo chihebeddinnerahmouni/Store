@@ -18,7 +18,6 @@ import { useParams } from "react-router-dom";
 
 interface ViewModalProps {
   onClose: () => void;
-  // id: number;
 }
 
 const DetailsModal = ({ onClose }: ViewModalProps) => {
@@ -103,7 +102,7 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
           <div className="w-full">
             <p className="text-center font-bold text-xl mb-5">{product.name}</p>
 
-            {/* {selected === "achats" ? ( */}
+            {/* {selected === "Achats" ? ( */}
             <ButtonsContAchat columns={columnsAchats} data={dataAchats} />
             {/* ) : (
                <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
@@ -114,7 +113,7 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
               setSelected={setSelected}
               selected={selected}
             />
-            {/* {selected === "achats" ? ( */}
+            {/* {selected === "Achats" ? ( */}
             <TableAchat columns={columnsAchats} rows={dataAchats} />
             {/* ) : (
             <TableVentes columns={columnsVentes} rows={dataVentes} />
@@ -129,8 +128,8 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
 export default DetailsModal;
 
 const columnsAchats: (keyof IInvDetails_achats_Table)[] = [
-  "référence de l'utilisateur",
   "référence",
+  "référence de l'utilisateur",
   "fournisseur",
   "magasin",
   "quantité",
@@ -151,23 +150,6 @@ const createNewArrayAchats = (data: any) => {
   });
 };
 
-// const data_test_achat = [
-//   {
-//     user_invoice_number: "INV02",
-//     invoice_number: "INV002",
-//     provider_name: "Supplier Inc.",
-//     entrepot_name: "Main Warehouse",
-//     quantity_declared: 250,
-//     total: "25000.00",
-//   },
-// ];
-
-// const statsArray_test = data_test_achat.map((item: any) => {
-//   return {
-//     magasin: item.entrepot.name,
-//     quantité: item.produit.quantity,
-//   };
-// });
 
 // const columnsVentes: (keyof ITableEntrepotVente)[] = [
 //   "référence",
@@ -177,80 +159,6 @@ const createNewArrayAchats = (data: any) => {
 //   "status",
 // ];
 
-// const data_test_ventes = [
-//   {
-//     id: 1,
-//     code: "EV001",
-//     client: {
-//       id: 1,
-//       code_client: "C001",
-//       name: "John Doe",
-//       email: "john.doe@example.com",
-//       phone: "123-456-7890",
-//       address: "123 Main St, Anytown, USA",
-//       status: "active",
-//       total_purchases: "1000.00",
-//       outstanding_balance: "200.00",
-//       created_by: 201,
-//       updated_by: null,
-//       deleted_by: null,
-//       created_at: "2023-01-01T10:00:00Z",
-//       updated_at: "2023-01-01T10:00:00Z",
-//     },
-//     entrepot: {
-//       id: 1,
-//       name: "Warehouse A",
-//       code_entreport: "WA123",
-//       description: "Main warehouse for electronics",
-//       created_by: 101,
-//       updated_by: null,
-//       deleted_by: null,
-//       created_at: "2023-01-01T10:00:00Z",
-//       updated_at: "2023-01-01T10:00:00Z",
-//     },
-//     total: 500,
-//     status: "completed",
-//     référence: "REF001",
-//     nom_du_client: "John Doe",
-//     magasin: "Warehouse A",
-//   },
-//   {
-//     id: 2,
-//     code: "EV002",
-//     client: {
-//       id: 2,
-//       code_client: "C002",
-//       name: "Jane Smith",
-//       email: "jane.smith@example.com",
-//       phone: "987-654-3210",
-//       address: "456 Elm St, Othertown, USA",
-//       status: "inactive",
-//       total_purchases: "500.00",
-//       outstanding_balance: "50.00",
-//       created_by: 202,
-//       updated_by: null,
-//       deleted_by: null,
-//       created_at: "2023-02-01T11:00:00Z",
-//       updated_at: "2023-02-01T11:00:00Z",
-//     },
-//     entrepot: {
-//       id: 2,
-//       name: "Warehouse B",
-//       code_entreport: "WB456",
-//       description: "Secondary warehouse for furniture",
-//       created_by: 102,
-//       updated_by: null,
-//       deleted_by: null,
-//       created_at: "2023-02-01T11:00:00Z",
-//       updated_at: "2023-02-01T11:00:00Z",
-//     },
-//     total: 300,
-//     status: "pending",
-//     référence: "REF002",
-//     nom_du_client: "Jane Smith",
-//     magasin: "Warehouse B",
-//   },
-// ];
 
 // const createNewArrayVentes = (data: any) => {
 //   return data.map((item: any) => {

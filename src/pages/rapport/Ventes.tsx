@@ -129,8 +129,8 @@ const Ventes = () => {
 
 
 const columns: (keyof IVenteTable)[] = [
-  "date",
   "référence",
+  "date",
   "réference de l'utilisateur",
   "client",
   "magasin",

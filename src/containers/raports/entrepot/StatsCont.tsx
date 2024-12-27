@@ -4,26 +4,23 @@ import { CiShoppingCart } from "react-icons/ci";
 
 
 interface Props {
-    achatStat: number;
-    venteStat: number;
+    data: any
 }
 
 
-const StatsCont = ({ achatStat, venteStat }: Props) => {
+const StatsCont = ({ data }: Props) => {
     
-
-
   return (
     <section className="mt-5 flex gap-5 pb-2 overflow-auto lg:mt-10">
       <StatsComp
         title="Achats"
         Icon={CiShoppingCart}
-        value={achatStat.toString() + " " + "DA"}
+        value={data.total_achats.toString() + " " + "DA"}
       />
       <StatsComp
         title="Ventes"
         Icon={MdOutlineShoppingCartCheckout}
-        value={(venteStat).toString() + " " + "DA"}
+        value={data.total_ventes.toString() + " " + "DA"}
       />
     </section>
   );

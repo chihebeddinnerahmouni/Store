@@ -2,7 +2,6 @@ import Loading from "../../components/ui/Loading";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import IAlerte from "../../types/rapport/alerts/alert_quantite";
-// import { IAlerteTAble } from "../../types/rapport/alert_quantite";
 import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../components/ui/PageTitle";
 import ButtonsCont from "../../containers/raports/alerte/ButtonsCont";

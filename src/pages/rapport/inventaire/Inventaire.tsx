@@ -14,7 +14,7 @@ const Inventaire = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IInventaire[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
-  const [magasinId, setMagasinId] = useState<number>(1);
+  const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
 
   useEffect(() => {
@@ -59,7 +59,6 @@ const Inventaire = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -95,15 +94,6 @@ const columnsAchats: (keyof IIventaireTable)[] = [
     "catégorie",
     "stock_actuel"
 ];
-
-// const data_test_achat = [
-//   {
-//     code: "123456789",
-//     product_name: "prod1 pdated",
-//     category_name: "test",
-//     stock_actual: 500,
-//   },
-// ];
 
 const createNewArrayAchats = (data: any) => {
   return data.map((item: any) => {

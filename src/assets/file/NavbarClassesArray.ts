@@ -13,19 +13,10 @@ import { IoManOutline } from "react-icons/io5";
 // import { IoReturnUpBack } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { CiShop } from "react-icons/ci";
-import { CiCircleAlert } from "react-icons/ci";
-import { MdOutlineInventory } from "react-icons/md";
-
+import { IoDocumentTextOutline } from "react-icons/io5";
 
 
 const array = [
-  // {
-  //   id: 1,
-  //   title: "Tableau de bord",
-  //   icon: "/menu/Home.png",
-  //   url: "",
-  //   blank: false,
-  // },
   {
     id: 2,
     title: "Produits",
@@ -171,73 +162,73 @@ const array = [
       {
         id: 1,
         title: "Alertes de quantité de produits",
-        icon: CiCircleAlert,
+        icon: IoDocumentTextOutline,
         url: "/rapports/alerte-produit",
       },
       {
         id: 2,
         title: "Rapport d'entrepôt",
-        icon: CiShop,
+        icon: IoDocumentTextOutline,
         url: "/rapports/entrepot",
       },
       {
         id: 3,
         title: "Rapport d'inventaire",
-        icon: MdOutlineInventory,
+        icon: IoDocumentTextOutline,
         url: "/rapports/inventaire",
       },
       {
         id: 4,
         title: "Rapport de produit",
-        icon: IoPricetagsOutline,
+        icon: IoDocumentTextOutline,
         url: "/rapports/produits",
       },
       {
         id: 5,
         title: "Rapport de vente",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/ventes",
       },
       {
         id: 6,
         title: "Rapport de vente de produits",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/vente-produits",
       },
       {
         id: 7,
         title: "Rapport des achats",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/achats",
       },
       {
         id: 8,
         title: "Rapport des achats de produits",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/achats-produits",
       },
       {
         id: 9,
         title: "Rapport de clients",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/clients",
       },
       {
         id: 10,
         title: "Rapport de fournisseurs",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/fournisseurs",
       },
       {
         id: 11,
         title: "Produits les plus vendus",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/plus-vendus",
       },
       {
         id: 12,
         title: "Meilleur clients",
-        icon: MdOutlineShoppingCartCheckout,
+        icon: IoDocumentTextOutline,
         url: "/rapports/meilleur-clients",
       },
     ],

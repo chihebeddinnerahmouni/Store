@@ -57,6 +57,11 @@ const ProduitsReport = () => {
   
 
   useEffect(() => {
+    if (magasinId === 0) {
+      return;
+    }
+
+    // console.log(startDate, endDate);
     setLoading(true);
     axios
       .post(
@@ -78,7 +83,7 @@ const ProduitsReport = () => {
         setLoading(false);
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
