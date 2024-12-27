@@ -97,7 +97,7 @@ const DetailsProduct = () => {
 
 
   useEffect(() => { 
-    if (startDate === todatSratDate && endDate === formattedDate) {
+    if (startDate === formattedDate && endDate === todatSratDate) {
       return;
     }
     setLoading(true);

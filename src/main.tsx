@@ -27,6 +27,7 @@ import Inventaire from './pages/rapport/inventaire/Inventaire';
 import ProduitsReport from './pages/rapport/produit/ProduitsReport';
 import DetailsProduct from "./pages/rapport/produit/DetailsProduct";
 import Ventes from './pages/rapport/Ventes';
+import VenteProduit from './pages/rapport/VenteProduit';
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,7 @@ const router = createBrowserRouter([
       { path: "/rapports/produits", element: <ProduitsReport /> },
       { path: "/rapports/produits/:produitId", element: <DetailsProduct /> },
       { path: "/rapports/ventes", element: <Ventes /> },
+      { path: "/rapports/vente-produits", element: <VenteProduit /> },
     ],
   },
   { path: "/test", element: <Test /> },

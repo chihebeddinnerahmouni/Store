@@ -1,25 +1,23 @@
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { BsFiletypePdf } from "react-icons/bs";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import { IVente } from "../../../types/rapport/ventes/vente";
-import { IVenteTable } from "../../../types/rapport/ventes/vente";
 import { CiFilter } from "react-icons/ci";
 import Drawer from "@mui/material/Drawer";
-import FilterContent from "../../../components/rapport/vente/FilterContent";
+import FilterContent from "../../../components/rapport/vent produit/FilterContent";
 import { useState } from "react";
+import { IProductVente } from "../../../types/rapport/vente produit/vente_produit";
+import { IProductVenteTable } from "../../../types/rapport/vente produit/vente_produit";
 
 interface ButtonsContProps {
-  setData: (value: IVente[]) => void;
-  data: IVente[];
-  columns: (keyof IVenteTable)[];
+  setData: (value: IProductVente[]) => void;
+  data: IProductVente[];
+  columns: (keyof IProductVenteTable)[];
   magasinsArray: any[];
   magasinName: string;
   setMagasinName: (value: string) => void;
   clientsArray: any[];
   setClientName: (value: string) => void;
   clientName: string;
-  userInvNumber: string;
-  setUserInvNumber: (value: string) => void;
 }
 
 const ButtonsCont = ({
@@ -32,8 +30,6 @@ const ButtonsCont = ({
   clientsArray,
   setClientName,
   clientName,
-  userInvNumber,
-  setUserInvNumber,
 }: ButtonsContProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -53,7 +49,7 @@ const ButtonsCont = ({
       text: "Export PDF",
       // color: "#10b981",
       color: "#ef4444",
-      onClick: () => handlePrintPdf(data, columns, "Rapport-de-ventes.pdf"),
+      onClick: () => handlePrintPdf(data, columns, "Rapport-de-vente-de-produits.pdf"),
     },
   ];
 
@@ -91,8 +87,6 @@ const ButtonsCont = ({
           clientsArray={clientsArray}
           setClientName={setClientName}
           clientName={clientName}
-          userInvNumber={userInvNumber}
-          setUserInvNumber={setUserInvNumber}
         />
       </Drawer>
     </section>

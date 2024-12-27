@@ -57,10 +57,6 @@ const ProduitsReport = () => {
   
 
   useEffect(() => {
-    const check = (magasinId === 0 || (startDate === todatSratDate && endDate === formattedDate));
-    if (check) {
-      return;
-    }
     setLoading(true);
     axios
       .post(
