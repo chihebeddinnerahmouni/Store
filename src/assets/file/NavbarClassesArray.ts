@@ -228,6 +228,12 @@ const array = [
         icon: MdOutlineShoppingCartCheckout,
         url: "/rapports/fournisseurs",
       },
+      {
+        id: 11,
+        title: "Produits les plus vendus",
+        icon: MdOutlineShoppingCartCheckout,
+        url: "/rapports/plus-vendus",
+      },
     ],
   },
 ];

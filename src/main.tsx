@@ -34,6 +34,7 @@ import ClientsReport from './pages/rapport/clients/clients/ClientsReport';
 import ClientDetails from './pages/rapport/clients/client details/ClientDetails';
 import FournisseursReport from './pages/rapport/fournisseur/Fournisseurs';
 import FournisseurDetails from './pages/rapport/fournisseur/FournisseurDetails';
+import BestSell from './pages/rapport/BestSell';
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,7 @@ const router = createBrowserRouter([
       { path: "/rapports/clients/:clientId", element: <ClientDetails /> },
       { path: "/rapports/fournisseurs", element: <FournisseursReport /> },
       { path: "/rapports/fournisseurs/:fournisseurId", element: <FournisseurDetails /> },
+      { path: "/rapports/plus-vendus", element: <BestSell /> },
     ],
   },
   { path: "/test", element: <Test /> },
