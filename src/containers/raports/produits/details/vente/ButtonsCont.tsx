@@ -4,6 +4,8 @@ import handlePrintPdf from "../../../../../helper/CreatePdf";
 import IEntVentes from "../../../../../types/rapport/entrepot/entrepot_vente";
 import { ITableEntrepotVente } from "../../../../../types/rapport/entrepot/entrepot_vente";
 
+// not used
+
 interface ButtonsContProps {
   data: IEntVentes[];
   columns: (keyof ITableEntrepotVente)[];

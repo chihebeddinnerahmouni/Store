@@ -41,6 +41,11 @@ const DetailsModalProduct = ({ onClose }: ViewModalProps) => {
   const [startDate, setStartDate] = useState<string>(formattedDate);
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [quantityArray, setQuantityArray] = useState<{ entrepot_name: string; quantity: number }[]>([]);
+  const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
+  const [usersArray, setUsersArray] = useState<any[]>([]);
+  const [magasinName, setMagasinName] = useState<number>(0);
+  const [userName, setUserName] = useState<string>("");
+
   const { produitId } = useParams();
   const id = Number(produitId);
   const url = import.meta.env.VITE_BASE_URL as string;
@@ -49,33 +54,38 @@ const DetailsModalProduct = ({ onClose }: ViewModalProps) => {
   // console.log(id);
 
   useEffect(() => {
-    axios
-      // .get(url + "/api/reports/product/" + id + "/details", {
-      .get(`${url}/api/reports/products/${id}/detailed-report?start_date=${startDate}&end_date=${endDate}`, {
+    Promise.all([
+      axios.get(
+        `${url}/api/reports/products/${id}/detailed-report?start_date=${startDate}&end_date=${endDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      ),
+      axios.get(`${url}/api/entreports`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      })
-      .then((res) => {
-        console.log(res.data);
-        // const newArrayVentes = createNewArrayVentes(data_test_ventes);
-        // setDataVentes(newArrayVentes);
-        // setStatsArray(statsArray_test);
-        const newArrayAchats = createNewArrayAchats(res.data.details);
-        setProduct(res.data.product);
-        setDataAchats(newArrayAchats);
-        setQuantityArray(res.data.entrepot_quantities);
-        setLoading(false);
-      })
-      .catch((err) => {
-        // console.log(err);
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-      });
+      }),
+      axios.get(`${url}/api/user/users`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }),
+    ])
+      .then(
+        axios.spread((data, magasinsResult, usersResult) => {
+          // console.log(data.data);
+          const newArrayAchats = createNewArrayAchats(data.data.details);
+          setProduct(data.data.product);
+          setDataAchats(newArrayAchats);
+          setQuantityArray(data.data.entrepot_quantities);
+          setMagasinsArray(magasinsResult.data.entrepots);
+          setUsersArray(usersResult.data.users);
+          setLoading(false);
+         })
+    )
   }, []);
 
   return (
@@ -84,6 +94,7 @@ const DetailsModalProduct = ({ onClose }: ViewModalProps) => {
       onClose={onClose}
       BackdropProps={{
         sx: {
+          // zIndex: 2000,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           backdropFilter: "blur(5px)",
         },
@@ -116,13 +127,27 @@ const DetailsModalProduct = ({ onClose }: ViewModalProps) => {
             <p className="text-center font-bold text-xl mb-5">{product.name}</p>
 
             {/* {selected === "achats" ? ( */}
-            <ButtonsContAchat columns={columnsAchats} data={dataAchats} />
+            <ButtonsContAchat
+              columns={columnsAchats}
+              data={dataAchats}
+              magasinsArray={magasinsArray}
+              usersArray={usersArray}
+              setMagasinName={setMagasinName}
+              setUserName={setUserName}
+              magasinName={magasinName}
+              userName={userName}
+            />
             {/* ) : (
                <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
              )} */}
-              {/* <QuatiteTable data={statsArray} /> */}
-              <DatesCont startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
-              <QuatiteTable data={quantityArray} />
+            {/* <QuatiteTable data={statsArray} /> */}
+            <DatesCont
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+            />
+            <QuatiteTable data={quantityArray} />
             {/* <SwitchButtons
               options={["Achats", "Ventes"]}
               setSelected={setSelected}
@@ -146,10 +171,10 @@ const columnsAchats: (keyof IProductDetailsTable)[] = [
   "date",
   "référence",
   "ajouter par",
-  "produit",
+  // "produit",
   "client",
   "magasin",
-  "quantité",
+  "quantité vendu",
   "total",
 ];
 const createNewArrayAchats = (data: IProductDetails[]) => {
@@ -158,12 +183,12 @@ const createNewArrayAchats = (data: IProductDetails[]) => {
       ...item,
       id: index,
       // date: item.date,
-      référence: item.code_barre,
-      "ajouter par": item.created_by,
-      produit: item.name,
+      référence: item.code_bar,
+      "ajouter par": item.created_by_user,
+      // produit: item.name,
       client: item.client_name,
       magasin: item.entrepot_name,
-      quantité: item.quantity,
+      "quantité vendu": item.quantity_sold,
       // total: item.total,
     };
   });

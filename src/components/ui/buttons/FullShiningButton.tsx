@@ -51,7 +51,8 @@ interface ShiningButtonProps {
   text: string;
   icon?: any;
   color: string;
-  onClick: (...args: any[]) => void;
+  // onClick: (...args: any[]) => void;
+  onClick: () => void;
   type?: "button" | "submit" | "reset";
   loading?: boolean;
 }

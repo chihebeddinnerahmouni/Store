@@ -1,3 +1,4 @@
+// import { forwardRef } from "react";
 // import {
 //   FormControl,
 //   InputLabel,
@@ -12,20 +13,23 @@
 //     name: string;
 //   }[];
 //   label: string;
-//   value: string;
+//   value: string | undefined;
 //   setValue: (value: string) => void;
 //   error?: boolean;
 //   helperText?: string;
 // }
 
-// const SelectInput = ({
+// const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
+//   ({
 //   value,
 //   setValue,
 //   options,
 //   label,
 //   error,
 //   helperText,
-// }: SelectCompProps) => {
+//   }: SelectCompProps, ref) => {
+    
+//     // console.log(value);
 //   const mainColor = "#006233";
 
 //   return (
@@ -37,7 +41,7 @@
 //             color: mainColor,
 //           },
 //         }}
-//         id="carrosserie-label"
+//         // id="carrosserie-label"
 //       >
 //         {label}
 //       </InputLabel>
@@ -61,6 +65,7 @@
 //         value={value}
 //         label={label}
 //         error={error}
+//         inputRef={ref}
 //         // helperText={helperText}
 //         onChange={(e) => setValue(e.target.value)}
 //         MenuProps={{
@@ -73,19 +78,20 @@
 //         }}
 //       >
 //         <MenuItem value="">None</MenuItem>
-//         {options.map((option, index) => (
+//         {options.map((option, index) => {
+//           console.log(option);
+//           return (
 //           <MenuItem key={index} value={option.name}>
 //             {option.name}
-//           </MenuItem>
-//         ))}
+//           </MenuItem>)
+//         })}
 //       </Select>
 //       {helperText && <FormHelperText>{helperText}</FormHelperText>}
 //     </FormControl>
 //   );
-// };
+// })
 
 // export default SelectInput;
-
 
 import { forwardRef } from "react";
 import {
@@ -116,7 +122,9 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
   label,
   error,
   helperText,
-}: SelectCompProps, ref) => {
+  }: SelectCompProps, ref) => {
+    
+    // console.log(value);
   const mainColor = "#006233";
 
   return (
@@ -128,7 +136,7 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
             color: mainColor,
           },
         }}
-        id="carrosserie-label"
+        // id="carrosserie-label"
       >
         {label}
       </InputLabel>
@@ -165,11 +173,13 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
         }}
       >
         <MenuItem value="">None</MenuItem>
-        {options.map((option, index) => (
+        {options.map((option, index) => {
+          // console.log(option);
+          return (
           <MenuItem key={index} value={option.name}>
             {option.name}
-          </MenuItem>
-        ))}
+          </MenuItem>)
+        })}
       </Select>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

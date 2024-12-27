@@ -23,6 +23,9 @@ import { ITableEntrepotVente } from "../../../../../types/rapport/entrepot/entre
 
 const mainColor = "#006233";
 
+// not used
+
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;

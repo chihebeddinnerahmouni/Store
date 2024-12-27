@@ -41,3 +41,6 @@ const Magasin = () => {
 
 
 export default Magasin;
+
+
+
