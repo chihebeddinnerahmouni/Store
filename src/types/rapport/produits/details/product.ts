@@ -1,4 +1,5 @@
 export interface IProductDetails {
+  id: number;
   client_name: string;
   code_bar: string;
   created_by_user: string;
