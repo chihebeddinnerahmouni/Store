@@ -1,32 +1,61 @@
-// import ButtonTop from "../../components/dashbored/ButtonTop"
-
-// const ButtonsCont = () => {
-//   return (
-//       <div className="w-full grid grid-cols-2 gap-2 pt-5 md:grid-cols-4 lg:pt-10 lg:gap-6">
-          
-//             {array_buttons.map((item) => (
-//                 <ButtonTop
-//                 key={item.id}
-//                 title={item.title}
-//                 icon={item.icon}
-//                 url={item.url}
-//                 />
-//             ))}
-      
-//     </div>
-//   )
-// }
 import { IoPricetagsOutline } from "react-icons/io5";
 import { CiShoppingCart } from "react-icons/ci";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
-import { TbReportSearch } from "react-icons/tb";
 import ButtonTop from "../../components/dashbored/ButtonTop"
+import { CgDanger } from "react-icons/cg";
 
-const ButtonsCont = () => {
+
+interface IButton {
+  data: any;
+}
+
+const ButtonsCont = ({ data }: IButton) => {
+  
+
+
+  const array_buttons = [
+    {
+      id: 2,
+      title: "Produits",
+      icon: IoPricetagsOutline,
+      url: "/produits",
+      blank: false,
+      value: data.products_this_week,
+      tooltip: "Produits vendue cette semaine",
+    },
+    {
+      id: 3,
+      title: "Achats",
+      icon: CiShoppingCart,
+      url: "/achats",
+      blank: true,
+      value: data.total_achat_this_week + " DA",
+      tooltip: "Le prix total des achats cette semaine",
+    },
+    {
+      id: 4,
+      title: "Ventes",
+      icon: MdOutlineShoppingCartCheckout,
+      url: "/ventes",
+      blank: false,
+      value: data.total_vente_this_week + " DA",
+      tooltip: "Le prix total des ventes cette semaine",
+    },
+    {
+      id: 6,
+      title: "Alerts",
+      icon: CgDanger,
+      url: "blog",
+      blank: false,
+      // value: data.alert_products,
+      value: 148542,
+      tooltip: "Produits en rupture de stock",
+    },
+  ];
+
+
   return (
-      // <div className="w-full grid grid-cols-2 gap-2 pt-5 md:grid-cols-4 lg:pt-10 lg:gap-6">
-      <div className="w-full gap-2 pt-5 flex overflow-auto pb-2 justify-start lg:pt-10 lg:gap-6">
-          
+      <div className="w-full gap-2 pt-5 flex overflow-auto pb-2 justify-start lg:pt-10 lg:gap-6">          
             {array_buttons.map((item) => (
                 <ButtonTop
                 key={item.id}
@@ -34,9 +63,9 @@ const ButtonsCont = () => {
                 Icon={item.icon}
                 url={item.url}
                 value={item.value}
+                tooltip={item.tooltip}
                 />
-            ))}
-      
+            ))} 
     </div>
   )
 }
@@ -73,37 +102,4 @@ export default ButtonsCont
 //     blank: false,
 //   },
 // ];
-const array_buttons = [
-  {
-    id: 2,
-    title: "Produits",
-    icon: IoPricetagsOutline,
-    url: "/produits",
-    blank: false,
-    value: 120000,
-  },
-  {
-    id: 3,
-    title: "Achats",
-    icon: CiShoppingCart,
-    url: "/achats",
-    blank: true,
-    value: 12000,
-  },
-  {
-    id: 4,
-    title: "Ventes",
-    icon: MdOutlineShoppingCartCheckout,
-    url: "/ventes",
-    blank: false,
-    value: 876544,
-  },
-  {
-    id: 6,
-    title: "Rapports",
-    icon: TbReportSearch,
-    url: "blog",
-    blank: false,
-    value: 1234,
-  },
-];
+
