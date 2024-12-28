@@ -18,7 +18,7 @@ const UserSelectCont = ({ usersArray, userId, setUserId }: UserSelectContProps) 
 
 
     return (
-        <section>
+        <section className="w-full">
             <SelectInput
                 options={newOptions}
                 label="Selectionnez l'utilisateur*"

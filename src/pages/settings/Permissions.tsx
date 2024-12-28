@@ -7,7 +7,7 @@ import UserSelectCont from "../../containers/settings/permissions/UserSelectCont
 import { IUser } from "../../types/settings/permissions/user";
 import MainCont from "../../containers/settings/permissions/MainCont";
 import SendButton from "../../containers/settings/permissions/SendButton";
-
+import AllButtonsCont from "../../containers/settings/permissions/AllButtonsCont";
 
 
 const Permissions = () => {
@@ -33,11 +33,11 @@ const Permissions = () => {
             }),
         ])
             .then(axios.spread((users, permissions) => { 
-                // console.log(users);
-                // console.log(permissions);
+               
                 setUsersArray(users.data.users);
                 setPermissionsArray(permissions.data.permissions);
-                setLoading(false);
+                setUserId(users.data.users[0].id);
+                // setLoading(false);
             }))
             .catch((err) => {
                 setLoading(false);
@@ -52,6 +52,35 @@ const Permissions = () => {
     }, []);
 
 
+    useEffect(() => {
+        if (userId === 0) {
+            return;
+        }
+        setLoading(true);
+        axios
+          .get(url + `/api/permissions/users/${userId}/permissions`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+            .then((res) => {
+            //   console.log(res.data.permission_ids);
+            setChosenPermissions(res.data.permission_ids);
+            setLoading(false);
+          })
+          .catch((err) => {
+            setLoading(false);
+            if (err.message === "Network Error") {
+              enqueueSnackbar("Erreur de connexion", { variant: "error" });
+            } else {
+              enqueueSnackbar(err.response.data.message, {
+                variant: "error",
+              });
+            }
+          });
+     }, [userId]);
+
+
 
     if (loading) {
         return <Loading />;
@@ -61,11 +90,19 @@ const Permissions = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
           <PageTitle text={"Créer une autorisation"} />
+          <div className="lg:flex lg:justify-between lg:items-end lg:gap-10">
+              
           <UserSelectCont
               usersArray={usersArray}
               userId={userId}
-                setUserId={setUserId}
-          />
+              setUserId={setUserId}
+              />
+          <AllButtonsCont
+              userId={userId}
+                  setChosenPermissions={setChosenPermissions}
+                    permissionsArray={permissionsArray}
+              />
+              </div>
             <MainCont
                 permissionsArray={permissionsArray}
                 chosenPermissions={chosenPermissions}

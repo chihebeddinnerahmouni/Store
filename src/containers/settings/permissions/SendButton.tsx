@@ -12,40 +12,42 @@ const SendButton = ({ chosenPermissions, userId }: SendButtonProps) => {
   const [loading, setLoading] = useState(false);
   const url = import.meta.env.VITE_BASE_URL as string;
   const mainColor = "#006233";
-
     const sendFunction = async () => {
         if (userId === 0) {
             enqueueSnackbar("Veuillez sélectionner un utilisateur", { variant: "error" });
             return;
         }
     setLoading(true);
-    try {
-      await Promise.all(
-        chosenPermissions.map((permissionId) =>
-          axios.post(
-            `${url}/api/permissions/assign-all/${userId}`,
-            { permission_id: permissionId },
+        axios
+          .post(
+            url + `/api/permissions/users/${userId}/assign-permissions`,
+            { permission_ids: chosenPermissions },
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }
           )
-        )
-      );
-       enqueueSnackbar("Permissions attribuées avec succès", { variant: "success" });
-    } catch (err: any) {
-    //   console.log(err);
-      if (err.message === "Network Error") {
-        enqueueSnackbar("Erreur de connexion", { variant: "error" });
-      } else {
-        enqueueSnackbar(err.response?.data?.message || "An error occurred", {
-          variant: "error",
-        });
-      }
-    } finally {
-      setLoading(false);
-    }
+          .then(() => {
+            enqueueSnackbar(
+              "Permissions ont été mises à jour avec succès",
+              {
+                variant: "success",
+              }
+            );
+          })
+          .catch((err) => {
+            if (err.message === "Network Error") {
+              enqueueSnackbar("Erreur de connexion", { variant: "error" });
+            } else {
+              enqueueSnackbar(err.response.data.message, {
+                variant: "error",
+              });
+            }
+          })
+          .finally(() => {
+            setLoading(false);
+          });
   };
 
 
