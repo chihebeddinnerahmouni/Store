@@ -57,7 +57,7 @@ const AddAchat = () => {
   // console.log(fournisseuresArray, magasainsArray);
 
 
-  useEffect(() => { 
+  useEffect(() => {
     Promise.all([
       axios.get(`${url}/api/entreports/authorized/get`, {
         headers: {
@@ -77,6 +77,7 @@ const AddAchat = () => {
         setLoadingPage(false);
       })
       .catch((err) => {
+        setLoadingPage(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
@@ -85,11 +86,19 @@ const AddAchat = () => {
       });
   }, []);
 
-
-
   const send = () => {
     setLoading(true);
 
+    const products = productsCommandeArray.map((product) => ({
+      product_id: product.id,
+      quantity_declared: product.quantite,
+      remise: 0,
+      livraison_cost: 0,
+      tax: product.taxe,
+      ...(product.has_serial_number && {
+        serial_numbers: product.serial_numbers,
+      }),
+    }));
 
     axios
       .post(
@@ -99,13 +108,7 @@ const AddAchat = () => {
           entrepot_id: magasain,
           user_invoice_number: generateInvoiceNumber(),
           date: date,
-          products: productsCommandeArray.map((product) => ({
-            product_id: product.id,
-            quantity_declared: product.quantite,
-            // remise: product.remise,
-            tax: product.taxe,
-            serial_numbers: product.serial_numbers,
-          })),
+          products: products,
         },
         {
           headers: {
@@ -117,7 +120,7 @@ const AddAchat = () => {
         // console.log(res);
         setLoading(false);
         enqueueSnackbar(res.data.message, { variant: "success" });
-        window.location.reload()
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -125,26 +128,18 @@ const AddAchat = () => {
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          // enqueueSnackbar(err.response.data.message, { variant: "error" });
           const check = typeof err.response.data.message === "string";
           if (check) {
             enqueueSnackbar(err.response.data.message, { variant: "error" });
           } else {
-           Object.keys(err.response.data.message).map((key) => {
-             err.response.data.message[key].map((err: any) => {
-               enqueueSnackbar(err, { variant: "error" });
-             });
-           });
+            Object.keys(err.response.data.message).map((key) => {
+              err.response.data.message[key].map((err: any) => {
+                enqueueSnackbar(err, { variant: "error" });
+              });
+            });
           }
         }
       });
-
-
-
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
   };
 
   const {
@@ -156,11 +151,8 @@ const AddAchat = () => {
   } = useForm<FormValues>();
     const onSubmit: SubmitHandler<FormValues> = send;
     
-// console.log(date);
-
   if (loadingPage) return <Loading />;
   
-  // console.log(productsCommandeArray[0]);
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">

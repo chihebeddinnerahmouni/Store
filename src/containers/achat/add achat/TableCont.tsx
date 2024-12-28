@@ -3,7 +3,7 @@ import ProductsTable from "./ProductsTable";
 // import IProduct from "../../../types/Product";
 import { useState } from "react";
 import { useEffect } from "react";
-import { enqueueSnackbar } from "notistack";
+// import { enqueueSnackbar } from "notistack";
 
 
 
@@ -44,17 +44,19 @@ const TableCont = ({
 
 
   useEffect(() => {
+    // console.log(selectedProduct);
     if (selectedProduct) {
       const check = productsCommandeArray.some(
         (product) => product.id === selectedProduct.id
       );
       if (check) {
-        enqueueSnackbar("Produit déjà ajouté", { variant: "error" });
+        // enqueueSnackbar("Produit déjà ajouté", { variant: "error" });
+        null;
       } else {
         const newProductCommandeItem = {
           id: selectedProduct.id,
           name: selectedProduct.name,
-          cout_unitaire: selectedProduct.price_sell,
+          cout_unitaire: selectedProduct.price_buy,
           stock_actuel: selectedProduct.quantity,
           // remise: selectedProduct.remise,
           taxe: selectedProduct.tax_percentage,

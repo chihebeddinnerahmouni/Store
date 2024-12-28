@@ -126,12 +126,16 @@ const ProductRow = ({
   const updateData = (id: number, newQuantity: number) => {
     const updatedData = data.map((product) => {
       if (product.id === id) {
-        
-
         return {
           ...product,
           quantite: newQuantity,
-          grand_total: newQuantity * product.cout_unitaire,
+          grand_total: parseFloat(
+            (
+              newQuantity *
+              product.cout_unitaire *
+              (1 + product.taxe / 100)
+            ).toFixed(2)
+          ),
         };
       }
       return product;
