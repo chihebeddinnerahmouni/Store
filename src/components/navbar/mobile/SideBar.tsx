@@ -185,7 +185,7 @@ const SideBar = ({ toggleDrawer }: SideBarProps) => {
   return (
     <Box
       sx={{
-        width: { xs: 200, lg: 300 },
+        width: 300,
       }}
       role="presentation"
     >

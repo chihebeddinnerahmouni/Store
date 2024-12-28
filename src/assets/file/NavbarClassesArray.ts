@@ -14,14 +14,14 @@ import { IoManOutline } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { CiShop } from "react-icons/ci";
 import { IoDocumentTextOutline } from "react-icons/io5";
-
+import { CiSettings } from "react-icons/ci";
 
 const array = [
   {
     id: 2,
     title: "Produits",
     icon: IoPricetagsOutline,
-    url: "cars-for-sale",
+    url: "",
     blank: false,
     subList: [
       {
@@ -72,7 +72,7 @@ const array = [
     id: 3,
     title: "Achats",
     icon: CiShoppingCart,
-    url: "sell-your-car",
+    url: "",
     blank: true,
     subList: [
       {
@@ -93,7 +93,7 @@ const array = [
     id: 4,
     title: "Ventes",
     icon: MdOutlineShoppingCartCheckout,
-    url: "service",
+    url: "",
     blank: false,
     subList: [
       {
@@ -114,7 +114,7 @@ const array = [
     id: 5,
     title: "Gens",
     icon: IoPeopleOutline,
-    url: "about-us",
+    url: "",
     blank: false,
     subList: [
       {
@@ -156,7 +156,7 @@ const array = [
     id: 7,
     title: "Rapports",
     icon: TbReportSearch,
-    url: "blog",
+    url: "",
     blank: false,
     subList: [
       {
@@ -230,6 +230,21 @@ const array = [
         title: "Meilleur clients",
         icon: IoDocumentTextOutline,
         url: "/rapports/meilleur-clients",
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "Paramétres",
+    icon: CiSettings,
+    url: "",
+    blank: false,
+    subList: [
+      {
+        id: 1,
+        title: "Autorisations",
+        icon: IoDocumentTextOutline,
+        url: "/paramétres/autorisations",
       },
     ],
   },

@@ -73,7 +73,6 @@ const NavBar = () => {
         </button>
       </div>
 
-      {/* <MenuItems/> */}
 
       <Drawer
         sx={{

@@ -60,7 +60,7 @@ const EntrepotsReport = () => {
           },
         })
         .then((res) => {
-          // console.log(res.data.summary);
+          console.log(res.data.summary);
           const newArrayAchats = createNewArrayAchats(res.data.achats);
           const newArrayVentes = createNewArrayVentes(res.data.ventes);
           setDataVentes(newArrayVentes);
@@ -102,7 +102,6 @@ const EntrepotsReport = () => {
         )}
       </div>
       <StatsCont
-
         data={stats}
       />
       <SwitchButtons options={["Achats", "Ventes"]} setSelected={setSelected} selected={selected} />
