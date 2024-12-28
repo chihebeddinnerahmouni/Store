@@ -28,9 +28,9 @@ const Produit = ({
     const fetchData = async () => {
       axios
         .post(
-          `${url}/api/products/filter`,
+          `${url}/api/products/search?q=${value}`,
           {
-            name: value,
+  
           },
           {
             headers: {
@@ -39,7 +39,7 @@ const Produit = ({
           }
         )
         .then((res) => {
-          // console.log(res.data.products);
+          // console.log(res.data);
           const suggestionsArray = res.data.products.map(
             (product: any) => product.name
           );
@@ -57,6 +57,7 @@ const Produit = ({
         })
         .catch((err) => {
           //  setLoading(false);
+          // console.log(err);
           if (err.message === "Network Error") {
             enqueueSnackbar("Erreur de connexion", { variant: "error" });
           } else {

@@ -45,7 +45,7 @@ const InputDate = ({ value, setValue, label }: PropsComp) => {
         label={label}
         value={value ? dayjs(value) : null}
         // minDate={dayjs()}
-        maxDate={dayjs()}
+        // maxDate={dayjs()}
         onChange={(date) =>
           setValue(date ? dayjs(date).format("YYYY-MM-DD") : "")
         }

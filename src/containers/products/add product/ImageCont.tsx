@@ -3,6 +3,8 @@ import { IconButton } from '@mui/material';
 import { PhotoCamera } from '@mui/icons-material';
 import InstructionsCont from './InstructionsCont';
 
+// not used
+
 const ImageCont = () => {
 
   const [image, setImage] = useState<string | null>(null);

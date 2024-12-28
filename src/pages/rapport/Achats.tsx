@@ -86,8 +86,10 @@ const Achats = () => {
         }
       )
       .then((response) => {
+    // console.log(response.data);
         const newArrayAchats = createNewArrayAchats(response.data.achats);
         setData(newArrayAchats);
+        setTotal(response.data.total_sum);
         setLoading(false);
       })
       .catch(() => {

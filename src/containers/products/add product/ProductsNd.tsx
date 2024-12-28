@@ -60,8 +60,8 @@ const ProductsNd = ({
   unitesArray,
 }: ProductStContProps) => {
   return (
-    <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-9">
-      <div className="top cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
+    <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-4">
+      <div className="top cardCss grid grid-cols-1 gap-5 lg:gap-8">
         {/* <Type
           control={control}
           clearErrors={clearErrors}

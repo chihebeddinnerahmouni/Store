@@ -22,7 +22,7 @@ const InputDate = forwardRef<HTMLInputElement, Props>(({ value, setValue, label,
         // error={error}
         // helperText={helperText}
         value={value ? dayjs(value) : null}
-        minDate={dayjs()}
+        // minDate={dayjs()}
         // onChange={(date) => setValue(date ? date.toISOString() : "")}
         onChange={(date) =>
           setValue(date ? dayjs(date).format("YYYY-MM-DD") : "")

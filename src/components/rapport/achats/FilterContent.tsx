@@ -44,7 +44,7 @@ const FilterContent = ({
 
 
   const search = () => {
-    const check = magasinName === "" && fournisseurName === "";
+    const check = magasinName === "" && fournisseurName === "" && userInvNumber === "";
     if (check) {
       enqueueSnackbar("Veuillez remplir au moins un champ", { variant: "error" });
       return;

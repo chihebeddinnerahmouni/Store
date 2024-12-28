@@ -16,7 +16,7 @@ import { AchatsContext } from "../../../../pages/achat/Achats";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-
+import IAchat from "../../../../types/achat";
 
 
 interface Props {
@@ -46,8 +46,8 @@ const FilterContent = ({
   const search = () => {
     setLoading(true);
     const body = {
-      ...(date && { date: date }),
-      ...(endDate && { end_date: endDate }),
+      ...(date && { date_start: date }),
+      ...(endDate && { date_end: endDate }),
       ...(reference && { reference: reference }),
       ...(userInvNumber && { user_invoice_number: userInvNumber }),
       ...(remark && { remark: remark }),
@@ -57,6 +57,7 @@ const FilterContent = ({
       ...(fournisseur && { fournisseur_id: fournisseur }),
       ...(magasin && { entrepot_id: magasin }),
     };
+
     axios
       .post(
         url + "/api/achats/filter/get",
@@ -68,7 +69,8 @@ const FilterContent = ({
         }
       )
       .then((res) => {
-        setData(res.data.achats);
+        const modifiedAchatsArray = modifiedAchats(res.data.achats);
+        setData(modifiedAchatsArray);
         close();
       })
       .catch((err) => {
@@ -148,82 +150,18 @@ const FilterContent = ({
 
 export default FilterContent;
 
-// const paimentStatus_array = [
-//   {
-//     id: 1,
-//     name: "Partiel",
-//   },
-//   {
-//     id: 2,
-//     name: "Payé",
-//   },
-//   {
-//     id: 3,
-//     name: "Non payé",
-//   },
-// ];
 
-// const status_array = [
-//   {
-//     id: 1,
-//     name: "En cours",
-//   },
-//   {
-//     id: 2,
-//     name: "paid",
-//   },
-//   {
-//     id: 3,
-//     name: "non paid",
-//   },
-// ];
 
-// const magasins_array = [
-//   {
-//     id: 1,
-//     name: "Magasin 1",
-//   },
-//   {
-//     id: 2,
-//     name: "Magasin 2",
-//   },
-//   {
-//     id: 3,
-//     name: "Magasin 3",
-//   },
-//   {
-//     id: 4,
-//     name: "Magasin 4",
-//   }
-// ]
-
-// const fournisseures_array = [
-//   {
-//     id: 1,
-//     name: "Fournisseur A",
-//   },
-//   {
-//     id: 2,
-//     name: "Fournisseur B",
-//   },
-//   {
-//     id: 3,
-//     name: "Fournisseur C",
-//   },
-//   {
-//     id: 4,
-//     name: "Fournisseur D",
-//   },
-//   {
-//     id: 2,
-//     name: "Fournisseur E",
-//   },
-//   {
-//     id: 3,
-//     name: "Fournisseur F",
-//   },
-//   {
-//     id: 4,
-//     name: "Fournisseur G",
-//   },
-// ];
+const modifiedAchats = (achats: IAchat[]) => {
+  return achats.map((achat: IAchat) => {
+    return {
+      ...achat,
+      date: new Date(achat.created_at).toLocaleDateString(),
+      reference: achat.invoice_number,
+      fournisseur: achat.provider.name,
+      magasin: achat.entrepot.name,
+      // status: achat.status,
+      total: achat.total_cost,
+    };
+  });
+};

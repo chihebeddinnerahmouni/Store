@@ -139,7 +139,14 @@ const ProductRow = ({
         return {
           ...product,
           quantite: newQuantity,
-          grand_total: newQuantity * product.cout_unitaire,
+          // grand_total: newQuantity * product.cout_unitaire,
+          grand_total: parseFloat(
+            (
+              newQuantity *
+              product.cout_unitaire *
+              (1 + product.taxe / 100)
+            ).toFixed(2)
+          ),
         };
       }
       return product;

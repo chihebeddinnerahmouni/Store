@@ -32,6 +32,7 @@ type FormValues = {
   date: string;
   fournisseur: string;
   magasain: string;
+  user_invoice_number: string;
 };
 
 const AddAchat = () => {
@@ -51,6 +52,7 @@ const AddAchat = () => {
   const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
   const [magasainsArray, setMagasainsArray] = useState<any[]>([]);
   const [loadingPage, setLoadingPage] = useState<boolean>(true);
+  const [user_invoice_number, setUserInvoiceNumber] = useState<string>("");
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
@@ -106,7 +108,7 @@ const AddAchat = () => {
         {
           provider_id: fournisseure,
           entrepot_id: magasain,
-          user_invoice_number: generateInvoiceNumber(),
+          user_invoice_number: user_invoice_number,
           date: date,
           products: products,
         },
@@ -154,6 +156,7 @@ const AddAchat = () => {
   if (loadingPage) return <Loading />;
   
 
+
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter d'achat" />
@@ -173,6 +176,8 @@ const AddAchat = () => {
             setMagasain={setMagasain}
             fournisseuresArray={fournisseuresArray}
             magasainsArray={magasainsArray}
+            user_invoice_number={user_invoice_number}
+            setUserInvoiceNumber={setUserInvoiceNumber}
           />
           <TableCont
             produit={produit}
@@ -217,13 +222,3 @@ const AddAchat = () => {
 };
 
 export default AddAchat;
-
-
-// generate 6 digit random number with current timestamp
-const generateInvoiceNumber = () => {
-  const date = new Date();
-  const timestamp = date.getTime();
-  const random = Math.floor(Math.random() * 1000000);
-  return `${timestamp}${random}`;
-};
-

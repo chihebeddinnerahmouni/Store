@@ -186,7 +186,7 @@ export default function EnhancedTable({
     columns: (keyof IAchatTable)[];
 }) {
   // React.useEffect(() => {
-    console.log(rows);
+    // console.log(rows);
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");

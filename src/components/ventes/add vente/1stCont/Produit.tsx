@@ -228,13 +228,16 @@ const Produit = ({
   useEffect(() => { 
     const fetchData = async () => {
       axios
-        .post(`${url}/api/products/filter`, {
-          name: value,
-        }, {
-          headers: {  
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        .post(
+          `${url}/api/products/search?q=${value}`,
+          {
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((res) => {
           // console.log(res.data.products);
           const suggestionsArray = res.data.products.map(

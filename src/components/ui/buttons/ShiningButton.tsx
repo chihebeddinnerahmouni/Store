@@ -7,10 +7,9 @@ interface ShiningButtonProps {
   icon: any;
   color: string;
   onClick: (...args: any[]) => void;
-  loading?: boolean;
 }
 
-const ShiningButton = ({ text, icon, color, onClick, loading }: ShiningButtonProps) => {
+const ShiningButton = ({ text, icon, color, onClick }: ShiningButtonProps) => {
         const [isHovered, setIsHovered] = useState(false);
 
         return (

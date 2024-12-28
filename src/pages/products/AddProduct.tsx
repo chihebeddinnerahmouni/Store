@@ -218,7 +218,7 @@ const AddProduct = () => {
             reyonagesArray={reyonagesArray}
           />
 
-          <ImageCont />
+          {/* <ImageCont /> */}
 
           <ProductsNd
             control={control}
@@ -245,7 +245,7 @@ const AddProduct = () => {
             setNumSerie={setNumSerie}
             unitesArray={unitesArray}
           />
-          <div className="lg:col-span-3 lg:hidden">
+          <div className="lg:col-span-12 lghidden">
             <InstructionsCont />
           </div>
         </div>
