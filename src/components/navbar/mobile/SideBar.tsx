@@ -27,7 +27,7 @@ const SideBar = ({
 
   const filteredArray = filterArrayByPrivileges(privileges_test);
   // const filteredArray = filterArrayByPrivileges(dataArray);
-  // console.log(filteredArray);
+  console.log(filteredArray);
 
   const location = useLocation();
   const firstSection = location.pathname.split("/")[1] || "";
