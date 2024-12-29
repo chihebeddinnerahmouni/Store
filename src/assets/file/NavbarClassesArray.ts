@@ -77,13 +77,13 @@ const array = [
     subList: [
       {
         id: 1,
-        title: "Ajouter D'achat",
+        title: "Ajouter Un Achat",
         icon: IoAddCircleOutline,
         url: "/achats/ajouter-un-achat",
       },
       {
         id: 2,
-        title: "Liste des Achats",
+        title: "Liste Des Achats",
         icon: CiCircleList,
         url: "/achats",
       },

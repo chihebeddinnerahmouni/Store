@@ -27,7 +27,6 @@ const SideBar = ({
 
   const filteredArray = filterArrayByPrivileges(privileges_test);
   // const filteredArray = filterArrayByPrivileges(dataArray);
-  // console.log(filteredArray);
 
   const location = useLocation();
   const firstSection = location.pathname.split("/")[1] || "";
@@ -67,7 +66,7 @@ const SideBar = ({
             />
             <ListItemText
               primary="Tableau de bord"
-              sx={{ fontFamily: "Changa, sans-serif" }}
+              sx={{ fontFamily: "Changa" }}
               className={`${firstSection === "" && "text-mainDark"}`}
             />
           </ListItemButton>
@@ -81,7 +80,7 @@ const SideBar = ({
               }`}
               disablePadding
             >
-              <ListItemButton onClick={() => handleClick(item.id)}>
+              <ListItemButton  onClick={() => handleClick(item.id)}>
                 <item.icon
                   className={`min-w-[20px] min-h-[20px] bg-red200 object-cover object-center bg-red200 mr-4 ${
                     firstSection === item.url && "text-main"
@@ -89,7 +88,7 @@ const SideBar = ({
                 />
                 <ListItemText
                   primary={item.title}
-                  sx={{ fontFamily: "Changa, sans-serif" }}
+                  sx={{ fontFamily: "Changa" }}
                   className={`${firstSection === item.url && "text-mainDark"}`}
                 />
                 {item.subList &&
@@ -157,8 +156,8 @@ const privileges_test = {
     Magasins: true,
   },
   Achats: {
-    "Ajouter un produit": true,
-    "Liste des produits": true,
+    "Ajouter Un Achat": true,
+    "Liste Des Achats": true,
   },
   Ventes: {
     "Ajouter une vente": true,
