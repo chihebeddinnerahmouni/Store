@@ -45,7 +45,7 @@ const ButtonsCont = ({ data }: IButton) => {
       id: 6,
       title: "Alerts",
       icon: CgDanger,
-      url: "blog",
+      url: "/rapports/alerte-produit",
       blank: false,
       // value: data.alert_products,
       value: 148542,
