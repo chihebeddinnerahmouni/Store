@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./components/ui/NavBar";
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { SnackbarProvider } from "notistack";
 // import isLoggedIn from "./helper/isLogedin";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -32,23 +32,12 @@ function App() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-        switch (err)
-        {
-          case "Network Error":
-            enqueueSnackbar("Erreur de connexion", { variant: "error" });
-            break;
-          case err.response.status === 401:
-            enqueueSnackbar("Vous n'êtes pas autorisé à accéder à cette page", { variant: "error" });
-            navigate("/login");
-            break;
-          default:
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-            // navigate("/login");
-            break;
+        if (err.response.status === 401) {
+          console.log("pst");
+          navigate("/login");
         }
       });
-  }, []);
+    }, []);
 
   if (loading) {
     return <Loading />;

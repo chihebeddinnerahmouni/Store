@@ -39,6 +39,7 @@ import BestClients from './pages/rapport/BestClients';
 import Permissions from './pages/settings/Permissions';
 import AchatDetails from './pages/achat/AchatDetails';
 import VenteDetails from './pages/vente/VenteDetails';
+import NoPage from './pages/NoPage';
 
 const router = createBrowserRouter([
   {
@@ -84,7 +85,10 @@ const router = createBrowserRouter([
       { path: "/rapports/clients", element: <ClientsReport /> },
       { path: "/rapports/clients/:clientId", element: <ClientDetails /> },
       { path: "/rapports/fournisseurs", element: <FournisseursReport /> },
-      { path: "/rapports/fournisseurs/:fournisseurId", element: <FournisseurDetails /> },
+      {
+        path: "/rapports/fournisseurs/:fournisseurId",
+        element: <FournisseurDetails />,
+      },
       { path: "/rapports/plus-vendus", element: <BestSell /> },
       { path: "/rapports/meilleur-clients", element: <BestClients /> },
       { path: "/paramétres/autorisations", element: <Permissions /> },
@@ -92,6 +96,10 @@ const router = createBrowserRouter([
   },
   { path: "/test", element: <Test /> },
   { path: "/login", element: <Login /> },
+  {
+    path: "*",
+    element: <NoPage />,
+  },
 ]);
 
 
