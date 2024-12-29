@@ -19,7 +19,8 @@ import TableTop from "../../../components/ui/TableTop";
 import AssignModal from "../../../components/gens/users/AssignModal";
 import ActionButton from "../../../components/ui/buttons/actions/ActionButton";
 import { MdOutlineAssignmentTurnedIn } from "react-icons/md";
-
+import { MdBlock } from "react-icons/md";
+import UnAssignModal from "../../../components/gens/users/UnAssignModal";
 
 const mainColor = "#006233";
 
@@ -173,6 +174,7 @@ export default function EnhancedTable({
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [assignRow, setAssignRow] = React.useState<IUser | null>(null);
+  const [unAssignRow, setUnAssignRow] = React.useState<IUser | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -338,16 +340,16 @@ export default function EnhancedTable({
                     >
                       <ActionButton
                         icon={<MdOutlineAssignmentTurnedIn/>}
-                        color="#FFC107"
+                        color={mainColor}
                         active={true}
                         onClick={() => setAssignRow(row)}
                       />
-                      {/* <ActionButton
-                        icon={<i className="fas fa-trash-alt"></i>}
+                      <ActionButton
+                        icon={<MdBlock/>}
                         color="#FF0000"
                         active={true}
-                        onClick={() => console.log("delete")}
-                      /> */}
+                        onClick={() => setUnAssignRow(row)}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -371,6 +373,13 @@ export default function EnhancedTable({
           open={true}
           setOpen={() => setAssignRow(null)}
           data={assignRow}
+        />
+      )}
+      {unAssignRow && (
+        <UnAssignModal
+          open={true}
+          setOpen={() => setUnAssignRow(null)}
+          data={unAssignRow}
         />
       )}
     </Box>

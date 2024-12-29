@@ -6,6 +6,8 @@ interface DesignationProps {
   value: number;
 }
 
+
+
 const MagasinSelect = ({ value, setValue, options }: DesignationProps) => {
   // console.log(options);
 
@@ -13,6 +15,8 @@ const MagasinSelect = ({ value, setValue, options }: DesignationProps) => {
     id: option.id,
     name: option.name,
   }));
+
+  // console.log(newOptions);
 
   return (
     <section className="bg-red200 w-full flex flex-col gap-3 max-w-[400px]">

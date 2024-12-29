@@ -13,13 +13,12 @@ interface AddCategoryModalProps {
   data: IUser | null;
 }
 
-const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
+const UnAssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingPage, setLoadingPage] = useState<boolean>(false);
   const [magasinId, setMagasinId] = useState<number>(0);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const url = import.meta.env.VITE_BASE_URL as string;
-  const mainColor = "#006233";
 
   useEffect(() => {
     axios
@@ -32,20 +31,17 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
         // console.log(res.data);
         setMagasinsArray(res.data.entrepots);
         setLoadingPage(true);
-      });
-    //   .catch(() => {
-    // console.log(err.response.data);
-    // setLoadingPage(true);
+      })
+    //   .catch((err) => {
+    // console.log(err.response);
     //   });
   }, []);
-    
-    
+
   const assignFunc = () => {
-    // console.log(data!.id);
     setLoading(true);
     axios
       .post(
-        `${url}/api/entreports/${magasinId}/assign-user`,
+        `${url}/api/entreports/${magasinId}/remove-user`,
         {
           entrepot_id: data!.id,
           user_id: magasinId,
@@ -63,21 +59,16 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
       })
       .catch((err) => {
         console.log(err.response);
-        setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          const check = err.response && err.response.data && err.response.data.message;
-          if (check) {
-            Object.keys(err.response.data.erreurs).forEach((key) => {
-              err.response.data.erreurs[key].forEach((e: string) => {
-                enqueueSnackbar(e, { variant: "error" });
-              });
-            });
-          }
+          enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
+        setLoading(false);
       });
   };
+
+  // console.log(magasinId);
 
   return (
     <Modal
@@ -117,7 +108,7 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
               variant="h6"
               component="h2"
             >
-              Assigner un magasin a {data?.name}
+              Désassigner un magasin de {data?.name}
             </Typography>
             <MagasinSelect
               value={magasinId}
@@ -127,8 +118,8 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
 
             <div className="button self-end">
               <FullShiningButton
-                text="Assigner"
-                color={mainColor}
+                text="Désassigner"
+                color="#ff0000"
                 onClick={assignFunc}
                 loading={loading}
               />
@@ -140,26 +131,4 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
   );
 };
 
-export default AssignModal;
-
-{
-  /* <Typography
-          sx={{
-            fontFamily: "Nunito",
-          }}
-          variant="h6"
-          component="h2"
-        >
-          Supprimer {data?.name_category}
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: "Nunito",
-            mt: 1,
-          }}
-          variant="body1"
-          component="p"
-        >
-          Voulez-vous vraiment supprimer la catégorie {data!.name_category} ?
-        </Typography> */
-}
+export default UnAssignModal;
