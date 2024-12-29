@@ -145,7 +145,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       ]}
     >
       <TableTop
-        title="Achat"
+        title="Ventes"
         value={searchQuery}
         setValue={setSearchQuery}
         label="Chercher par produit"
@@ -347,7 +347,7 @@ export default function EnhancedTable({
 
 const Colval = (column: string, row: IProduct) => {
   switch (column) {
-    case "fournisseur":
+    case "code":
       return (
         <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
           {row[column as keyof IVenteSingleTable]}

@@ -66,6 +66,9 @@ export interface IProduct {
     grand_total: string;
     produit: string;
     quantité: number;
+    tax: string;
+    prix_unitaire: string;
+    code: string;
 }
 
 export interface IAchatSingle {
@@ -96,4 +99,7 @@ export interface IVenteSingleTable {
   produit: string;
   quantité: number;
   grand_total: string;
+  tax: string;
+  prix_unitaire: string;
+  code: string;
 }

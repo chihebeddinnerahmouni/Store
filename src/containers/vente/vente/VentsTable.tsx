@@ -148,7 +148,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <TableTop title="Vents" value={searchQuery} setValue={setSearchQuery} label={"Cherchez par référence"} />
+      <TableTop title="Ventes" value={searchQuery} setValue={setSearchQuery} label={"Cherchez par référence"} />
     </Toolbar>
   );
 }

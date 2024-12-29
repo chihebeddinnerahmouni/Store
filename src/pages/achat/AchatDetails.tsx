@@ -74,9 +74,12 @@ export default AchatDetails
 
 const columns: (keyof IAchatSingleTable)[] = [
   // "id",
+  // "code",
   "produit",
+  "prix_unitaire",
   "quantité",
-  "grand_total"
+  "tax",
+  "grand_total",
 ];
 
 const ModifiedData = (data: IProductDetails[]) => {
@@ -86,7 +89,10 @@ const ModifiedData = (data: IProductDetails[]) => {
       id: item.id,
       quantité: item.quantity_declared,
       produit: item.product.name,
-      grand_total: item.subtotal
+      grand_total: item.subtotal,
+      prix_unitaire: item.unit_price,
+      tax: item.tax,
+      // code: item.product.code,
     };
   });
 }

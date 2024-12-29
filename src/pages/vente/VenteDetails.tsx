@@ -65,8 +65,11 @@ export default VenteDetails;
 
 const columns: (keyof IVenteSingleTable)[] = [
   // "id",
+  "code",
   "produit",
+  "prix_unitaire",
   "quantité",
+  "tax",
   "grand_total",
 ];
 
@@ -77,7 +80,10 @@ const ModifiedData = (data: IProduct[]) => {
       id: item.id,
       produit: item.name,
         quantité: item.pivot.quantity_sold,
-        grand_total: item.pivot.subtotal,
+      grand_total: item.pivot.subtotal,
+      tax: item.pivot.tax,
+      prix_unitaire: item.pivot.unit_price,
+      code: item.code_barre,
     };
   });
 };

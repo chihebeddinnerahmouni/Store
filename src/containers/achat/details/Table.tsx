@@ -357,7 +357,7 @@ export default function EnhancedTable({
 
 const Colval = (column: string, row: IProductDetails) => {
   switch (column) {
-    case "fournisseur":
+    case "produit":
       return (
         <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
           {row[column as keyof IAchatSingleTable]}

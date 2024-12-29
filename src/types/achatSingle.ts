@@ -58,7 +58,10 @@ export interface IProductDetails {
     // table
     grand_total: string;
   produit: string;
-  quantité: number;
+    quantité: number;
+    prix_unitaire: string;
+    // tax: string;
+    // code: string;
 }
 
 export interface IEntrepot {
@@ -98,6 +101,9 @@ export interface IAchatSingleTable {
     produit: string;
     quantité: number;
     grand_total: string;
+    prix_unitaire: string;
+    // code: string;
+    tax: string;
 
 
 }
