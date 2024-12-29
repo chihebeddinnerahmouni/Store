@@ -20,6 +20,8 @@ import InputQuantite from "../../../components/ui/inputs/InputQuantite";
 import { enqueueSnackbar } from "notistack";
 import InputText from "../../../components/ui/inputs/InputText";
 import FullShiningButton from "../../../components/ui/buttons/FullShiningButton";
+import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+
 
 interface IProductCommandeItem {
   id: number;
@@ -198,10 +200,13 @@ const ProductRow = ({
     setIsModalOpen(false);
   };
 
+  const HandleDeleteProduct = (e: any) => {
+    e.preventDefault();
+    const updatedData = data.filter((product) => product.id !== row.id);
+    setData(updatedData);
+  }
 
-
-      const mainColor = "#006233";
-
+  const mainColor = "#006233";
 
   return (
     <>
@@ -236,26 +241,38 @@ const ProductRow = ({
         <TableCell align="center" sx={{ border: "none" }}>
           {row.grand_total}
         </TableCell>
-        <TableCell align="center" sx={{ border: "none" }}>
+        <TableCell
+          align="center"
+          sx={{ border: "none", display: "flex", gap: 1 }}
+        >
           <ActionsButton
             active={row.has_serial_number}
             icon={<CiBarcode />}
             onClick={(e) => {
               e.preventDefault();
-              setIsModalOpen(true)
+              setIsModalOpen(true);
             }}
             color={mainColor}
+          />
+          <DeleteButton
+            active={true}
+            onClick={(e) => {
+              e.preventDefault();
+              HandleDeleteProduct(e);
+            }}
           />
         </TableCell>
       </TableRow>
 
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DialogTitle>Saisir les numéros de série</DialogTitle>
-        <DialogContent sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}>
+        <DialogContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
           {[...Array(row.quantite)].map((_, idx) => (
             <InputText
               key={idx}

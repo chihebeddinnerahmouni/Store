@@ -14,8 +14,8 @@ const DeleteButton = ({ onClick, active }: ShiningButtonProps) => {
   return (
     <Tooltip title="Supprimer" arrow>
       <button
-              // onClick={onClick}
-              disabled={!active}
+        // onClick={onClick}
+        disabled={!active}
         onClick={
           active
             ? onClick
