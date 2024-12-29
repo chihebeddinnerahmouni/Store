@@ -18,17 +18,9 @@ const Achats = () => {
   const [endDate, setEndDate] = useState("");
   const [reference, setReference] = useState("");
   const [userInvNumber, setUserInvNumber] = useState("");
-  // const [productId, setProductId] = useState("");
-  // const [remark, setRemark] = useState("");
   const [category, setCategory] = useState(0);
-  // const [createdBy, setCreatedBy] = useState("");
-  // const [updatedBy, setUpdatedBy] = useState("");
-  // const [minLaivraison, setMinLaivraison] = useState("");
-  // const [maxLaivraison, setMaxLaivraison] = useState("");
   const [fournisseur, setFournisseur] = useState(0);
   const [magasin, setMagasin] = useState(0);
-  // const [status, setStatus] = useState("");
-  // const [paimentStatus, setPaimentStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IAchat[]>([]);
   const [categoriesArray, setCategoriesArray] = useState<any[]>([]);
@@ -100,25 +92,15 @@ const Achats = () => {
           setReference,
           userInvNumber,
           setUserInvNumber,
-          // remark,
-          // setRemark,
           fournisseur,
           setFournisseur,
           magasin,
           setMagasin,
-          // status,
-          // setStatus,
-          // paimentStatus,
-          // setPaimentStatus,
           fourniArray,
           magasinArray,
           category,
           setCategory,
           categoriesArray,
-          // minLaivraison,
-          // setMinLaivraison,
-          // maxLaivraison,
-          // setMaxLaivraison,
         }}
       >
         <PageTitle text="Liste des achats" />

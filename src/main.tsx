@@ -37,6 +37,7 @@ import FournisseurDetails from './pages/rapport/fournisseur/FournisseurDetails';
 import BestSell from './pages/rapport/BestSell';
 import BestClients from './pages/rapport/BestClients';
 import Permissions from './pages/settings/Permissions';
+import AchatDetails from './pages/achat/AchatDetails';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
 
       { path: "/achats/ajouter-un-achat", element: <AddAchat /> },
       { path: "/achats", element: <Achats /> },
+      { path: "/achats/details/:achatId", element: <AchatDetails /> },
 
       { path: "/ventes/ajouter-un-vente", element: <AddVente /> },
       { path: "/ventes", element: <Vents /> },

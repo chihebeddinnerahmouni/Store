@@ -13,11 +13,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import { visuallyHidden } from "@mui/utils";
-import IEntAchat from "../../../../../types/rapport/entrepot/entrepot_achat";
-import { ITableEntrepotAchat } from "../../../../../types/rapport/entrepot/entrepot_achat";
-import TableTop from "../../../../../components/ui/TableTop";
+import TableTop from "../../../components/ui/TableTop";
 
 const mainColor = "#006233";
+interface IModifiedData {
+  id: number;
+  fournisseur: string;
+  "référénce de l'utilisateur": string;
+  magasin: string;
+  "coût de livraison": string;
+  total: string;
+}
+
+
+
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -31,7 +40,7 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 type Order = "asc" | "desc";
 
-function getComparator<Key extends keyof any>(
+function getComparator<Key extends keyof IModifiedData>(
   order: Order,
   orderBy: Key
 ): (
@@ -47,7 +56,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IEntAchat
+    property: keyof IModifiedData
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -69,7 +78,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IEntAchat);
+      onRequestSort(event, property as keyof IModifiedData);
     };
 
   return (
@@ -142,10 +151,10 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       ]}
     >
       <TableTop
-        title="Achats"
+        title="Achat"
         value={searchQuery}
         setValue={setSearchQuery}
-        label="Chercher par code"
+        label="Chercher par fournisseur"
       />
     </Toolbar>
   );
@@ -154,11 +163,11 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IEntAchat[];
-  columns: (keyof ITableEntrepotAchat)[];
+  rows: IModifiedData[] ;
+  columns: string[];
 }) {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IEntAchat>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IModifiedData>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -166,7 +175,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IEntAchat
+    property: keyof IModifiedData
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -214,8 +223,8 @@ export default function EnhancedTable({
 
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
-      return rows.filter((row: any) =>
-        row.référence.toLowerCase().includes(searchQuery.toLowerCase())
+      return rows.filter((row: IModifiedData) =>
+        row["fournisseur"].toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -342,15 +351,16 @@ export default function EnhancedTable({
   );
 }
 
-const Colval = (column: string, row: IEntAchat) => {
+const Colval = (column: string, row: IModifiedData) => {
   switch (column) {
-    case "référence":
+    case "fournisseur":
       return (
         <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
-          {row[column as keyof ITableEntrepotAchat]}
+          {row[column as keyof IModifiedData]}
         </span>
       );
     default:
-      return <p>{row[column as keyof ITableEntrepotAchat]}</p>;
+      return <p>{row[column as keyof IModifiedData]}</p>;
   }
 };
+
