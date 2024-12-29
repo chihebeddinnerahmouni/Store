@@ -40,6 +40,7 @@ import Permissions from './pages/settings/Permissions';
 import AchatDetails from './pages/achat/AchatDetails';
 import VenteDetails from './pages/vente/VenteDetails';
 import NoPage from './pages/NoPage';
+import Users from './pages/gens/Users';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
 
       { path: "/gens/clients", element: <Clients /> },
       { path: "/gens/fournisseurs", element: <Fournisseurs /> },
+      { path: "/gens/utilisateurs", element: <Users /> },
 
       { path: "/retour/retour-des-ventes", element: <RetourVantes /> },
       { path: "/retour/retour-des-achats", element: <RetourAchats /> },

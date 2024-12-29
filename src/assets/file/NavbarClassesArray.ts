@@ -129,6 +129,12 @@ const array = [
         icon: IoManOutline,
         url: "/gens/fournisseurs",
       },
+      {
+        id: 3,
+        title: "Utilisateurs",
+        icon: IoManOutline,
+        url: "/gens/utilisateurs",
+      },
     ],
   },
   // {
