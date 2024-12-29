@@ -95,7 +95,7 @@ const OptionsMenu = ({
           <MenuItem
             key={index}
             sx={{
-              fontFamily: "Nunito, sans-serif",
+              fontFamily: "Changa, sans-serif",
             }}
             onClick={option.onClick}
           >

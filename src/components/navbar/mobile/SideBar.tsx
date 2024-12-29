@@ -183,4 +183,7 @@ const privileges_test = {
     "Produits Les Plus Vendus": true,
     "Meilleurs Clients": true,
   },
+  Paramétres: {
+    Autorisations: true,
+  },
 };

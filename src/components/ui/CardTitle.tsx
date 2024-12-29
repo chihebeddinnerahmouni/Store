@@ -10,6 +10,7 @@ const CardTitle = ({text}: {text:string}) => {
       id="tableTitle"
       component="div"
       padding={2}
+      fontFamily={"Changa"}
     >
       {text}
     </Typography>
