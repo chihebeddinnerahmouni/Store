@@ -77,7 +77,6 @@ const AchatStCont = ({
       />
 
       <UserInvNumber
-        options={fournisseuresArray}
         control={control}
         clearErrors={clearErrors}
         register={register}

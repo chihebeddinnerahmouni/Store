@@ -33,7 +33,7 @@ type FormValues = {
 
 const EditProduct = () => {
 
-  const [data, setData] = useState<IProductSingle>(data_test);
+  const [data, setData] = useState<IProductSingle>();
   const [designation, setDesignation] = useState<string>("");
   const [codeBarre, setCodeBarre] = useState<string>("");
   const [category, setCategory] = useState<number>(0);
@@ -141,7 +141,7 @@ const EditProduct = () => {
     setLoading(true);
     axios
       .put(
-        `${url}/api/products/${data.id}`,
+        `${url}/api/products/${data!.id}`,
         {
           name: designation,
           code_barre: codeBarre,
@@ -325,71 +325,3 @@ const EditProduct = () => {
 
 export default EditProduct;
 
-
-
-const data_test: IProductSingle = {
-    id: 4,
-    name: "frontend",
-    code_barre: "4751791331",
-    category_id: 2,
-    brand_id: 1,
-    unit_id: 3,
-    reyonage_id: 3,
-    tax_percentage: "89.00",
-    description: "hhhhhh",
-    price_buy: "653.00",
-    price_sell: "9008.00",
-    stock_alert: 69,
-    quantity: 0,
-    has_serial_number: 0,
-    created_by: 1,
-    updated_by: null,
-    deleted_by: null,
-    created_at: "2024-12-22T19:13:03.000000Z",
-    updated_at: "2024-12-22T19:13:03.000000Z",
-    category: {
-      id: 2,
-      code_category: "M-67",
-      name_category: "Mob",
-      description: "From mobile",
-      status: "active",
-      deleted_by: null,
-      created_by: 2,
-      updated_by: 1,
-      created_at: "2024-12-21T22:14:45.000000Z",
-      updated_at: "2024-12-22T01:03:47.000000Z",
-    },
-    brand: {
-      id: 1,
-      code_brand: "test",
-      name_brand: "kjbj",
-      description: "bioib",
-      created_by: 1,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2024-12-21T21:32:58.000000Z",
-      updated_at: "2024-12-21T21:32:58.000000Z",
-    },
-    unit: {
-      id: 3,
-      code_unit: "KG",
-      name_unit: "Kilogram",
-      description: "Unit of mass",
-      created_by: 1,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2024-12-22T18:53:40.000000Z",
-      updated_at: "2024-12-22T18:53:40.000000Z",
-    },
-    rayonage: {
-      id: 3,
-      code_location: "nnnn",
-      name: "testY",
-      description: "oooo",
-      created_by: 1,
-      updated_by: null,
-      deleted_by: null,
-      created_at: "2024-12-21T22:13:27.000000Z",
-      updated_at: "2024-12-21T22:13:27.000000Z",
-    },
-  }

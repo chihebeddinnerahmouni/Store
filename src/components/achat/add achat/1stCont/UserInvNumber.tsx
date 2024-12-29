@@ -3,7 +3,6 @@ import InputText from "../../../ui/inputs/InputText";
 import { Controller } from "react-hook-form";
 
 interface DesignationProps {
-  options: any[];
   control: any;
   register: any;
   errors: any;
@@ -20,14 +19,9 @@ const UserInvNumber = ({
   value,
   setValue,
   clearErrors,
-  options,
 }: DesignationProps) => {
-  // console.log(options);
 
-  const newOptions = options.map((option) => ({
-    id: option.id,
-    name: option.name,
-  }));
+
 
   return (
     <div className="bg-red200 flex flex-col gap-3">
