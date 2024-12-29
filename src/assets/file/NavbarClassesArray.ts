@@ -14,7 +14,7 @@ import { IoManOutline } from "react-icons/io5";
 import { TbReportSearch } from "react-icons/tb";
 import { CiShop } from "react-icons/ci";
 import { IoDocumentTextOutline } from "react-icons/io5";
-import { CiSettings } from "react-icons/ci";
+// import { CiSettings } from "react-icons/ci";
 
 const array = [
   {
