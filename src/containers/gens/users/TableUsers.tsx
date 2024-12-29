@@ -16,7 +16,9 @@ import { visuallyHidden } from "@mui/utils";
 import { IUser } from "../../../types/utilisateur";
 import { IUserTable } from "../../../types/utilisateur";
 import TableTop from "../../../components/ui/TableTop";
-
+import AssignModal from "../../../components/gens/users/AssignModal";
+import ActionButton from "../../../components/ui/buttons/actions/ActionButton";
+import { MdOutlineAssignmentTurnedIn } from "react-icons/md";
 
 
 const mainColor = "#006233";
@@ -170,6 +172,7 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [assignRow, setAssignRow] = React.useState<IUser | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
@@ -332,7 +335,20 @@ export default function EnhancedTable({
                         gap: "10px",
                       }}
                       align="left"
-                    ></TableCell>
+                    >
+                      <ActionButton
+                        icon={<MdOutlineAssignmentTurnedIn/>}
+                        color="#FFC107"
+                        active={true}
+                        onClick={() => setAssignRow(row)}
+                      />
+                      {/* <ActionButton
+                        icon={<i className="fas fa-trash-alt"></i>}
+                        color="#FF0000"
+                        active={true}
+                        onClick={() => console.log("delete")}
+                      /> */}
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -349,6 +365,14 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      {assignRow && (
+        <AssignModal
+          open={true}
+          setOpen={() => setAssignRow(null)}
+          data={assignRow}
+        />
+      )}
     </Box>
   );
 }
