@@ -4,6 +4,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import IVente from "../../../types/vente";
 
+// not used
+
 interface ViewModalProps {
   onClose: () => void;
   row: IVente;

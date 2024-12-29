@@ -5,7 +5,7 @@ import IVente from "../../../types/vente";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
 import createPDF from "../../../helper/create_pdf_from_object";
-import Details from "./Details";
+// import Details from "./Details";
 
 
 interface OptionsMenuProps {
@@ -23,7 +23,7 @@ const OptionsMenu = ({
   // console.log(row);
 
   const [isOptoinsOpen, setIsOptionsOpen] = useState<null | HTMLElement>(null);
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  // const [detailsOpen, setDetailsOpen] = useState(false);
 
   const url = import.meta.env.VITE_BASE_URL as string;
 
@@ -64,7 +64,9 @@ const OptionsMenu = ({
   const options = [
     {
       title: "Details De L'achat",
-      onClick: () => {setDetailsOpen(true)},
+      // onClick: () => {setDetailsOpen(true)},
+      onClick: () => window.open(`/ventes/details/${row.id}`, "_blank"),
+
     },
     {
       title: "Télécharger Le PDF",
@@ -102,9 +104,9 @@ const OptionsMenu = ({
         ))}
       </Menu>
 
-      {detailsOpen && 
+      {/* {detailsOpen && 
         <Details onClose={() => setDetailsOpen(false)} row={row} />
-      }
+      } */}
     </div>
   );
 }

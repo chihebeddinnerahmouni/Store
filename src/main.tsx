@@ -38,6 +38,7 @@ import BestSell from './pages/rapport/BestSell';
 import BestClients from './pages/rapport/BestClients';
 import Permissions from './pages/settings/Permissions';
 import AchatDetails from './pages/achat/AchatDetails';
+import VenteDetails from './pages/vente/VenteDetails';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
 
       { path: "/ventes/ajouter-un-vente", element: <AddVente /> },
       { path: "/ventes", element: <Vents /> },
+      { path: "/ventes/details/:venteId", element: <VenteDetails /> },
 
       { path: "/gens/clients", element: <Clients /> },
       { path: "/gens/fournisseurs", element: <Fournisseurs /> },

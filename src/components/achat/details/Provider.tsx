@@ -1,5 +1,5 @@
 import { IProvider } from "../../../types/achatSingle";
-import KeyValue from "./KeyValue";
+import KeyValue from "../../ventes/details/KeyValue";
 
 
 interface Props {
