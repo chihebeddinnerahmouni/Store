@@ -61,8 +61,8 @@ const VenteProduit = () => {
           setLoading(false);
         })
       )
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        // console.log(err);
         enqueueSnackbar("Erreur lors de la récupération des données", {
           variant: "error",
         });

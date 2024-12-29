@@ -98,6 +98,7 @@ const FilterContent = ({
       onClick: () => {
         setMagasinName("");
         setFournisseurName("");
+        setUserInvNumber("");
       },
     },
   ];

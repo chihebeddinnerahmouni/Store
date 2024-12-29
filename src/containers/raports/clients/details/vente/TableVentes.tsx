@@ -145,7 +145,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         title="Ventes"
         value={searchQuery}
         setValue={setSearchQuery}
-        label="Chercher par code"
+        label="Chercher par référence"
       />
     </Toolbar>
   );
