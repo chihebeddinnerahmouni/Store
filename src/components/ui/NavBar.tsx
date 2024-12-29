@@ -57,6 +57,7 @@ const NavBar = ({
           }}
         >
           <MailIcon
+            onClick={() => navigate("/rapports/alerte-produit")}
             sx={{
               fontSize: { xs: 30, lg: 30 },
               cursor: "pointer",

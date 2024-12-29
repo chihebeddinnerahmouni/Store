@@ -34,7 +34,7 @@ const Dashbored = () => {
         },
       })
       .then((res) => {
-        // console.log(res.data.data);
+        console.log(res.data.data.totals);
         setStatsData(res.data.data.totals);
         setVenteAchatsemaine(res.data.data.vente_achat_chart);
         setPieChartData(res.data.data.pie_chart);

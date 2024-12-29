@@ -21,12 +21,12 @@ interface SideBarProps {
 
 const SideBar = ({
   toggleDrawer,
-  // dataArray
+  dataArray
 }: SideBarProps) => {
 
 
-  const filteredArray = filterArrayByPrivileges(privileges_test);
-  // const filteredArray = filterArrayByPrivileges(dataArray);
+  // const filteredArray = filterArrayByPrivileges(privileges_test);
+  const filteredArray = filterArrayByPrivileges(dataArray);
 
   const location = useLocation();
   const firstSection = location.pathname.split("/")[1] || "";

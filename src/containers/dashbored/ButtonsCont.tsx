@@ -48,7 +48,7 @@ const ButtonsCont = ({ data }: IButton) => {
       url: "/rapports/alerte-produit",
       blank: false,
       // value: data.alert_products,
-      value: 148542,
+      value: data.alert_products,
       tooltip: "Produits en rupture de stock",
     },
   ];
@@ -71,35 +71,3 @@ const ButtonsCont = ({ data }: IButton) => {
 }
 
 export default ButtonsCont
-
-// const array_buttons = [
-//   {
-//     id: 2,
-//     title: "Produits",
-//     icon: "/menu/cars-for-sale.png",
-//     url: "cars-for-sale",
-//     blank: false,
-//   },
-//   {
-//     id: 3,
-//     title: "Achats",
-//     icon: "/menu/sell-your-car.png",
-//     url: "sell-your-car",
-//     blank: true,
-//   },
-//   {
-//     id: 4,
-//     title: "Ventes",
-//     icon: "/menu/service.png",
-//     url: "service",
-//     blank: false,
-//   },
-//   {
-//     id: 6,
-//     title: "Rapports",
-//     icon: "/menu/blog.png",
-//     url: "blog",
-//     blank: false,
-//   },
-// ];
-
