@@ -3,30 +3,27 @@ import { useState } from "react";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import IProduct from "../../../types/Product";
+import IProductSingle from "../../../types/IProductSingle";
 
 interface AddCategoryModalProps {
   onClose: () => void;
-  row: IProduct;
+  row: IProductSingle;
 }
 
 const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
     const url = import.meta.env.VITE_BASE_URL as string;
-    
-    // console.log(row);
 
+  
   const deleteFunc = () => {
     setLoading(true);
     axios
       .delete(`${url}/api/products/${row?.id}`, {
-    //   .delete(`${url}/api/products/5`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
-        // console.log(res.data);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
         window.location.reload();
@@ -39,11 +36,6 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
         }
         setLoading(false);
       });
-
-    // setTimeout(() => {
-    //     setLoading(false);
-    //     // onClose();
-    // }, 2000);
   };
 
   return (

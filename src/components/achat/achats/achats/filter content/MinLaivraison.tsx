@@ -3,10 +3,13 @@ import Label from "../../../../ui/Label";
 import { useContext } from "react";
 import { AchatsContext } from "../../../../../pages/achat/Achats";
 
+// not used
+
 const MinLaivraison = () => {
   const { minLaivraison, setMinLaivraison } = useContext(AchatsContext);
 
   // console.log(magasinArray);
+
 
   return (
     <div className="bg-red200 flex flex-col gap-3">

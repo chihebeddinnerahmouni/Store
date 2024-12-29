@@ -69,6 +69,7 @@ interface IAchat {
   fournisseur: string;
   magasin: string;
   total: string;
+  "référence de l'utilisateur": string;
 }
 
 export interface IAchatTable {
@@ -77,6 +78,7 @@ export interface IAchatTable {
   fournisseur: string;
   magasin: string;
   total: string;
+  "référence de l'utilisateur": string;
 }
 
 export default IAchat;

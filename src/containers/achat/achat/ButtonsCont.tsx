@@ -14,7 +14,7 @@ import { AchatsContext } from "../../../pages/achat/Achats";
 
 
 const ButtonsCont = () => {
-  const { data, columns, setDate, setEndDate, setFournisseur, setMagasin,  } =
+  const { data, columns } =
     useContext(AchatsContext);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -46,12 +46,6 @@ const ButtonsCont = () => {
       color: "#ef4444",
       onClick: () => handlePrintPdf(data, columns, "Liste-achats.pdf"),
     },
-    // {
-    //   icon: <AiOutlineFileExcel />,
-    //   text: "Export Excel",
-    //   color: "#ef4444",
-    //   onClick: handleExportExcel,
-    // },
     {
       icon: <IoIosAddCircleOutline />,
       text: "Ajouter",

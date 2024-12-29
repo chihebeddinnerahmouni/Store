@@ -7,6 +7,8 @@ import {
   Select,
 } from "@mui/material";
 
+// not used
+
 interface DesignationProps {
   id: string;
   setValue: (value: string) => void;

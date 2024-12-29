@@ -10,20 +10,18 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-// import IconButton from "@mui/material/IconButton";
-// import Tooltip from "@mui/material/Tooltip";
-import { IoSearchSharp } from "react-icons/io5";
-// import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import ViewButton from "../../../components/ui/buttons/actions/ViewButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import ViewModal from "../../../components/products/products/ViewModal";
-import IProduct from "../../../types/Product";
 import DeleteModal from "../../../components/products/products/DeleteModal";
+import IProductSingle from "../../../types/IProductSingle";
+import { IProductTable } from "../../../types/IProductSingle";
+import TableTop from "../../../components/ui/TableTop";
+
 
 const mainColor = "#006233";
 
@@ -39,10 +37,10 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-function getComparator<Key extends keyof IProduct>(
+function getComparator<Key extends keyof IProductSingle>(
   order: Order,
   orderBy: Key
-): (a: IProduct, b: IProduct) => number {
+): (a: IProductSingle, b: IProductSingle) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -52,7 +50,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IProduct
+    property: keyof IProductSingle
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -74,7 +72,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IProduct);
+      onRequestSort(event, property as keyof IProductSingle);
     };
 
   return (
@@ -102,8 +100,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {columns.map((column) => (
           <TableCell
             key={column}
-            align="center"
-            padding="normal"
+            align="left"
             sortDirection={orderBy === column ? order : false}
           >
             <TableSortLabel
@@ -147,27 +144,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-        padding={2}
-      >
-        Produits
-      </Typography>
-      <div className="search relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Chercher un produit"
-          className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
-        />
-        <IoSearchSharp
-          className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
-        />
-      </div>
+      <TableTop
+        title="Produits"
+        value={searchQuery}
+        setValue={setSearchQuery}
+        label="Chercher par code"
+      />
     </Toolbar>
   );
 }
@@ -175,25 +157,25 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IProduct[];
-  columns: string[];
+  rows: IProductSingle[];
+    columns: (keyof IProductTable)[];
 }) {
   // React.useEffect(() => {
   // console.log(rows);
   // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IProduct>("code");
+  const [orderBy, setOrderBy] = React.useState<keyof IProductSingle>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [viewRow, setViewRow] = React.useState<IProduct | null>(null);
-  const [deleteRow, setDeleteRow] = React.useState<IProduct | null>(null);
+  const [viewRow, setViewRow] = React.useState<IProductSingle | null>(null);
+  const [deleteRow, setDeleteRow] = React.useState<IProductSingle | null>(null);
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IProduct
+    property: keyof IProductSingle
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -239,13 +221,10 @@ export default function EnhancedTable({
     setPage(0);
   };
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
-      return rows.filter((row: any) =>
-        row.designation.toLowerCase().includes(searchQuery.toLowerCase())
+      return rows.filter((row: IProductSingle) =>
+        row.code.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -334,27 +313,17 @@ export default function EnhancedTable({
                         }}
                       />
                     </TableCell>
-                    {/* <TableCell
-                      sx={{
-                        border: "none",
-                      }}
-                    >
-                      <img
-                        src={row.image}
-                        alt={row.designation}
-                        className="w-10 h-10 bg-red200 rounded-full object-cover"
-                      />
-                    </TableCell> */}
                     {columns.map((column, index) => (
                       <TableCell
                         key={index}
                         padding="normal"
-                        align="center"
+                        align="left"
                         sx={{
                           border: "none",
+                          whiteSpace: "nowrap",
                         }}
                       >
-                        {row[column as keyof IProduct]}
+                        {row[column as keyof IProductTable]}
                       </TableCell>
                     ))}
                     <TableCell
@@ -367,7 +336,6 @@ export default function EnhancedTable({
                           active={true}
                           onClick={() => setViewRow(row)}
                         />
-                        {/* <p>{row.id}</p> */}
                         <UpdateButton
                           active={true}
                           onClick={() =>
@@ -386,16 +354,6 @@ export default function EnhancedTable({
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  empty
-                  <TableCell colSpan={columns.length + 1} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>

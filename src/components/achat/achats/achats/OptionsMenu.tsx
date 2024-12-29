@@ -20,8 +20,6 @@ const OptionsMenu = ({
   columns
 }: OptionsMenuProps) => {
 
-  // console.log(row);
-
   const [isOptoinsOpen, setIsOptionsOpen] = useState<null | HTMLElement>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -60,21 +58,11 @@ const OptionsMenu = ({
       });
   }
 
-  // console.log(columns);
-  // console.log(row);
-
-
-  
-
 
   const options = [
     {
       title: "Details De L'achat",
       onClick: () => {setDetailsOpen(true)},
-    },
-    {
-      title: "Modifier LA Laivraison",
-      onClick: () => {},
     },
     {
       title: "Télécharger Le PDF",

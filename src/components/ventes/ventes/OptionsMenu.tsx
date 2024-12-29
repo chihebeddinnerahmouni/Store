@@ -60,21 +60,11 @@ const OptionsMenu = ({
       });
   }
 
-  // console.log(columns);
-  // console.log(row);
-
-
-  
-
 
   const options = [
     {
       title: "Details De L'achat",
       onClick: () => {setDetailsOpen(true)},
-    },
-    {
-      title: "Modifier LA Laivraison",
-      onClick: () => {},
     },
     {
       title: "Télécharger Le PDF",

@@ -39,6 +39,7 @@ interface Vente {
   remise: string;
   remarks: string | null;
   status: string;
+  total_cost: number;
   created_by: number;
   updated_by: number | null;
   deleted_by: number | null;
@@ -52,7 +53,8 @@ interface Vente {
   magasin: string;
   référence: string;
   // date: string;  ca exists in the interface
-  // status: string; ca exists in the interface
+  "référence de l'utilisateur": string;
+  total: number;
 }
 
 
@@ -66,5 +68,7 @@ export interface IVenteTable {
   magasin: string;
   référence: string;
   date: string;
-  status: string;
+  // status: string;
+  "référence de l'utilisateur": string;
+  total: number;
 }

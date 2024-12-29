@@ -10,18 +10,13 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-// import IconButton from "@mui/material/IconButton";
-// import Tooltip from "@mui/material/Tooltip";
-import { IoSearchSharp } from "react-icons/io5";
-// import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import IVente from "../../../types/vente";
 import { IVenteTable } from "../../../types/vente";
 import OptionsMenu from "../../../components/ventes/ventes/OptionsMenu";
-
+import TableTop from "../../../components/ui/TableTop";
 
 const mainColor = "#006233";
 
@@ -153,27 +148,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-        padding={2}
-      >
-        Vents
-      </Typography>
-      <div className="search relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Chercher un produit"
-          className={`p-2 w-[130px] border rounded-40 outline-main font-medium bg-emptyInput  pl-7 md:w-[200px] lg:w-[300px] xl:w-[400px]`}
-        />
-        <IoSearchSharp
-          className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
-        />
-      </div>
+      <TableTop title="Vents" value={searchQuery} setValue={setSearchQuery} label={"Cherchez par référence"} />
     </Toolbar>
   );
 }
@@ -182,7 +157,6 @@ export default function EnhancedTable({
   columns,
 }: {
   rows: IVente[];
-  // columns: string[];
   columns: (keyof IVenteTable)[];
 }) {
 
@@ -243,8 +217,8 @@ export default function EnhancedTable({
 
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
-      return rows.filter((row: any) =>
-        row.reference.toLowerCase().includes(searchQuery.toLowerCase())
+      return rows.filter((row: IVente) =>
+        row.référence.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -381,33 +355,12 @@ export default function EnhancedTable({
 
 const Colval = (column: string, row: IVente) => {
   switch (column) {
-    case "reference":
+    case "référence":
       return (
-        <p className="text-blue-500">{row[column as keyof IVenteTable]}</p>
+        <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
+          {row[column as keyof IVenteTable]}
+        </span>
       );
-    case "status_de_paiement":
-      switch (row[column as keyof IVenteTable]) {
-        case "partiel":
-          return (
-            <span className="text-yellow-500 border-2 border-yellow-500 px-1 rounded-[5px]">
-              {row[column as keyof IVenteTable]}
-            </span>
-          );
-        case "non paid":
-          return (
-            <span className="text-red-500 border-2 border-red-500 px-1 rounded-[5px]">
-              {row[column as keyof IVenteTable]}
-            </span>
-          );
-        case "paid":
-          return (
-            <span className="text-green-500 border-2 border-green-500 px-1 rounded-[5px]">
-              {row[column as keyof IVenteTable]}
-            </span>
-          );
-        default:
-          return <p>{row[column as keyof IVenteTable]}</p>;
-      }
     default:
       return <p>{row[column as keyof IVenteTable]}</p>;
   }

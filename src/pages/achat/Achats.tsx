@@ -19,12 +19,12 @@ const Achats = () => {
   const [reference, setReference] = useState("");
   const [userInvNumber, setUserInvNumber] = useState("");
   // const [productId, setProductId] = useState("");
-  const [remark, setRemark] = useState("");
+  // const [remark, setRemark] = useState("");
   const [category, setCategory] = useState(0);
   // const [createdBy, setCreatedBy] = useState("");
   // const [updatedBy, setUpdatedBy] = useState("");
-  const [minLaivraison, setMinLaivraison] = useState("");
-  const [maxLaivraison, setMaxLaivraison] = useState("");
+  // const [minLaivraison, setMinLaivraison] = useState("");
+  // const [maxLaivraison, setMaxLaivraison] = useState("");
   const [fournisseur, setFournisseur] = useState(0);
   const [magasin, setMagasin] = useState(0);
   // const [status, setStatus] = useState("");
@@ -45,7 +45,7 @@ const Achats = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/entreports`, {
+      axios.get(`${url}/api/entreports/authorized/get`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -100,8 +100,8 @@ const Achats = () => {
           setReference,
           userInvNumber,
           setUserInvNumber,
-          remark,
-          setRemark,
+          // remark,
+          // setRemark,
           fournisseur,
           setFournisseur,
           magasin,
@@ -115,10 +115,10 @@ const Achats = () => {
           category,
           setCategory,
           categoriesArray,
-          minLaivraison,
-          setMinLaivraison,
-          maxLaivraison,
-          setMaxLaivraison,
+          // minLaivraison,
+          // setMinLaivraison,
+          // maxLaivraison,
+          // setMaxLaivraison,
         }}
       >
         <PageTitle text="Liste des achats" />
@@ -132,15 +132,12 @@ const Achats = () => {
 export default Achats;
 
 const columns_test: (keyof IAchatTable)[] = [
-  "date",
   "reference",
+  "date",
   "fournisseur",
   "magasin",
-  // "status",
   "total",
-  // "payé",
-  // "dû",
-  // "status_de_paiement",
+  "référence de l'utilisateur",
 ];
 
 const modifiedAchats = (achats: IAchat[]) => {
@@ -151,8 +148,8 @@ const modifiedAchats = (achats: IAchat[]) => {
       reference: achat.invoice_number,
       fournisseur: achat.provider.name,
       magasin: achat.entrepot.name,
-      // status: achat.status,
       total: achat.total_cost,
+      "référence de l'utilisateur": achat.user_invoice_number
     };
   });
 }

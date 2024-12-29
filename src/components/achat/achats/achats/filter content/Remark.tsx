@@ -3,6 +3,8 @@ import Label from "../../../../ui/Label";
 import { useContext } from "react";
 import { AchatsContext } from "../../../../../pages/achat/Achats";
 
+
+// not used
 const Remark = () => {
   const { remark, setRemark } = useContext(AchatsContext);
 

@@ -45,7 +45,7 @@ const Achats = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/entreports`, {
+      axios.get(`${url}/api/entreports/authorized/get`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -57,17 +57,9 @@ const Achats = () => {
       }),
     ])
       .then((res) => {
-        // console.log(res[0].data.ventes);
-        const modifiedAchats = res[0].data.ventes.map((vente: IVente) => {
-          return {
-            ...vente,
-            // date: new Date(achat.created_at).toLocaleDateString(),
-            référence: vente.invoice_number,
-            nom_du_client: vente.client.name,
-            magasin: vente.entrepot.name,
-          };
-        });
+        const modifiedAchats = modifiedData(res[0].data.ventes);
         setData(modifiedAchats);
+        // console.log(res[1]);
         setMagasinArray(res[1].data.entrepots);
         setClientsArray(res[2].data.clients);
         setLoading(false);
@@ -136,13 +128,27 @@ const Achats = () => {
 export default Achats;
 
 const columns_test: (keyof IVenteTable)[] = [
-  "id", 
-  "nom_du_client",
-  "magasin",
+  // "id", 
   "référence",
   "date",
+  "référence de l'utilisateur",
+  "nom_du_client",
+  "magasin",
+  "total",
 ];
 
+const modifiedData = (data: IVente[]) => {
+  return data.map((vente: IVente) => {
+    return {
+      ...vente,
+      référence: vente.invoice_number,
+      nom_du_client: vente.client.name,
+      magasin: vente.entrepot.name,
+      "référence de l'utilisateur": vente.user_invoice_number,
+      total: vente.total_cost,
+    };
+  });
+}
 
 
 

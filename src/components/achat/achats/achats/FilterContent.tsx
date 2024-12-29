@@ -8,9 +8,9 @@ import StartDate from "./filter content/StartDate";
 import EndDate from "./filter content/EndDate";
 import InvNumber from "./filter content/InvNumber";
 import UserInvNumber from "./filter content/UserInvNumber";
-import Remark from "./filter content/Remark";
+// import Remark from "./filter content/Remark";
 import Category from "./filter content/Category";
-import MinLaivraison from "./filter content/MinLaivraison";
+// import MinLaivraison from "./filter content/MinLaivraison";
 import { useContext } from "react";
 import { AchatsContext } from "../../../../pages/achat/Achats";
 import axios from "axios";
@@ -18,56 +18,54 @@ import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import IAchat from "../../../../types/achat";
 
-
 interface Props {
   close: () => void;
 }
 
-const FilterContent = ({
-  close,
-}: Props) => {
-
+const FilterContent = ({ close }: Props) => {
   const {
     setData,
     date,
+    setDate,
     endDate,
+    setEndDate,
     reference,
+    setReference,
     userInvNumber,
-    remark,
-    // category,
-    minLaivraison,
-    maxLaivraison,
+    setUserInvNumber,
+    // remark,
+    category,
+    setCategory,
+    // minLaivraison,
+    // maxLaivraison,
     fournisseur,
+    setFournisseur,
     magasin,
+    setMagasin,
   } = useContext(AchatsContext);
   const url = import.meta.env.VITE_BASE_URL;
   const [loading, setLoading] = useState(false);
-  
+
   const search = () => {
     setLoading(true);
-    const body = {
-      ...(date && { date_start: date }),
-      ...(endDate && { date_end: endDate }),
-      ...(reference && { reference: reference }),
-      ...(userInvNumber && { user_invoice_number: userInvNumber }),
-      ...(remark && { remark: remark }),
-      // ...(category && { category: category }),
-      ...(minLaivraison && { min_laivraison: minLaivraison }),
-      ...(maxLaivraison && { max_laivraison: maxLaivraison }),
-      ...(fournisseur && { fournisseur_id: fournisseur }),
-      ...(magasin && { entrepot_id: magasin }),
-    };
-
+    const body = createBody(
+      date,
+      endDate,
+      reference,
+      userInvNumber,
+      // remark,
+      category,
+      // minLaivraison,
+      // maxLaivraison,
+      fournisseur,
+      magasin
+    );
     axios
-      .post(
-        url + "/api/achats/filter/get",
-        body,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+      .post(url + "/api/achats/filter/get", body, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         const modifiedAchatsArray = modifiedAchats(res.data.achats);
         setData(modifiedAchatsArray);
@@ -87,10 +85,10 @@ const FilterContent = ({
                 enqueueSnackbar(err, { variant: "error" });
               });
             });
-          } 
-        };
+          }
+        }
       });
-  }
+  };
 
   const buttons_array = [
     {
@@ -104,20 +102,24 @@ const FilterContent = ({
       text: "Réinitialiser",
       color: "#8b5cf6",
       onClick: () => {
-        // setCode("");
-        // setCategorie("");
-        // setMarque("");
+        setDate("");
+        setEndDate("");
+        setReference("");
+        setUserInvNumber("");
+        setCategory(0);
+        setFournisseur(0);
+        setMagasin(0);
       },
     },
   ];
 
   return (
     <Box
-    sx={{
+      sx={{
         padding: 2,
       }}
       role="presentation"
-      >
+    >
       <p className="font-bold text-[25px]">Filtre</p>
       <div className="content flex flex-col gap-6 mt-5">
         <Fourni />
@@ -126,10 +128,10 @@ const FilterContent = ({
         <EndDate />
         <InvNumber />
         <UserInvNumber />
-        <Remark />
+        {/* <Remark /> */}
         <Category />
-        <MinLaivraison />
-      
+        {/* <MinLaivraison /> */}
+
         {/* buttons */}
         <div className="buttons flex gap-2 mt-5">
           {buttons_array.map((button, index) => (
@@ -150,8 +152,6 @@ const FilterContent = ({
 
 export default FilterContent;
 
-
-
 const modifiedAchats = (achats: IAchat[]) => {
   return achats.map((achat: IAchat) => {
     return {
@@ -164,4 +164,30 @@ const modifiedAchats = (achats: IAchat[]) => {
       total: achat.total_cost,
     };
   });
+};
+
+const createBody = (
+  date: string,
+  endDate: string,
+  reference: string,
+  userInvNumber: string,
+  // remark: string,
+  category: string,
+  // minLaivraison: string,
+  // maxLaivraison: string,
+  fournisseur: string,
+  magasin: string
+) => {
+  return {
+    ...(date && { date_start: date }),
+    ...(endDate && { date_end: endDate }),
+    ...(reference && { invoice_number: reference }),
+    ...(userInvNumber && { user_invoice_number: userInvNumber }),
+    // ...(remark && { remark: remark }),
+    ...(category && { category: category }),
+    // ...(minLaivraison && { min_laivraison: minLaivraison }),
+    // ...(maxLaivraison && { max_laivraison: maxLaivraison }),
+    ...(fournisseur && { provider_id: fournisseur }),
+    ...(magasin && { entrepot_id: magasin }),
+  };
 };

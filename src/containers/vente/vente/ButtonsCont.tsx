@@ -2,53 +2,16 @@ import { useState } from "react";
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
-// import { AiOutlineFileExcel } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/ventes/ventes/FilterContent";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
-// import IAchat from "../../../types/achat";
 import { useContext } from "react";
 import { VentsContext } from "../../../pages/vente/Vents";
 
-// interface ButtonsContProps {
-//   data: IAchat[];
-//   columns: string[];
-//   date: string;
-//   setDate: (value: string) => void;
-//   reference: string;
-//   setReference: (value: string) => void
-//   fournisseur: string;
-//   setFournisseur: (value: string) => void;
-//   magasin: string;
-//   setMagasin: (value: string) => void;
-//   status: string;
-//   setStatus: (value: string) => void;
-//   paimentStatus: string;
-//   setPaimentStatus: (value: string) => void;
-//   fournisseurArray: any[];
-//   magasinArray: any[];
-// }
 
 const ButtonsCont = (
-  // data,
-  // columns,
-  // date,
-  // setDate,
-  // reference,
-  // setReference,
-  // fournisseur,
-  // setFournisseur,
-  // magasin,
-  // setMagasin,
-  // status,
-  // setStatus,
-  // paimentStatus,
-  // setPaimentStatus,
-  // fournisseurArray,
-  // magasinArray,
-  // ButtonsContProps
 // }
 ) => {
  const { data, columns } = useContext(VentsContext);
@@ -82,12 +45,6 @@ const ButtonsCont = (
       color: "#ef4444",
       onClick: () => handlePrintPdf(data, columns, "Liste-vents.pdf"),
     },
-    // {
-    //   icon: <AiOutlineFileExcel />,
-    //   text: "Export Excel",
-    //   color: "#ef4444",
-    //   onClick: handleExportExcel,
-    // },
     {
       icon: <IoIosAddCircleOutline />,
       text: "Ajouter",
@@ -123,20 +80,6 @@ const ButtonsCont = (
       >
         <FilterContent
           close={handleFilter}
-          // date={date}
-          // setDate={setDate}
-          // reference={reference}
-          // setReference={setReference}
-          // fournisseur={fournisseur}
-          // setFournisseur={setFournisseur}
-          // magasin={magasin}
-          // setMagasin={setMagasin}
-          // status={status}
-          // setStatus={setStatus}
-          // paimentStatus={paimentStatus}
-          // setPaimentStatus={setPaimentStatus}
-          // fournisseurArray={fournisseurArray}
-          // magasinArray={magasinArray}
         />
       </Drawer>
     </section>

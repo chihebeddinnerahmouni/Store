@@ -2,7 +2,7 @@ import PageTitle from "../../components/ui/PageTitle";
 import ProductStCont from "../../containers/products/add product/ProductStCont";
 import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import ImageCont from "../../containers/products/add product/ImageCont";
+// import ImageCont from "../../containers/products/add product/ImageCont";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
 import InstructionsCont from "../../containers/products/add product/InstructionsCont";
 import axios from "axios";
@@ -17,8 +17,6 @@ type FormValues = {
   marque: string;
   tax: string;
   description: string;
-  // type: string;
-  // image: string;
   prixAchat: string;
   prixVente: string;
   unite: string;
@@ -26,7 +24,6 @@ type FormValues = {
   uniteAchat: string;
   stockAlert: string;
   reyonage: string;
-  // quantity: string;
 };
 
 const AddProduct = () => {
@@ -36,20 +33,14 @@ const AddProduct = () => {
   const [marque, setMarque] = useState<number>(0);
   const [tax, setTax] = useState<string>("");
   const [description, setDescription] = useState("");
-  // const [type, setType] = useState<string>("");
-  // const [image, setImage] = useState<string>("");
   const [prixAchat, setPrixAchat] = useState<string>("");
   const [prixVente, setPrixVente] = useState<string>("");
   const [unite, setUnite] = useState<number>(0);
-  // const [uniteVente, setUniteVente] = useState<string>("");
-  // const [uniteAchat, setUniteAchat] = useState<string>("");
   const [stockAlert, setStockAlert] = useState<string>("");
   const [numSerie, setNumSerie] = useState<boolean>(false);
   const [reyonage, setReyonage] = useState<number>(0);
-  // const [quantity, setQuantity] = useState<string>(""); 
   const [loading, setLoading] = useState<boolean>(false);
   const [LoadingPage, setLoadingPage] = useState<boolean>(true);
-
   const [categoriesArray, setCategoriesArray] = useState<any>([]);
   const [marquesArray, setMarquesArray] = useState<any>([]);
   const [unitesArray, setUnitesArray] = useState<any>([]);
@@ -105,22 +96,9 @@ const AddProduct = () => {
            });
          }
        });
-    
-    // console.log("response1", response1);
-    // console.log("response2", response2);
-    // console.log("response3", response3);
-    // console.log("response4", response4);
-
-
-    
   }, []);
 
-
-
-
-
   const send = () => {
-    // console.log(reyonage);
     setLoading(true);
     axios
       .post(
@@ -133,7 +111,6 @@ const AddProduct = () => {
           unit_id: unite,
           rayonage_id: reyonage,
           has_serial_number: numSerie,
-
           tax_percentage: Number(tax),
           description: description,
           price_buy: Number(prixAchat),
@@ -166,11 +143,7 @@ const AddProduct = () => {
             });
           });
         }
-      });
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
+      })
   };
 
   const {
@@ -225,20 +198,12 @@ const AddProduct = () => {
             clearErrors={clearErrors}
             register={register}
             errors={errors}
-            // type={type}
-            // setType={setType}
-            // quantity={quantity}
-            // setQuantity={setQuantity}
             prixAchat={prixAchat}
             setPrixAchat={setPrixAchat}
             prixVente={prixVente}
             setPrixVente={setPrixVente}
             unite={unite}
             setUnite={setUnite}
-            // uniteVente={uniteVente}
-            // setUniteVente={setUniteVente}
-            // uniteAchat={uniteAchat}
-            // setUniteAchat={setUniteAchat}
             stockAlert={stockAlert}
             setStockAlert={setStockAlert}
             numSerie={numSerie}
@@ -255,7 +220,6 @@ const AddProduct = () => {
             loading={loading}
             color={mainColor}
             onClick={handleSubmit(onSubmit)}
-            // onClick={send}
             type="submit"
           />
         </div>

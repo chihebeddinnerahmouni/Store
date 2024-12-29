@@ -43,10 +43,10 @@ const AddAchat = () => {
   const [productsCommandeArray, setProductsCommandeArray] = useState<
     IProductCommandeItem[]
   >([]);
-  const [taxe, setTaxe] = useState<string>("");
+  // const [taxe, setTaxe] = useState<string>("");
   // const [remise, setRemise] = useState<string>("");
   // const [laivraison, setLaivraison] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
+  // const [status, setStatus] = useState<string>("");
   const [remarque, setRemarque] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
@@ -125,7 +125,7 @@ const AddAchat = () => {
         window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -187,21 +187,21 @@ const AddAchat = () => {
           />
 
           <AchatNdCont
-            taxe={taxe}
-            setTaxe={setTaxe}
+            // taxe={taxe}
+            // setTaxe={setTaxe}
             // remise={remise}
             // setRemise={setRemise}
             // laivraison={laivraison}
             // setLaivraison={setLaivraison}
-            status={status}
-            setStatus={setStatus}
+            // status={status}
+            // setStatus={setStatus}
             remarque={remarque}
             setRemarque={setRemarque}
           />
           {/* </div> */}
           <TotalCont
             // remise={remise}
-            taxe={taxe}
+            // taxe={taxe}
             // laivraison={laivraison}
             productsCommandeArray={productsCommandeArray}
           />

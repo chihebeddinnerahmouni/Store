@@ -11,26 +11,26 @@ import { VentsContext } from "../../../pages/vente/Vents";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
+import IVente from "../../../types/vente";
 
 interface Props {
   close: () => void;
 }
 
 const FilterContent = ({close}: Props) => {
-  const { date, userInvNumber, magasin, clientId, setData } = useContext(VentsContext);
+  const { date, setDate, userInvNumber, setUserInvNumber, magasin, setMagasin, clientId, setClientId, setData } = useContext(VentsContext);
   const url = import.meta.env.VITE_BASE_URL;
   const [loading, setLoading] = useState(false);
 
   const search = () => {
     setLoading(true);
-
     const body = {
       ...(clientId && { client_id: clientId }),
       ...(userInvNumber && { user_invoice_number: userInvNumber }),
       ...(magasin && { entrepot_id: magasin }),
       ...(date && { date: date }),
     }
-    console.log(body);
+    // console.log(body);
     axios
       .post(
         url + "/api/vente/filter", body,
@@ -41,7 +41,8 @@ const FilterContent = ({close}: Props) => {
         }
       )
       .then((res) => {
-        setData(res.data.ventes);
+        const modifiedAchats = modifiedData(res.data.ventes);
+        setData(modifiedAchats);
         close();
       })
       .catch((err) => {
@@ -75,9 +76,10 @@ const FilterContent = ({close}: Props) => {
       text: "Réinitialiser",
       color: "#8b5cf6",
       onClick: () => {
-        // setCode("");
-        // setCategorie("");
-        // setMarque("");
+        setDate("");
+        setUserInvNumber("");
+        setMagasin(0);
+        setClientId(0);
       },
     },
   ];
@@ -95,12 +97,7 @@ const FilterContent = ({close}: Props) => {
         <StartDate />
         <Client />
         <Magasin />
-        {/* <EndDate /> */}
-        {/* <InvNumber /> */}
         <UserInvNumber />
-        {/* <Remark /> */}
-        {/* <Category /> */}
-        {/* <MinLaivraison /> */}
 
         {/* buttons */}
         <div className="buttons flex gap-2 mt-5">
@@ -122,82 +119,16 @@ const FilterContent = ({close}: Props) => {
 
 export default FilterContent;
 
-// const paimentStatus_array = [
-//   {
-//     id: 1,
-//     name: "Partiel",
-//   },
-//   {
-//     id: 2,
-//     name: "Payé",
-//   },
-//   {
-//     id: 3,
-//     name: "Non payé",
-//   },
-// ];
 
-// const status_array = [
-//   {
-//     id: 1,
-//     name: "En cours",
-//   },
-//   {
-//     id: 2,
-//     name: "paid",
-//   },
-//   {
-//     id: 3,
-//     name: "non paid",
-//   },
-// ];
-
-// const magasins_array = [
-//   {
-//     id: 1,
-//     name: "Magasin 1",
-//   },
-//   {
-//     id: 2,
-//     name: "Magasin 2",
-//   },
-//   {
-//     id: 3,
-//     name: "Magasin 3",
-//   },
-//   {
-//     id: 4,
-//     name: "Magasin 4",
-//   }
-// ]
-
-// const fournisseures_array = [
-//   {
-//     id: 1,
-//     name: "Fournisseur A",
-//   },
-//   {
-//     id: 2,
-//     name: "Fournisseur B",
-//   },
-//   {
-//     id: 3,
-//     name: "Fournisseur C",
-//   },
-//   {
-//     id: 4,
-//     name: "Fournisseur D",
-//   },
-//   {
-//     id: 2,
-//     name: "Fournisseur E",
-//   },
-//   {
-//     id: 3,
-//     name: "Fournisseur F",
-//   },
-//   {
-//     id: 4,
-//     name: "Fournisseur G",
-//   },
-// ];
+const modifiedData = (data: IVente[]) => {
+  return data.map((vente: IVente) => {
+    return {
+      ...vente,
+      référence: vente.invoice_number,
+      nom_du_client: vente.client.name,
+      magasin: vente.entrepot.name,
+      "référence de l'utilisateur": vente.user_invoice_number,
+      total: vente.total_cost,
+    };
+  });
+};

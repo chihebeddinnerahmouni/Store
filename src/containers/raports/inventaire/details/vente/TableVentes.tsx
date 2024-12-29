@@ -18,8 +18,10 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoSearchSharp } from "react-icons/io5";
 // import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import IEntvente from "../../../../../types/rapport/entrepot/entrepot_vente";
-import { ITableEntrepotVente } from "../../../../../types/rapport/entrepot/entrepot_vente";
+import { IInvDetails_vente } from "../../../../../types/rapport/inventaire/inv_details_vente";
+import { IInvDetails_vente_Table } from "../../../../../types/rapport/inventaire/inv_details_vente";
+import TableTop from "../../../../../components/ui/TableTop";
+
 
 const mainColor = "#006233";
 
@@ -51,7 +53,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof IEntvente
+    property: keyof IInvDetails_vente
   ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -73,7 +75,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property as keyof IEntvente);
+      onRequestSort(event, property as keyof IInvDetails_vente);
     };
 
   return (
@@ -145,7 +147,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         },
       ]}
     >
-      <Typography
+      {/* <Typography
         sx={{ flex: "1 1 100%" }}
         variant="h6"
         id="tableTitle"
@@ -165,7 +167,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         <IoSearchSharp
           className={`absolute top-1/2 transform -translate-y-1/2 text-gray-400 text-[18px] left-2`}
         />
-      </div>
+      </div> */}
+      <TableTop
+        value={searchQuery}
+        setValue={setSearchQuery}
+        label={"Cherchez par référence"}
+        title={"Ventes"}
+      />
     </Toolbar>
   );
 }
@@ -173,11 +181,11 @@ export default function EnhancedTable({
   rows,
   columns,
 }: {
-  rows: IEntvente[];
-  columns: (keyof ITableEntrepotVente)[];
+  rows: IInvDetails_vente[];
+  columns: (keyof IInvDetails_vente_Table)[];
 }) {
   const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof IEntvente>("id");
+  const [orderBy, setOrderBy] = React.useState<keyof IInvDetails_vente>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -185,7 +193,7 @@ export default function EnhancedTable({
 
   const handleRequestSort = (
     _event: React.MouseEvent<unknown>,
-    property: keyof IEntvente
+    property: keyof IInvDetails_vente
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -233,8 +241,8 @@ export default function EnhancedTable({
 
   const filteredUsers = React.useMemo(() => {
     if (searchQuery !== "") {
-      return rows.filter((row: any) =>
-        row.nom_du_client.toLowerCase().includes(searchQuery.toLowerCase())
+      return rows.filter((row: IInvDetails_vente) =>
+        row.référence.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     return rows;
@@ -361,15 +369,15 @@ export default function EnhancedTable({
   );
 }
 
-const Colval = (column: string, row: IEntvente) => {
+const Colval = (column: string, row: IInvDetails_vente) => {
   switch (column) {
     case "référence":
       return (
         <span className="text-blue-500 border-2 border-blue-500 px-1 rounded-[5px]">
-          {row[column as keyof ITableEntrepotVente]}
+          {row[column as keyof IInvDetails_vente_Table]}
         </span>
       );
     default:
-      return <p>{row[column as keyof ITableEntrepotVente]}</p>;
+      return <p>{row[column as keyof IInvDetails_vente_Table]}</p>;
   }
 };

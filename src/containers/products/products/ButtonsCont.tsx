@@ -1,6 +1,4 @@
-import {
-    useState,
-} from "react";
+import { useState } from "react";
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
@@ -11,11 +9,11 @@ import FilterContent from "../../../components/products/products/FilterContent";
 // import html2pdf from "html2pdf.js";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import IProduct from "../../../types/Product";
+// import IProduct from "../../../types/Product";
 import IProductSingle from "../../../types/IProductSingle";
 
 interface ButtonsContProps {
-  data: IProduct[];
+  data: IProductSingle[];
   columns: string[];
   setData: (value: IProductSingle[]) => void;
   // columns: (keyof IProduct)[];
@@ -34,21 +32,21 @@ interface ButtonsContProps {
 }
 
 const ButtonsCont = ({
-    data,
+  data,
   columns,
-    setData,
-    code,
-    categorie,
-    marque,
-    setCode,
-    setCategorie,
+  setData,
+  code,
+  categorie,
+  marque,
+  setCode,
+  setCategorie,
   setMarque,
   categoriesArray,
   marquesArray,
   reyonagesArray,
   setCategoriesArray,
   setMarquesArray,
-  setReyonagesArray
+  setReyonagesArray,
 }: ButtonsContProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -56,10 +54,6 @@ const ButtonsCont = ({
   const handleFilter = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
-
-  // const handleExportExcel = () => {
-  //   console.log("Export Excel not implemented");
-  // };
 
   const handleAdd = () => {
     navigate("/produits/ajouter-un-produit");
@@ -79,12 +73,6 @@ const ButtonsCont = ({
       color: "#ef4444",
       onClick: () => handlePrintPdf(data, columns, "Liste-de-produites.pdf"),
     },
-    // {
-    //   icon: <AiOutlineFileExcel />,
-    //   text: "Export Excel",
-    //   color: "#ef4444",
-    //   onClick: handleExportExcel,
-    // },
     {
       icon: <IoIosAddCircleOutline />,
       text: "Ajouter",
@@ -97,7 +85,6 @@ const ButtonsCont = ({
     <section className="w-full flex flex-col items-end">
       {/* Action Buttons */}
       <div className="buttons flex flex-wrap gap-2">
-
         {buttons_array.map((button, index) => (
           <ShiningButton
             key={index}
@@ -113,7 +100,7 @@ const ButtonsCont = ({
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         sx={{
-         "& .MuiDrawer-paper": {
+          "& .MuiDrawer-paper": {
             width: "80%",
             maxWidth: "300px",
           },
@@ -124,14 +111,14 @@ const ButtonsCont = ({
           },
         }}
       >
-              <FilterContent
+        <FilterContent
           close={handleFilter}
           setData={setData}
-                  code={code}
-                  setCode={setCode}
-                  categorie={categorie}
-                  setCategorie={setCategorie}
-                  marque={marque}
+          code={code}
+          setCode={setCode}
+          categorie={categorie}
+          setCategorie={setCategorie}
+          marque={marque}
           setMarque={setMarque}
           categoriesArray={categoriesArray}
           setCategoriesArray={setCategoriesArray}
@@ -139,7 +126,7 @@ const ButtonsCont = ({
           setMarquesArray={setMarquesArray}
           reyonagesArray={reyonagesArray}
           setReyonagesArray={setReyonagesArray}
-              />
+        />
       </Drawer>
     </section>
   );

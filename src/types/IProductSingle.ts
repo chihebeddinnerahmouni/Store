@@ -71,7 +71,33 @@ interface IProductSingle {
   brand: IBrand;
   unit: IUnit;
   rayonage: IReyonage;
+
+  // table
+  // id: number;
+  designation: string;
+  code: string;
+  marque: string;
+  categorie: string;
+  cout: string;
+  prix: string;
+  unité: string;
+  rayon: string;
+  quantité: number;
+
 }
 
 
 export default IProductSingle;
+
+export interface IProductTable { 
+  id: number;
+  designation: string;
+  code: string;
+  marque: string;
+  categorie: string;
+  cout: string;
+  prix: string;
+  unité: string;
+  rayon: string;
+  quantité: number;
+}

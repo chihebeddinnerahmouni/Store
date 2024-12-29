@@ -53,14 +53,8 @@ const FilterContent = ({
   
   
   const [loading, setLoading] = useState(true);
-  // const [code, setCode] = useState<string>("");
-  // const [categorie, setCategorie] = useState<string>("");
-  // const [marque, setMarque] = useState<string>("");
   const [reyonage, setReyonage] = useState<string>("");
   const [name, setName] = useState<string>("");
-  // const [categoriesArray, setCategoriesArray] = useState<any>([]);
-  // const [marquesArray, setMarquesArray] = useState<any>([]);
-  // const [reyonagesArray, setReyonagesArray] = useState<any>([]);
   const [loadingButton, setLoadingButton] = useState(false);
   const url = import.meta.env.VITE_BASE_URL;
 
@@ -106,7 +100,6 @@ const FilterContent = ({
           })
         )
         .catch((err) => {
-          //  console.log(err);
           setLoading(false);
           if (err.message === "Network Error") {
             enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -117,8 +110,6 @@ const FilterContent = ({
     } else {
       setLoading(false);
     }
-
-
   }, []);
 
 
@@ -142,8 +133,8 @@ const FilterContent = ({
       },
     })
       .then((res) => {
-        // console.log(res.data);
-        setData(res.data.products);
+        const Modified = ModifiedData(res.data.products);
+        setData(Modified);
         close();
         setLoadingButton(false);
       })
@@ -183,6 +174,8 @@ const FilterContent = ({
         setCode("");
         setCategorie("");
         setMarque("");
+        setName("");
+        setReyonage("");
       },
     },
   ];
@@ -271,34 +264,17 @@ const FilterContent = ({
 };
 
 export default FilterContent;
-
-// const categories_array = [
-//   {
-//     id: 1,
-//     name: "Fruits",
-//   },
-//   {
-//     id: 2,
-//     name: "Beverages",
-//   },
-//   {
-//     id: 3,
-//     name: "Dairy",
-//   },
-//   {
-//     id: 4,
-//     name: "Meat",
-//   },
-//   {
-//     id: 2,
-//     name: "Beverages",
-//   },
-//   {
-//     id: 3,
-//     name: "Dairy",
-//   },
-//   {
-//     id: 4,
-//     name: "Meat",
-//   },
-// ];
+const ModifiedData = (data: IProductSingle[]) => {
+  return data.map((product: IProductSingle) => ({
+    ...product,
+    designation: product.name,
+    code: product.code_barre,
+    marque: product.brand.name_brand,
+    categorie: product.category.name_category,
+    cout: product.price_buy,
+    prix: product.price_sell,
+    unité: product.unit.name_unit,
+    quantité: product.quantity,
+    rayon: product.rayonage.name,
+  }));
+};
