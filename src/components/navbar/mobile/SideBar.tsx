@@ -145,44 +145,44 @@ const filterArrayByPrivileges = (
     .filter((item) => item.subList.length > 0);
 };
 
-const privileges_test = {
-  Produits: {
-    "Ajouter un produit": true,
-    "Liste des produits": true,
-    Categories: true,
-    Marques: true,
-    Unité: true,
-    Reyonnage: true,
-    Magasins: true,
-  },
-  Achats: {
-    "Ajouter Un Achat": true,
-    "Liste Des Achats": true,
-  },
-  Ventes: {
-    "Ajouter une vente": true,
-    "Liste des Ventes": true,
-  },
-  Gens: {
-    Clients: true,
-    Fournisseurs: true,
-    Utilisateurs: true,
-  },
-  Rapports: {
-    "Alertes De Quantité De Produits": true,
-    "Rapport entrepot": true,
-    "Rapport inventaire": true,
-    "Rapport Produits": true,
-    "Rapport De Vente": true,
-    "Rapport De Vente De Produits": true,
-    "Rapport Des Achats": true,
-    "Rapport Achat De Produits": true,
-    "Rapport Client": true,
-    "Rapport Fournisseur": true,
-    "Produits Les Plus Vendus": true,
-    "Meilleurs Clients": true,
-  },
-  Paramétres: {
-    Autorisations: true,
-  },
-};
+// const privileges_test = {
+//   Produits: {
+//     "Ajouter un produit": true,
+//     "Liste des produits": true,
+//     Categories: true,
+//     Marques: true,
+//     Unité: true,
+//     Reyonnage: true,
+//     Magasins: true,
+//   },
+//   Achats: {
+//     "Ajouter Un Achat": true,
+//     "Liste Des Achats": true,
+//   },
+//   Ventes: {
+//     "Ajouter une vente": true,
+//     "Liste des Ventes": true,
+//   },
+//   Gens: {
+//     Clients: true,
+//     Fournisseurs: true,
+//     Utilisateurs: true,
+//   },
+//   Rapports: {
+//     "Alertes De Quantité De Produits": true,
+//     "Rapport entrepot": true,
+//     "Rapport inventaire": true,
+//     "Rapport Produits": true,
+//     "Rapport De Vente": true,
+//     "Rapport De Vente De Produits": true,
+//     "Rapport Des Achats": true,
+//     "Rapport Achat De Produits": true,
+//     "Rapport Client": true,
+//     "Rapport Fournisseur": true,
+//     "Produits Les Plus Vendus": true,
+//     "Meilleurs Clients": true,
+//   },
+//   Paramétres: {
+//     Autorisations: true,
+//   },
+// };
