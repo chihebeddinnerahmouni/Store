@@ -14,13 +14,13 @@ import User from "../navbar/User";
 
 const NavBar = ({
   dataArray,
+  user,
 }: {
-  dataArray: Record<string, Record<string, boolean>>;
-}) => {
+    dataArray: Record<string, Record<string, boolean>>;
+    user: Record<string, string>;
+  }) => {
+  
   const [open, setOpen] = useState(false);
-
-  // console.log(dataArray);
-
   const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -65,7 +65,7 @@ const NavBar = ({
           />
         </Badge>
 
-        <User />
+        <User user={user} />
 
         <button
           className={`text-3xl buttomFadeCss`}

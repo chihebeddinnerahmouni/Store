@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Avatar, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+interface UserProps {
+  user: Record<string, string>;
+}
 
-const User = () => {
+const User = ({ user }: UserProps) => {
+  
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const mainColor = "#006233";
@@ -16,20 +21,23 @@ const User = () => {
     setAnchorEl(null);
   };
 
-  const handleProfile = () => {
-    navigate("/profile");
+  // const handleProfile = () => {
+  //   navigate("/profile");
+  //   handleClose();
+  // };
+
+  const handleDisconnect = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
     handleClose();
   };
 
-  const handleDisconnect = () => {
-    navigate("/disconnect");
-    handleClose();
-  };
+// console.log(user);
 
   return (
     <div>
       <Avatar
-        alt="User Photo"
+        alt={user.name}
         src="/path/to/photo.jpg"
         onClick={handleClick}
         sx={{
@@ -56,14 +64,14 @@ const User = () => {
           },
         }}
       >
-        <MenuItem
+        {/* <MenuItem
           sx={{
             fontFamily: "Changa, sans-serif",
           }}
           onClick={handleProfile}
         >
           Profile
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem
           sx={{
             fontFamily: "Changa, sans-serif",

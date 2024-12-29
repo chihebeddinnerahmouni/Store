@@ -12,9 +12,11 @@ import axios from "axios";
 function App() {
 
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const [sideBarArray, setSideBarArray] = useState<Record<string, Record<string, boolean>>>(Object.create(null));
+  const [user, setUser] = useState< Record<string, string>>(Object.create(null));
+  const navigate = useNavigate();
   const url = import.meta.env.VITE_BASE_URL as string;
+
 
   useEffect(() => {
     axios
@@ -25,12 +27,12 @@ function App() {
       })
       .then((res) => {
         // console.log(res.data);
+        setUser(res.data.user);
         setSideBarArray(res.data.privileges);
         setLoading(false);
       })
       .catch((err) => {
         if (err.response.status === 401) {
-          console.log("pst");
           navigate("/login");
         }
       });
@@ -51,7 +53,10 @@ function App() {
         }}
         autoHideDuration={3000}
       >
-        <NavBar dataArray={sideBarArray} />
+        <NavBar
+          dataArray={sideBarArray}
+          user={user}
+        />
         <Outlet />
       </SnackbarProvider>
     </div>
