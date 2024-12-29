@@ -63,7 +63,6 @@ const Users = () => {
 export default Users;
 
 const columns_test: (keyof IUserTable)[] = [
-//   "id",
   "nom",
   "téléphone",
   "email",

@@ -41,6 +41,7 @@ import AchatDetails from './pages/achat/AchatDetails';
 import VenteDetails from './pages/vente/VenteDetails';
 import NoPage from './pages/NoPage';
 import Users from './pages/gens/Users';
+import ServerUp from './pages/ServerUp';
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,7 @@ const router = createBrowserRouter([
   },
   { path: "/test", element: <Test /> },
   { path: "/login", element: <Login /> },
+  { path: "/testserver", element: <ServerUp /> },
   {
     path: "*",
     element: <NoPage />,
