@@ -11,19 +11,21 @@ import MailIcon from "@mui/icons-material/Mail";
 import User from "../navbar/User";
 
 
-const NavBar = () => {
+
+const NavBar = ({
+  dataArray,
+}: {
+  dataArray: Record<string, Record<string, boolean>>;
+}) => {
   const [open, setOpen] = useState(false);
 
-  // console.log(open);
-
+  // console.log(dataArray);
 
   const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-
-
 
   return (
     <div
@@ -73,7 +75,6 @@ const NavBar = () => {
         </button>
       </div>
 
-
       <Drawer
         sx={{
           "& .MuiBackdrop-root": {
@@ -84,9 +85,8 @@ const NavBar = () => {
         anchor="left"
         open={open}
         onClose={toggleDrawer(false)}
-        
       >
-        <DrawerList toggleDrawer={toggleDrawer}/>
+        <DrawerList toggleDrawer={toggleDrawer} dataArray={dataArray} />
       </Drawer>
     </div>
   );
