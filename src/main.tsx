@@ -42,6 +42,7 @@ import VenteDetails from './pages/vente/VenteDetails';
 import NoPage from './pages/NoPage';
 import Users from './pages/gens/Users';
 import ServerUp from './pages/ServerUp';
+import Register from './pages/auth/Register';
 
 const router = createBrowserRouter([
   {
@@ -100,6 +101,7 @@ const router = createBrowserRouter([
   { path: "/test", element: <Test /> },
   { path: "/login", element: <Login /> },
   { path: "/testserver", element: <ServerUp /> },
+  { path: "/symloop/hidding-auth/register", element: <Register /> },
   {
     path: "*",
     element: <NoPage />,
