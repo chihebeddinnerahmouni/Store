@@ -1,8 +1,9 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { IAchatSingle } from "../../types/achatSingle"
+// import { IAchatSingle } from "../../types/achatSingle"
 import { IAchatSingleTable } from "../../types/achatSingle"
+import { IProductDetails } from "../../types/achatSingle";
 import { IProvider } from "../../types/achatSingle";
 import { IEntrepot } from "../../types/achatSingle";
 import Loading from "../../components/ui/Loading"
@@ -14,10 +15,11 @@ import Table from "../../containers/achat/details/Table";
 const AchatDetails = () => {
 
   const { achatId } = useParams<{ achatId: string }>()
-  const [achat, setAchat] = useState<IModifiedData[]>([]);
   const [provider, setProvider] = useState<IProvider | null>(null)
   const [entrepot, setEntrepot] = useState<IEntrepot | null>(null)
+  const [products, setProducts] = useState<IProductDetails[]>([]);
   const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState<string>("")
   const url = import.meta.env.VITE_BASE_URL as string;
 
   useEffect(() => {
@@ -28,9 +30,10 @@ const AchatDetails = () => {
         },
       })
       .then((res) => {
-        // console.log(res.data.achat);
-        const newData = ModifiedData(res.data.achat)
-        setAchat([newData])
+        // console.log(res.data.achat.total_cost);
+        const newData = ModifiedData(res.data.achat.products);
+        setProducts(newData);
+        setTotal(res.data.achat.total_cost);
         setProvider(res.data.achat.provider)
         setEntrepot(res.data.achat.entrepot)
         setLoading(false)
@@ -57,9 +60,10 @@ const AchatDetails = () => {
       <InfosCont
         providerData={provider}
         entrepotData={entrepot}
+        total={total}
       />
       <Table
-        rows={achat}
+        rows={products}
         columns={columns}
       />
     </div>
@@ -69,30 +73,21 @@ const AchatDetails = () => {
 export default AchatDetails
 
 const columns: (keyof IAchatSingleTable)[] = [
-  "fournisseur",
-  "référénce de l'utilisateur",
-  "magasin",
-  "coût de livraison",
-  "total",
+  // "id",
+  "produit",
+  "quantité",
+  "grand_total"
 ];
 
-const ModifiedData = (data: IAchatSingle) => {
-  return {
-    id: data.id,
-    fournisseur: data.provider.name,
-    "référénce de l'utilisateur": data.user_invoice_number,
-    magasin: data.entrepot.name,
-    "coût de livraison": data.livraison_cost,
-    total: data.total_cost,
-  };
+const ModifiedData = (data: IProductDetails[]) => {
+  return data.map((item) => {
+    return {
+      ...item,
+      id: item.id,
+      quantité: item.quantity_declared,
+      produit: item.product.name,
+      grand_total: item.subtotal
+    };
+  });
 }
 
-
-interface IModifiedData {
-  id: number;
-  fournisseur: string;
-  "référénce de l'utilisateur": string;
-  magasin: string;
-  "coût de livraison": string;
-  total: string
-}

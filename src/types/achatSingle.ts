@@ -16,7 +16,7 @@ export interface IProvider {
     updated_at: string;
 }
 
-interface IProduct {
+export interface IProduct {
     id: number;
     name: string;
     code_barre: string;
@@ -38,22 +38,27 @@ interface IProduct {
     updated_at: string;
 }
 
-interface IProductDetails {
-    id: number;
-    achat_id: number;
-    product_id: number;
-    unit_price: string;
-    quantity_declared: number;
-    quantity_remaining: number;
-    remise: string;
-    tax: string;
-    subtotal: string;
-    created_by: number;
-    updated_by: number | null;
-    deleted_by: number | null;
-    created_at: string;
-    updated_at: string;
-    product: IProduct;
+export interface IProductDetails {
+  id: number;
+  achat_id: number;
+  product_id: number;
+  unit_price: string;
+  quantity_declared: number;
+  quantity_remaining: number;
+  remise: string;
+  tax: string;
+  subtotal: string;
+  created_by: number;
+  updated_by: number | null;
+  deleted_by: number | null;
+  created_at: string;
+  updated_at: string;
+  product: IProduct;
+
+    // table
+    grand_total: string;
+  produit: string;
+  quantité: number;
 }
 
 export interface IEntrepot {
@@ -86,20 +91,13 @@ export interface IAchatSingle {
     products: IProductDetails[];
     serial_numbers: string[];
     entrepot: IEntrepot;
-
-    // tbable
-    fournisseur: string;
-    "référénce de l'utilisateur": string;
-    magasin: string;
-    "coût de livraison": string;
-    total: string;
 }
 
 export interface IAchatSingleTable {
     id: number;
-    fournisseur: string;
-    "référénce de l'utilisateur": string;
-    magasin: string;
-    "coût de livraison": string;
-    total: string;
+    produit: string;
+    quantité: number;
+    grand_total: string;
+
+
 }
