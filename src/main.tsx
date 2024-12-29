@@ -94,7 +94,7 @@ const router = createBrowserRouter([
       },
       { path: "/rapports/plus-vendus", element: <BestSell /> },
       { path: "/rapports/meilleur-clients", element: <BestClients /> },
-      { path: "/paramétres/autorisations", element: <Permissions /> },
+      { path: "/symloop/hidding-settings", element: <Permissions /> },
     ],
   },
   { path: "/test", element: <Test /> },

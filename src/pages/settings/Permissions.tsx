@@ -8,18 +8,21 @@ import { IUser } from "../../types/settings/permissions/user";
 import MainCont from "../../containers/settings/permissions/MainCont";
 import SendButton from "../../containers/settings/permissions/SendButton";
 import AllButtonsCont from "../../containers/settings/permissions/AllButtonsCont";
+import LockPage from "./LockPage";
 
 
 const Permissions = () => {
 
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [isLocked, setIsLocked] = useState(true);
     const [usersArray, setUsersArray] = useState<IUser[]>([]);
     const [userId, setUserId] = useState<number>(0);
     const [permissionsArray, setPermissionsArray] = useState<{id: number, name: string}[]>([]);
     const [chosenPermissions, setChosenPermissions] = useState<number[]>([]);
-    const url = import.meta.env.VITE_BASE_URL as string;
+  const url = import.meta.env.VITE_BASE_URL as string;
 
-    useEffect(() => {
+  
+  useEffect(() => {
         Promise.all([
             axios.get(url + "/api/user/users", {
                 headers: {
@@ -33,7 +36,6 @@ const Permissions = () => {
             }),
         ])
             .then(axios.spread((users, permissions) => { 
-               
                 setUsersArray(users.data.users);
                 setPermissionsArray(permissions.data.permissions);
                 setUserId(users.data.users[0].id);
@@ -84,7 +86,11 @@ const Permissions = () => {
 
     if (loading) {
         return <Loading />;
-    }
+  }
+  
+  if (isLocked) {
+    return <LockPage isLocked={isLocked} setIsLocked={setIsLocked} />
+  }
 
 
   return (

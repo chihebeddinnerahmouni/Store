@@ -239,21 +239,21 @@ const array = [
       },
     ],
   },
-  {
-    id: 8,
-    title: "Paramétres",
-    icon: CiSettings,
-    url: "",
-    blank: false,
-    subList: [
-      {
-        id: 1,
-        title: "Autorisations",
-        icon: IoDocumentTextOutline,
-        url: "/paramétres/autorisations",
-      },
-    ],
-  },
+  // {
+  //   id: 8,
+  //   title: "Paramétres",
+  //   icon: CiSettings,
+  //   url: "",
+  //   blank: false,
+  //   subList: [
+  //     {
+  //       id: 1,
+  //       title: "Autorisations",
+  //       icon: IoDocumentTextOutline,
+  //       url: "/paramétres/autorisations",
+  //     },
+  //   ],
+  // },
 ];
 
 export default array;
