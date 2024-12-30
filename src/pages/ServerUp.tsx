@@ -12,10 +12,16 @@ const ServerUp = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(url + "/api/dashboard")
+    axios.get(url + "/api/auth/login")
       .then(() => {
-      navigate("/tableau-de-bord");
-    });
+        navigate("/tableau-de-bord");
+      })
+      .catch((err) => { 
+        // console.log(err);
+        if (err.response) {
+          navigate("/tableau-de-bord");
+        }
+      });
   }, []);
 
   return (

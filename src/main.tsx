@@ -43,6 +43,8 @@ import NoPage from './pages/NoPage';
 import Users from './pages/gens/Users';
 import ServerUp from './pages/ServerUp';
 import Register from './pages/auth/Register';
+import { SnackbarProvider } from "notistack";
+
 
 const router = createBrowserRouter([
   {
@@ -114,7 +116,16 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById("root")!).render(
-  <> 
-    <RouterProvider router={router} />
+  <>
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+      autoHideDuration={3000}
+    >
+      <RouterProvider router={router} />
+    </SnackbarProvider>
   </>
 );

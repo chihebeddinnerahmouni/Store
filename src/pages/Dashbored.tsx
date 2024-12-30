@@ -43,6 +43,7 @@ const Dashbored = () => {
         setLoading(false);
       })
       .catch((err) => {
+        // console.log(err);
         //  setLoading(false);
          if (err.message === "Network Error") {
            enqueueSnackbar("Erreur de connexion", { variant: "error" });
