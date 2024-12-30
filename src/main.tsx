@@ -48,7 +48,7 @@ const router = createBrowserRouter([
   {
     element: <App />,
     children: [
-      { path: "/", element: <Dashbored /> },
+      { path: "/tableau-de-bord", element: <Dashbored /> },
       { path: "/produits/ajouter-un-produit", element: <AddProduct /> },
       { path: "/produits", element: <Products /> },
       { path: "/produits/categories", element: <Categories /> },
@@ -95,12 +95,16 @@ const router = createBrowserRouter([
       },
       { path: "/rapports/plus-vendus", element: <BestSell /> },
       { path: "/rapports/meilleur-clients", element: <BestClients /> },
-      { path: "/symloop/hidding-settings/permissions", element: <Permissions /> },
+      {
+        path: "/symloop/hidding-settings/permissions",
+        element: <Permissions />,
+      },
     ],
   },
+  { path: "/", element: <ServerUp /> },
   { path: "/test", element: <Test /> },
   { path: "/login", element: <Login /> },
-  { path: "/testserver", element: <ServerUp /> },
+  // { path: "/testserver", element: <ServerUp /> },
   { path: "/symloop/hidding-auth/register", element: <Register /> },
   {
     path: "*",

@@ -2,8 +2,22 @@ import CircularProgress from "@mui/material/CircularProgress";
 import symloop from "../assets/images/auth-bg";
 import logo from "../assets/images/logo";
 import { Tooltip } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const ServerUp = () => {
+
+  const url = import.meta.env.VITE_BASE_URL as string;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get(url + "/api/dashboard")
+      .then(() => {
+      navigate("/tableau-de-bord");
+    });
+  }, []);
+
   return (
       <div className="w-full h-screen bg-black flex flex-col justify-center">
           <Tooltip title="07-79-55-24-50" placement="top">
@@ -13,7 +27,7 @@ const ServerUp = () => {
           <div className="text-center text-white flex flex-col gap-10 items-center">
         <img src={logo} alt="logo" className="w-[100px] object-cover mx-auto" />
         <CircularProgress color="inherit" />
-        <p>Le serveur démarre, veuillez patienter...</p>
+        <p>Veuillez patienter...</p>
       </div>
     </div>
   );

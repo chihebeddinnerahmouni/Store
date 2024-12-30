@@ -31,7 +31,10 @@ const NavBar = ({
     <div
       className={`fixed px-4 h-[60px] top-0 right-0 left-0 bg-white shadow-hardShadow flex items-center justify-between z-50 md:px-[50px] lg:h-[80px] lg:px-[80px] transition-all duration-700 ease-in-out text-main`}
     >
-      <div className="cursor-pointer" onClick={() => navigate("/")}>
+      <div
+        className="cursor-pointer"
+        onClick={() => navigate("/tableau-de-bord")}
+      >
         <img
           className="h-[40px] buttomFadeCss lg:h-[60px]"
           src={logo}

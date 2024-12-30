@@ -6,10 +6,7 @@ const NoPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="w-full bg-black flex justify-center items-center h-screen py-0 px-4"
-
-    >
+    <div className="w-full bg-black flex justify-center items-center h-screen py-0 px-4">
       <div className="content w-full md:w-[500px] flex flex-col items-center gap-3 lg:gap-5 text-center bg-whit p-6 rounded-lg shadow-lg">
         <img
           src={image}
@@ -20,7 +17,7 @@ const NoPage: React.FC = () => {
           Page non trouvée
         </p>
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/tableau-de-bord")}
           className="mt-4 px-6 py-2 bg-main text-white rounded-lg hover:bg-mainHover transition duration-300 flex items-center gap-2"
         >
           Retour à la page d'accueil

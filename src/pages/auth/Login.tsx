@@ -43,7 +43,7 @@ const Login = () => {
         //   console.log(res.data);
         localStorage.setItem("token", res.data.token);
         enqueueSnackbar(res.data.message, { variant: "success" });
-        navigate("/");
+        navigate("/tableau-de-bord");
         setLoading(false);
       })
       .catch((err) => {

@@ -52,7 +52,7 @@ const Register = () => {
       )
       .then((res) => {
         enqueueSnackbar(res.data.message, { variant: "success" });
-        navigate("/");
+        navigate("/tableau-de-bord");
         setLoading(false);
       })
       .catch((err) => {

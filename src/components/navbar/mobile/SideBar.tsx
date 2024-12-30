@@ -53,7 +53,7 @@ const SideBar = ({
       <List>
         <ListItem
           className={`${
-            firstSection === "" &&
+            firstSection === "tableau-de-bord" &&
             "border-l-4 border-main bg-main bg-opacity-10"
           }`}
           disablePadding
@@ -61,13 +61,15 @@ const SideBar = ({
           <ListItemButton onClick={() => handleNavigation("/")}>
             <LuLayoutDashboard
               className={`w-[20px] h-[20px] object-cover object-center bg-red200 mr-4 ${
-                firstSection === "" && "text-main"
+                firstSection === "tableau-de-bord" && "text-main"
               }`}
             />
             <ListItemText
               primary="Tableau de bord"
               sx={{ fontFamily: "Changa" }}
-              className={`${firstSection === "" && "text-mainDark"}`}
+              className={`${
+                firstSection === "tableau-de-bord" && "text-main"
+              }`}
             />
           </ListItemButton>
         </ListItem>
@@ -80,7 +82,7 @@ const SideBar = ({
               }`}
               disablePadding
             >
-              <ListItemButton  onClick={() => handleClick(item.id)}>
+              <ListItemButton onClick={() => handleClick(item.id)}>
                 <item.icon
                   className={`min-w-[20px] min-h-[20px] bg-red200 object-cover object-center bg-red200 mr-4 ${
                     firstSection === item.url && "text-main"
@@ -144,6 +146,8 @@ const filterArrayByPrivileges = (
     })
     .filter((item) => item.subList.length > 0);
 };
+
+
 
 // const privileges_test = {
 //   Produits: {

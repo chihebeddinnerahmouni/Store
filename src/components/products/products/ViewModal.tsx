@@ -5,8 +5,10 @@ import { useEffect } from "react";
 import axios from "axios";
 // import Loading from "../../ui/Loading";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { enqueueSnackbar } from "notistack";
+import ShiningButton from "../../ui/buttons/ShiningButton";
+import { IoPrint } from "react-icons/io5";
 
 interface ViewModalProps {
   onClose: () => void;
@@ -23,7 +25,8 @@ const ViewModal = ({ onClose, id }: ViewModalProps) => {
   // let productDetails: { label: string; value: string }[] = [];
   const [productDetails, setProductDetails] = useState<
     { label: string; value: string }[]
-  >([]);
+    >([]);
+  const printRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     axios
@@ -66,8 +69,20 @@ const ViewModal = ({ onClose, id }: ViewModalProps) => {
         }
       });
   }, []);
-    
-    
+
+
+  const handlePrint = () => {
+    if (printRef.current) {
+      const printContents = printRef.current.innerHTML;
+      const originalContents = document.body.innerHTML;
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      window.location.reload(); 
+    }
+  };
+
+
   return (
     <Modal
       open={true}
@@ -86,6 +101,8 @@ const ViewModal = ({ onClose, id }: ViewModalProps) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: { xs: "90%", md: "60%", lg: "40%" },
+          maxHeight: "90vh",
+          overflowY: "auto",
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
@@ -102,7 +119,15 @@ const ViewModal = ({ onClose, id }: ViewModalProps) => {
             <Typography variant="h5" gutterBottom>
               {data.name}
             </Typography>
+            <div className=" mb-2" ref={printRef}>
             <Barcode value={data.code_barre} />
+            </div>
+              <ShiningButton
+                text="Imprimer"
+                color="grey"
+                onClick={handlePrint}
+                icon={<IoPrint />}
+              />
             <Divider sx={{ width: "100%", my: 2 }} />
             <Grid container spacing={2}>
               {productDetails.map((detail, index) => (
