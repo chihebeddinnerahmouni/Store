@@ -14,9 +14,9 @@ const Provider = ({ data }: Props) => {
           <div className="grid grid-cols-1">
           <KeyValue title="Nom" value={data!.name} />
           <KeyValue title="Code" value={data!.code_provider} />
-          <KeyValue title="Email" value={data!.email} />
+          {/* <KeyValue title="Email" value={data!.email} />
           <KeyValue title="Telephone" value={data!.phone} />
-          <KeyValue title="Adresse" value={data!.address} />
+          <KeyValue title="Adresse" value={data!.address} /> */}
         </div>
     </div>
   )

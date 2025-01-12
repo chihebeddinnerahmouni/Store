@@ -1,9 +1,9 @@
 import { Modal, Box, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import InputText from "../../ui/inputs/InputText";
-import InputNumber from "../../ui/inputs/InputNumber";
+// import InputNumber from "../../ui/inputs/InputNumber";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import InputEmail from "../../ui/inputs/InputEmail";
+// import InputEmail from "../../ui/inputs/InputEmail";
 import { useState } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
@@ -16,9 +16,9 @@ interface AddCategoryModalProps {
 const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [address, setAddress] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const url = import.meta.env.VITE_BASE_URL as string;
 
@@ -30,9 +30,9 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
   } = useForm({
     defaultValues: {
       name,
-      email,
-      phone,
-      address,
+      // email,
+      // phone,
+      // address,
       code,
     },
   });
@@ -47,9 +47,9 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
         {
           code_client: code,
           name: name,
-          email: email,
-          phone: phone,
-          address: address,
+          email: "email@email.com",
+          phone: "00100",
+          address: "address",
           status: "active",
         },
         {
@@ -63,6 +63,7 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
         window.location.reload();
       })
       .catch((err) => {
+        console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
@@ -158,7 +159,7 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
             />
 
             {/* Email */}
-            <Controller
+            {/* <Controller
               name="email"
               control={control}
               rules={{
@@ -184,10 +185,10 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
                   }}
                 />
               )}
-            />
+            /> */}
 
             {/* Phone */}
-            <Controller
+            {/* <Controller
               name="phone"
               control={control}
               rules={{
@@ -213,10 +214,10 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
                   }}
                 />
               )}
-            />
+            /> */}
 
             {/* Address */}
-            <Controller
+            {/* <Controller
               name="address"
               rules={{ required: "Adresse du client est obligatoire" }}
               control={control}
@@ -236,7 +237,7 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
                   }}
                 />
               )}
-            />
+            /> */}
           </div>
 
           <Box mt={2} display="flex" justifyContent="flex-end">

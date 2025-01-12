@@ -3,7 +3,7 @@ import AchatStCont from "../../containers/achat/add achat/AchatStCont";
 import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TableCont from "../../containers/achat/add achat/TableCont";
-import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
+// import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
 import TotalCont from "../../containers/achat/add achat/TotalCont";
 import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
@@ -47,7 +47,7 @@ const AddAchat = () => {
   // const [remise, setRemise] = useState<string>("");
   // const [laivraison, setLaivraison] = useState<string>("");
   // const [status, setStatus] = useState<string>("");
-  const [remarque, setRemarque] = useState<string>("");
+  // const [remarque, setRemarque] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
   const [magasainsArray, setMagasainsArray] = useState<any[]>([]);
@@ -159,7 +159,7 @@ const AddAchat = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Ajouter d'achat" />
+      <PageTitle text="Ajouter Entrée" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6">
           {/* <div className="top-left flex flex-col gap-6 xl:flex-grow"> */}
@@ -186,7 +186,7 @@ const AddAchat = () => {
             setProductsCommandeArray={setProductsCommandeArray}
           />
 
-          <AchatNdCont
+          {/* <AchatNdCont
             // taxe={taxe}
             // setTaxe={setTaxe}
             // remise={remise}
@@ -197,7 +197,7 @@ const AddAchat = () => {
             // setStatus={setStatus}
             remarque={remarque}
             setRemarque={setRemarque}
-          />
+          /> */}
           {/* </div> */}
           <TotalCont
             // remise={remise}

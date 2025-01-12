@@ -153,7 +153,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       <TableTop
         value={searchQuery}
         setValue={setSearchQuery}
-        title="Achats"
+        title="Entrées"
         label="Chercher par reference"
       />
     </Toolbar>
@@ -341,7 +341,7 @@ export default function EnhancedTable({
                       />
                     </TableCell>
                   </TableRow>
-                );
+                )
               })}
             </TableBody>
           </Table>

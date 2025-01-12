@@ -88,13 +88,13 @@ export default Fournisseurs;
 const columns_test = [
   "id",
   "nom",
-  "téléphone",
-  "email",
+  // "téléphone",
+  // "email",
   // "wilaya",
-  "address",
+  // "address",
   // "numéro_de_tva",
   // "dette_dachat_total",
-  "total_dette",
+  // "total_dette",
 ];
 
 //  const data_test: IFournisseures[] = [

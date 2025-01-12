@@ -103,7 +103,7 @@ const Achats = () => {
           categoriesArray,
         }}
       >
-        <PageTitle text="Liste des achats" />
+        <PageTitle text="Liste des entrées" />
         <ButtonsCont/>
         <AchatTable rows={data} columns={columns} />
       </AchatsContext.Provider>

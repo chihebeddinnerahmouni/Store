@@ -55,7 +55,7 @@ function App() {
           user={user}
         />
         <Outlet />
-    </div>
+B    </div>
   );
 }
 

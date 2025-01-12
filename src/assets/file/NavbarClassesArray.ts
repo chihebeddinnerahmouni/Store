@@ -70,20 +70,20 @@ const array = [
   },
   {
     id: 3,
-    title: "Achats",
+    title: "entrées",
     icon: CiShoppingCart,
     url: "",
     blank: true,
     subList: [
       {
         id: 1,
-        title: "Ajouter Un Achat",
+        title: "Ajouter un entrée",
         icon: IoAddCircleOutline,
         url: "/achats/ajouter-un-achat",
       },
       {
         id: 2,
-        title: "Liste Des Achats",
+        title: "Liste des entrées",
         icon: CiCircleList,
         url: "/achats",
       },
@@ -91,20 +91,20 @@ const array = [
   },
   {
     id: 4,
-    title: "Ventes",
+    title: "Sorties",
     icon: MdOutlineShoppingCartCheckout,
     url: "",
     blank: false,
     subList: [
       {
         id: 1,
-        title: "Ajouter une vente",
+        title: "Ajouter une sortie",
         icon: IoAddCircleOutline,
         url: "/ventes/ajouter-un-vente",
       },
       {
         id: 2,
-        title: "Liste des Ventes",
+        title: "Liste des sorties",
         icon: CiCircleList,
         url: "/ventes",
       },

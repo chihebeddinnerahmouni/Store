@@ -117,7 +117,7 @@ const Achats = () => {
           // setMaxLaivraison,
         }}
       >
-        <PageTitle text="Liste des vents" />
+        <PageTitle text="Liste des sorties" />
         <ButtonsCont/>
         <VentsTable rows={data} columns={columns} />
       </VentsContext.Provider>

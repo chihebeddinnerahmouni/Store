@@ -1,9 +1,9 @@
 import { Modal, Box, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import InputText from "../../ui/inputs/InputText";
-import InputNumber from "../../ui/inputs/InputNumber";
+// import InputNumber from "../../ui/inputs/InputNumber";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import InputEmail from "../../ui/inputs/InputEmail";
+// import InputEmail from "../../ui/inputs/InputEmail";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
@@ -18,12 +18,12 @@ interface AddCategoryModalProps {
 const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
   const [name, setName] = useState(row.name);
   const [code, setCode] = useState(row.code_client);
-  const [email, setEmail] = useState(row.email);
+  // const [email, setEmail] = useState(row.email);
   //   const [phone, setPhone] = useState((row.téléphone).toString());
-  const [phone, setPhone] = useState(
-    (row.phone || row.téléphone).replace(/\D/g, "")
-  );
-  const [address, setAddress] = useState(row.address);
+  // const [phone, setPhone] = useState(
+  //   (row.phone || row.téléphone).replace(/\D/g, "")
+  // );
+  // const [address, setAddress] = useState(row.address);
   const [loading, setLoading] = useState<boolean>(false);
   const url = import.meta.env.VITE_BASE_URL as string;
   const mainColor = "#006233";
@@ -46,9 +46,9 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
   } = useForm<FormValues>({
     defaultValues: {
       name: "",
-      email: "",
-      phone: "",
-      address: "",
+      // email: "",
+      // phone: "",
+      // address: "",
       code: "",
     },
   });
@@ -61,9 +61,9 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
         {
           code_client: code,
           name: name,
-          email: email,
-          phone: phone,
-          address: address,
+          // email: email,
+          // phone: phone,
+          // address: address,
           status: "active",
         },
         {
@@ -89,9 +89,9 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
   useEffect(() => {
     if (row) {
       setValue("name", row.name);
-      setValue("email", row.email);
-      setValue("phone", row.phone);
-      setValue("address", row.address);
+      // setValue("email", row.email);
+      // setValue("phone", row.phone);
+      // setValue("address", row.address);
       setValue("code", row.code_client);
     }
   }, [row, setValue]);
@@ -181,7 +181,7 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
             />
 
             {/* Email */}
-            <Controller
+            {/* <Controller
               name="email"
               control={control}
               rules={{
@@ -207,10 +207,10 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
                   }}
                 />
               )}
-            />
+            /> */}
 
             {/* Phone */}
-            <Controller
+            {/* <Controller
               name="phone"
               control={control}
               rules={{
@@ -236,10 +236,10 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
                   }}
                 />
               )}
-            />
+            /> */}
 
             {/* Address */}
-            <Controller
+            {/* <Controller
               name="address"
               rules={{ required: "Adresse du client est obligatoire" }}
               control={control}
@@ -259,7 +259,7 @@ const UpdateClientModal = ({ open, onClose, row }: AddCategoryModalProps) => {
                   }}
                 />
               )}
-            />
+            /> */}
           </div>
 
           <Box mt={2} display="flex" justifyContent="flex-end">

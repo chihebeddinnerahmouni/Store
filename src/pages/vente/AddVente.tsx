@@ -3,7 +3,7 @@ import VenteStCont from "../../containers/vente/add vente/VenteStCont";
 import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TableCont from "../../containers/vente/add vente/TableCont";
-import VenteNdCont from "../../containers/vente/add vente/VenteNdCont";
+// import VenteNdCont from "../../containers/vente/add vente/VenteNdCont";
 import TotalCont from "../../containers/vente/add vente/TotalCont";
 import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
@@ -43,16 +43,20 @@ const AddAchat = () => {
     IProductCommandeItem[]
     >([]);
   const [user_invoice_number, setUser_invoice_number] = useState<string>("");
-  const [taxe, setTaxe] = useState<string>("");
-  const [remise, setRemise] = useState<string>("");
-  const [laivraison, setLaivraison] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
-  const [remarque, setRemarque] = useState<string>("");
+  // const [taxe, setTaxe] = useState<string>("");
+  // const [remise, setRemise] = useState<string>("");
+  // const [laivraison, setLaivraison] = useState<string>("");
+  // const [status, setStatus] = useState<string>("");
+  // const [remarque, setRemarque] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  // const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
   const [magasainsArray, setMagasainsArray] = useState<any[]>([]);
   const [loadingPage, setLoadingPage] = useState<boolean>(true);
   const [clientArray, setClientArray] = useState<any[]>([]);
+  const taxe = "0";
+  const remise = "0";
+  const laivraison = "0";
+  const status = "";
+  const remarque = "";
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
@@ -182,7 +186,7 @@ const AddAchat = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Ajouter Vente" />
+      <PageTitle text="Ajouter Sortie" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6">
           <VenteStCont
@@ -211,7 +215,7 @@ const AddAchat = () => {
             setProductsCommandeArray={setProductsCommandeArray}
           />
 
-          <VenteNdCont
+          {/* <VenteNdCont
             taxe={taxe}
             setTaxe={setTaxe}
             remise={remise}
@@ -222,7 +226,7 @@ const AddAchat = () => {
             setStatus={setStatus}
             remarque={remarque}
             setRemarque={setRemarque}
-          />
+          /> */}
           <TotalCont
             remise={remise}
             taxe={taxe}

@@ -56,7 +56,7 @@ const AchatDetails = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Details d'un achat" />
+      <PageTitle text="Details d'un entrée" />
       <InfosCont
         providerData={provider}
         entrepotData={entrepot}

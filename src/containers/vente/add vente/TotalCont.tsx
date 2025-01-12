@@ -35,20 +35,20 @@ const TotalCont = ({
 
   return (
     <section className="cardCss flex flex-col lg:gap-2 xl:min-w-[500px] xl:sticky xl:top-[100px]">
-      <div className="flex justify-between p-2 bg-gray-100 rounded">
+      {/* <div className="flex justify-between p-2 rounded">
         <span>Taxe de commande</span>
         <span>
           {taxValue.toFixed(2)} DA ({taxe}%)
         </span>
-      </div>
-      <div className="flex justify-between p-2 rounded">
+      </div> */}
+      {/* <div className="flex justify-between p-2 rounded">
         <span>Livraison</span>
         <span>{livraisonValue.toFixed(2)} DA</span>
-      </div>
-      <div className="flex justify-between p-2 bg-gray-100 rounded">
+      </div> */}
+      {/* <div className="flex justify-between p-2 bg-gray-100 rounded">
         <span>Remise</span>
         <span>-{remiseValue.toFixed(2)} DA</span>
-      </div>
+      </div> */}
       <div className="flex justify-between p-2 bg-white font-bold">
         <span>Total</span>
         <span>{total.toFixed(2)} DA</span>

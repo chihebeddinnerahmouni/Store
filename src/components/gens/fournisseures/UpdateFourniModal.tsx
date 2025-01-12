@@ -1,9 +1,9 @@
 import { Modal, Box, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import InputText from "../../ui/inputs/InputText";
-import InputNumber from "../../ui/inputs/InputNumber";
+// import InputNumber from "../../ui/inputs/InputNumber";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import InputEmail from "../../ui/inputs/InputEmail";
+// import InputEmail from "../../ui/inputs/InputEmail";
 // import SelectInput from "../../ui/inputs/SelectInput";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -18,11 +18,14 @@ const UpdateFourniModal = ({ onClose, row }: AddCategoryModalProps) => {
 
     // console.log(row);
   const [name, setName] = useState(row.nom);
-  const [email, setEmail] = useState(row.email);
-  const [phone, setPhone] = useState(row.téléphone);   
-  const [address, setAddress] = useState(row.address);
+  // const [email, setEmail] = useState(row.email);
+  // const [phone, setPhone] = useState(row.téléphone);   
+  // const [address, setAddress] = useState(row.address);
   const [loading, setLoading] = useState<boolean>(false);
   const url = import.meta.env.VITE_BASE_URL as string;
+  const email = row.email;
+  const phone = row.téléphone;
+  const address = row.address;
 
     
     type FormValues = {
@@ -170,7 +173,7 @@ const {
             />
 
             {/* Email */}
-            <Controller
+            {/* <Controller
               name="email"
               control={control}
               rules={{
@@ -196,10 +199,10 @@ const {
                   }}
                 />
               )}
-            />
+            /> */}
 
             {/* Phone */}
-            <Controller
+            {/* <Controller
               name="phone"
               control={control}
               rules={{
@@ -225,10 +228,10 @@ const {
                   }}
                 />
               )}
-            />
+            /> */}
 
             {/* Address */}
-            <Controller
+            {/* <Controller
               name="address"
               rules={{ required: "Adresse du client est obligatoire" }}
               control={control}
@@ -248,7 +251,7 @@ const {
                   }}
                 />
               )}
-            />
+            /> */}
           </div>
 
           <Box mt={2} display="flex" justifyContent="flex-end">

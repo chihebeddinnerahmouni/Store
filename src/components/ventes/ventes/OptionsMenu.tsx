@@ -63,17 +63,16 @@ const OptionsMenu = ({
 
   const options = [
     {
-      title: "Details De La vente",
+      title: "Details De La sortie",
       // onClick: () => {setDetailsOpen(true)},
       onClick: () => window.open(`/ventes/details/${row.id}`, "_blank"),
-
     },
     {
       title: "Télécharger Le PDF",
-      onClick: () => createPDF(row, columns, "vente"),
+      onClick: () => createPDF(row, columns, "sortie"),
     },
     {
-      title: "Supprimer La vente",
+      title: "Supprimer La sortie",
       onClick: deleteRow,
     },
   ];

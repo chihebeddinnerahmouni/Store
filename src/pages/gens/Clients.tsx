@@ -7,11 +7,8 @@ import Loading from "../../components/ui/Loading";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 
-
 const Clients = () => {
-
-    const [clients, setClients] = useState<IClient[]>([]);
-  // const [columns, setColumns] = useState<string[]>([]);
+  const [clients, setClients] = useState<IClient[]>([]);
   const [loading, setLoading] = useState(true);
   const url = import.meta.env.VITE_BASE_URL as string;
   const columns = columns_test;
@@ -30,8 +27,8 @@ const Clients = () => {
             ...client,
             nom: client.name,
             téléphone: client.phone,
-          }
-        })
+          };
+        });
         setClients(newClientsArray);
         setLoading(false);
       })
@@ -43,42 +40,36 @@ const Clients = () => {
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
       });
-      
 
+    // setClients(clients_test);
+    // setColumns(columns_test);
+  }, []);
 
-
-        // setClients(clients_test);
-        // setColumns(columns_test);
-    }, []);
-  
-  
   if (loading) {
     return <Loading />;
   }
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-          <PageTitle text="Gestion Du Clients" />
-          <ButtonsCont data={clients} columns={columns} />
-          <TableClients rows={clients} columns={columns} />
+      <PageTitle text="Gestion Du Clients" />
+      <ButtonsCont data={clients} columns={columns} />
+      <TableClients rows={clients} columns={columns} />
     </div>
   );
-}
+};
 
-export default Clients
-
+export default Clients;
 
 const columns_test: (keyof IClient)[] = [
-  "id", 
+  "id",
   "nom",
-  "téléphone",
-  "email",
-  "address",
-    
-    // "vente_total_dû",
-    // "retour_de_vente_total_dû",
-]
+  // "téléphone",
+  // "email",
+  // "address",
 
+  // "vente_total_dû",
+  // "retour_de_vente_total_dû",
+];
 
 // const clients_test: IClient[] = [
 //   {
