@@ -101,7 +101,7 @@ const VenteProduit = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Rapport de vente de produits" />
+      <PageTitle text="Rapport de sorties de produits" />
       <div className="w-full">
         <ButtonsCont
           setData={setData}
