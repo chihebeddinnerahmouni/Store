@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/vente produit/ButtonsCont";
@@ -9,12 +9,14 @@ import Loading from "../../components/ui/Loading";
 import { IProductVente } from "../../types/rapport/vente produit/vente_produit";
 import { IProductVenteTable } from "../../types/rapport/vente produit/vente_produit";
 import StatsCont from "../../containers/raports/vente produit/StatsCont";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+
 
 const VenteProduit = () => {
   const today = new Date();
   today.setMonth(today.getMonth() - 2);
   const formattedDate = today.toISOString().split("T")[0];
-
   const todatSratDate = new Date().toISOString().split("T")[0];
 
   const [loading, setLoading] = useState(true);
@@ -28,8 +30,12 @@ const VenteProduit = () => {
   const [stats, setStats] = useState<any>({});
 
   const url = import.meta.env.VITE_BASE_URL as string;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Rapports["Rapport De Sorties De Produits"])
+      navigate("/tableau-de-bord");
     Promise.all([
       axios.get(
         `${url}/api/reports/products/ventes?start_date=${startDate}&end_date=${endDate}`,

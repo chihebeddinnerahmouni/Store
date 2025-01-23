@@ -1,21 +1,26 @@
 import PageTitle from "../../components/ui/PageTitle";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonsCont from "../../containers/products/unite/ButtonsCont";
 import TableUnite from "../../containers/products/unite/TableUnite";
 import IUnite from "../../types/unite";
 import axios from "axios";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Unite = () => {
 
   const [data, setData] = useState<IUnite[]>([]);
   const [columns, setColumns] = useState<(keyof IUnite)[]>([]);
         const url = import.meta.env.VITE_BASE_URL as string;
-        const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
 
 
   useEffect(() => {
+        if (!privileges.Produits["Unité"]) navigate("/tableau-de-bord");
 
     axios
       .get(`${url}/api/units`, {

@@ -1,5 +1,5 @@
 import Loading from "../../components/ui/Loading";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import IAlerte from "../../types/rapport/alerts/alert_quantite";
 import { enqueueSnackbar } from "notistack";
@@ -7,17 +7,25 @@ import PageTitle from "../../components/ui/PageTitle";
 import ButtonsCont from "../../containers/raports/alerte/ButtonsCont";
 import MagasinSelect from "../../containers/raports/MagasinSelect";
 import TableAlerte from "../../containers/raports/alerte/TableAlerte";
-
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const AlertProduit = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IAlerte[]>([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
-  const url = import.meta.env.VITE_BASE_URL as string;
   const [columns, setColumns] = useState<string[]>([]);
+  
+  const url = import.meta.env.VITE_BASE_URL as string;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
+    if (!privileges.Rapports["Alertes De Quantité De Produits"])
+      navigate("/tableau-de-bord");
+
     setLoading(true);
       axios.get(url + "/api/entreports/authorized/get", {
         headers: {

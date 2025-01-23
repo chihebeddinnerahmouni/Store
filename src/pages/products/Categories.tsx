@@ -1,20 +1,24 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ButtonsCont from "../../containers/products/categories/ButtonsCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import TableCategories from "../../containers/products/categories/TableCategories";
 import axios from "axios";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
 import ICategory from "../../types/category"
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
     const [data, setData] = useState<ICategory[]>([]);
     const [columns, setColumns] = useState<(keyof ICategory)[]>([]);
     const url = import.meta.env.VITE_BASE_URL as string;
     const [loading, setLoading] = useState<boolean>(true);
+const navigate = useNavigate();
+const privileges = useContext(PrivilegesContext);
 
-
-    useEffect(() => { 
+  useEffect(() => { 
+          if (!privileges.Produits["Categories"]) navigate("/tableau-de-bord");
         axios
           .get(`${url}/api/categories`, {
             headers: {

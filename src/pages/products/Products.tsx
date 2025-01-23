@@ -1,12 +1,14 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductsTable from "../../containers/products/products/ProductsTable";
 import ButtonsCont from "../../containers/products/products/ButtonsCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import IProductSingle from "../../types/IProductSingle";
 import {IProductTable} from "../../types/IProductSingle";
 import axios from "axios";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 
 const Products = () => {
@@ -21,10 +23,12 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const url = import.meta.env.VITE_BASE_URL;
   const columns = columns_test
+    const navigate = useNavigate();
+    const privileges = useContext(PrivilegesContext);
   
 
   useEffect(() => {
-
+    if (!privileges.Produits["Liste des produits"]) navigate("/tableau-de-bord");
     axios
       .get(url + "/api/products", {
         headers: {

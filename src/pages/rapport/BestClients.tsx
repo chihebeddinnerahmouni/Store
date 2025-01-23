@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/best clients/ButtonsCont";
@@ -8,6 +8,8 @@ import PageTitle from "../../components/ui/PageTitle";
 import Loading from "../../components/ui/Loading";
 import { IBestClient } from "../../types/rapport/best clients/best_client";
 import { IBestClientTable } from "../../types/rapport/best clients/best_client";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const BestClients = () => {
   const today = new Date();
@@ -22,8 +24,11 @@ const BestClients = () => {
   const [endDate, setEndDate] = useState<string>(todatSratDate);
 
   const url = import.meta.env.VITE_BASE_URL as string;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Rapports["Meilleurs Clients"]) navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(

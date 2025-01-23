@@ -1,19 +1,26 @@
 import PageTitle from "../../components/ui/PageTitle";
 import IClient from "../../types/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonsCont from "../../containers/gens/clients/ButtonCont";
 import TableClients from "../../containers/gens/clients/TableClients";
 import Loading from "../../components/ui/Loading";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+
 
 const Clients = () => {
   const [clients, setClients] = useState<IClient[]>([]);
   const [loading, setLoading] = useState(true);
   const url = import.meta.env.VITE_BASE_URL as string;
   const columns = columns_test;
+    const privileges = useContext(PrivilegesContext);
+    const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Gens.Clients) navigate("/tableau-de-bord");
+
     axios
       .get(`${url}/api/clients`, {
         headers: {

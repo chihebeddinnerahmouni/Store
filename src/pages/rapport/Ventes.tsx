@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/vente/ButtonsCont";
@@ -8,6 +8,8 @@ import PageTitle from "../../components/ui/PageTitle";
 import Loading from "../../components/ui/Loading";
 import { IVente } from "../../types/rapport/ventes/vente";
 import { IVenteTable } from "../../types/rapport/ventes/vente";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Ventes = () => {
   const today = new Date();
@@ -27,8 +29,11 @@ const Ventes = () => {
   const [userInvNumber, setUserInvNumber] = useState<string>("");
 
   const url = import.meta.env.VITE_BASE_URL as string;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Rapports["Rapport De Sortie"]) navigate("/tableau-de-bord");
     Promise.all([
       axios.get(
         `${url}/api/reports/ventes/report?start_date=${startDate}&end_date=${endDate}`,

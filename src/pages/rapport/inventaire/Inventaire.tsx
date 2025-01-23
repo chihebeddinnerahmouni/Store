@@ -1,5 +1,5 @@
 import Loading from "../../../components/ui/Loading";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import IInventaire from "../../../types/rapport/inventaire/inventaire";
 import { IIventaireTable } from "../../../types/rapport/inventaire/inventaire";
@@ -8,7 +8,8 @@ import PageTitle from "../../../components/ui/PageTitle";
 import ButtonsCont from "../../../containers/raports/inventaire/ButtonsCont";
 import MagasinSelect from "../../../containers/raports/MagasinSelect";
 import TableInventaire from "../../../containers/raports/inventaire/TableInventaire";
-
+import { PrivilegesContext } from "../../../App";
+import { useNavigate } from "react-router-dom";
 
 const Inventaire = () => {
   const [loading, setLoading] = useState(true);
@@ -16,8 +17,12 @@ const Inventaire = () => {
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
+    const privileges = useContext(PrivilegesContext);
+    const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Rapports["Rapport inventaire"])
+      navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(url + "/api/entreports/authorized/get", {

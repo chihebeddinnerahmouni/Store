@@ -3,12 +3,15 @@ import IRetourvents from "../../types/retour-vents"
 import PageTitle from "../../components/ui/PageTitle"
 import ButtonsCont from "../../containers/retour/retour des vents/ButtonsCont"
 import RetourVenteTable from "../../containers/retour/retour des vents/RetourVenteTable"
-
+// import { PrivilegesContext } from "../../App";
+// import { useNavigate } from "react-router-dom";
 
 const RetourVantes = () => {
 
     const [data, setData] = useState<IRetourvents[]>([])
-    const [columns, setColumns] = useState<string[]>([])
+  const [columns, setColumns] = useState<string[]>([])
+  // const privileges = useContext(PrivilegesContext);
+  // const navigate = useNavigate();
 
     useEffect(() => {
         setData(data_test)

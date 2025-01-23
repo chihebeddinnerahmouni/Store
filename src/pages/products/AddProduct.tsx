@@ -1,6 +1,6 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductStCont from "../../containers/products/add product/ProductStCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 // import ImageCont from "../../containers/products/add product/ImageCont";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
@@ -9,6 +9,8 @@ import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
 import Loading from "../../components/ui/Loading";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 type FormValues = {
   designation: string;
@@ -48,10 +50,13 @@ const AddProduct = () => {
   
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
+  const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
 
   // console.log(category);
 
   useEffect(() => { 
+    if (!privileges.Produits["Ajouter un produit"]) navigate("/tableau-de-bord");
      Promise.all([
        axios.get(`${url}/api/categories`, {
          headers: {

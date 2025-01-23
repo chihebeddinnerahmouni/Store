@@ -1,5 +1,5 @@
 import Loading from "../../components/ui/Loading";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import IEntAchat from "../../types/rapport/entrepot/entrepot_achat";
 import { ITableEntrepotAchat } from "../../types/rapport/entrepot/entrepot_achat";
@@ -14,6 +14,8 @@ import IEntVente from "../../types/rapport/entrepot/entrepot_vente";
 import TableVentes from "../../containers/raports/entrepot/vente/TableVentes";
 import SwitchButtons from "../../components/rapport/SwitchButtons";
 import StatsCont from "../../containers/raports/entrepot/StatsCont";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const EntrepotsReport = () => {
   const [loading, setLoading] = useState(true);
@@ -22,11 +24,14 @@ const EntrepotsReport = () => {
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const [stats, setStats] = useState<any>({});
-  const url = import.meta.env.VITE_BASE_URL as string;
-  // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   const [selected, setSelected] = useState<string>("Achats");
+  // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
+  const url = import.meta.env.VITE_BASE_URL as string;
+    const privileges = useContext(PrivilegesContext);
+    const navigate = useNavigate();
 
   useEffect(() => {
+     if (!privileges.Rapports["Rapport entrepot"]) navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(url + "/api/entreports/authorized/get", {

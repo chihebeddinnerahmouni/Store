@@ -1,38 +1,44 @@
 import PageTitle from "../../components/ui/PageTitle";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonsCont from "../../containers/products/magasins/ButtonsCont";
 import TableMagasin from "../../containers/products/magasins/TableMagasin";
 import IMagasin from "../../types/magasin";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Magasins = () => {
   const [data, setData] = useState<IMagasin[]>([]);
-    //   const [columns, setColumns] = useState<(keyof IMagasin)[]>([]);
-    const columns = columns_test
+  //   const [columns, setColumns] = useState<(keyof IMagasin)[]>([]);
+  const columns = columns_test;
   const url = import.meta.env.VITE_BASE_URL as string;
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
 
   useEffect(() => {
+    if (!privileges.Produits["Magasins"]) navigate("/tableau-de-bord");
+
     axios
       .get(`${url}/api/entreports`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-        .then((res) => {
-            const newArray = res.data.entrepots.map((item: any) => {
-                return {
-                  code_magasin: item.code_entreport,
-                  nom_de_magasin: item.name,
-                  description: item.description,
-                  created_by: item.created_by,
-                  updated_at: item.updated_at,
-                  created_at: item.created_at,
-                  id: item.id,
-                };
-            });
+      .then((res) => {
+        const newArray = res.data.entrepots.map((item: any) => {
+          return {
+            code_magasin: item.code_entreport,
+            nom_de_magasin: item.name,
+            description: item.description,
+            created_by: item.created_by,
+            updated_at: item.updated_at,
+            created_at: item.created_at,
+            id: item.id,
+          };
+        });
         setData(newArray);
         setLoading(false);
       })
@@ -59,7 +65,6 @@ const Magasins = () => {
     </div>
   );
 };
-
 
 const columns_test: (keyof IMagasin)[] = ["code_magasin", "nom_de_magasin"];
 
