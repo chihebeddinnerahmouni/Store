@@ -94,9 +94,6 @@ const EditProduct = () => {
     ])
       .then(
         axios.spread((cat, mar, units, ray, prod) => {
-
-          // console.log(prod.data.product.rayonage.id);
-
           setCategoriesArray(cat.data.categories);
           setMarquesArray(mar.data.brands);
           setUnitesArray(units.data.units);
@@ -113,6 +110,7 @@ const EditProduct = () => {
           setUnite(prod.data.product.unit.id);
           setStockAlert(prod.data.product.stock_alert.toString());
           setReyonage(prod.data.product.rayonage.id);
+          setNumSerie(prod.data.product.has_serial_number === 1 ? true : false);
 
           setLoadingPage(false);
         })
@@ -149,7 +147,7 @@ const EditProduct = () => {
           brand_id: marque,
           unit_id: unite,
           reyonage_id: reyonage,
-
+          has_serial_number: numSerie ? 1 : 0,
           tax_percentage: Number(tax),
           description: description,
           price_buy: Number(prixAchat),
@@ -171,7 +169,6 @@ const EditProduct = () => {
         window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
