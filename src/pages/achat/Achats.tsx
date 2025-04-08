@@ -1,13 +1,15 @@
 import PageTitle from "../../components/ui/PageTitle";
 import AchatTable from "../../containers/achat/achat/AchatTable";
 import ButtonsCont from "../../containers/products/../achat/achat/ButtonsCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import IAchat  from "../../types/achat";
 import Loading from "../../components/ui/Loading";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { IAchatTable } from "../../types/achat";
 import { createContext } from "react";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 
 export const AchatsContext = createContext<any>(null);
@@ -29,8 +31,13 @@ const Achats = () => {
 
   const columns = columns_test;
   const url = import.meta.env.VITE_BASE_URL as string;
+  const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
 
   useEffect(() => {
+              if (!privileges.entrées["Liste des entrées"])
+                navigate("/tableau-de-bord");
+
     Promise.all([
       axios.get(`${url}/api/achats`, {
         headers: {

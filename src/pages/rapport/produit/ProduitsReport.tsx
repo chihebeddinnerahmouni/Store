@@ -1,5 +1,5 @@
 import Loading from "../../../components/ui/Loading";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { IProduit } from "../../../types/rapport/produits/produits";
 import { IProduitTable } from "../../../types/rapport/produits/produits";
@@ -9,7 +9,8 @@ import ButtonsCont from "../../../containers/raports/produits/produits/ButtonsCo
 import MagasinSelect from "../../../containers/raports/MagasinSelect";
 import TableProduits from "../../../containers/raports/produits/produits/TableProduits";
 import DatesCont from "../../../containers/raports/DatesCont";
-
+import { PrivilegesContext } from "../../../App";
+import { useNavigate } from "react-router-dom";
 
 
 const ProduitsReport = () => {
@@ -18,7 +19,6 @@ const ProduitsReport = () => {
   const today = new Date();
   today.setMonth(today.getMonth() - 2);
   const formattedDate = today.toISOString().split("T")[0];
-
   const todatSratDate = new Date().toISOString().split("T")[0];
   
 
@@ -29,9 +29,12 @@ const ProduitsReport = () => {
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
+    const privileges = useContext(PrivilegesContext);
+    const navigate = useNavigate();
 
 
   useEffect(() => {
+    if (!privileges.Rapports["Rapport Produits"]) navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(url + "/api/entreports/authorized/get", {

@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "./components/ui/Loading";
 import axios from "axios";
+import { createContext } from "react";
+
+// export const PrivilegesContext = createContext<Record<string, string>>(Object.create(null));
+export const PrivilegesContext = createContext<any>(Object.create(null));
 
 
 
@@ -13,7 +17,8 @@ function App() {
 
   const [loading, setLoading] = useState(true);
   const [sideBarArray, setSideBarArray] = useState<Record<string, Record<string, boolean>>>(Object.create(null));
-  const [user, setUser] = useState< Record<string, string>>(Object.create(null));
+  const [user, setUser] = useState<Record<string, string>>(Object.create(null));
+  // const [privileges, setPrivileges] = useState<any>(Object.create(null));
   const navigate = useNavigate();
   const url = import.meta.env.VITE_BASE_URL as string;
 
@@ -49,13 +54,15 @@ function App() {
 
 
   return (
+    <PrivilegesContext.Provider value={sideBarArray}>
     <div>
         <NavBar
           dataArray={sideBarArray}
           user={user}
         />
         <Outlet />
-B    </div>
+      </div>
+    </PrivilegesContext.Provider>
   );
 }
 

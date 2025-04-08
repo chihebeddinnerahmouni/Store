@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/best sell/ButtonsCont";
@@ -8,7 +8,8 @@ import PageTitle from "../../components/ui/PageTitle";
 import Loading from "../../components/ui/Loading";
 import { IBestSell } from "../../types/rapport/best sell/best_sell";
 import { IBestSellTable } from "../../types/rapport/best sell/best_sell";
-
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const BestSell = () => {
   const today = new Date();
@@ -23,8 +24,12 @@ const BestSell = () => {
   const [endDate, setEndDate] = useState<string>(todatSratDate);
 
   const url = import.meta.env.VITE_BASE_URL as string;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Rapports["Produits Les Plus Sortie"])
+      navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(

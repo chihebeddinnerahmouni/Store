@@ -1,6 +1,6 @@
 import PageTitle from "../../components/ui/PageTitle";
 import VenteStCont from "../../containers/vente/add vente/VenteStCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TableCont from "../../containers/vente/add vente/TableCont";
 // import VenteNdCont from "../../containers/vente/add vente/VenteNdCont";
@@ -9,6 +9,8 @@ import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
 import Loading from "../../components/ui/Loading";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 interface IProductCommandeItem {
   id: number;
@@ -60,9 +62,14 @@ const AddAchat = () => {
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
-  // console.log(fournisseuresArray, magasainsArray);
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
+  
 
   useEffect(() => {
+              if (!privileges.Sorties["Ajouter une sortie"])
+                navigate("/tableau-de-bord");
+
     Promise.all([
       axios.get(`${url}/api/entreports`, {
         headers: {

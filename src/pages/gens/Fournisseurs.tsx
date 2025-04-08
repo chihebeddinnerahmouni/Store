@@ -1,11 +1,13 @@
 import PageTitle from "../../components/ui/PageTitle";
 import IFournisseures from "../../types/fournisseures";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonsCont from "../../containers/gens/fournisseures/ButtonCont";
 import TableFournis from "../../containers/gens/fournisseures/TableFournis";
 import axios from "axios";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -17,8 +19,12 @@ const Fournisseurs = () => {
   const columns = columns_test;
   const [loadingPage, setLoadingPage] = useState<boolean>(true);
   const url = import.meta.env.VITE_BASE_URL;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+        if (!privileges.Gens.Fournisseurs) navigate("/tableau-de-bord");
+
     axios
       .get(`${url}/api/providers`, {
         headers: {

@@ -1,19 +1,25 @@
 import PageTitle from "../../components/ui/PageTitle";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ButtonsCont from "../../containers/products/rayonnage/ButtonsCont";
 import TableReyon from "../../containers/products/rayonnage/TableReyon";
 import IReyonnage from "../../types/reyonnage";
 import Loading from "../../components/ui/Loading";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Reyonnage = () => {
   const [data, setData] = useState<IReyonnage[]>([]);
   const [columns, setColumns] = useState<(keyof IReyonnage)[]>([]);
   const url = import.meta.env.VITE_BASE_URL as string;
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
 
   useEffect(() => {
+    if (!privileges.Produits["Reyonnage"]) navigate("/tableau-de-bord");
+
     axios
       .get(`${url}/api/rayonages`, {
         headers: {
@@ -50,8 +56,7 @@ const Reyonnage = () => {
   );
 };
 
-
-const columns_test: (keyof IReyonnage)[] = ["name","code_location"];
+const columns_test: (keyof IReyonnage)[] = ["name", "code_location"];
 
 // const columns_test: (keyof IMArque)[] = ["code_de_marque", "nom_de_marque"];
 

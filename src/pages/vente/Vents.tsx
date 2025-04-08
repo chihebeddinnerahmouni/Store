@@ -1,13 +1,15 @@
 import PageTitle from "../../components/ui/PageTitle";
 import VentsTable from "../../containers/vente/vente/VentsTable";
 import ButtonsCont from "../../containers/vente/vente/ButtonsCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import IVente from "../../types/vente";
 import Loading from "../../components/ui/Loading";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import { IVenteTable } from "../../types/vente";
 import { createContext } from "react";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 export const VentsContext = createContext<any>({});
 
@@ -37,8 +39,11 @@ const Achats = () => {
 
   const columns = columns_test;
   const url = import.meta.env.VITE_BASE_URL as string;
+    const privileges = useContext(PrivilegesContext);
+    const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Sorties["Liste des sorties"]) navigate("/tableau-de-bord");
     Promise.all([
       axios.get(`${url}/api/vente`, {
         headers: {

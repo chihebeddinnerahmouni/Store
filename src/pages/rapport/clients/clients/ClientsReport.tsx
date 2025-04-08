@@ -1,5 +1,5 @@
 import Loading from "../../../../components/ui/Loading";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 // import { IAlerteTAble } from "../../types/rapport/alert_quantite";
 import { enqueueSnackbar } from "notistack";
@@ -8,13 +8,18 @@ import ButtonsCont from "../../../../containers/raports/clients/ButtonsCont";
 import TableClients from "../../../../containers/raports/clients/TableClients";
 import { IClient } from "../../../../types/rapport/clients/client";
 import { IClientTable } from "../../../../types/rapport/clients/client";
+import { PrivilegesContext } from "../../../../App";
+import { useNavigate } from "react-router-dom";
 
 const ClientsReport = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IClient[]>([]);
   const url = import.meta.env.VITE_BASE_URL as string;
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!privileges.Rapports["Rapport Client"]) navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(url + "/api/reports/clients/achat-report", {

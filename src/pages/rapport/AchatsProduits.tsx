@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/achats produit/ButtonsCont";
@@ -9,7 +9,8 @@ import Loading from "../../components/ui/Loading";
 import StatsCont from "../../containers/raports/achats produit/StatsCont";
 import { IAchatProduit } from "../../types/rapport/achat produit/achat_produit";
 import { IAchatProduitTable } from "../../types/rapport/achat produit/achat_produit";
-
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const AchatsProduits = () => {
   const today = new Date();
@@ -28,8 +29,11 @@ const AchatsProduits = () => {
   const [fournisseurArray, setFournisseurArray] = useState<any[]>([]);
   const [stats, setStats] = useState<any>({});
   const url = import.meta.env.VITE_BASE_URL as string;
+  const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
 
   useEffect(() => {
+    if (!privileges.Rapports["Rapport Entrée De Produits"]) navigate("/tableau-de-bord");
     Promise.all([
       axios.get(
         `${url}/api/reports/products/achats?start_date=${startDate}&end_date=${endDate}`,

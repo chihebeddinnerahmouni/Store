@@ -1,6 +1,6 @@
 import PageTitle from "../../components/ui/PageTitle";
 import AchatStCont from "../../containers/achat/add achat/AchatStCont";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TableCont from "../../containers/achat/add achat/TableCont";
 // import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
@@ -9,6 +9,8 @@ import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
 import Loading from "../../components/ui/Loading";
+import { PrivilegesContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -56,10 +58,16 @@ const AddAchat = () => {
 
   const mainColor = "#006233";
   const url = import.meta.env.VITE_BASE_URL;
+  const navigate = useNavigate();
   // console.log(fournisseuresArray, magasainsArray);
+  const privileges = useContext(PrivilegesContext);
 
 
   useEffect(() => {
+
+    if (!privileges.entrées["Ajouter un entrée"]) navigate("/tableau-de-bord");
+    
+
     Promise.all([
       axios.get(`${url}/api/entreports/authorized/get`, {
         headers: {
