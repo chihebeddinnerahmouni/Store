@@ -142,7 +142,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
       ]}
     >
       <TableTop
-        title="Ventes"
+        title="Sorties"
         value={searchQuery}
         setValue={setSearchQuery}
         label="Chercher par référence"

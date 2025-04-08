@@ -41,13 +41,17 @@ const AddFourniModal = ({ open, onClose }: AddCategoryModalProps) => {
   const onSubmit = () => {
     setLoading(true);
 
+    // Generate a unique email by appending the timestamp
+    const timestamp = new Date().getTime(); // Current timestamp
+    const uniqueEmail = `email${timestamp}@email.com`; // Append timestamp
+
     axios
     .post(
         `${url}/api/providers`,
         {
           code_provider: generateCodeProvider(),
           name,
-          email: "email@email.com",
+          email: uniqueEmail, // Use dynamically generated unique email
           phone: "00100",
           address: "address",
           status: "active",
@@ -59,7 +63,6 @@ const AddFourniModal = ({ open, onClose }: AddCategoryModalProps) => {
         }
       )
       .then((res) => {
-        // console.log(res);
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
         window.location.reload();
@@ -69,10 +72,11 @@ const AddFourniModal = ({ open, onClose }: AddCategoryModalProps) => {
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
+          enqueueSnackbar(err.response?.data?.message || "Une erreur s'est produite", { variant: "error" });
         }
       });
-  };
+};
+
 
   return (
     <Modal

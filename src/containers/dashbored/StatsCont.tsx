@@ -14,7 +14,6 @@ interface Props {
 
 const StatsCont = ({ venteAchatsemaine, pieChartData, alerteData, recentVente }: Props) => {
   
-  // console.log(venteAchatsemaine);
 
 
   return (

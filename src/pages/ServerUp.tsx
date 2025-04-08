@@ -17,7 +17,6 @@ const ServerUp = () => {
         navigate("/tableau-de-bord");
       })
       .catch((err) => { 
-        // console.log(err);
         if (err.response) {
           navigate("/tableau-de-bord");
         }

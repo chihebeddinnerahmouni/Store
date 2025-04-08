@@ -104,7 +104,7 @@ const Achats = () => {
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
-      <PageTitle text="Rapport d'achats" />
+      <PageTitle text="Rapport d'entrées" />
       <div className="w-full">
         <ButtonsCont
           setData={setData}
@@ -126,9 +126,9 @@ const Achats = () => {
           setEndDate={setEndDate}
         />
 
-          <h2 className="text-xl font-bold mt-5 lg:text-2xl lg:mt-10">
-            Total : {total} DA
-          </h2>
+        <h2 className="text-xl font-bold mt-5 lg:text-2xl lg:mt-10">
+          Total : {total} DA
+        </h2>
         <TableAchats columns={columns} rows={data} />
       </div>
     </div>

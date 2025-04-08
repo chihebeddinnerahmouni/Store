@@ -116,7 +116,7 @@ const AddProduct = () => {
           price_buy: Number(prixAchat),
           price_sell: Number(prixVente),
           stock_alert: Number(stockAlert),
-          quantity: 0,
+          
         },
         {
           headers: {

@@ -40,14 +40,19 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
   const mainColor = "#006233";
 
   const onSubmit = () => {
-    setLoading(true)
+    setLoading(true);
+
+    // Generate a unique email using the current timestamp
+    const timestamp = new Date().getTime(); // Get current timestamp
+    const uniqueEmail = `email${timestamp}@email.com`; // Append timestamp to email
+
     axios
       .post(
         `${url}/api/clients`,
         {
           code_client: code,
           name: name,
-          email: "email@email.com",
+          email: uniqueEmail, // Use dynamically generated unique email
           phone: "00100",
           address: "address",
           status: "active",
@@ -68,10 +73,11 @@ const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
         if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
+          enqueueSnackbar(err.response?.data?.message || "Une erreur s'est produite", { variant: "error" });
         }
       });
-  };
+};
+
 
   return (
     <Modal

@@ -49,7 +49,8 @@ const ButtonsCont = ({
       text: "Export PDF",
       // color: "#10b981",
       color: "#ef4444",
-      onClick: () => handlePrintPdf(data, columns, "Rapport-de-vente-de-produits.pdf"),
+      onClick: () =>
+        handlePrintPdf(data, columns, "Rapport-de-sorties-de-produits.pdf"),
     },
   ];
 
