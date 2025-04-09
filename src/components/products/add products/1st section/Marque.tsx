@@ -1,37 +1,25 @@
 import Label from "../../../ui/Label";
 import SelectInput from "../../../ui/inputs/SelectInput";
-import { Controller } from "react-hook-form";
+import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { FormikProps } from "formik";
+
 
 
 interface DesignationProps {
-  control: any;
-  register: any;
-  errors: any;
   id: string;
-  setValue: (value: number) => void;
-  value: number;
-  clearErrors: (name: string) => void;
+  formik: FormikProps<ProductFormValues>;
   options: {
     id: number;
     name_brand: string;
   }[];
 }
 
-// const options_array = [
-//   { id: 1, name: "marque 1" },
-//   { id: 2, name: "marque 2" },
-//   { id: 3, name: "marque 3" },
-//   { id: 4, name: "marque 4" },
-// ];
+
 
 const Marque = ({
-  control,
-  errors,
   id,
-  value,
-  setValue,
-  clearErrors,
   options,
+  formik
 }: DesignationProps) => {
 
   const newOptions = options.map((option) => ({
@@ -43,45 +31,17 @@ const Marque = ({
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={id} text={"Marque*"} />
 
-      <Controller
-        name="marque"
-        control={control}
-        rules={{ required: "ce champ est obligatoire" }}
-        render={({ field }) => (
-          <SelectInput
-            options={newOptions}
-            label="Marque*"
-            {...field}
-            error={!!errors.marque}
-            helperText={errors.marque?.message}
-            value={
-              value === 0
-                ? ""
-                : newOptions.find((option) => option.id === value)?.name
-            }
-            // setValue={(value: string) => {
-            //    const valueId = newOptions.find(
-            //      (option) => option.name === value
-            //    )!.id;
-            //    setValue(valueId);
-            //   field.onChange(value);
-            //   if (errors.marque) {
-            //     clearErrors("marque");
-            //   }
-            // }}
-            setValue={(value: string) => {
-              const selectedOption = newOptions.find(
-                (option) => option.name === value
-              );
-              const valueId = selectedOption ? selectedOption.id : 0;
-              setValue(valueId);
-              field.onChange(value);
-              if (errors.category) {
-                clearErrors("marque");
-              }
-            }}
-          />
-        )}
+      <SelectInput
+        options={newOptions}
+        label="Marque*"
+        error={formik.touched.marque && Boolean(formik.errors.marque)}
+        helperText={formik.touched.marque && formik.errors.marque}
+        value={formik.values.marque}
+        setValue={(value: string) => {
+          const valueId =
+            newOptions.find((option) => option.name === value)?.id || 0;
+          formik.setFieldValue("marque", valueId);
+        }}
       />
     </div>
   );

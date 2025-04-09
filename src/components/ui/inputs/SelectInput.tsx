@@ -16,7 +16,7 @@
 //   value: string | undefined;
 //   setValue: (value: string) => void;
 //   error?: boolean;
-//   helperText?: string;
+//   helperText?: string | undefined | false; 
 // }
 
 // const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
@@ -66,7 +66,6 @@
 //         label={label}
 //         error={error}
 //         inputRef={ref}
-//         // helperText={helperText}
 //         onChange={(e) => setValue(e.target.value)}
 //         MenuProps={{
 //           PaperProps: {
@@ -79,7 +78,7 @@
 //       >
 //         <MenuItem value="">None</MenuItem>
 //         {options.map((option, index) => {
-//           console.log(option);
+//           // console.log(option);
 //           return (
 //           <MenuItem key={index} value={option.name}>
 //             {option.name}
@@ -92,7 +91,6 @@
 // })
 
 // export default SelectInput;
-
 import { forwardRef } from "react";
 import {
   FormControl,
@@ -108,7 +106,7 @@ interface SelectCompProps {
     name: string;
   }[];
   label: string;
-  value: string | undefined;
+  value: number;
   setValue: (value: string) => void;
   error?: boolean;
   helperText?: string | undefined | false; 
@@ -157,7 +155,7 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
           },
         }}
         labelId={label}
-        value={value}
+        value={options.find((option) => option.id === value)?.name || ""}
         label={label}
         error={error}
         inputRef={ref}
@@ -173,7 +171,6 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
       >
         <MenuItem value="">None</MenuItem>
         {options.map((option, index) => {
-          // console.log(option);
           return (
           <MenuItem key={index} value={option.name}>
             {option.name}

@@ -94,12 +94,12 @@ const InputCodeBarre = ({ label, id, formik }: InputCodeBarreProps) => {
           },
         }}
       />
-      <button
-        className="absolute top-[28px] -translate-y-[50%] right-3"
+      <div
+        className="absolute cursor-pointer top-[28px] -translate-y-[50%] right-3"
         onClick={createBarcode}
       >
         <FaBarcode />
-      </button>
+      </div>
     </div>
   );
 };

@@ -77,7 +77,7 @@ interface InputNumberProps {
   setValue: (value: string) => void;
   label: string;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | undefined | false;
 }
 
 const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(

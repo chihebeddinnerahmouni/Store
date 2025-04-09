@@ -29,6 +29,8 @@ const Category = ({
     name: option.name_category,
   }));
 
+  // console.log(options[0]);
+
     return (
       <div className="bg-red200 flex flex-col gap-3">
         <Label id={id} text={"Categorie*"} />
@@ -36,16 +38,12 @@ const Category = ({
         <SelectInput
           options={newOptions}
           label="Categorie*"
-          error={
-            formik.touched.category && Boolean(formik.errors.category)
-          }
+          error={formik.touched.category && Boolean(formik.errors.category)}
           helperText={formik.touched.category && formik.errors.category}
-          value={formik.values.category.toString()}
+          value={formik.values.category}
           setValue={(value: string) => {
-            const selectedOption = newOptions.find(
-              (option) => option.name === value
-            );
-            const valueId = selectedOption ? selectedOption.id : 0;
+            const valueId =
+              newOptions.find((option) => option.name === value)?.id || 0;
             formik.setFieldValue("category", valueId);
           }}
         />

@@ -255,7 +255,10 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSuspenseQueries } from "@tanstack/react-query";
-import {ProductFormValues} from "../../types/achats/add achat/form";
+import { ProductFormValues } from "../../types/achats/add achat/form";
+import ICategory from "../../types/category";
+import IMArque from "../../types/marque";
+import IReyonnage from "../../types/reyonnage";
 
 const url = import.meta.env.VITE_BASE_URL;
 
@@ -289,14 +292,23 @@ const fetchData = () => {
       },
     ],
   });
-  const categories: { categories: any[] } = (queries[0]?.data ?? {
+  const categories: { categories: ICategory[] } = (queries[0]?.data ?? {
     categories: [],
   }) as {
-    categories: any[];
+    categories: ICategory[];
   };
-  const brands = queries[1]?.data;
+  // const brands = queries[1]?.data;
+  const brands: { brands: IMArque[] } = (queries[1]?.data ?? {
+    brands: [],
+  }) as {
+    brands: IMArque[];
+  };
   const units = queries[2]?.data;
-  const rayonages = queries[3]?.data;
+  const rayonages: { rayonages: IReyonnage[] } = (queries[3]?.data ?? {
+    rayonages: [],
+  }) as {
+    rayonages: IReyonnage[];
+  };
   return { categories, brands, units, rayonages };
 }
 
@@ -334,8 +346,9 @@ const AddProduct = () => {
     validationSchema: Yup.object({
       designation: Yup.string().required("Champ requis"),
       codeBarre: Yup.string().required("Champ requis"),
-      category: Yup.string().required("Champ requis"),
-      marque: Yup.string().required("Champ requis"),
+      category: Yup.number().notOneOf([0], "Champ requis"),
+      marque: Yup.number().notOneOf([0], "Champ requis"),
+      reyonage: Yup.number().notOneOf([0], "Champ requis"),
       tax: Yup.string().required("Champ requis"),
       description: Yup.string().required("Champ requis"),
       prixAchat: Yup.string().required("Champ requis"),
@@ -349,8 +362,6 @@ const AddProduct = () => {
     },
   });
 
-  console.log(formik.values.category);
-
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter un produit" />
@@ -359,8 +370,8 @@ const AddProduct = () => {
           <ProductStCont
             formik={formik}
             categoriesArray={categories.categories}
-            marquesArray={brands}
-            reyonagesArray={rayonages}
+            marquesArray={brands.brands}
+            reyonagesArray={rayonages.rayonages}
           />
 
           {/* <ProductsNd
