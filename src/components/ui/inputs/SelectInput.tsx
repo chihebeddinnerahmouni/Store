@@ -111,7 +111,7 @@ interface SelectCompProps {
   value: string | undefined;
   setValue: (value: string) => void;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | undefined | false; 
 }
 
 const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
@@ -161,7 +161,6 @@ const SelectInput = forwardRef<HTMLInputElement, SelectCompProps>(
         label={label}
         error={error}
         inputRef={ref}
-        // helperText={helperText}
         onChange={(e) => setValue(e.target.value)}
         MenuProps={{
           PaperProps: {
