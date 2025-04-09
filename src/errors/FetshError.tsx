@@ -8,6 +8,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const prevPath = useRef(location.pathname);
 
   useEffect(() => {
+    console.log(error);
     handleAxiosError(error);
   }, [error]);
 

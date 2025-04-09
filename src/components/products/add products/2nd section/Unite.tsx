@@ -20,7 +20,6 @@ const Unite = ({
   formik
 }: DesignationProps) => {
 
-console.log(options);
   const newOptions = options.map((option) => ({
     id: option.id,
     name: option.name_unit,

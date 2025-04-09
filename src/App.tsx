@@ -3,7 +3,6 @@ import NavBar from "./components/ui/NavBar";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loading from "./components/ui/Loading";
 import axios from "axios";
 import { createContext } from "react";
 
@@ -15,7 +14,6 @@ export const PrivilegesContext = createContext<any>(Object.create(null));
 
 function App() {
 
-  const [loading, setLoading] = useState(true);
   const [sideBarArray, setSideBarArray] = useState<Record<string, Record<string, boolean>>>(Object.create(null));
   const [user, setUser] = useState<Record<string, string>>(Object.create(null));
   // const [privileges, setPrivileges] = useState<any>(Object.create(null));
@@ -30,11 +28,10 @@ function App() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data);
         setUser(res.data.user);
         setSideBarArray(res.data.privileges);
-        setLoading(false);
       })
       .catch((err) => {
          if (err.message === "Network Error") {
@@ -47,10 +44,6 @@ function App() {
         }
       });
     }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
 
   return (

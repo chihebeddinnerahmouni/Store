@@ -6,179 +6,125 @@ import { BsArrowRepeat } from "react-icons/bs";
 import { CiFilter } from "react-icons/ci";
 import FullShiningButton from "../../../components/ui/buttons/FullShiningButton";
 import LoadingComp from "../../ui/LoadingComp";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
 import InputText from "../../ui/inputs/InputText";
-import IProductSingle from "../../../types/IProductSingle";
+import { useQueries } from "@tanstack/react-query";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useMemo } from "react";
 
 
+const url = import.meta.env.VITE_BASE_URL;
+const fetchHelper = (endpoint: string) => { 
+  return axios.get(`${url}/${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+}
+
+
+const fetchData = () => {
+  const queries = useQueries({
+    queries: [
+      {
+        queryKey: ["categories"],
+        queryFn: () => fetchHelper("api/categories"),
+      },
+      {
+        queryKey: ["brands"],
+        queryFn: () => fetchHelper("api/brands"),
+      },
+      {
+        queryKey: ["rayonages"],
+        queryFn: () => fetchHelper("api/rayonages"),
+      },
+    ],
+  });
+  const categories =
+    (queries[0].data as any)?.data?.categories?.map((cat: any) => ({
+      id: cat.id,
+      name: cat.name_category,
+    })) || [];
+   const marques =
+     (queries[1].data as any)?.data?.brands?.map((mar: any) => ({
+       id: mar.id,
+       name: mar.name_brand,
+     })) || [];
+
+   const reyonages =
+     (queries[2].data as any)?.data?.rayonages?.map((ray: any) => ({
+       id: ray.id,
+       name: ray.name,
+     })) || [];
+  
+  const isLoading = queries.some((query) => query.isLoading);
+  const isError = queries.some((query) => query.isError);
+  const error = queries.find((query) => query.isError)?.error;
+  return {categories, marques, reyonages, isLoading, isError, error };
+}
 
 
 interface Props {
   close: () => void;
-  setData: (value: IProductSingle[]) => void;
-  code: string;
-  setCode: (value: string) => void;
-  categorie: string;
-  setCategorie: (value: string) => void;
-  marque: string;
-  setMarque: (value: string) => void;
-  categoriesArray: any;
-  marquesArray: any;
-  reyonagesArray: any;
-  setCategoriesArray: (value: any) => void;
-  setMarquesArray: (value: any) => void;
-  setReyonagesArray: (value: any) => void;
 }
 
 const FilterContent = ({
   close,
-  setData,
-  code,
-  setCode,
-  categorie,
-  setCategorie,
-  marque,
-  setMarque,
-  categoriesArray,
-  marquesArray,
-  reyonagesArray,
-  setCategoriesArray,
-  setMarquesArray,
-  setReyonagesArray,
 }: Props) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const [code, setCode] = useState<string>(searchParams.get("code_barre") || "");
+  const [name, setName] = useState<string>(searchParams.get("name") || "");  
+  const [reyonage, setReyonage] = useState<number>(searchParams.get("reyonage_id") ? parseInt(searchParams.get("reyonage_id") || "") : 0);
+  const [categorie, setCategorie] = useState<number>(searchParams.get("category_id") ? parseInt(searchParams.get("category_id") || "") : 0);
+  const [marque, setMarque] = useState<number>(searchParams.get("brand_id") ? parseInt(searchParams.get("brand_id") || "") : 0);
 
 
-  
-  
-  const [loading, setLoading] = useState(true);
-  const [reyonage, setReyonage] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [loadingButton, setLoadingButton] = useState(false);
-  const url = import.meta.env.VITE_BASE_URL;
-
-  useEffect(() => {
-
-    if (categoriesArray.length === 0 && marquesArray.length === 0 && reyonagesArray.length === 0) {
-      Promise.all([
-        axios.get(`${url}/api/categories`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
-        axios.get(`${url}/api/brands`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
-        axios.get(`${url}/api/rayonages`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }),
-      ])
-        .then(
-          axios.spread((cat, mar, ray) => {
-            const categories = cat.data.categories.map((cat: any) => ({
-              id: cat.id,
-              name: cat.name_category,
-            }));
-            const marques = mar.data.brands.map((mar: any) => ({
-              id: mar.id,
-              name: mar.name_brand,
-            }));
-            const reyonages = ray.data.rayonages.map((ray: any) => ({
-              id: ray.id,
-              name: ray.name,
-            }));
-
-            setCategoriesArray(categories);
-            setMarquesArray(marques);
-            setReyonagesArray(reyonages);
-            setLoading(false);
-          })
-        )
-        .catch((err) => {
-          setLoading(false);
-          if (err.message === "Network Error") {
-            enqueueSnackbar("Erreur de connexion", { variant: "error" });
-          } else {
-           enqueueSnackbar(err.response.data.message, { variant: "error" });
-          }
-        });
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-
+  const {isLoading, categories, marques, reyonages} = fetchData();
 
 
   const filterFunction = () => {
-    setLoadingButton(true);
-    const catId = categoriesArray.find((cat: any) => cat.name === categorie)?.id;
-    const marId = marquesArray.find((mar: any) => mar.name === marque)?.id;
-    const reyId = reyonagesArray.find((rey: any) => rey.name === reyonage)?.id;
-
-    axios.post(`${url}/api/products/filter`, {
-      code_barre: code,
-      category_id: catId,
-      brand_id: marId,
-      name: name,
-      reyonage_id: reyId,
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-        const Modified = ModifiedData(res.data.products);
-        setData(Modified);
-        close();
-        setLoadingButton(false);
-      })
-      .catch((err) => {
-        setLoadingButton(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-      })
+    const params = new URLSearchParams();
+    if (code) params.append("code_barre", code);
+    if (name) params.append("name", name);
+    if (categorie) params.append("category_id", categorie.toString());
+    if (marque) params.append("brand_id", marque.toString());
+    if (reyonage) params.append("reyonage_id", reyonage.toString());
+    navigate({ search: params.toString() });
+    close();
   }
 
-
-
-
-  if (loading) {
-    return <div className="w-full h-full flex justify-center items-center">
-      <LoadingComp />
-    </div>
-  }
-  
-  
-  const buttons_array = [
+const buttons_array = useMemo(
+  () => [
     {
       icon: <CiFilter />,
       text: "Filter",
       color: "#3b82f6",
       onClick: filterFunction,
-      loading: loadingButton,
     },
     {
       icon: <BsArrowRepeat />,
       text: "Réinitialiser",
       color: "#8b5cf6",
       onClick: () => {
-        setCode("");
-        setCategorie("");
-        setMarque("");
-        setName("");
-        setReyonage("");
+        navigate("/produits");
+        close();
       },
     },
-  ];
+  ],
+  [code, name, reyonage, categorie, marque, close, navigate] 
+);
+
+
+  if (isLoading) {
+    return <div className="w-full h-full flex justify-center items-center">
+      <LoadingComp />
+    </div>
+  }
+  
+  
 
   return (
     <Box
@@ -189,7 +135,7 @@ const FilterContent = ({
     >
       <p className="font-bold text-[25px]">Filtre</p>
       <div className="content flex flex-col gap-6 mt-5">
-        {/* code */}
+        
         <div className="bg-red200 flex flex-col gap-3">
           <Label id={"filterProductsCode"} text={"Code Produit"} />
           <InputNumber
@@ -200,7 +146,6 @@ const FilterContent = ({
         </div>
 
 
-        {/* name */}
         <div className="bg-red200 flex flex-col gap-3">
           <Label id={"filterProductsName"} text={"Nom Produit"} />
           <InputText
@@ -210,42 +155,38 @@ const FilterContent = ({
           />
         </div>
 
-        {/* categoie */}
         <div className="bg-red200 flex flex-col gap-3">
           <Label id={"filterProductsCategorie"} text={"Category"} />
           <SelectInput
-            options={categoriesArray}
+            options={categories}
             value={categorie}
-            setValue={setCategorie}
+            setValue={(value) => setCategorie(categories.find((cat: any) => cat.name === value)?.id)}
             label="Par categorie"
           />
         </div>
 
-        {/* brands */}
         <div className="bg-red200 flex flex-col gap-3">
           <Label id={"filterProductsMarque"} text={"Marque"} />
           <SelectInput
-            options={marquesArray}
+            options={marques}
             value={marque}
-            setValue={setMarque}
+            setValue={(value) => setMarque(marques.find((mar: any) => mar.name === value)?.id)}
             label="Par marque"
           />
         </div>
 
 
 
-        {/* rayonnage */}
         <div className="bg-red200 flex flex-col gap-3">
           <Label id={"filterProductsRay"} text={"Rayon"} />
           <SelectInput
-            options={reyonagesArray}
+            options={reyonages}
             value={reyonage}
-            setValue={setReyonage}
+            setValue={(value) => setReyonage(reyonages.find((rey: any) => rey.name === value)?.id)}
             label="Par rayon"
           />
         </div>
 
-        {/* buttons */}
         <div className="buttons flex gap-2">
           {buttons_array.map((button, index) => (
             <FullShiningButton
@@ -254,7 +195,7 @@ const FilterContent = ({
               icon={button.icon}
               color={button.color}
               onClick={button.onClick}
-              loading={button.loading}
+              // loading={button.loading}
             />
           ))}
         </div>
@@ -264,17 +205,3 @@ const FilterContent = ({
 };
 
 export default FilterContent;
-const ModifiedData = (data: IProductSingle[]) => {
-  return data.map((product: IProductSingle) => ({
-    ...product,
-    designation: product.name,
-    code: product.code_barre,
-    marque: product.brand.name_brand,
-    categorie: product.category.name_category,
-    cout: product.price_buy,
-    prix: product.price_sell,
-    unité: product.unit.name_unit,
-    quantité: product.quantity,
-    rayon: product.rayonage.name,
-  }));
-};

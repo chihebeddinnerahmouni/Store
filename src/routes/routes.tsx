@@ -7,7 +7,6 @@ import FetchError from "../errors/FetshError";
 
 import App from "../App";
 import Test from "../Test";
-import Products from "../pages/products/Products";
 import Categories from "../pages/products/Categories";
 import Marques from "../pages/products/Marques";
 import Unite from "../pages/products/Unite";
@@ -48,6 +47,7 @@ import Register from "../pages/auth/Register";
 
 const Dashbored = lazy(() => import("../pages/Dashbored"));
 const AddProduct = lazy(() => import("../pages/products/AddProduct"));
+const Products = lazy(() => import("../pages/products/Products"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -67,14 +67,21 @@ export const router = createBrowserRouter([
       {
         path: "/produits/ajouter-un-produit",
         element: (
-        //   <ErrorBoundary FallbackComponent={FetchError}>
+          <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <AddProduct />
             </Suspense>
-        //   </ErrorBoundary>
+           </ErrorBoundary>
         ),
       },
-      { path: "/produits", element: <Products /> },
+      {
+        path: "/produits", element: (
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <Products />
+            </Suspense>
+          </ErrorBoundary>
+      )},
       { path: "/produits/categories", element: <Categories /> },
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },

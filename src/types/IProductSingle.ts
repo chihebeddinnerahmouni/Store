@@ -73,7 +73,6 @@ interface IProductSingle {
   rayonage: IReyonage;
 
   // table
-  // id: number;
   designation: string;
   code: string;
   marque: string;
