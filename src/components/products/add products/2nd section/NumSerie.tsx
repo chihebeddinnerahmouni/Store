@@ -1,41 +1,33 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
-// import { useState } from 'react';
-// import InputNumber from '../../../ui/inputs/InputNumber';
+import { Checkbox, FormControlLabel } from "@mui/material";
+import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { FormikProps } from "formik";
 
 interface NumSerieProps {
-    value: boolean;
-    setValue: (value: boolean) => void;
+  formik: FormikProps<ProductFormValues>;
 }
 
+const NumSerie = ({ formik }: NumSerieProps) => {
+  const mainColor = "#006233";
 
-const NumSerie = ({value, setValue}: NumSerieProps) => {
-    // const [haveNumSerie, setHaveNumSerie] = useState<boolean>(false);
-    const mainColor = "#006233";
-
-    return (
-        <div className="cardCss">
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        checked={value}
-                        onChange={(e) => setValue(e.target.checked)}
-                        sx={{
-                            color: mainColor,
-                            '&.Mui-checked': {
-                                color: mainColor,
-                            },
-                        }}
-                    />
-                }
-                label="Le produit a un numéro de série ?"
-            />
-            {/* {haveNumSerie && (
-                <div className="mt-3">
-                    <InputNumber value={value} setValue={setValue} label="Numéro de série" />
-                </div>
-            )} */}
-        </div>
-    );
-}
+  return (
+    <div className="cardCss">
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={formik.values.numSerie}
+            onChange={(e) => formik.setFieldValue("numSerie", e.target.checked)}
+            sx={{
+              color: mainColor,
+              "&.Mui-checked": {
+                color: mainColor,
+              },
+            }}
+          />
+        }
+        label="Le produit a un numéro de série ?"
+      />
+    </div>
+  );
+};
 
 export default NumSerie;

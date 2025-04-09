@@ -7,144 +7,33 @@ import Unite from "../../../components/products/add products/2nd section/Unite";
 import StockAlert from "../../../components/products/add products/2nd section/StockAlert";
 import NumSerie from "../../../components/products/add products/2nd section/NumSerie";
 // import Quantite from "../../../components/products/add products/2nd section/Quantite";
+import IUnite from "../../../types/unite";
+import { FormikProps } from "formik";
+import { ProductFormValues } from "../../../types/achats/add achat/form";
+
+
 
 interface ProductStContProps {
-  control: any;
-  clearErrors: any;
-  register: any;
-  errors: any;
-  // type: string;
-  // setType: (value: string) => void;
-  prixAchat: string;
-  setPrixAchat: (value: string) => void;
-  prixVente: string;
-  setPrixVente: (value: string) => void;
-  unite: number;
-  setUnite: (value: number) => void;
-  // uniteVente: string;
-  // setUniteVente: (value: string) => void;
-  // uniteAchat: string;
-  // setUniteAchat: (value: string) => void;
-  stockAlert: string;
-  setStockAlert: (value: string) => void;
-  numSerie: boolean;
-  setNumSerie: (value: boolean) => void;
-  // quantity: string;
-  // setQuantity: (value: string) => void;
-  unitesArray: any;
+  formik: FormikProps<ProductFormValues>;
+  unitesArray: IUnite[];
 }
 
 const ProductsNd = ({
-  control,
-  clearErrors,
-  register,
-  errors,
-  // type,
-  // setType,
-  prixAchat,
-  setPrixAchat,
-  prixVente,
-  setPrixVente,
-  unite,
-  setUnite,
-  // uniteVente,
-  // setUniteVente,
-  // uniteAchat,
-  // setUniteAchat,
-  stockAlert,
-  setStockAlert,
-  numSerie,
-  setNumSerie,
-  // quantity,
-  // setQuantity,
+  formik,
   unitesArray,
 }: ProductStContProps) => {
   return (
     <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-4">
       <div className="top cardCss grid grid-cols-1 gap-5 lg:gap-8">
-        {/* <Type
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"type"}
-          value={type}
-          setValue={setType}
-        /> */}
+        <PrixAchat id={"prixAchat"} formik={formik} />
 
-        {/* <Quantite
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"quantity"}
-          value={quantity}
-          setValue={setQuantity}
-        /> */}
+        <PrixVente id={"prixVente"} formik={formik} />
 
-        <PrixAchat
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"prixAchat"}
-          value={prixAchat}
-          setValue={setPrixAchat}
-        />
-
-        <PrixVente
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"prixVente"}
-          value={prixVente}
-          setValue={setPrixVente}
-        />
-
-        <Unite
-          options={unitesArray}
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"unite"}
-          value={unite}
-          setValue={setUnite}
-        />
-
-        {/* <UniteVente
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"uniteVente"}
-          value={uniteVente}
-          setValue={setUniteVente}
-        />
-
-        <UniteAchat
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"uniteAchat"}
-          value={uniteAchat}
-          setValue={setUniteAchat}
-        /> */}
-
-        <StockAlert
-          control={control}
-          clearErrors={clearErrors}
-          register={register}
-          errors={errors}
-          id={"stockAlert"}
-          value={stockAlert}
-          setValue={setStockAlert}
-        />
+        <Unite options={unitesArray} id={"unite"} formik={formik} />
+        <StockAlert id={"stockAlert"} formik={formik} />
       </div>
 
-      <NumSerie value={numSerie} setValue={setNumSerie} />
+      <NumSerie formik={formik} />
     </section>
   );
 };

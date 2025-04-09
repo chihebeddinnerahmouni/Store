@@ -242,23 +242,23 @@
 
 import PageTitle from "../../components/ui/PageTitle";
 import ProductStCont from "../../containers/products/add product/ProductStCont";
-import { useState, useEffect, useContext } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { useEffect, useContext } from "react";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
 import InstructionsCont from "../../containers/products/add product/InstructionsCont";
 import axios from "axios";
-import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
-import { enqueueSnackbar } from "notistack";
-import Loading from "../../components/ui/Loading";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useSuspenseQueries } from "@tanstack/react-query";
+import { useSuspenseQueries, useMutation } from "@tanstack/react-query";
 import { ProductFormValues } from "../../types/achats/add achat/form";
 import ICategory from "../../types/category";
 import IMArque from "../../types/marque";
 import IReyonnage from "../../types/reyonnage";
+import IUnite from "../../types/unite";
+import SubmitCont from "../../containers/products/add product/SubmitCont";
+import { enqueueSnackbar } from "notistack";
+import { handleAxiosError } from "../../helper/axios_error";
 
 const url = import.meta.env.VITE_BASE_URL;
 
@@ -303,7 +303,12 @@ const fetchData = () => {
   }) as {
     brands: IMArque[];
   };
-  const units = queries[2]?.data;
+  
+  const units: { units: IUnite[] } = (queries[2]?.data ?? {
+    units: [],
+  }) as {
+    units: IUnite[];
+  };
   const rayonages: { rayonages: IReyonnage[] } = (queries[3]?.data ?? {
     rayonages: [],
   }) as {
@@ -313,19 +318,54 @@ const fetchData = () => {
 }
 
 
+const sendData = async (values: ProductFormValues) => { 
+  const response = await axios.post(
+    `${url}/api/products`,
+    {
+      name: values.designation,
+      code_barre: values.codeBarre,
+      category_id: values.category,
+      brand_id: values.marque,
+      unit_id: values.unite,
+      rayonage_id: values.reyonage,
+      has_serial_number: values.numSerie,
+      tax_percentage: Number(values.tax),
+      description: values.description,
+      price_buy: Number(values.prixAchat),
+      price_sell: Number(values.prixVente),
+      stock_alert: Number(values.stockAlert),
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return response.data;
+}
+
 
 
 const AddProduct = () => {
   
-  const mainColor = "#006233";
+
   const navigate = useNavigate();
   const privileges = useContext(PrivilegesContext);
-
   const { categories, brands, units, rayonages } = fetchData();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendData,
+    onSuccess: (res: any) => {
+      enqueueSnackbar(res.message, { variant: "success" });
+      navigate("/produits");
+    },
+    onError: handleAxiosError,
+  });
 
   useEffect(() => { 
     if (!privileges.Produits["Ajouter un produit"]) navigate("/tableau-de-bord");
   }, []);
+
 
 
   const formik = useFormik<ProductFormValues>({
@@ -353,14 +393,17 @@ const AddProduct = () => {
       description: Yup.string().required("Champ requis"),
       prixAchat: Yup.string().required("Champ requis"),
       prixVente: Yup.string().required("Champ requis"),
-      unite: Yup.string().required("Champ requis"),
+      unite: Yup.number().notOneOf([0], "Champ requis"),
       stockAlert: Yup.string().required("Champ requis"),
     }),
     onSubmit: (values) => {
-      // mutate(values);
-      console.log(values);
+      mutate(values);
     },
   });
+
+  
+
+  // console.log(units);
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -374,36 +417,15 @@ const AddProduct = () => {
             reyonagesArray={rayonages.rayonages}
           />
 
-          {/* <ProductsNd
-            control={control}
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            prixAchat={formik.values.prixAchat}
-            setPrixAchat={formik.handleChange("prixAchat")}
-            prixVente={formik.values.prixVente}
-            setPrixVente={formik.handleChange("prixVente")}
-            unite={formik.values.unite}
-            setUnite={(e) => formik.setFieldValue("unite", Number(e))}
-            stockAlert={formik.values.stockAlert}
-            setStockAlert={formik.handleChange("stockAlert")}
-            numSerie={formik.values.numSerie}
-            setNumSerie={(value) => formik.setFieldValue("numSerie", value)}
-            unitesArray={units}
-          /> */}
+          <ProductsNd
+            formik={formik}
+            unitesArray={units.units}
+          />
           <div className="lg:col-span-12 lghidden">
             <InstructionsCont />
           </div>
         </div>
-        <div className="button mt-5">
-          <FullShiningButton
-            text="Soumettre"
-            loading={false}
-            color={mainColor}
-            onClick={formik.handleSubmit}
-            type="submit"
-          />
-        </div>
+        <SubmitCont loading={isPending} />
       </form>
     </div>
   );

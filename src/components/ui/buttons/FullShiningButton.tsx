@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
 
+
+const mainColor = "#006233";
+
 interface ShiningButtonProps {
   text: string;
   icon?: any;
-  color: string;
+  color?: string;
   // onClick: (...args: any[]) => void;
-  onClick: () => void;
+  onClick?: () => void;
   type?: "button" | "submit" | "reset";
   loading?: boolean;
 }
@@ -14,9 +17,9 @@ interface ShiningButtonProps {
 const FullShiningButton = ({
   text,
   icon,
-  color,
+  color = mainColor,
   onClick,
-  type,
+  type = "button",
   loading,
 }: ShiningButtonProps) => {
   const [isHovered, setIsHovered] = useState(false);
