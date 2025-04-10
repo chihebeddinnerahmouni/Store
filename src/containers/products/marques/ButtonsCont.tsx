@@ -9,10 +9,11 @@ import IMArque from "../../../types/marque";
 interface ButtonsContProps {
   data: IMArque[];
   columns: string[];
+  refetch: () => void;
 }
 
-const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
-  const [isAddOpen, setIsAddOpen] = useState(false);
+const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
+  const [isAddOpen, setIsAddOpen] = useState(true);
 
   const handleAdd = () => {
     setIsAddOpen(true);
@@ -46,7 +47,7 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
           />
         ))}
       </div>
-      <AddMarqueModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
+      {isAddOpen && <AddMarqueModal onClose={() => setIsAddOpen(false)} refetch={refetch} />}
     </section>
   );
 };

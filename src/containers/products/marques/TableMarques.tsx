@@ -21,9 +21,10 @@ import DeleteMarqueModal from "../../../components/products/marque/DeleteMarqueM
 interface Props {
   data: IMArque[];
   columns: (keyof IMArque)[];
+  refetch: () => void;
 }
 
-const TableMarques = ({ data, columns }: Props) => {
+const TableMarques = ({ data, columns, refetch }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof IMArque>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -145,14 +146,14 @@ const TableMarques = ({ data, columns }: Props) => {
           </Table>
         </TableContainer>
         {updateRow && (<UpdateMarqueModal
-          open={updateRow !== null}
-          setOpen={setUpdateRow}
+          onClose={()=>setUpdateRow(null)}
           data={updateRow}
+          refetch={refetch}
         />)}
         {deleteRow && (<DeleteMarqueModal
-          open={deleteRow !== null}
-          setOpen={setDeleteRow}
+          onClose={()=>setDeleteRow(null)}
           data={deleteRow}
+          refetch={refetch}
         />)}
         
       </div>

@@ -1,195 +1,118 @@
-import { Modal, Box, Typography } from "@mui/material";
-import { Controller, useForm, SubmitHandler } from "react-hook-form";
+import { Box } from "@mui/material";
 import InputText from "../../ui/inputs/InputText";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import { enqueueSnackbar } from "notistack";
-import axios from "axios";
-import { useState } from "react";
 import InputMultiLine from "../../ui/inputs/InputMultiLine";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
+import ModalComp from "../../ui/modals/Modal";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import ModalTitle from "../../ui/modals/ModalTitle";
+import { useMutation } from "@tanstack/react-query";
+import { handleAxiosError } from "../../../helper/axios_error";
 
-interface AddMarqueModalProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-type FormValues = {
-  name: string;
-  code: string;
-  description: string;
+const url = import.meta.env.VITE_BASE_URL as string;
+const sendData = async (values: any) => {
+  const { data } = await axios.post(
+    `${url}/api/brands`,
+    {
+      code_brand: values.code,
+      name_brand: values.name,
+      description: values.description,
+      status: "active",
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
 };
 
-const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
+interface AddCategoryModalProps {
+  onClose: () => void;
+  refetch: () => void;
+}
+
+const AddCategoryModal = ({ onClose, refetch }: AddCategoryModalProps) => {
   const mainColor = "#006233";
-  const url = import.meta.env.VITE_BASE_URL as string;
-  const [loading, setLoading] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
-  const [code, setCode] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValues>();
-
-  const handleSave: SubmitHandler<FormValues> = () => {
-    setLoading(true);
-    axios
-      .post(
-        `${url}/api/brands`,
-        {
-          code_brand: name,
-          name_brand: code,
-          description: description,
-          status: "active",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        setLoading(false);
-        onClose();
-        window.location.reload();
-      })
-      .catch((err) => {
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-        setLoading(false);
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendData,
+    onSuccess: () => {
+      enqueueSnackbar("La marque a été ajoutée avec succès", {
+        variant: "success",
       });
-  };
+      refetch();
+      onClose();
+    },
+    onError: handleAxiosError,
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      code: "",
+      description: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Le nom de la marque est obligatoire"),
+      code: Yup.string().required("Le code de la marque est obligatoire"),
+      description: Yup.string().required(
+        "La description de la marque est obligatoire"
+      ),
+    }),
+    onSubmit: (values) => mutate(values),
+  });
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      BackdropProps={{
-        style: {
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-          backdropFilter: "blur(5px)",
-        },
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: { xs: "90%", md: "40%", lg: 400 },
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: 3,
-          borderRadius: 1,
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: "Nunito",
+    <ModalComp open={true} onClose={onClose}>
+      <ModalTitle text="Ajouter une marque" />
+
+      {/* texts */}
+      <form className="flex flex-col gap-5 mt-5" onSubmit={formik.handleSubmit}>
+        <InputText
+          label="Le nom de la marque*"
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          value={formik.values.name}
+          setValue={(value: string) => {
+            formik.handleChange("name")(value);
           }}
-          variant="h6"
-          component="h2"
-        >
-          Ajouter une marque
-        </Typography>
+        />
 
-        {/* Form */}
-        <form
-          className="flex flex-col gap-5 mt-5"
-          onSubmit={handleSubmit(handleSave)}
-        >
-          <Controller
-            name="name"
-            control={control}
-            rules={{
-              required: "Le nom de la marque est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputText
-                label="Nom de la marque*"
-                {...field}
-                value={name}
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                setValue={(value: string) => {
-                  setName(value);
-                  field.onChange(value);
-                  if (errors.name) {
-                    clearErrors("name");
-                  }
-                }}
-              />
-            )}
+        <InputText
+          label="Le code de la marque"
+          error={formik.touched.code && Boolean(formik.errors.code)}
+          helperText={formik.touched.code && formik.errors.code}
+          value={formik.values.code}
+          setValue={(value: string) => {
+            formik.handleChange("code")(value);
+          }}
+        />
+
+        <InputMultiLine
+          label="La description de la marque*"
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
+          helperText={formik.touched.description && formik.errors.description}
+          value={formik.values.description}
+          setValue={(value: string) => {
+            formik.handleChange("description")(value);
+          }}
+        />
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <FullShiningButton
+            text="Soumettre"
+            color={mainColor}
+            type="submit"
+            loading={isPending}
           />
-
-          <Controller
-            name="code"
-            control={control}
-            rules={{
-              required: "Le code de la marque est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputText
-                label="Code de la marque*"
-                {...field}
-                error={!!errors.code}
-                value={code}
-                helperText={errors.code?.message}
-                setValue={(value: string) => {
-                  setCode(value);
-                  field.onChange(value);
-                  if (errors.code) {
-                    clearErrors("code");
-                  }
-                }}
-              />
-            )}
-          />
-
-          <Controller
-            name="description"
-            control={control}
-            rules={{
-              required: "La description de la marque est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputMultiLine
-                label="La description de la marque*"
-                {...field}
-                error={!!errors.description}
-                helperText={errors.description?.message}
-                value={description}
-                setValue={(value: string) => {
-                  setDescription(value);
-                  field.onChange(value);
-                  if (errors.description) {
-                    clearErrors("description");
-                  }
-                }}
-              />
-            )}
-          />
-
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <FullShiningButton
-              text="Soumettre"
-              color={mainColor}
-              type="submit"
-              loading={loading}
-              onClick={handleSubmit(handleSave)}
-            />
-          </Box>
-        </form>
-      </Box>
-    </Modal>
+        </Box>
+      </form>
+    </ModalComp>
   );
 };
 
-export default AddMarqueModal;
+export default AddCategoryModal;
