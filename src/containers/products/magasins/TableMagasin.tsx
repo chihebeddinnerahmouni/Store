@@ -19,10 +19,10 @@ import DeleteMagasinModal from "../../../components/products/magasins/DeleteMaga
 interface Props {
   data: IMagasin[];
   columns: (keyof IMagasin)[];
-  // columns: string[];
+  refetch:() => void;
 }
 
-const TableMarques = ({ data, columns }: Props) => {
+const TableMarques = ({ data, columns, refetch  }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof IMagasin>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -144,14 +144,16 @@ const TableMarques = ({ data, columns }: Props) => {
         </TableContainer>
         {updateRow && (
           <UpdateMagasinModal
-            setOpen={()=> setUpdateRow(null)}
+            onClose={() => setUpdateRow(null)}
             data={updateRow}
+            refetch={refetch}
           />
         )}
         {deleteRow && (
           <DeleteMagasinModal
-            setOpen={()=> setDeleteRow(null)}
+            onClose={() => setDeleteRow(null)}
             data={deleteRow}
+            refetch={refetch}
           />
         )}
       </div>

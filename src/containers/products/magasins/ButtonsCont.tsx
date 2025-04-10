@@ -4,15 +4,15 @@ import { BsFiletypePdf } from "react-icons/bs";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import AddMagasinModal from "../../../components/products/magasins/AddMagasinModal";
-// import IMArque from "../../../types/marque";
 import IMagasin from "../../../types/magasin";
 
 interface ButtonsContProps {
   data: IMagasin[];
   columns: (keyof IMagasin)[];
+  refetch: () => void;
 }
 
-const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
+const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
 
   const handleAdd = () => {
@@ -47,7 +47,9 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
           />
         ))}
       </div>
-      <AddMagasinModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
+      {isAddOpen && (
+        <AddMagasinModal onClose={() => setIsAddOpen(false)} refetch={refetch} />
+      )}
     </section>
   );
 };
