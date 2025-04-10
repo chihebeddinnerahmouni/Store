@@ -19,9 +19,10 @@ import DeleteCategoryModal from "../../../components/products/categories/DeleteC
 interface Props {
   data: ICategory[];
   columns: (keyof ICategory)[];
+  refetch: () => void;
 }
 
-const TableCategories = ({ data, columns }: Props) => {
+const TableCategories = ({ data, columns, refetch }: Props) => {
     const [order, setOrder] = useState<"asc" | "desc">("asc");
     const [orderBy, setOrderBy] = useState<keyof ICategory>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -152,16 +153,16 @@ const TableCategories = ({ data, columns }: Props) => {
           </TableContainer>
           {selectedCategoryUpdate && (
             <UpdateCategoryModal
-              open={selectedCategoryUpdate !== null}
-              setOpen={setSelectedCategoryUpdate}
+              onClose={()=>setSelectedCategoryUpdate(null)}
               data={selectedCategoryUpdate}
-            />
-          )}
+              refetch={refetch}
+              />
+              )}
           {selectedCategoryDelete && (
             <DeleteCategoryModal
-              open={selectedCategoryDelete !== null}
-              setOpen={setSelectedCategoryDelete}
-              data={selectedCategoryDelete}
+              onClose={()=>setSelectedCategoryDelete(null)}
+            data={selectedCategoryDelete}
+            refetch={refetch}
             />
           )}
         </div>

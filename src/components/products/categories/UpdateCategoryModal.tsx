@@ -1,230 +1,121 @@
-import { Modal, Box, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Box } from "@mui/material";
 import InputText from "../../ui/inputs/InputText";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Controller } from "react-hook-form";
 import InputMultiLine from "../../ui/inputs/InputMultiLine";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import ModalComp from "../../ui/modals/Modal";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import ModalTitle from "../../ui/modals/ModalTitle";
+import { useMutation } from "@tanstack/react-query";
+import { handleAxiosError } from "../../../helper/axios_error";
 import ICategory from "../../../types/category";
 
 
-interface AddCategoryModalProps {
-    open: boolean;
-  setOpen: (open: ICategory | null) => void;
-  data: ICategory;
-}
-
-const UpdateCategoryModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
-  const [categoryName, setCategoryName] = useState(data?.name_category);
-  const [categoryCode, setCategoryCode] = useState(data?.code_category);
-  const [description, setDescription] = useState(data?.description);
-  const [loading, setLoading] = useState<boolean>(false);
-  const url = import.meta.env.VITE_BASE_URL as string;
-  const mainColor = "#006233";
-  
-  type FormValues = {
-    categoryName: string;
-    categoryCode: string;
-    description: string;
-    };  
-  
-  const handleSave = () => {
-    setLoading(true);
-    axios
-      .put(
-        `${url}/api/categories/${data?.id}`,
-        {
-          code_category: categoryCode,
-          name_category: categoryName,
-          description: description,
-          status: "active",
-        },
-        {
-          headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-        )
-      .then((res) => {
-        // console.log(res.data);
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        setLoading(false);
-          setOpen(null);
-          window.location.reload();
-      })
-      .catch((err) => {
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-        setLoading(false);
-      });
-
-    // setTimeout(() => {
-    //     setLoading(false);
-    //     // onClose();
-    // }, 2000);
+const url = import.meta.env.VITE_BASE_URL as string;
+const sendData = async (values: any, id: number) => {
+  const { data } = await axios.put(
+    `${url}/api/categories/${id}`,
+    {
+      code_category: values.code,
+      name_category: values.name,
+      description: values.description,
+      status: "active",
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
 };
 
-    const {
-      handleSubmit,
-        control,
-        clearErrors,
-      formState: { errors },
-      setValue,
-    } = useForm<FormValues>({
-        defaultValues: {
-            categoryName: "",
-            categoryCode:  "",
-            description: "",
-        },
-    });
-    
-    useEffect(() => {
-      if (data) {
-        setValue("categoryName", data.name_category);
-        setValue("categoryCode", data.code_category);
-        setValue("description", data.description);
-      }
-    }, [data, setValue]);
+interface AddCategoryModalProps {
+  onClose: () => void;
+  refetch: () => void;
+  data: ICategory ;
+}
 
+const UpdateCategoryModal = ({ onClose, refetch, data }: AddCategoryModalProps) => {
+  const mainColor = "#006233";
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: any) => sendData(values, 1), 
+    onSuccess: () => {
+      enqueueSnackbar("La catégorie a été ajoutée avec succès", {
+        variant: "success",
+      });
+      refetch();
+      onClose();
+    },
+    onError: handleAxiosError,
+  });
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        console.log(data);
-        handleSave();
-    };
-
+  const formik = useFormik({
+    initialValues: {
+      name: data.name_category,
+      code: data.code_category,
+      description: data.description,
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Le nom de la catégorie est obligatoire"),
+      code: Yup.string().required("Le code de la catégorie est obligatoire"),
+      description: Yup.string().required(
+        "La description de la catégorie est obligatoire"
+      ),
+    }),
+    onSubmit: (values) => mutate(values),
+  });
 
   return (
-    <Modal
-      open={open}
-          onClose={() => setOpen(null)}
-      BackdropProps={{
-        style: {
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-          backdropFilter: "blur(5px)",
-        },
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: { xs: "90%", md: "40%", lg: 400 },
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: 3,
-          borderRadius: 1,
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: "Nunito",
+    <ModalComp open={true} onClose={onClose}>
+      <ModalTitle text="Mise a jour une catégorie" />
+
+      {/* texts */}
+      <form className="flex flex-col gap-5 mt-5" onSubmit={formik.handleSubmit}>
+        <InputText
+          label="Le nom de la catégorie*"
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          value={formik.values.name}
+          setValue={(value: string) => {
+            formik.handleChange("name")(value);
           }}
-          variant="h6"
-          component="h2"
-        >
-          Ajouter une catégorie
-        </Typography>
+        />
 
-        {/* texts */}
-        <form
-          className="flex flex-col gap-5 mt-5"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Controller
-            name="categoryName"
-            control={control}
-            rules={{
-              required: "Le nom de la catégorie est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputText
-                label="Le nom de la catégorie*"
-                {...field}
-                error={!!errors.categoryName}
-                helperText={errors.categoryName?.message}
-                value={categoryName}
-                setValue={(value: string) => {
-                  setCategoryName(value);
-                  field.onChange(value);
-                  if (errors.categoryName) {
-                    clearErrors("categoryName");
-                  }
-                }}
-              />
-            )}
-          />
+        <InputText
+          label="Le code de la catégorie"
+          error={formik.touched.code && Boolean(formik.errors.code)}
+          helperText={formik.touched.code && formik.errors.code}
+          value={formik.values.code}
+          setValue={(value: string) => {
+            formik.handleChange("code")(value);
+          }}
+        />
 
-          <Controller
-            name="categoryCode"
-            control={control}
-            rules={{
-              required: "Le code de la catégorie est obligatoire*",
-            }}
-            render={({ field }) => (
-              <InputText
-                label="Le code de la catégorie"
-                {...field}
-                error={!!errors.categoryCode}
-                helperText={errors.categoryCode?.message}
-                value={categoryCode}
-                setValue={(value: string) => {
-                  setCategoryCode(value);
-                  field.onChange(value);
-                  if (errors.categoryCode) {
-                    clearErrors("categoryCode");
-                  }
-                }}
-              />
-            )}
+        <InputMultiLine
+          label="La description de la catégorie*"
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
+          helperText={formik.touched.description && formik.errors.description}
+          value={formik.values.description}
+          setValue={(value: string) => {
+            formik.handleChange("description")(value);
+          }}
+        />
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <FullShiningButton
+            text="Soumettre"
+            color={mainColor}
+            type="submit"
+            loading={isPending}
           />
-          <Controller
-            name="description"
-            control={control}
-            rules={{
-              required: "La description de la catégorie est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputMultiLine
-                label="La description de la catégorie*"
-                {...field}
-                error={!!errors.description}
-                helperText={errors.description?.message}
-                value={description}
-                setValue={(value: string) => {
-                  setDescription(value);
-                  field.onChange(value);
-                  if (errors.description) {
-                    clearErrors("description");
-                  }
-                }}
-              />
-            )}
-          />
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <FullShiningButton
-              text="Soumettre"
-              color={mainColor}
-              //   onClick={handleSave}
-              onClick={handleSubmit(onSubmit)}
-              type="submit"
-              loading={loading}
-            />
-          </Box>
-        </form>
-      </Box>
-    </Modal>
+        </Box>
+      </form>
+    </ModalComp>
   );
 };
 
-
 export default UpdateCategoryModal;
-
-
-

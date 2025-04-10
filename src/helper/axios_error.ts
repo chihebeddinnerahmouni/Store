@@ -1,26 +1,25 @@
-// import { enqueueSnackbar } from 'notistack';
-
-// export const handleAxiosError = (error: any) => {
-//   if (error.message === "Network Error") {
-//     enqueueSnackbar("Probléme de connexion", { variant: "error" });
-//   } else {
-//     const responseMessage = error.response?.data.message || error.message;
-//     enqueueSnackbar(responseMessage, { variant: "error" });
-    
-//   }
-// };
-
-import { enqueueSnackbar } from 'notistack';
+import { enqueueSnackbar } from "notistack";
 
 export const handleAxiosError = (error: any) => {
-   if (error.message === "Network Error") {
-     enqueueSnackbar("Erreur de connexion", { variant: "error" });
-   } else {
-     Object.keys(error.response.data.erreurs).map((key) => {
-       error.response.data.erreurs[key].map((err: any) => {
-         enqueueSnackbar(err, { variant: "error" });
-       });
-     });
-   }
+  console.log(error);
+  if (error.message === "Network Error") {
+    enqueueSnackbar("Probléme de connexion", { variant: "error" });
+  } else {
+    if (isObject(error.response?.data.erreurs)) {
+      Object.keys(error.response.data.erreurs).map((key) => {
+        console.log(error.response.data.erreurs[key]);
+        error.response.data.erreurs[key].map((err: any) => {
+          enqueueSnackbar(err, { variant: "error"  });
+        });
+      });
+    } else {
+      enqueueSnackbar(error.response?.data.erreur || "something went wrong", {
+        variant: "error",
+      });
+    }
+  }
 };
 
+const isObject = (value: any): boolean => {
+  return typeof value === "object" && !Array.isArray(value) && value !== null;
+};

@@ -84,11 +84,11 @@ export const router = createBrowserRouter([
       )},
       {
         path: "/produits/categories", element: (
-          // <ErrorBoundary FallbackComponent={FetchError}>
+          <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Categories />
             </Suspense>
-          // </ErrorBoundary>
+           </ErrorBoundary>
       ) },
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },
