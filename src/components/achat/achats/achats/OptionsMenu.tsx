@@ -5,57 +5,54 @@ import IAchat from "../../../../types/achat";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
 import createPDF from "../../../../helper/create_pdf_from_object";
+import { useMutation } from "@tanstack/react-query";
+import { handleAxiosError } from "../../../../helper/axios_error";
+
+
+const url = import.meta.env.VITE_BASE_URL as string;
+const deletFunction = async (id: number) => {
+  const response = await axios.delete(`${url}/api/achats/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+}
 
 
 interface OptionsMenuProps {
   active: boolean;
   row: IAchat;
   columns: any[];
+  refetch?: () => void;
 }
 
-const OptionsMenu = ({
-  active,
-  row,
-  columns
-}: OptionsMenuProps) => {
-
+const OptionsMenu = ({ active, row, columns, refetch }: OptionsMenuProps) => {
   const [isOptoinsOpen, setIsOptionsOpen] = useState<null | HTMLElement>(null);
-
-  const url = import.meta.env.VITE_BASE_URL as string;
+  const { mutate } = useMutation({
+    mutationFn: deletFunction,
+    onSuccess: (res: any) => {
+      enqueueSnackbar(res.message, { variant: "success" });
+      refetch && refetch();
+    },
+    onError: handleAxiosError,
+  });
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-      event.stopPropagation();
-      event.preventDefault();
-      setIsOptionsOpen(event.currentTarget);
-    };
+    event.stopPropagation();
+    event.preventDefault();
+    setIsOptionsOpen(event.currentTarget);
+  };
 
-    const handleClose = () => {
-      setIsOptionsOpen(null);
-    };
+  const handleClose = () => {
+    setIsOptionsOpen(null);
+  };
 
-  
   const deleteRow = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    axios
-      .delete(`${url}/api/achats/${row.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        window.location.reload();
-      })
-      .catch((err) => {
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-      });
-  }
-
+    mutate(row.id);
+  };
 
   const options = [
     {
@@ -71,7 +68,7 @@ const OptionsMenu = ({
       onClick: deleteRow,
     },
   ];
-  
+
   return (
     <div className="">
       <OptionsButton onClick={handleOpen} active={active} />
@@ -99,7 +96,7 @@ const OptionsMenu = ({
       </Menu>
     </div>
   );
-}
+};
 
 
 export default OptionsMenu

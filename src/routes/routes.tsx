@@ -30,7 +30,6 @@ import FournisseurDetails from "../pages/rapport/fournisseur/FournisseurDetails"
 import BestSell from "../pages/rapport/BestSell";
 import BestClients from "../pages/rapport/BestClients";
 import Permissions from "../pages/settings/Permissions";
-import AchatDetails from "../pages/achat/AchatDetails";
 import VenteDetails from "../pages/vente/VenteDetails";
 import NoPage from "../pages/NoPage";
 import Users from "../pages/gens/Users";
@@ -48,6 +47,7 @@ const Reyonnages = lazy(() => import("../pages/products/Reyonnage"));
 const Magasins = lazy(() => import("../pages/products/Magasins"));
 const AddAchat = lazy(() => import("../pages/achat/AddAchat"));
 const Achats = lazy(() => import("../pages/achat/Achats"));
+const AchatDetails = lazy(() => import("../pages/achat/AchatDetails"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -163,7 +163,15 @@ export const router = createBrowserRouter([
             </Suspense>
           </ErrorBoundary>
       ) },
-      { path: "/achats/details/:achatId", element: <AchatDetails /> },
+      {
+        path: "/achats/details/:achatId", element: (
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <AchatDetails />
+            </Suspense>
+          </ErrorBoundary>
+        ),
+      },
 
       { path: "/ventes/ajouter-un-vente", element: <AddVente /> },
       { path: "/ventes", element: <Vents /> },

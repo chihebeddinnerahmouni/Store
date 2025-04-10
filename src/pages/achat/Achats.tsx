@@ -54,7 +54,7 @@ const Achats = () => {
     if (!privileges.entrées["Liste des entrées"]) navigate("/tableau-de-bord");
   }, []);
 
-  const { data: achats } = useSuspenseQuery({
+  const { data: achats, refetch } = useSuspenseQuery({
     queryKey: ["achats", location.search],
     queryFn: () =>
       fetchData({
@@ -71,11 +71,8 @@ const Achats = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Liste des entrées" />
-      <ButtonsCont
-        data={achats}
-        columns={columns}
-      />
-      <AchatTable rows={achats} columns={columns} />
+      <ButtonsCont data={achats} columns={columns} />
+      <AchatTable rows={achats} columns={columns} refetch={refetch} />
     </div>
   );
 };

@@ -162,12 +162,12 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 export default function EnhancedTable({
   rows,
   columns,
+  refetch,
 }: {
   rows: IAchat[];
-    columns: (keyof IAchatTable)[];
+  columns: (keyof IAchatTable)[];
+  refetch: () => void;
 }) {
-
-
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof IAchat>("id");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -251,7 +251,7 @@ export default function EnhancedTable({
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
         />
-        <TableContainer >
+        <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
@@ -338,10 +338,11 @@ export default function EnhancedTable({
                         active={true}
                         columns={columns}
                         row={row}
+                        refetch={refetch}
                       />
                     </TableCell>
                   </TableRow>
-                )
+                );
               })}
             </TableBody>
           </Table>
