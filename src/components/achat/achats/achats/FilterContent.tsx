@@ -8,86 +8,105 @@ import StartDate from "./filter content/StartDate";
 import EndDate from "./filter content/EndDate";
 import InvNumber from "./filter content/InvNumber";
 import UserInvNumber from "./filter content/UserInvNumber";
-// import Remark from "./filter content/Remark";
 import Category from "./filter content/Category";
-// import MinLaivraison from "./filter content/MinLaivraison";
-import { useContext } from "react";
-import { AchatsContext } from "../../../../pages/achat/Achats";
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-import IAchat from "../../../../types/achat";
+import IMagasin from "../../../../types/magasin";
+import { IProvider } from "../../../../types/provider";
+import ICategory from "../../../../types/category";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useQueries }from "@tanstack/react-query";
+
+
+const url = import.meta.env.VITE_BASE_URL;
+const fetchHelper = async (endPointe: string) => {
+  const response = await axios.get(`${url}/${endPointe}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+};
+
+const fetchData = () => {
+  const queries = useQueries({
+    queries: [
+      {
+        queryKey: ["authorised_magasins"],
+        queryFn: () => fetchHelper("api/entreports/authorized/get"),
+      },
+      {
+        queryKey: ["providers"],
+        queryFn: () => fetchHelper("api/providers"),
+      },
+      {
+        queryKey: ["categories"],
+        queryFn: () => fetchHelper("api/categories"),
+      },
+    ],
+  });
+  const magasins: { entrepots: IMagasin[] } = (queries[0]?.data ?? {
+    entrepots: [],
+  }) as {
+    entrepots: IMagasin[];
+  };
+
+  const providers: { providers: IProvider[] } = (queries[1]?.data ?? {
+    providers: [],
+  }) as {
+    providers: IProvider[];
+  };
+
+  const categories: { categories: ICategory[] } = (queries[2]?.data ?? {
+    categories: [],
+  }) as {
+    categories: ICategory[];
+  };
+
+  const isLoading = queries.some((query) => query.isLoading);
+  const isError = queries.some((query) => query.isError);
+  const error = queries.find((query) => query.isError)?.error;
+  
+  return {
+    magasins: magasins.entrepots,
+    providers: providers.providers,
+    categories: categories.categories,
+    isLoading,
+    isError,
+    error,
+  };
+};
 
 interface Props {
   close: () => void;
 }
 
 const FilterContent = ({ close }: Props) => {
-  const {
-    setData,
-    date,
-    setDate,
-    endDate,
-    setEndDate,
-    reference,
-    setReference,
-    userInvNumber,
-    setUserInvNumber,
-    // remark,
-    category,
-    setCategory,
-    // minLaivraison,
-    // maxLaivraison,
-    fournisseur,
-    setFournisseur,
-    magasin,
-    setMagasin,
-  } = useContext(AchatsContext);
-  const url = import.meta.env.VITE_BASE_URL;
-  const [loading, setLoading] = useState(false);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+
+  const [provider, setProvider] = useState<number>(searchParams.get("provider_id") ? parseInt(searchParams.get("provider_id")!) : 0);
+  const [magasin, setMagasin] = useState<number>(searchParams.get("entrepot_id") ? parseInt(searchParams.get("entrepot_id")!) : 0);
+  const [category, setCategory] = useState<number>(searchParams.get("category") ? parseInt(searchParams.get("category")!) : 0);
+  const [date, setDate] = useState<string>(searchParams.get("date_start") || "");
+  const [endDate, setEndDate] = useState<string>(searchParams.get("date_end") || "");
+  const [reference, setReference] = useState<string>(searchParams.get("invoice_number") || "");
+  const [userInvNumber, setUserInvNumber] = useState<string>(searchParams.get("user_invoice_number") || "");
+  const { magasins, providers, categories } = fetchData();
+  
   const search = () => {
-    setLoading(true);
-    const body = createBody(
-      date,
-      endDate,
-      reference,
-      userInvNumber,
-      // remark,
-      category,
-      // minLaivraison,
-      // maxLaivraison,
-      fournisseur,
-      magasin
-    );
-    axios
-      .post(url + "/api/achats/filter/get", body, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        const modifiedAchatsArray = modifiedAchats(res.data.achats);
-        setData(modifiedAchatsArray);
-        close();
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
-      });
+    const searchParams = new URLSearchParams(location.search);
+    if (date) searchParams.set("date_start", date);
+    if (endDate) searchParams.set("date_end", endDate);
+    if (reference) searchParams.set("invoice_number", reference);
+    if (userInvNumber) searchParams.set("user_invoice_number", userInvNumber);
+    if (category) searchParams.set("category", category.toString());
+    if (provider) searchParams.set("provider_id", provider.toString());
+    if (magasin) searchParams.set("entrepot_id", magasin.toString());
+    navigate({ search: searchParams.toString() });
+    close();
   };
 
   const buttons_array = [
@@ -102,13 +121,8 @@ const FilterContent = ({ close }: Props) => {
       text: "Réinitialiser",
       color: "#8b5cf6",
       onClick: () => {
-        setDate("");
-        setEndDate("");
-        setReference("");
-        setUserInvNumber("");
-        setCategory(0);
-        setFournisseur(0);
-        setMagasin(0);
+        close();
+        navigate("/achats");
       },
     },
   ];
@@ -122,17 +136,14 @@ const FilterContent = ({ close }: Props) => {
     >
       <p className="font-bold text-[25px]">Filtre</p>
       <div className="content flex flex-col gap-6 mt-5">
-        <Fourni />
-        <Magasin />
-        <StartDate />
-        <EndDate />
-        <InvNumber />
-        <UserInvNumber />
-        {/* <Remark /> */}
-        <Category />
-        {/* <MinLaivraison /> */}
+        <Category options={categories} setValue={setCategory} value={category} />
+        <Fourni options={providers} setValue={setProvider} value={provider} />
+        <Magasin options={magasins} setValue={setMagasin} value={magasin} />
+        <StartDate value={date} setValue={setDate} />
+        <EndDate value={endDate} setValue={setEndDate} />
+        <InvNumber value={reference} setValue={setReference} />
+        <UserInvNumber value={userInvNumber} setValue={setUserInvNumber} />
 
-        {/* buttons */}
         <div className="buttons flex gap-2 mt-5">
           {buttons_array.map((button, index) => (
             <FullShiningButton
@@ -141,7 +152,6 @@ const FilterContent = ({ close }: Props) => {
               icon={button.icon}
               color={button.color}
               onClick={button.onClick}
-              loading={loading}
             />
           ))}
         </div>
@@ -151,43 +161,3 @@ const FilterContent = ({ close }: Props) => {
 };
 
 export default FilterContent;
-
-const modifiedAchats = (achats: IAchat[]) => {
-  return achats.map((achat: IAchat) => {
-    return {
-      ...achat,
-      date: new Date(achat.created_at).toLocaleDateString(),
-      reference: achat.invoice_number,
-      fournisseur: achat.provider.name,
-      magasin: achat.entrepot.name,
-      // status: achat.status,
-      total: achat.total_cost,
-    };
-  });
-};
-
-const createBody = (
-  date: string,
-  endDate: string,
-  reference: string,
-  userInvNumber: string,
-  // remark: string,
-  category: string,
-  // minLaivraison: string,
-  // maxLaivraison: string,
-  fournisseur: string,
-  magasin: string
-) => {
-  return {
-    ...(date && { date_start: date }),
-    ...(endDate && { date_end: endDate }),
-    ...(reference && { invoice_number: reference }),
-    ...(userInvNumber && { user_invoice_number: userInvNumber }),
-    // ...(remark && { remark: remark }),
-    ...(category && { category: category }),
-    // ...(minLaivraison && { min_laivraison: minLaivraison }),
-    // ...(maxLaivraison && { max_laivraison: maxLaivraison }),
-    ...(fournisseur && { provider_id: fournisseur }),
-    ...(magasin && { entrepot_id: magasin }),
-  };
-};

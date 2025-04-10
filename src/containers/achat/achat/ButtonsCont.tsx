@@ -2,35 +2,33 @@ import { useState } from "react";
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
-// import { AiOutlineFileExcel } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/achat/achats/achats/FilterContent";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
-// import IAchat from "../../../types/achat";
-import { useContext } from "react";
-import { AchatsContext } from "../../../pages/achat/Achats";
+import { IAchatTable } from "../../../types/achat";
+import { useCallback } from "react";
+import IAchat from "../../../types/achat";
+import SideDrawer from "../../../components/ui/side drawer/SideDrawer";
 
+interface IProps {
+  data: IAchat[];
+  columns: (keyof IAchatTable)[];
+}
 
-const ButtonsCont = () => {
-  const { data, columns } =
-    useContext(AchatsContext);
+const ButtonsCont = ({data, columns }: IProps) => { 
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleFilter = () => {
+  const handleFilter = useCallback(() => {
     setIsDrawerOpen(!isDrawerOpen);
-  };
+  }, [isDrawerOpen]);
 
-  // const handleExportExcel = () => {
-  //   console.log("Export Excel not implemented");
-  // };
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     navigate("/achats/ajouter-un-achat");
-  };
+  }, [navigate]);
 
   const buttons_array = [
     {
@@ -68,21 +66,14 @@ const ButtonsCont = () => {
           />
         ))}
       </div>
-      <Drawer
-        anchor="left"
+      <SideDrawer
         open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
+        onClose={() => setIsDrawerOpen(!isDrawerOpen)}
       >
         <FilterContent
           close={handleFilter}
         />
-      </Drawer>
+      </SideDrawer>
     </section>
   );
 };

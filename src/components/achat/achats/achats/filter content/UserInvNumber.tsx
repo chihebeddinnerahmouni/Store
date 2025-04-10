@@ -1,19 +1,18 @@
 import InputText from "../../../../ui/inputs/InputText";
 import Label from "../../../../ui/Label";
-import { useContext } from "react";
-import { AchatsContext } from "../../../../../pages/achat/Achats";
 
-const UserInvNumber = () => {
-  const { userInvNumber, setUserInvNumber } = useContext(AchatsContext);
+interface IProps {
+  value: string;
+  setValue: (value: string) => void;
+}
 
-  // console.log(magasinArray);
-
+const UserInvNumber = ({ value, setValue }: IProps) => {
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={"filterAchatedUser"} text={"Reference de l'utulisateur"} />
       <InputText
-        value={userInvNumber}
-        setValue={setUserInvNumber}
+        value={value}
+        setValue={setValue}
         label="Entrer la reference de l'utulisateur"
       />
     </div>

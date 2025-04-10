@@ -15,7 +15,6 @@ import { LuLayoutDashboard } from "react-icons/lu";
 
 interface SideBarProps {
   toggleDrawer: (newOpen: boolean) => () => void;
-  // dataArray: any[];
   dataArray: Record<string, Record<string, boolean>>;
 }
 

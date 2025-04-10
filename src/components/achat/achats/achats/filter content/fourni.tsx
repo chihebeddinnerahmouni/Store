@@ -1,15 +1,15 @@
 import SelectInput from "../../../../ui/inputs/SelectInput";
 import Label from "../../../../ui/Label";
-import { useContext } from "react";
-import { AchatsContext } from "../../../../../pages/achat/Achats";
 
+interface IProps {
+  options: any[];
+  value: number;
+  setValue: (value: number) => void;
+}
 
-
-const Fourni = () => {
-    const { fournisseur, setFournisseur, fourniArray } =
-      useContext(AchatsContext);
+const Fourni = ({options, value, setValue}: IProps) => {
     
-    const newOptions = fourniArray.map((option: any) => ({
+    const newOptions = options.map((option: any) => ({
       id: option.id,
       name: option.name,
     }));
@@ -21,18 +21,11 @@ const Fourni = () => {
         <SelectInput
           options={newOptions}
           label="Par Fournisseure"
-          value={
-            fournisseur === 0
-              ? ""
-              : newOptions.find((option: any) => option.id === fournisseur)
-                  ?.name
-          }
+          value={value}
           setValue={(value: string) => {
-            const selectedOption = newOptions.find(
-              (option: any) => option.name === value
+            setValue(
+              newOptions.find((option: any) => option.name === value)?.id
             );
-            const valueId = selectedOption ? selectedOption.id : 0;
-            setFournisseur(valueId);
           }}
         />
       </div>
