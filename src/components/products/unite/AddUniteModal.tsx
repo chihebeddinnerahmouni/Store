@@ -2,6 +2,17 @@
 // import { useState } from "react";
 // import InputText from "../../ui/inputs/InputText";
 // import FullShiningButton from "../../ui/buttons/FullShiningButton";
+// import { useForm, SubmitHandler } from "react-hook-form";
+// import { Controller } from "react-hook-form";
+// import InputMultiLine from "../../ui/inputs/InputMultiLine";
+// import axios from "axios";
+// import { enqueueSnackbar } from "notistack";
+
+// type FormValues = {
+//   name: string;
+//   code: string;
+//   description: string;
+// };
 
 // interface AddCategoryModalProps {
 //   open: boolean;
@@ -9,10 +20,59 @@
 // }
 
 // const AddUniteModal = ({ open, onClose }: AddCategoryModalProps) => {
-//   const [marqueName, setmarqueName] = useState("");
+//   const [name, setName] = useState("");
+//   const [code, setCode] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [loading, setLoading] = useState<boolean>(false);
+//   const url = import.meta.env.VITE_BASE_URL as string;
+
 //   const mainColor = "#006233";
 
-//   const handleSave = () => {};
+//   const handleSave = () => {
+//     setLoading(true);
+//     axios
+//       .post(
+//         `${url}/api/units`,
+//         {
+//           code_unit: code,
+//           name_unit: name,
+//           description: description,
+//         },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem("token")}`,
+//           },
+//         }
+//       )
+//       .then((res) => {
+//         // console.log(res.data);
+//         enqueueSnackbar(res.data.message, { variant: "success" });
+//         setLoading(false);
+//         onClose();
+//         window.location.reload();
+//       })
+//       .catch((err) => {
+//         if (err.message === "Network Error") {
+//           enqueueSnackbar("Erreur de connexion", { variant: "error" });
+//         } else {
+//           enqueueSnackbar(err.response.data.message, { variant: "error" });
+//         }
+//         setLoading(false);
+//       });
+
+//     // setTimeout(() => {
+//     //     setLoading(false);
+//     //     // onClose();
+//     // }, 2000);
+//   };
+
+//   const {
+//     handleSubmit,
+//     control,
+//     formState: { errors },
+//     clearErrors,
+//   } = useForm<FormValues>();
+//   const onSubmit: SubmitHandler<FormValues> = handleSave;
 
 //   return (
 //     <Modal
@@ -45,34 +105,95 @@
 //           variant="h6"
 //           component="h2"
 //         >
-//           Ajouter une unité
+//           Ajouter unité
 //         </Typography>
 
 //         {/* texts */}
-//         <div className="flex flex-col gap-5 mt-5">
-//           <InputText
-//             label="Nom"
-//             value={marqueName}
-//             setValue={setmarqueName}
+//         <form
+//           className="flex flex-col gap-5 mt-5"
+//           onSubmit={handleSubmit(onSubmit)}
+//         >
+//           <Controller
+//             name="name"
+//             control={control}
+//             rules={{
+//               required: "Ce champ est obligatoire",
+//             }}
+//             render={({ field }) => (
+//               <InputText
+//                 label="Le nom de l'unité*"
+//                 {...field}
+//                 error={!!errors.name}
+//                 helperText={errors.name?.message}
+//                 value={name}
+//                 setValue={(value: string) => {
+//                   setName(value);
+//                   field.onChange(value);
+//                   if (errors.name) {
+//                     clearErrors("name");
+//                   }
+//                 }}
+//               />
+//             )}
 //           />
-//           <InputText
-//             label="Nom court"
-//             value={marqueName}
-//             setValue={setmarqueName}
+
+//           <Controller
+//             name="code"
+//             control={control}
+//             rules={{
+//               required: "Ce champ est obligatoire",
+//             }}
+//             render={({ field }) => (
+//               <InputText
+//                 label="Le code de l'unité*"
+//                 {...field}
+//                 error={!!errors.code}
+//                 helperText={errors.code?.message}
+//                 value={code}
+//                 setValue={(value: string) => {
+//                   setCode(value);
+//                   field.onChange(value);
+//                   if (errors.code) {
+//                     clearErrors("code");
+//                   }
+//                 }}
+//               />
+//             )}
 //           />
-//           {/* <InputNumber
-//             label="Code de la marque"
-//             value={categoryCode}
-//             setValue={setCategoryCode}
-//           /> */}
-//         </div>
-//         <Box mt={2} display="flex" justifyContent="flex-end">
-//           <FullShiningButton
-//             text="Soumettre"
-//             color={mainColor}
-//             onClick={handleSave}
+//           <Controller
+//             name="description"
+//             control={control}
+//             rules={{
+//               required: "Ce champ est obligatoire",
+//             }}
+//             render={({ field }) => (
+//               <InputMultiLine
+//                 label="La description de l'unité'*"
+//                 {...field}
+//                 error={!!errors.description}
+//                 helperText={errors.description?.message}
+//                 value={description}
+//                 setValue={(value: string) => {
+//                   setDescription(value);
+//                   field.onChange(value);
+//                   if (errors.description) {
+//                     clearErrors("description");
+//                   }
+//                 }}
+//               />
+//             )}
 //           />
-//         </Box>
+//           <Box mt={2} display="flex" justifyContent="flex-end">
+//             <FullShiningButton
+//               text="Soumettre"
+//               color={mainColor}
+//               //   onClick={handleSave}
+//               onClick={handleSubmit(onSubmit)}
+//               type="submit"
+//               loading={loading}
+//             />
+//           </Box>
+//         </form>
 //       </Box>
 //     </Modal>
 //   );
@@ -82,207 +203,119 @@
 // export default AddUniteModal;
 
 
-
-import { Modal, Box, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box } from "@mui/material";
 import InputText from "../../ui/inputs/InputText";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Controller } from "react-hook-form";
 import InputMultiLine from "../../ui/inputs/InputMultiLine";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import ModalComp from "../../ui/modals/Modal";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import ModalTitle from "../../ui/modals/ModalTitle";
+import { useMutation } from "@tanstack/react-query";
+import { handleAxiosError } from "../../../helper/axios_error";
 
-type FormValues = {
-  name: string;
-  code: string;
-  description: string;
+const url = import.meta.env.VITE_BASE_URL as string;
+const sendData = async (values: any) => {
+  const { data } = await axios.post(
+    `${url}/api/units`,
+    {
+      code_unit: values.code,
+      name_unit: values.name,
+      description: values.description,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
 };
 
-interface AddCategoryModalProps {
-  open: boolean;
+interface IProps {
   onClose: () => void;
+  refetch: () => void;
 }
 
-const AddUniteModal = ({ open, onClose }: AddCategoryModalProps) => {
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const url = import.meta.env.VITE_BASE_URL as string;
+const AddUniteModal = ({ onClose, refetch }: IProps) => {
 
-  const mainColor = "#006233";
-
-  const handleSave = () => {
-    setLoading(true);
-    axios
-      .post(
-        `${url}/api/units`,
-        {
-          code_unit: code,
-          name_unit: name,
-          description: description,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        // console.log(res.data);
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        setLoading(false);
-        onClose();
-        window.location.reload();
-      })
-      .catch((err) => {
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-        setLoading(false);
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendData,
+    onSuccess: (res:any) => {
+      enqueueSnackbar(res.message, {
+        variant: "success",
       });
+      refetch();
+      onClose();
+    },
+    onError: handleAxiosError,
+  });
 
-    // setTimeout(() => {
-    //     setLoading(false);
-    //     // onClose();
-    // }, 2000);
-  };
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = handleSave;
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      code: "",
+      description: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Le nom est obligatoire"),
+      code: Yup.string().required("Le code est obligatoire"),
+      description: Yup.string().required(
+        "La description est obligatoire"
+      ),
+    }),
+    onSubmit: (values) => mutate(values),
+  });
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      BackdropProps={{
-        style: {
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-          backdropFilter: "blur(5px)",
-        },
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: { xs: "90%", md: "40%", lg: 400 },
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: 3,
-          borderRadius: 1,
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: "Nunito",
+    <ModalComp open={true} onClose={onClose}>
+      <ModalTitle text="Ajouter unité" />
+
+      {/* texts */}
+      <form className="flex flex-col gap-5 mt-5" onSubmit={formik.handleSubmit}>
+        <InputText
+          label="Le nom de la unité*"
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          value={formik.values.name}
+          setValue={(value: string) => {
+            formik.handleChange("name")(value);
           }}
-          variant="h6"
-          component="h2"
-        >
-          Ajouter unité
-        </Typography>
+        />
 
-        {/* texts */}
-        <form
-          className="flex flex-col gap-5 mt-5"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Controller
-            name="name"
-            control={control}
-            rules={{
-              required: "Ce champ est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputText
-                label="Le nom de l'unité*"
-                {...field}
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                value={name}
-                setValue={(value: string) => {
-                  setName(value);
-                  field.onChange(value);
-                  if (errors.name) {
-                    clearErrors("name");
-                  }
-                }}
-              />
-            )}
-          />
+        <InputText
+          label="Le code de la unité"
+          error={formik.touched.code && Boolean(formik.errors.code)}
+          helperText={formik.touched.code && formik.errors.code}
+          value={formik.values.code}
+          setValue={(value: string) => {
+            formik.handleChange("code")(value);
+          }}
+        />
 
-          <Controller
-            name="code"
-            control={control}
-            rules={{
-              required: "Ce champ est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputText
-                label="Le code de l'unité*"
-                {...field}
-                error={!!errors.code}
-                helperText={errors.code?.message}
-                value={code}
-                setValue={(value: string) => {
-                  setCode(value);
-                  field.onChange(value);
-                  if (errors.code) {
-                    clearErrors("code");
-                  }
-                }}
-              />
-            )}
+        <InputMultiLine
+          label="La description de la unité*"
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
+          helperText={formik.touched.description && formik.errors.description}
+          value={formik.values.description}
+          setValue={(value: string) => {
+            formik.handleChange("description")(value);
+          }}
+        />
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <FullShiningButton
+            text="Soumettre"
+            type="submit"
+            loading={isPending}
           />
-          <Controller
-            name="description"
-            control={control}
-            rules={{
-              required: "Ce champ est obligatoire",
-            }}
-            render={({ field }) => (
-              <InputMultiLine
-                label="La description de l'unité'*"
-                {...field}
-                error={!!errors.description}
-                helperText={errors.description?.message}
-                value={description}
-                setValue={(value: string) => {
-                  setDescription(value);
-                  field.onChange(value);
-                  if (errors.description) {
-                    clearErrors("description");
-                  }
-                }}
-              />
-            )}
-          />
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <FullShiningButton
-              text="Soumettre"
-              color={mainColor}
-              //   onClick={handleSave}
-              onClick={handleSubmit(onSubmit)}
-              type="submit"
-              loading={loading}
-            />
-          </Box>
-        </form>
-      </Box>
-    </Modal>
+        </Box>
+      </form>
+    </ModalComp>
   );
 };
-
 
 export default AddUniteModal;

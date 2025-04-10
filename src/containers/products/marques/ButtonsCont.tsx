@@ -13,7 +13,7 @@ interface ButtonsContProps {
 }
 
 const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
-  const [isAddOpen, setIsAddOpen] = useState(true);
+  const [isAddOpen, setIsAddOpen] = useState(false);
 
   const handleAdd = () => {
     setIsAddOpen(true);

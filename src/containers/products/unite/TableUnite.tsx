@@ -20,9 +20,10 @@ import DeleteUniteModal from "../../../components/products/unite/DeleteUniteModa
 interface Props {
   data: IUnite[];
   columns: (keyof IUnite)[];
+  refetch: () => void;
 }
 
-const TableUnite = ({ data, columns }: Props) => {
+const TableUnite = ({ data, columns, refetch }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof IUnite>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -143,18 +144,20 @@ const TableUnite = ({ data, columns }: Props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {updateRow &&
+        {updateRow && (
           <UpdateUniteModal
-            open={true}
-            setOpen={() => setUpdateRow(null)}
+            onClose={() => setUpdateRow(null)}
             data={updateRow}
-          />}
-        {deleteRow &&
+            refetch={refetch}
+          />
+        )}
+        {deleteRow && (
           <DeleteUniteModal
-            open={true}
-            setOpen={() => setDeleteRow(null)}
+            onClose={() => setDeleteRow(null)}
             data={deleteRow}
-          />}
+            refetch={refetch}
+          />
+        )}
       </div>
     </div>
   );

@@ -9,9 +9,10 @@ import IUnite from "../../../types/unite";
 interface ButtonsContProps {
   data: IUnite[];
   columns: string[];
+  refetch: () => void;
 }
 
-const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
+const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
 
   const handleAdd = () => {
@@ -46,7 +47,7 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
           />
         ))}
       </div>
-      <AddUniteModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
+      {isAddOpen && <AddUniteModal refetch={refetch} onClose={() => setIsAddOpen(false)} />}
     </section>
   );
 };
