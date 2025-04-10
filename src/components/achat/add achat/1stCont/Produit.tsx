@@ -5,7 +5,27 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import IProduct from "../../../../types/Product";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+// import IProductSingle from "../../../../types/IProductSingle";
+import { handleAxiosError } from "../../../../helper/axios_error";
+
+
+
+const url = import.meta.env.VITE_BASE_URL as string;
+// const fetchData = async (value: string) => { 
+//   const {data} = await axios.post<{products: IProductSingle[]}>(
+//     `${url}/api/products/search?q=${value}`,
+//     {},
+//     {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       },
+//     }
+//   );
+//   return data.products;
+// }
+
+
 
 interface IMainProp {
   id: string;
@@ -21,7 +41,6 @@ const Produit = ({
   selectedProduct,
   setSelectedProduct,
 }: IMainProp) => {
-  const url = import.meta.env.VITE_BASE_URL as string;
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [dataSearch, setDataSearch] = useState<any[]>([]);
 
@@ -40,7 +59,6 @@ const Produit = ({
           }
         )
         .then((res: any) => {
-          // console.log(res.data);
           const suggestionsArray = res.data.products.map(
             (product: any) => product.name
           );
@@ -56,14 +74,8 @@ const Produit = ({
             setSuggestions([]);
           }
         })
-        .catch((err) => {
-          //  setLoading(false);
-          // console.log(err);
-          if (err.message === "Network Error") {
-            enqueueSnackbar("Erreur de connexion", { variant: "error" });
-          } else {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          }
+        .catch((err: any) => {
+          handleAxiosError(err);
         });
     };
     const handler = setTimeout(() => {
@@ -113,13 +125,11 @@ const InputAutocomplete = ({
   id,
   suggestions,
   dataSearch,
-  // selectedProduct,
   setSelectedProduct,
 }: InputAutocompleteProps) => {
   const mainColor = "#006233";
   const [inputValue, setInputValue] = useState(value);
 
-  // console.log(value);
 
   return (
     <div>

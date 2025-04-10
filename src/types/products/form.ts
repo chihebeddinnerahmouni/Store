@@ -8,7 +8,7 @@ export interface ProductFormValues {
   prixAchat: string;
   prixVente: string;
   unite: number;
-  stockAlert: string;
+  stockAlert: string ;
   reyonage: number;
   numSerie: boolean;
 }

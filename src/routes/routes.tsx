@@ -15,7 +15,6 @@ import Fournisseurs from "../pages/gens/Fournisseurs";
 import RetourVantes from "../pages/retour/RetourVantes";
 import RetourAchats from "../pages/retour/RetourAchats";
 import Login from "../pages/auth/Login";
-import EditProduct from "../pages/products/EditProduct";
 import AlertProduit from "../pages/rapport/AlertProduit";
 import EntrepotsReport from "../pages/rapport/EntrepotsReport";
 import Inventaire from "../pages/rapport/inventaire/Inventaire";
@@ -42,6 +41,7 @@ import Register from "../pages/auth/Register";
 const Dashbored = lazy(() => import("../pages/Dashbored"));
 const AddProduct = lazy(() => import("../pages/products/AddProduct"));
 const Products = lazy(() => import("../pages/products/Products"));
+const EditProduct = lazy(() => import("../pages/products/EditProduct"));
 const Categories = lazy(() => import("../pages/products/Categories"));
 const Marques = lazy(() => import("../pages/products/Marques"));
 const Unites = lazy(() => import("../pages/products/Unite"));
@@ -136,7 +136,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "/produits/modifier-produit/:produitId",
-        element: <EditProduct />,
+        element: (
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <EditProduct />
+            </Suspense>
+          </ErrorBoundary>
+        )
       },
 
       {

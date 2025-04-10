@@ -1,305 +1,180 @@
 import PageTitle from "../../components/ui/PageTitle";
 import ProductStCont from "../../containers/products/add product/ProductStCont";
-import { useState, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import ImageCont from "../../containers/products/add product/ImageCont";
 import ProductsNd from "../../containers/products/add product/ProductsNd";
 import InstructionsCont from "../../containers/products/add product/InstructionsCont";
 import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
-import Loading from "../../components/ui/Loading";
 import IProductSingle from "../../types/IProductSingle";
 import { useParams } from "react-router-dom";
+import { ProductFormValues } from "../../types/products/form";
+import ICategory from "../../types/category";
+import IMArque from "../../types/marque";
+import IReyonnage from "../../types/reyonnage";
+import IUnite from "../../types/unite";
+import { useSuspenseQueries, useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { handleAxiosError } from "../../helper/axios_error";
 
-type FormValues = {
-  name: string;
-  code: string;
-  category: string;
-  marque: string;
-  tax: string;
-  description: string;
-  // type: string;
-  // image: string;
-  prixAchat: string;
-  prixVente: string;
-  unite: string;
-  uniteVente: string;
-  uniteAchat: string;
-  stockAlert: string;
-  reyonage: string;
-  // quantity: string;
+const url = import.meta.env.VITE_BASE_URL;
+
+const fetchHelper = async (endPointe: string) => {
+  const response = await axios.get(`${url}/${endPointe}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+};
+
+const fetchData = (id: string) => {
+  const queries = useSuspenseQueries({
+    queries: [
+      {
+        queryKey: ["categories"],
+        queryFn: () => fetchHelper("api/categories"),
+      },
+      {
+        queryKey: ["brands"],
+        queryFn: () => fetchHelper("api/brands"),
+      },
+      {
+        queryKey: ["units"],
+        queryFn: () => fetchHelper("api/units"),
+      },
+      {
+        queryKey: ["rayonages"],
+        queryFn: () => fetchHelper("api/rayonages"),
+      },
+      {
+        queryKey: ["product", id],
+        queryFn: () => fetchHelper("api/products/" + id),
+      },
+    ],
+  });
+  const categories: { categories: ICategory[] } = (queries[0]?.data ?? {
+    categories: [],
+  }) as {
+    categories: ICategory[];
+  };
+  const brands: { brands: IMArque[] } = (queries[1]?.data ?? {
+    brands: [],
+  }) as {
+    brands: IMArque[];
+  };
+
+  const units: { units: IUnite[] } = (queries[2]?.data ?? {
+    units: [],
+  }) as {
+    units: IUnite[];
+  };
+  const rayonages: { rayonages: IReyonnage[] } = (queries[3]?.data ?? {
+    rayonages: [],
+  }) as {
+    rayonages: IReyonnage[];
+  };
+  const product: { product: IProductSingle } = (queries[4]?.data ?? {
+    product: {},
+  }) as {
+    product: IProductSingle;
+  };
+
+  return {
+    categories: categories.categories,
+    brands: brands.brands,
+    units: units.units,
+    rayonages: rayonages.rayonages,
+    product: product.product,
+  };
+};
+
+const sendData = async (values: ProductFormValues, id: string) => {
+  const response = await axios.put(
+    `${url}/api/products/${id}`,
+    {
+      name: values.designation,
+      code_barre: values.codeBarre,
+      category_id: values.category,
+      brand_id: values.marque,
+      unit_id: values.unite,
+      reyonage_id: values.reyonage,
+      has_serial_number: values.numSerie ? 1 : 0,
+      tax_percentage: Number(values.tax),
+      description: values.description,
+      price_buy: Number(values.prixAchat),
+      price_sell: Number(values.prixVente),
+      stock_alert: Number(values.stockAlert),
+      quantity: 0,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return response.data;
 };
 
 const EditProduct = () => {
-
-  const [data, setData] = useState<IProductSingle>();
-  const [designation, setDesignation] = useState<string>("");
-  const [codeBarre, setCodeBarre] = useState<string>("");
-  const [category, setCategory] = useState<number>(0);
-  const [marque, setMarque] = useState<number>(0);
-  const [tax, setTax] = useState<string>("");
-  const [description, setDescription] = useState("");
-  // const [type, setType] = useState<string>("");
-  // const [image, setImage] = useState<string>("");
-  const [prixAchat, setPrixAchat] = useState<string>("");
-  const [prixVente, setPrixVente] = useState<string>("");
-  const [unite, setUnite] = useState<number>(0);
-  // const [uniteVente, setUniteVente] = useState<string>("");
-  // const [uniteAchat, setUniteAchat] = useState<string>("");
-  const [stockAlert, setStockAlert] = useState<string>("");
-  const [numSerie, setNumSerie] = useState<boolean>(false);
-  const [reyonage, setReyonage] = useState<number>(0);
-  // const [quantity, setQuantity] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [LoadingPage, setLoadingPage] = useState<boolean>(true);
-
-  const [categoriesArray, setCategoriesArray] = useState<any>([]);
-  const [marquesArray, setMarquesArray] = useState<any>([]);
-  const [unitesArray, setUnitesArray] = useState<any>([]);
-  const [reyonagesArray, setReyonagesArray] = useState<any>([]);
-
-  const mainColor = "#006233";
-  const url = import.meta.env.VITE_BASE_URL;
   const { produitId } = useParams<{ produitId: string }>();
 
+  const { categories, brands, units, rayonages, product } = fetchData(
+    produitId!
+  );
 
-  useEffect(() => {
-    Promise.all([
-      axios.get(`${url}/api/categories`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      axios.get(`${url}/api/brands`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      axios.get(`${url}/api/units`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      axios.get(`${url}/api/rayonages`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      axios.get(`${url}/api/products/${produitId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-    ])
-      .then(
-        axios.spread((cat, mar, units, ray, prod) => {
-          setCategoriesArray(cat.data.categories);
-          setMarquesArray(mar.data.brands);
-          setUnitesArray(units.data.units);
-          setReyonagesArray(ray.data.rayonages);
-          setData(prod.data.product);
-          setDesignation(prod.data.product.name);
-          setCodeBarre(prod.data.product.code_barre);
-          setCategory(prod.data.product.category.id);
-          setMarque(prod.data.product.brand.id);
-          setTax(prod.data.product.tax_percentage);
-          setDescription(prod.data.product.description);
-          setPrixAchat(prod.data.product.price_buy);
-          setPrixVente(prod.data.product.price_sell);
-          setUnite(prod.data.product.unit.id);
-          setStockAlert(prod.data.product.stock_alert.toString());
-          setReyonage(prod.data.product.rayonage.id);
-          setNumSerie(prod.data.product.has_serial_number === 1 ? true : false);
-
-          setLoadingPage(false);
-        })
-      )
-      .catch((err) => {
-        // console.log(err);
-        setLoadingPage(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          Object.keys(err.response.data.erreurs).map((key) => {
-            err.response.data.erreurs[key].map((err: any) => {
-              enqueueSnackbar(err, { variant: "error" });
-            });
-          });
-        }
-      });
-
-    // console.log("response1", response1);
-    // console.log("response2", response2);
-    // console.log("response3", response3);
-    // console.log("response4", response4);
-  }, []);
-
-  const send = () => {
-    setLoading(true);
-    axios
-      .put(
-        `${url}/api/products/${data!.id}`,
-        {
-          name: designation,
-          code_barre: codeBarre,
-          category_id: category,
-          brand_id: marque,
-          unit_id: unite,
-          reyonage_id: reyonage,
-          has_serial_number: numSerie ? 1 : 0,
-          tax_percentage: Number(tax),
-          description: description,
-          price_buy: Number(prixAchat),
-          price_sell: Number(prixVente),
-          stock_alert: Number(stockAlert),
-          quantity: 0,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        
-        setLoading(false);
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        setLoading(false);
-        window.location.reload();
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          Object.keys(err.response.data.erreurs).map((key) => {
-            err.response.data.erreurs[key].map((err: any) => {
-              enqueueSnackbar(err, { variant: "error" });
-            });
-          });
-        }
-      });
-
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
-  };
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValues>({
-    defaultValues: {
-      name: "",
-      code: "",
-      category: "",
-      marque: "",
-      tax: "",
-      description: "",
-      // type: "",
-      // image: "",
-      prixAchat: "",
-      prixVente: "",
-      unite: "",
-      // uniteVente: "",
-      // uniteAchat: "",
-      stockAlert: "",
-      reyonage: "",
-    }
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: any) => sendData(values, produitId!),
+    onSuccess: (res: any) => {
+      enqueueSnackbar(res.message, { variant: "success" });
+    },
+    onError: handleAxiosError,
   });
 
-   useEffect(() => {
-     if (data) {
-       setValue("name", data.name);  
-       setValue("code", data.code_barre);
-       setValue("category", (data.category.id).toString());
-       setValue("marque", (data.brand.id).toString());
-       setValue("tax", data.tax_percentage);
-       setValue("description", data.description);
-       setValue("prixAchat", data.price_buy);
-       setValue("prixVente", data.price_sell);
-       setValue("unite", (data.unit.id).toString());
-       setValue("stockAlert", (data.stock_alert).toString());
-       // setValue("numSerie", data.has_serial_number);
-       setValue("reyonage", (data.rayonage.id).toString());
-     }
-   }, [data, setValue]);
-
-
-  const onSubmit: SubmitHandler<FormValues> = send;
-  //  const onSubmit: SubmitHandler<FormValues> = (data) => {
-  //   //  console.log(data);
-  //    send;
-  //  };
-
-
-  if (LoadingPage) {
-    return <Loading />;
-  }
+  const formik = useFormik<ProductFormValues>({
+    initialValues: {
+      designation: product.name,
+      codeBarre: product.code_barre,
+      category: product.category_id,
+      marque: product.brand_id,
+      tax: product.tax_percentage,
+      description: product.description,
+      prixAchat: product.price_buy,
+      prixVente: product.price_sell,
+      unite: product.unit_id,
+      stockAlert: product.stock_alert.toString(),
+      reyonage: product.rayonage.id,
+      numSerie: false,
+    },
+    validationSchema: Yup.object({
+      designation: Yup.string().required("Champ requis"),
+      codeBarre: Yup.string().required("Champ requis"),
+      category: Yup.number().notOneOf([0], "Champ requis"),
+      marque: Yup.number().notOneOf([0], "Champ requis"),
+      reyonage: Yup.number().notOneOf([0], "Champ requis"),
+      tax: Yup.string().required("Champ requis"),
+      description: Yup.string().required("Champ requis"),
+      prixAchat: Yup.string().required("Champ requis"),
+      prixVente: Yup.string().required("Champ requis"),
+      unite: Yup.number().notOneOf([0], "Champ requis"),
+      stockAlert: Yup.string().required("Champ requis"),
+    }),
+    onSubmit: (values) => mutate(values),
+  });
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Modifier produit" />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
           <ProductStCont
-            control={control}
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            designation={designation}
-            setDesignation={setDesignation}
-            codeBarre={codeBarre}
-            setCodeBarre={setCodeBarre}
-            category={category}
-            setCategory={setCategory}
-            marque={marque}
-            setMarque={setMarque}
-            tax={tax}
-            setTax={setTax}
-            description={description}
-            setDescription={setDescription}
-            reyonage={reyonage}
-            setReyonage={setReyonage}
-            categoriesArray={categoriesArray}
-            marquesArray={marquesArray}
-            // unitesArray={unitesArray}
-            // setUnitesArray={setUnitesArray}
-            reyonagesArray={reyonagesArray}
+            formik={formik}
+            categoriesArray={categories}
+            marquesArray={brands}
+            reyonagesArray={rayonages}
           />
 
-          <ImageCont />
-
-          <ProductsNd
-            control={control}
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            // type={type}
-            // setType={setType}
-            // quantity={quantity}
-            // setQuantity={setQuantity}
-            prixAchat={prixAchat}
-            setPrixAchat={setPrixAchat}
-            prixVente={prixVente}
-            setPrixVente={setPrixVente}
-            unite={unite}
-            setUnite={setUnite}
-            // uniteVente={uniteVente}
-            // setUniteVente={setUniteVente}
-            // uniteAchat={uniteAchat}
-            // setUniteAchat={setUniteAchat}
-            stockAlert={stockAlert}
-            setStockAlert={setStockAlert}
-            numSerie={numSerie}
-            setNumSerie={setNumSerie}
-            unitesArray={unitesArray}
-          />
+          <ProductsNd formik={formik} unitesArray={units} />
           <div className="lg:col-span-3 lg:hidden">
             <InstructionsCont />
           </div>
@@ -307,10 +182,7 @@ const EditProduct = () => {
         <div className="button mt-5">
           <FullShiningButton
             text="Soumettre"
-            loading={loading}
-            color={mainColor}
-            onClick={handleSubmit(onSubmit)}
-            // onClick={send}
+            loading={isPending}
             type="submit"
           />
         </div>
@@ -319,6 +191,4 @@ const EditProduct = () => {
   );
 };
 
-
 export default EditProduct;
-

@@ -160,9 +160,6 @@ export default function EnhancedTable({
   rows: IProductSingle[];
     columns: (keyof IProductTable)[];
 }) {
-  // React.useEffect(() => {
-  // console.log(rows);
-  // }, [columns, rows]);
 
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof IProductSingle>("id");
