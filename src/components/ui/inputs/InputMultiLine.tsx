@@ -6,7 +6,7 @@ interface InputTextProps {
   setValue: (value: string) => void;
   label: string;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | false | undefined;
 }
 
 const InputMultiLine = forwardRef<HTMLInputElement, InputTextProps>(

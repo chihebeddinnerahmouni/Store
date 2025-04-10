@@ -7,7 +7,6 @@ import FetchError from "../errors/FetshError";
 
 import App from "../App";
 import Test from "../Test";
-import Categories from "../pages/products/Categories";
 import Marques from "../pages/products/Marques";
 import Unite from "../pages/products/Unite";
 import AddAchat from "../pages/achat/AddAchat";
@@ -48,6 +47,7 @@ import Register from "../pages/auth/Register";
 const Dashbored = lazy(() => import("../pages/Dashbored"));
 const AddProduct = lazy(() => import("../pages/products/AddProduct"));
 const Products = lazy(() => import("../pages/products/Products"));
+const Categories = lazy(() => import("../pages/products/Categories"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -82,7 +82,14 @@ export const router = createBrowserRouter([
             </Suspense>
           </ErrorBoundary>
       )},
-      { path: "/produits/categories", element: <Categories /> },
+      {
+        path: "/produits/categories", element: (
+          // <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <Categories />
+            </Suspense>
+          // </ErrorBoundary>
+      ) },
       { path: "/produits/marques", element: <Marques /> },
       { path: "/produits/unite", element: <Unite /> },
       { path: "/produits/reyonnage", element: <Reyonnage /> },
