@@ -1,5 +1,5 @@
 import Label from "../../../ui/Label";
-import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../../types/products/form";
 import { FormikProps } from "formik";
 import MultiLine from "../../../ui/inputs/MultiLine";
 

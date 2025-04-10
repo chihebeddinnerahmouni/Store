@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSuspenseQueries, useMutation } from "@tanstack/react-query";
-import { ProductFormValues } from "../../types/achats/add achat/form";
+import { ProductFormValues } from "../../types/products/form";
 import ICategory from "../../types/category";
 import IMArque from "../../types/marque";
 import IReyonnage from "../../types/reyonnage";
@@ -159,9 +159,6 @@ const AddProduct = () => {
     },
   });
 
-  
-
-  // console.log(units);
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">

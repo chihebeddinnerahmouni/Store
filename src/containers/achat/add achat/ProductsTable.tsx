@@ -21,22 +21,9 @@ import { enqueueSnackbar } from "notistack";
 import InputText from "../../../components/ui/inputs/InputText";
 import FullShiningButton from "../../../components/ui/buttons/FullShiningButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
+import { IProductCommandeItem } from "../../../types/products/product_to_commande";
 
 
-interface IProductCommandeItem {
-  id: number;
-  name: string;
-  cout_unitaire: number;
-  stock_actuel: number;
-  // remise: number;
-  taxe: number;
-  quantite: number;
-  grand_total: number;
-  alert_stock: number;
-  unité: string;
-  has_serial_number: boolean;
-  serial_numbers: string[];
-}
 
 interface Props {
   data: IProductCommandeItem[];

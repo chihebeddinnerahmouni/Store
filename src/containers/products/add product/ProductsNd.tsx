@@ -9,7 +9,7 @@ import NumSerie from "../../../components/products/add products/2nd section/NumS
 // import Quantite from "../../../components/products/add products/2nd section/Quantite";
 import IUnite from "../../../types/unite";
 import { FormikProps } from "formik";
-import { ProductFormValues } from "../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../types/products/form";
 
 
 

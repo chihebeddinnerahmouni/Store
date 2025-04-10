@@ -1,105 +1,99 @@
 import PageTitle from "../../components/ui/PageTitle";
 import AchatStCont from "../../containers/achat/add achat/AchatStCont";
 import { useState, useEffect, useContext } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import TableCont from "../../containers/achat/add achat/TableCont";
 // import AchatNdCont from "../../containers/achat/add achat/AchatNdCont";
 import TotalCont from "../../containers/achat/add achat/TotalCont";
 import axios from "axios";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import { enqueueSnackbar } from "notistack";
-import Loading from "../../components/ui/Loading";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { useSuspenseQueries, useMutation } from "@tanstack/react-query";
+import IMagasin from "../../types/magasin";
+import { IProvider } from "../../types/provider";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import {IAdd_achat_form} from "../../types/achats/add achat/add_achat_form";
+import {IProductCommandeItem} from "../../types/products/product_to_commande";
+import { handleAxiosError } from "../../helper/axios_error";
 
 
-
-
-interface IProductCommandeItem {
-  id: number;
-  name: string;
-  cout_unitaire: number;
-  stock_actuel: number;
-  // remise: number;
-  taxe: number;
-  quantite: number;
-  grand_total: number;
-  alert_stock: number;
-  unité: string;
-  has_serial_number: boolean;
-  serial_numbers: string[];
-}
-
-type FormValues = {
-  date: string;
-  fournisseur: string;
-  magasain: string;
-  user_invoice_number: string;
+const url = import.meta.env.VITE_BASE_URL;
+const fetchHelper = async (endPointe: string) => {
+  const response = await axios.get(`${url}/${endPointe}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
 };
 
+const fetchData = () => {
+  const queries = useSuspenseQueries({
+    queries: [
+      {
+        queryKey: ["authorised_magasins"],
+        queryFn: () => fetchHelper("api/entreports/authorized/get"),
+      },
+      {
+        queryKey: ["providers"],
+        queryFn: () => fetchHelper("api/providers"),
+      },
+    ],
+  });
+  // console.log(queries[0]?.data.entrepots);
+  const magasins: { entrepots: IMagasin[] } = (queries[0]?.data ?? {
+    entrepots: [],
+  }) as {
+    entrepots: IMagasin[];
+  };
+  const providers: { providers: IProvider[] } = (queries[1]?.data ?? {
+    providers: [],
+  }) as {
+    providers: IProvider[];
+    };
+
+  return { magasins: magasins.entrepots, providers: providers.providers };
+};
+
+const sendData = async (body: any) => { 
+  const { data } = await axios.post(`${url}/api/achats`, body, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return data;
+}
+
+
+
+
 const AddAchat = () => {
-  const [date, setDate] = useState<string>("");
-  const [fournisseure, setFournisseure] = useState<number>(0);
-  const [magasain, setMagasain] = useState<number>(0);
   const [produit, setProduit] = useState<string>("");
   const [productsCommandeArray, setProductsCommandeArray] = useState<
     IProductCommandeItem[]
   >([]);
-  // const [taxe, setTaxe] = useState<string>("");
-  // const [remise, setRemise] = useState<string>("");
-  // const [laivraison, setLaivraison] = useState<string>("");
-  // const [status, setStatus] = useState<string>("");
-  // const [remarque, setRemarque] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [fournisseuresArray, setFournisseuresArray] = useState<any[]>([]);
-  const [magasainsArray, setMagasainsArray] = useState<any[]>([]);
-  const [loadingPage, setLoadingPage] = useState<boolean>(true);
-  const [user_invoice_number, setUserInvoiceNumber] = useState<string>("");
 
-  const mainColor = "#006233";
-  const url = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
-  // console.log(fournisseuresArray, magasainsArray);
   const privileges = useContext(PrivilegesContext);
 
-
   useEffect(() => {
-
     if (!privileges.entrées["Ajouter un entrée"]) navigate("/tableau-de-bord");
-    
-
-    Promise.all([
-      axios.get(`${url}/api/entreports/authorized/get`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-      axios.get(`${url}/api/providers`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }),
-    ])
-      .then((res) => {
-        // console.log(res[0].data.entrepots);
-        setFournisseuresArray(res[1].data.providers);
-        setMagasainsArray(res[0].data.entrepots);
-        setLoadingPage(false);
-      })
-      .catch((err) => {
-        setLoadingPage(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.message, { variant: "error" });
-        }
-      });
   }, []);
 
-  const send = () => {
-    setLoading(true);
+  const { providers, magasins } = fetchData();
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendData,
+    onSuccess: (res: any) => {
+      enqueueSnackbar(res.message, { variant: "success" });
+      formik.resetForm();
+    },
+    onError: handleAxiosError,
+  });
 
-    const products = productsCommandeArray.map((product) => ({
+  const send = () => {
+    const products_to_send = productsCommandeArray.map((product) => ({
       product_id: product.id,
       quantity_declared: product.quantite,
       remise: 0,
@@ -109,83 +103,43 @@ const AddAchat = () => {
         serial_numbers: product.serial_numbers,
       }),
     }));
-
-    axios
-      .post(
-        `${url}/api/achats`,
-        {
-          provider_id: fournisseure,
-          entrepot_id: magasain,
-          user_invoice_number: user_invoice_number,
-          date: date,
-          products: products,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        // console.log(res);
-        setLoading(false);
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        window.location.reload();
-      })
-      .catch((err) => {
-        // console.log(err);
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
-      });
+    const body = {
+      provider_id: formik.values.provider,
+      entrepot_id: formik.values.magasain,
+      user_invoice_number: formik.values.user_invoice_number,
+      date: formik.values.date,
+      products: products_to_send,
+    };
+    mutate(body);
   };
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValues>();
-    const onSubmit: SubmitHandler<FormValues> = send;
-    
-  if (loadingPage) return <Loading />;
-  
+const formik = useFormik<IAdd_achat_form>({
+  initialValues: {
+    date: "",
+    provider: 0,
+    magasain: 0,
+    user_invoice_number: "",
+  },
+  validationSchema: Yup.object({
+    date: Yup.string().required("Champ requis"),
+    provider: Yup.number().notOneOf([0], "Champ requis"),
+    magasain: Yup.number().notOneOf([0], "Champ requis"),
+    user_invoice_number: Yup.string().required("Champ requis"),
+  }),
+  onSubmit: () => send()
+});
+
 
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Ajouter Entrée" />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-6">
-          {/* <div className="top-left flex flex-col gap-6 xl:flex-grow"> */}
           <AchatStCont
-            control={control}
-            clearErrors={clearErrors}
-            register={register}
-            errors={errors}
-            date={date}
-            setDate={setDate}
-            fournisseur={fournisseure}
-            setFournisseur={setFournisseure}
-            magasain={magasain}
-            setMagasain={setMagasain}
-            fournisseuresArray={fournisseuresArray}
-            magasainsArray={magasainsArray}
-            user_invoice_number={user_invoice_number}
-            setUserInvoiceNumber={setUserInvoiceNumber}
+            providersArray={providers}
+            magasainsArray={magasins}
+            formik={formik}
           />
           <TableCont
             produit={produit}
@@ -194,34 +148,15 @@ const AddAchat = () => {
             setProductsCommandeArray={setProductsCommandeArray}
           />
 
-          {/* <AchatNdCont
-            // taxe={taxe}
-            // setTaxe={setTaxe}
-            // remise={remise}
-            // setRemise={setRemise}
-            // laivraison={laivraison}
-            // setLaivraison={setLaivraison}
-            // status={status}
-            // setStatus={setStatus}
-            remarque={remarque}
-            setRemarque={setRemarque}
-          /> */}
-          {/* </div> */}
           <TotalCont
-            // remise={remise}
-            // taxe={taxe}
-            // laivraison={laivraison}
             productsCommandeArray={productsCommandeArray}
           />
         </div>
         <div className="button mt-5">
           <FullShiningButton
             type="submit"
-            loading={loading}
+            loading={isPending}
             text="Soumettre"
-            color={mainColor}
-            // onClick={send}
-            onClick={handleSubmit(send)}
           />
         </div>
       </form>

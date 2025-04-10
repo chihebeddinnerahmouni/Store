@@ -9,7 +9,7 @@ interface Props {
   setValue: (value: string) => void;
   label: string;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | undefined | false; 
 }
 
 const InputDate = forwardRef<HTMLInputElement, Props>(({ value, setValue, label, error, helperText }, ref) => {

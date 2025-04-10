@@ -1,37 +1,21 @@
 import Label from "../../../ui/Label";
 import SelectInput from "../../../ui/inputs/SelectInput";
-import { Controller } from "react-hook-form";
+import { IAdd_achat_form } from "../../../../types/achats/add achat/add_achat_form";
+import { FormikProps } from "formik";
+import { IProvider } from "../../../../types/provider";
 
 
 interface DesignationProps {
-  options: any[];
-  control: any;
-  register: any;
-  errors: any;
+  options: IProvider[];
   id: string;
-  setValue: (value: number) => void;
-  value: number;
-  clearErrors: (name: string) => void;
+  formik: FormikProps<IAdd_achat_form>;
 }
 
-// const options_array = [
-//   { id: 1, name: "client 1" },
-//   { id: 2, name: "client 2" },
-//   { id: 3, name: "client 3" },
-//   { id: 4, name: "client 4" },
-// ];
-
 const Fournisseur = ({
-  control,
-  errors,
   id,
-  value,
-  setValue,
-  clearErrors,
   options,
+  formik
 }: DesignationProps) => {
-
-  // console.log(options);
 
    const newOptions = options.map((option) => ({
      id: option.id,
@@ -42,42 +26,17 @@ const Fournisseur = ({
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={id} text={"Fournisseur*"} />
-      <Controller
-        name="fournisseur"
-        control={control}
-        rules={{ required: "ce champ est obligatoire" }}
-        render={({ field }) => (
-          <SelectInput
-            options={newOptions}
-            label="Selectionnez le fournisseur*"
-            {...field}
-            error={!!errors.fournisseur}
-            helperText={errors.fournisseur?.message}
-            value={
-              value === 0
-                ? ""
-                : newOptions.find((option) => option.id === value)?.name
-            }
-            // setValue={(value: string) => {
-            //   setValue(value);
-            //   field.onChange(value);
-            //   if (errors.fournisseur) {
-            //     clearErrors("fournisseur");
-            //   }
-            // }}
-            setValue={(value: string) => {
-              const selectedOption = newOptions.find(
-                (option) => option.name === value
-              );
-              const valueId = selectedOption ? selectedOption.id : 0;
-              setValue(valueId);
-              field.onChange(value);
-              if (errors.category) {
-                clearErrors("fournisseur");
-              }
-            }}
-          />
-        )}
+      <SelectInput
+        options={newOptions}
+        label="Selectionnez le fournisseur*"
+        error={formik.touched.provider && Boolean(formik.errors.provider)}
+        helperText={formik.touched.provider && formik.errors.provider}
+        value={formik.values.provider}
+        setValue={(value: string) => {
+          const valueId =
+            newOptions.find((option) => option.name === value)?.id || 0;
+          formik.setFieldValue("provider", valueId);
+        }}
       />
     </div>
   );

@@ -2,89 +2,28 @@ import Date from "../../../components/achat/add achat/1stCont/Date";
 import Fournisseur from "../../../components/achat/add achat/1stCont/Fournisseur";
 import Magasain from "../../../components/achat/add achat/1stCont/Magasain";
 import UserInvNumber from "../../../components/achat/add achat/1stCont/UserInvNumber";
-
-
+import { IProvider } from "../../../types/provider";
+import IMagasin from "../../../types/magasin";
+import { IAdd_achat_form } from "../../../types/achats/add achat/add_achat_form";
+import { FormikProps } from "formik";
 
 interface ProductStContProps {
-  control: any;
-  clearErrors: any;
-  register: any;
-  errors: any;
-  date: string;
-  setDate: (value: string) => void;
-  // client: string;
-  // setClient: (value: string) => void;
-  fournisseur: number;
-  setFournisseur: (value: number) => void;
-  magasain: number;
-  setMagasain: (value: number) => void;
-  fournisseuresArray: any[];
-  magasainsArray: any[];
-  user_invoice_number: string;
-  setUserInvoiceNumber: (value: string) => void;
+  providersArray: IProvider[];
+  magasainsArray: IMagasin[];
+  formik: FormikProps<IAdd_achat_form>;
 }
 
 const AchatStCont = ({
-  control,
-  clearErrors,
-  register,
-  errors,
-  date,
-  setDate,
-  // client,
-  // setClient,
-  fournisseur,
-  setFournisseur,
-  magasain,
-  setMagasain,
-  fournisseuresArray,
+  providersArray,
   magasainsArray,
-  user_invoice_number,
-  setUserInvoiceNumber,
+  formik,
 }: ProductStContProps) => {
   return (
     <section className="cardCss grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-8">
-      <Date
-        control={control}
-        clearErrors={clearErrors}
-        register={register}
-        errors={errors}
-        value={date}
-        setValue={setDate}
-        id={"date"}
-      />
-
-      <Fournisseur
-        options={fournisseuresArray}
-        control={control}
-        clearErrors={clearErrors}
-        register={register}
-        errors={errors}
-        id={"client"}
-        value={fournisseur}
-        setValue={setFournisseur}
-      />
-
-      <Magasain
-        options={magasainsArray}
-        control={control}
-        clearErrors={clearErrors}
-        register={register}
-        errors={errors}
-        id={"magasain"}
-        value={magasain}
-        setValue={setMagasain}
-      />
-
-      <UserInvNumber
-        control={control}
-        clearErrors={clearErrors}
-        register={register}
-        errors={errors}
-        id={"user_invoice_number"}
-        value={user_invoice_number}
-        setValue={setUserInvoiceNumber}
-      />
+      <Date formik={formik} id={"date"} />
+      <Fournisseur options={providersArray} id={"client"} formik={formik} />
+      <Magasain options={magasainsArray} formik={formik} id={"magasin"} />
+      <UserInvNumber id={"user_invoice_number"} formik={formik} />
     </section>
   );
 };

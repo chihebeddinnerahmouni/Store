@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Label from "../../../ui/Label";
 import { FaBarcode } from "react-icons/fa";
-import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../../types/products/form";
 import { FormikProps } from "formik";
 
 interface DesignationProps {

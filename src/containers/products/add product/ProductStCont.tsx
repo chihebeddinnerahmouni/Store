@@ -6,7 +6,7 @@ import Tax from '../../../components/products/add products/1st section/Tax';
 import Description from '../../../components/products/add products/1st section/Description';
 import Reyonage from '../../../components/products/add products/1st section/Reyonage';
 import { FormikProps } from 'formik';
-import { ProductFormValues } from "../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../types/products/form";
 
 
 interface ProductStContProps {

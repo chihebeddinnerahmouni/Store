@@ -7,7 +7,6 @@ import FetchError from "../errors/FetshError";
 
 import App from "../App";
 import Test from "../Test";
-import AddAchat from "../pages/achat/AddAchat";
 import Achats from "../pages/achat/Achats";
 import AddVente from "../pages/vente/AddVente";
 import Vents from "../pages/vente/Vents";
@@ -48,6 +47,7 @@ const Marques = lazy(() => import("../pages/products/Marques"));
 const Unites = lazy(() => import("../pages/products/Unite"));
 const Reyonnages = lazy(() => import("../pages/products/Reyonnage"));
 const Magasins = lazy(() => import("../pages/products/Magasins"));
+const AddAchat = lazy(() => import("../pages/achat/AddAchat"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -71,63 +71,84 @@ export const router = createBrowserRouter([
             <Suspense fallback={<FetshLoading />}>
               <AddProduct />
             </Suspense>
-           </ErrorBoundary>
+          </ErrorBoundary>
         ),
       },
       {
-        path: "/produits", element: (
+        path: "/produits",
+        element: (
           <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Products />
             </Suspense>
           </ErrorBoundary>
-      )},
+        ),
+      },
       {
-        path: "/produits/categories", element: (
+        path: "/produits/categories",
+        element: (
           <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Categories />
             </Suspense>
-           </ErrorBoundary>
-      ) },
+          </ErrorBoundary>
+        ),
+      },
       {
-        path: "/produits/marques", element: (
+        path: "/produits/marques",
+        element: (
           <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Marques />
             </Suspense>
           </ErrorBoundary>
-      )},
+        ),
+      },
       {
-        path: "/produits/unite", element: (
+        path: "/produits/unite",
+        element: (
           <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Unites />
             </Suspense>
           </ErrorBoundary>
-      ) },
+        ),
+      },
       {
-        path: "/produits/reyonnage", element: (
+        path: "/produits/reyonnage",
+        element: (
           <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Reyonnages />
             </Suspense>
           </ErrorBoundary>
-      ) },
+        ),
+      },
       {
-        path: "/produits/magasins", element: (
+        path: "/produits/magasins",
+        element: (
           <ErrorBoundary FallbackComponent={FetchError}>
             <Suspense fallback={<FetshLoading />}>
               <Magasins />
             </Suspense>
           </ErrorBoundary>
-      ) },
+        ),
+      },
       {
         path: "/produits/modifier-produit/:produitId",
         element: <EditProduct />,
       },
 
-      { path: "/achats/ajouter-un-achat", element: <AddAchat /> },
+      {
+        path: "/achats/ajouter-un-achat",
+        element: (
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <AddAchat />
+            </Suspense>
+          </ErrorBoundary>
+        ),
+      },
       { path: "/achats", element: <Achats /> },
       { path: "/achats/details/:achatId", element: <AchatDetails /> },
 

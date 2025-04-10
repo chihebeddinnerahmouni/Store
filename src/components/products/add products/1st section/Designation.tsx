@@ -1,6 +1,6 @@
 import Label from "../../../ui/Label";
 import InputText from "../../../ui/inputs/InputText";
-import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../../types/products/form";
 import { FormikProps } from "formik";
 
 

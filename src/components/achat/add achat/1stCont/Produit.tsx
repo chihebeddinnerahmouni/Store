@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 import IProduct from "../../../../types/Product";
+import { useQuery } from "@tanstack/react-query";
 
 interface IMainProp {
   id: string;
@@ -38,7 +39,7 @@ const Produit = ({
             },
           }
         )
-        .then((res) => {
+        .then((res: any) => {
           // console.log(res.data);
           const suggestionsArray = res.data.products.map(
             (product: any) => product.name
@@ -65,20 +66,9 @@ const Produit = ({
           }
         });
     };
-
-    // const testFunction = () => {
-    //   const suggestionsArray = test.products.map((product: any) => product.name);
-    //   setSuggestions(suggestionsArray);
-    //   setDataSearch(test.products);
-    // }
-
-    //  value && fetchData();
-    // console.log("hzreee");
     const handler = setTimeout(() => {
       if (value) {
-        // console.log("here");
         fetchData();
-        // testFunction();
       }
     }, 1000);
 
@@ -87,7 +77,6 @@ const Produit = ({
     };
   }, [value]);
 
-  // console.log(value);
 
   return (
     <div className="bg-red200 flex flex-col gap-3">

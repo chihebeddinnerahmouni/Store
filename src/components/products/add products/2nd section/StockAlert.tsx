@@ -1,6 +1,6 @@
 import Label from "../../../ui/Label";
 import InputNumber from "../../../ui/inputs/InputNumber";
-import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../../types/products/form";
 import { FormikProps } from "formik";
 
 

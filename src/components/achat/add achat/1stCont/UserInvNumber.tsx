@@ -1,55 +1,35 @@
 import Label from "../../../ui/Label";
 import InputText from "../../../ui/inputs/InputText";
-import { Controller } from "react-hook-form";
+import { IAdd_achat_form } from "../../../../types/achats/add achat/add_achat_form";
+import { FormikProps } from "formik";
 
 interface DesignationProps {
-  control: any;
-  register: any;
-  errors: any;
+  formik: FormikProps<IAdd_achat_form>;
   id: string;
-  setValue: (value: string) => void;
-  value: string;
-  clearErrors: (name: string) => void;
 }
 
-const UserInvNumber = ({
-  control,
-  errors,
-  id,
-  value,
-  setValue,
-  clearErrors,
-}: DesignationProps) => {
-
-
-
+const UserInvNumber = ({ id, formik }: DesignationProps) => {
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={id} text={"Référence de l'utilisateur*"} />
-      <Controller
-        name="user_invoice_number"
-        control={control}
-        rules={{ required: "ce champ est obligatoire" }}
-        render={({ field }) => (
-          <InputText
-            label="Entrez la référence*"
-            {...field}
-            error={!!errors.user_invoice_number}
-            helperText={errors.user_invoice_number?.message}
-            value={value}
-            setValue={(value: string) => {
-              setValue(value);
-              field.onChange(value);
-              if (errors.user_invoice_number) {
-                clearErrors("user_invoice_number");
-              }
-            }}
-          />
-        )}
+
+      <InputText
+        label="Entrez la référence*"
+        error={
+          formik.touched.user_invoice_number &&
+          Boolean(formik.errors.user_invoice_number)
+        }
+        helperText={
+          formik.touched.user_invoice_number &&
+          formik.errors.user_invoice_number
+        }
+        value={formik.values.user_invoice_number}
+        setValue={(value: string) => {
+          formik.setFieldValue("user_invoice_number", value);
+        }}
       />
     </div>
   );
 };
-
 
 export default UserInvNumber;

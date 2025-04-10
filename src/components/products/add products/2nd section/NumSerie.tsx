@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../../types/products/form";
 import { FormikProps } from "formik";
 
 interface NumSerieProps {

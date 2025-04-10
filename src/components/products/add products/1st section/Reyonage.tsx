@@ -1,6 +1,6 @@
 import Label from "../../../ui/Label";
 import SelectInput from "../../../ui/inputs/SelectInput";
-import { ProductFormValues } from "../../../../types/achats/add achat/form";
+import { ProductFormValues } from "../../../../types/products/form";
 import { FormikProps } from "formik";
 
 interface DesignationProps {
