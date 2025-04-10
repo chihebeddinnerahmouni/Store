@@ -9,9 +9,10 @@ import Ireyonnage from "../../../types/reyonnage";
 interface ButtonsContProps {
   data: Ireyonnage[];
   columns: (keyof Ireyonnage)[];
+  refetch: () => void;
 }
 
-const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
+const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
 
   const handleAdd = () => {
@@ -46,7 +47,7 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
           />
         ))}
       </div>
-      <AddReyonModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
+      {isAddOpen && <AddReyonModal refetch={refetch} onClose={() => setIsAddOpen(false)} />}
     </section>
   );
 };

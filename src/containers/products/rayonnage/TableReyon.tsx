@@ -13,16 +13,17 @@ import TableTop from "../../../components/ui/TableTop";
 import Ireyonnage from "../../../types/reyonnage";
 import UpdateButton from "../../../components/ui/buttons/actions/UpdateButton";
 import DeleteButton from "../../../components/ui/buttons/actions/DeleteButton";
-import UpdateMarqueModal from "../../../components/products/rayonnage/UpdateReyonModal";
+import UpdateModal from "../../../components/products/rayonnage/UpdateReyonModal";
 import DeleteReyonModal from "../../../components/products/rayonnage/DeleteReyonModal";
 
 
 interface Props {
   data: Ireyonnage[];
   columns: (keyof Ireyonnage)[];
+  refetch: () => void;
 }
 
-const TableMarques = ({ data, columns }: Props) => {
+const TableMarques = ({ data, columns, refetch }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [orderBy, setOrderBy] = useState<keyof Ireyonnage>("id");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -143,17 +144,17 @@ const TableMarques = ({ data, columns }: Props) => {
           </Table>
         </TableContainer>
         {updateRow && (
-          <UpdateMarqueModal
-            open={updateRow !== null}
-            setOpen={setUpdateRow}
+          <UpdateModal
+            onClose={() => setUpdateRow(null)}
             data={updateRow}
+            refetch={refetch}
           />
         )}
         {deleteRow && (
           <DeleteReyonModal
-            open={deleteRow !== null}
-            setOpen={setDeleteRow}
             data={deleteRow}
+            onClose={() => setDeleteRow(null)}
+            refetch={refetch}
           />
         )}
       </div>

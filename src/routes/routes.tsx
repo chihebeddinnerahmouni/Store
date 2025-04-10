@@ -16,7 +16,6 @@ import Fournisseurs from "../pages/gens/Fournisseurs";
 import RetourVantes from "../pages/retour/RetourVantes";
 import RetourAchats from "../pages/retour/RetourAchats";
 import Login from "../pages/auth/Login";
-import Reyonnage from "../pages/products/Reyonnage";
 import EditProduct from "../pages/products/EditProduct";
 import Magasins from "../pages/products/Magasins";
 import AlertProduit from "../pages/rapport/AlertProduit";
@@ -48,6 +47,7 @@ const Products = lazy(() => import("../pages/products/Products"));
 const Categories = lazy(() => import("../pages/products/Categories"));
 const Marques = lazy(() => import("../pages/products/Marques"));
 const Unites = lazy(() => import("../pages/products/Unite"));
+const Reyonnages = lazy(() => import("../pages/products/Reyonnage"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -106,7 +106,14 @@ export const router = createBrowserRouter([
             </Suspense>
           </ErrorBoundary>
       ) },
-      { path: "/produits/reyonnage", element: <Reyonnage /> },
+      {
+        path: "/produits/reyonnage", element: (
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <Reyonnages />
+            </Suspense>
+          </ErrorBoundary>
+      ) },
       { path: "/produits/magasins", element: <Magasins /> },
       {
         path: "/produits/modifier-produit/:produitId",
