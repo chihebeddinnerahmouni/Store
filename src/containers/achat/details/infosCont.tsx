@@ -1,5 +1,5 @@
 import Provider from "../../../components/achat/details/Provider"
-import { IProvider } from "../../../types/achatSingle";
+import { IProvider } from "../../../types/provider";
 import { IEntrepot } from "../../../types/achatSingle";
 import Entrepot from "../../../components/ventes/details/Entrepot";
 import Total from "../../../components/ventes/details/Total";

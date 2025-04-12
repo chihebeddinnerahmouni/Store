@@ -1,4 +1,4 @@
-import { IProvider } from "../../../types/achatSingle";
+import { IProvider } from "../../../types/provider";
 import KeyValue from "../../ventes/details/KeyValue";
 
 
