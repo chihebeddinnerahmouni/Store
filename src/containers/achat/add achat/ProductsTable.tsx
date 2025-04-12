@@ -113,6 +113,7 @@ const ProductRow = ({
   // console.log(data[1].serial_numbers);
 
   const updateData = (id: number, newQuantity: number) => {
+    console.log(newQuantity);
     const updatedData = data.map((product) => {
       if (product.id === id) {
         return {
