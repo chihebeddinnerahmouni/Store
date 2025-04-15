@@ -10,6 +10,9 @@ import { IVente } from "../../types/rapport/ventes/vente";
 import { IVenteTable } from "../../types/rapport/ventes/vente";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import IMagasin from "../../types/magasin";
+import IClient from "../../types/client";
+import { handleAxiosError } from "../../helper/axios_error";
 
 const Ventes = () => {
   const today = new Date();
@@ -23,8 +26,8 @@ const Ventes = () => {
   const [startDate, setStartDate] = useState<string>(formattedDate);
   const [endDate, setEndDate] = useState<string>(todatSratDate);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
-  const [magasinName, setMagasinName] = useState<string>("");
-  const [clientName, setClientName] = useState<string>("");
+  const [magasinId, setMagasinId] = useState<number>(0);
+  const [clientId, setClientId] = useState<number>(0);
   const [clientsArray, setClientsArray] = useState<any[]>([]);
   const [userInvNumber, setUserInvNumber] = useState<string>("");
 
@@ -35,7 +38,7 @@ const Ventes = () => {
   useEffect(() => {
     if (!privileges.Rapports["Rapport De Sortie"]) navigate("/tableau-de-bord");
     Promise.all([
-      axios.get(
+      axios.get<{ ventes: any[] }>(
         `${url}/api/reports/ventes/report?start_date=${startDate}&end_date=${endDate}`,
         {
           headers: {
@@ -43,29 +46,29 @@ const Ventes = () => {
           },
         }
       ),
-      axios.get(`${url}/api/entreports`, {
+      axios.get<{ entreports : IMagasin[]}>(`${url}/api/entreports`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/clients`, {
+      axios.get<{clients: IClient[]}>(`${url}/api/clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
     ])
-      .then(
-        axios.spread((data, magasinsResult, clientsResult) => {
-        //   console.log(data.data.ventes);
-          const newArrayAchats = createNewArrayAchats(data.data.ventes);
-          setData(newArrayAchats);
-          setMagasinsArray(magasinsResult.data.entrepots);
-          setClientsArray(clientsResult.data.clients);
-          setLoading(false);
-        })
-      )
-        .catch((err) => {
-          console.log(err);
+      .then((res: any) => { 
+        const data = res[0].data;
+        const magasinsResult = res[1].data;
+        const clientsResult = res[2].data;
+        const newArrayAchats = createNewArrayVentes(data.ventes);
+        setData(newArrayAchats);
+        setMagasinsArray(magasinsResult.entrepots);
+        setClientsArray(clientsResult.clients);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
         enqueueSnackbar("Erreur lors de la récupération des données", {
           variant: "error",
         });
@@ -87,15 +90,13 @@ const Ventes = () => {
           },
         }
       )
-      .then((response) => {
-        const newArrayAchats = createNewArrayAchats(response.data.ventes);
+      .then((response :any) => {
+        const newArrayAchats = createNewArrayVentes(response.data.ventes);
         setData(newArrayAchats);
         setLoading(false);
       })
-        .catch(() => {
-        enqueueSnackbar("Erreur lors de la récupération des données", {
-          variant: "error",
-        });
+        .catch((err) => {
+        handleAxiosError(err);
         setLoading(false);
       });
   }, [startDate, endDate]);
@@ -111,11 +112,11 @@ const Ventes = () => {
           columns={columns}
           data={data}
           magasinsArray={magasinsArray}
-          setMagasinName={setMagasinName}
-          magasinName={magasinName}
+          setMagasinId={setMagasinId}
+          magasinId={magasinId}
           clientsArray={clientsArray}
-          clientName={clientName}
-          setClientName={setClientName}
+          clientId={clientId}
+          setClientId={setClientId}
           userInvNumber={userInvNumber}
           setUserInvNumber={setUserInvNumber}
         />
@@ -142,7 +143,7 @@ const columns: (keyof IVenteTable)[] = [
   "total",
   "ajouter par",
 ];
-const createNewArrayAchats = (data: IVente[]) => {
+const createNewArrayVentes = (data: IVente[]) => {
   return data.map((item: IVente, index: number) => {
     return {
       ...item,

@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import IEntAchat from "../../types/rapport/entrepot/entrepot_achat";
 import { ITableEntrepotAchat } from "../../types/rapport/entrepot/entrepot_achat";
-import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../components/ui/PageTitle";
 import ButtonsContAchat from "../../containers/raports/entrepot/achat/ButtonsCont";
 import ButtonsContVentes from "../../containers/raports/entrepot/vente/ButtonsCont";
@@ -16,6 +15,7 @@ import SwitchButtons from "../../components/rapport/SwitchButtons";
 import StatsCont from "../../containers/raports/entrepot/StatsCont";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { handleAxiosError } from "../../helper/axios_error";
 
 const EntrepotsReport = () => {
   const [loading, setLoading] = useState(true);
@@ -27,11 +27,11 @@ const EntrepotsReport = () => {
   const [selected, setSelected] = useState<string>("Achats");
   // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
   const url = import.meta.env.VITE_BASE_URL as string;
-    const privileges = useContext(PrivilegesContext);
-    const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-     if (!privileges.Rapports["Rapport entrepot"]) navigate("/tableau-de-bord");
+    if (!privileges.Rapports["Rapport entrepot"]) navigate("/tableau-de-bord");
     setLoading(true);
     axios
       .get(url + "/api/entreports/authorized/get", {
@@ -39,23 +39,17 @@ const EntrepotsReport = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((magasins) => {
+      .then((magasins: any) => {
         setMagasinsArray(magasins.data.entrepots);
         setMagasinId(magasins.data.entrepots[0].id);
       })
       .catch((err) => {
-        // console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
+        handleAxiosError(err);
       });
   }, []);
 
-
-  useEffect(() => { 
+  useEffect(() => {
     if (magasinId !== 0) {
       setLoading(true);
       axios
@@ -64,8 +58,7 @@ const EntrepotsReport = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
-        .then((res) => {
-          // console.log(res.data.summary);
+        .then((res: any) => {
           const newArrayAchats = createNewArrayAchats(res.data.achats);
           const newArrayVentes = createNewArrayVentes(res.data.ventes);
           setDataVentes(newArrayVentes);
@@ -75,20 +68,14 @@ const EntrepotsReport = () => {
         })
         .catch((err) => {
           setLoading(false);
-          if (err.message === "Network Error") {
-            enqueueSnackbar("Erreur de connexion", { variant: "error" });
-          } else {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          }
+          handleAxiosError(err);
         });
     }
   }, [magasinId]);
 
-
   if (loading) {
     return <Loading />;
   }
-
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -102,25 +89,23 @@ const EntrepotsReport = () => {
         {selected === "Achats" ? (
           <ButtonsContAchat columns={columnsAchats} data={dataAchats} />
         ) : (
-            <ButtonsContVentes columns={columnsVentes} data={dataVentes} /> 
-            // null
+          <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
         )}
       </div>
-      <StatsCont
-        data={stats}
+      <StatsCont data={stats} />
+      <SwitchButtons
+        options={["Achats", "Ventes"]}
+        setSelected={setSelected}
+        selected={selected}
       />
-      <SwitchButtons options={["Achats", "Ventes"]} setSelected={setSelected} selected={selected} />
       {selected === "Achats" ? (
         <TableAchat columns={columnsAchats} rows={dataAchats} />
       ) : (
-          <TableVentes columns={columnsVentes} rows={dataVentes} />
-          // null
+        <TableVentes columns={columnsVentes} rows={dataVentes} />
       )}
     </div>
   );
 };
-
-
 
 const columnsAchats: (keyof ITableEntrepotAchat)[] = [
   "référence",
@@ -162,6 +147,5 @@ const columnsVentes: (keyof ITableEntrepotVente)[] = [
   "total",
   "status",
 ];
-
 
 export default EntrepotsReport;

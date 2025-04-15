@@ -2,14 +2,14 @@ import SelectInput from "../../../ui/inputs/SelectInput";
 import Label from "../../../ui/Label";
 
 interface Props {
-  magasinName: string;
-  setMagasinName: (value: string) => void;
+  magasinId: number;
+  setMagasinId: (value: number) => void;
   magasinsArray: any[];
 }
 
 const Magasin = ({
-  magasinName,
-  setMagasinName,
+  magasinId,
+  setMagasinId,
   magasinsArray,
 }: Props) => {
 
@@ -31,9 +31,9 @@ const Magasin = ({
       <SelectInput
         options={newOptions}
         label="Par magasin"
-        value={magasinName}
+        value={magasinId}
         setValue={(value: string) => {
-          setMagasinName(value);
+          setMagasinId(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </div>

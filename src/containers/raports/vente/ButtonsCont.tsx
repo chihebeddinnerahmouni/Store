@@ -4,20 +4,21 @@ import handlePrintPdf from "../../../helper/CreatePdf";
 import { IVente } from "../../../types/rapport/ventes/vente";
 import { IVenteTable } from "../../../types/rapport/ventes/vente";
 import { CiFilter } from "react-icons/ci";
-import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/rapport/vente/FilterContent";
 import { useState } from "react";
+import SideDrawer from "../../../components/ui/side drawer/SideDrawer";
+
 
 interface ButtonsContProps {
   setData: (value: IVente[]) => void;
   data: IVente[];
   columns: (keyof IVenteTable)[];
   magasinsArray: any[];
-  magasinName: string;
-  setMagasinName: (value: string) => void;
   clientsArray: any[];
-  setClientName: (value: string) => void;
-  clientName: string;
+  setClientId: (value: number) => void;
+  magasinId: number;
+  setMagasinId: (value: number) => void;
+  clientId: number;
   userInvNumber: string;
   setUserInvNumber: (value: string) => void;
 }
@@ -27,11 +28,11 @@ const ButtonsCont = ({
   data,
   columns,
   magasinsArray,
-  magasinName,
-  setMagasinName,
+  magasinId,
+  setMagasinId,
   clientsArray,
-  setClientName,
-  clientName,
+  setClientId,
+  clientId,
   userInvNumber,
   setUserInvNumber,
 }: ButtonsContProps) => {
@@ -70,31 +71,20 @@ const ButtonsCont = ({
           />
         ))}
       </div>
-      <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          // zIndex: 1400,
-          "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
-      >
+     <SideDrawer open={isDrawerOpen} onClose={()=>setIsDrawerOpen(false)}>
         <FilterContent
           setData={setData}
           close={handleFilter}
           magasinsArray={magasinsArray}
-          magasinName={magasinName}
-          setMagasinName={setMagasinName}
+          magasinId={magasinId}
+          setMagasinId={setMagasinId}
           clientsArray={clientsArray}
-          setClientName={setClientName}
-          clientName={clientName}
+          setClientId={setClientId}
+          clientId={clientId}
           userInvNumber={userInvNumber}
           setUserInvNumber={setUserInvNumber}
         />
-      </Drawer>
+      </SideDrawer>
     </section>
   );
 };

@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { IProduit } from "../../../types/rapport/produits/produits";
 import { IProduitTable } from "../../../types/rapport/produits/produits";
-import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../../components/ui/PageTitle";
 import ButtonsCont from "../../../containers/raports/produits/produits/ButtonsCont";
 import MagasinSelect from "../../../containers/raports/MagasinSelect";
@@ -11,16 +10,13 @@ import TableProduits from "../../../containers/raports/produits/produits/TablePr
 import DatesCont from "../../../containers/raports/DatesCont";
 import { PrivilegesContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
-
+import { handleAxiosError } from "../../../helper/axios_error";
 
 const ProduitsReport = () => {
-
-
   const today = new Date();
   today.setMonth(today.getMonth() - 2);
   const formattedDate = today.toISOString().split("T")[0];
   const todatSratDate = new Date().toISOString().split("T")[0];
-  
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IProduit[]>([]);
@@ -29,9 +25,8 @@ const ProduitsReport = () => {
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
-    const privileges = useContext(PrivilegesContext);
-    const navigate = useNavigate();
-
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!privileges.Rapports["Rapport Produits"]) navigate("/tableau-de-bord");
@@ -42,29 +37,19 @@ const ProduitsReport = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((magasins) => {
+      .then((magasins: any) => {
         setMagasinsArray(magasins.data.entrepots);
         setMagasinId(magasins.data.entrepots[0].id);
       })
       .catch((err) => {
-        // console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
+        handleAxiosError(err);
       });
   }, []);
 
-  
-
   useEffect(() => {
-    if (magasinId === 0) {
-      return;
-    }
+    if (magasinId === 0) return;
 
-    // console.log(startDate, endDate);
     setLoading(true);
     axios
       .post(
@@ -80,19 +65,14 @@ const ProduitsReport = () => {
           },
         }
       )
-      .then((res) => {
+      .then((res: any) => {
         const newData = createNewArrayAchats(res.data.products);
         setData(newData);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
+        handleAxiosError(err);
       });
   }, [magasinId, startDate, endDate]);
 
@@ -110,7 +90,7 @@ const ProduitsReport = () => {
           options={magasinsArray}
         />
         <div className="">
-        <ButtonsCont columns={columnsAchats} data={data} />
+          <ButtonsCont columns={columnsAchats} data={data} />
           <DatesCont
             startDate={startDate}
             setStartDate={setStartDate}
@@ -125,31 +105,22 @@ const ProduitsReport = () => {
 };
 
 const columnsAchats: (keyof IProduitTable)[] = [
-    "code",
-    "produit",
-    "ventes",
-    "montant",
+  "code",
+  "produit",
+  "ventes",
+  "montant",
 ];
 
 const createNewArrayAchats = (data: any) => {
   return data.map((item: any) => {
     return {
       ...item,
-        code: item.code_barre,
-        produit: item.name,
-        ventes: item.total_sales,
-        montant: item.total_amount,
+      code: item.code_barre,
+      produit: item.name,
+      ventes: item.total_sales,
+      montant: item.total_amount,
     };
   });
 };
-
-// const data_test_achat = [
-//   "id": 9,
-// "name": "prod1 pdated",
-// "code_barre": "123456789",
-// "total_sales": 0,
-// "total_amount": 0
-// ];
-
 
 export default ProduitsReport;

@@ -3,11 +3,11 @@ import Label from "../../../ui/Label";
 
 interface Props {
   clientsArray: any[];
-  setClientName: (value: string) => void;
-  clientName: string;
+  setClientId: (value: number) => void;
+  clientId: number;
 }
 
-const Clients = ({ clientName, setClientName, clientsArray }: Props) => {
+const Clients = ({ clientId, setClientId, clientsArray }: Props) => {
   // console.log(clientsArray);
 
   const newOptions = clientsArray.map((option: any) => ({
@@ -23,9 +23,9 @@ const Clients = ({ clientName, setClientName, clientsArray }: Props) => {
       <SelectInput
         options={newOptions}
         label="Par Client"
-        value={clientName}
+        value={clientId}
         setValue={(value: string) => {
-          setClientName(value);
+          setClientId(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </div>

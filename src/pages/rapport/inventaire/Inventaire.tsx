@@ -3,13 +3,13 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import IInventaire from "../../../types/rapport/inventaire/inventaire";
 import { IIventaireTable } from "../../../types/rapport/inventaire/inventaire";
-import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../../components/ui/PageTitle";
 import ButtonsCont from "../../../containers/raports/inventaire/ButtonsCont";
 import MagasinSelect from "../../../containers/raports/MagasinSelect";
 import TableInventaire from "../../../containers/raports/inventaire/TableInventaire";
 import { PrivilegesContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
+import { handleAxiosError } from "../../../helper/axios_error";
 
 const Inventaire = () => {
   const [loading, setLoading] = useState(true);
@@ -17,12 +17,13 @@ const Inventaire = () => {
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const url = import.meta.env.VITE_BASE_URL as string;
-    const privileges = useContext(PrivilegesContext);
-    const navigate = useNavigate();
+  const privileges = useContext(PrivilegesContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!privileges.Rapports["Rapport inventaire"])
       navigate("/tableau-de-bord");
+
     setLoading(true);
     axios
       .get(url + "/api/entreports/authorized/get", {
@@ -30,25 +31,19 @@ const Inventaire = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((magasins) => {
+      .then((magasins: any) => {
         setMagasinsArray(magasins.data.entrepots);
         setMagasinId(magasins.data.entrepots[0].id);
       })
       .catch((err) => {
-        // console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
+        handleAxiosError(err);
       });
   }, []);
 
-
-  useEffect(() => { 
+  useEffect(() => {
     if (magasinId === 0) {
-      return
+      return;
     }
     setLoading(true);
     axios
@@ -57,19 +52,14 @@ const Inventaire = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
-        // console.log(res.data.inventory);
+      .then((res: any) => {
         const newArrayAchats = createNewArrayAchats(res.data.inventory);
         setData(newArrayAchats);
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
+        handleAxiosError(err);
       });
   }, [magasinId]);
 
@@ -95,9 +85,9 @@ const Inventaire = () => {
 
 const columnsAchats: (keyof IIventaireTable)[] = [
   "code",
-    "désignation",
-    "catégorie",
-    "stock_actuel"
+  "désignation",
+  "catégorie",
+  "stock_actuel",
 ];
 
 const createNewArrayAchats = (data: any) => {

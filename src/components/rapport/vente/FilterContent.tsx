@@ -10,6 +10,7 @@ import { useState } from "react";
 import Clients from "./filter content/Clients";
 import UserInvNum from "./filter content/UserInvNum";
 import { IVente } from "../../../types/rapport/ventes/vente";
+import { handleAxiosError } from "../../../helper/axios_error";
 
 
 
@@ -17,11 +18,11 @@ interface Props {
   setData: (value: any) => void;
   close: () => void;
   magasinsArray: any[];
-  magasinName: string;
-  setMagasinName: (value: string) => void;
   clientsArray: any[];
-  setClientName: (value: string) => void;
-  clientName: string;
+  magasinId: number;
+  setMagasinId: (value: number) => void;
+  setClientId: (value: number) => void;
+  clientId: number;
   userInvNumber: string;
   setUserInvNumber: (value: string) => void;
 }
@@ -30,11 +31,11 @@ const FilterContent = ({
     setData,
     close,
     magasinsArray,
-  magasinName,
-  setMagasinName,
+  magasinId,
+  setMagasinId,
   clientsArray,
-  setClientName,
-  clientName,
+  setClientId,
+  clientId,
   userInvNumber,  
   setUserInvNumber
 }: Props) => {
@@ -44,13 +45,13 @@ const FilterContent = ({
 
 
   const search = () => {
-    const check = magasinName === "" && clientName === "" && userInvNumber === "";
+    const check = !magasinId && !clientId && !userInvNumber;
     if (check) {
       enqueueSnackbar("Veuillez remplir au moins un champ", { variant: "error" });
       return;
     }
     setLoading(true);
-    const params = createParams(clientName, magasinName, userInvNumber);
+    const params = createParams(clientId.toString(), magasinId.toString(), userInvNumber);
     axios
       .get( url + `/api/reports/ventes/filter?${params.toString()}`,
         {
@@ -59,29 +60,15 @@ const FilterContent = ({
           },
         }
       )
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data);
         const newArray = createNewArrayAchats(res.data.ventes);
         setData(newArray);
         close();
       })
       .catch((err) => {
-        // console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
+        handleAxiosError(err);
       });
   }
 
@@ -98,8 +85,8 @@ const FilterContent = ({
       text: "Réinitialiser",
       color: "#8b5cf6",
       onClick: () => {
-        setMagasinName("");
-        setClientName("");
+        setMagasinId(0);
+        setClientId(0);
         setUserInvNumber("");
       },
     },
@@ -116,14 +103,14 @@ const FilterContent = ({
       <div className="content flex flex-col gap-6 mt-5">
         
         <Magasin
-          magasinName={magasinName}
-          setMagasinName={setMagasinName}
+          magasinId={magasinId}
+          setMagasinId={setMagasinId}
           magasinsArray={magasinsArray}
         />
 
         <Clients
-          clientName={clientName}
-          setClientName={setClientName}
+          clientId={clientId}
+          setClientId={setClientId}
           clientsArray={clientsArray}
         />
 
