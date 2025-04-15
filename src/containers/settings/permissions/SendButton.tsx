@@ -2,6 +2,7 @@ import FullShiningButton from "../../../components/ui/buttons/FullShiningButton"
 import { useState } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import { handleAxiosError } from "../../../helper/axios_error";
 
 interface SendButtonProps {
     chosenPermissions: number[];
@@ -35,19 +36,12 @@ const SendButton = ({ chosenPermissions, userId }: SendButtonProps) => {
                 variant: "success",
               }
             );
+             setLoading(false);
           })
           .catch((err) => {
-            if (err.message === "Network Error") {
-              enqueueSnackbar("Erreur de connexion", { variant: "error" });
-            } else {
-              enqueueSnackbar(err.response.data.message, {
-                variant: "error",
-              });
-            }
+            handleAxiosError(err);
+             setLoading(false);
           })
-          .finally(() => {
-            setLoading(false);
-          });
   };
 
 

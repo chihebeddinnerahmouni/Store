@@ -22,13 +22,9 @@ const UserSelectCont = ({ usersArray, userId, setUserId }: UserSelectContProps) 
             <SelectInput
                 options={newOptions}
                 label="Selectionnez l'utilisateur*"
-                value={userId === 0 ? "" : newOptions.find((option) => option.id === userId)?.name}
+                value={userId}
                 setValue={(value: string) => {
-                    if (value === "") {
-                        setUserId(0);
-                    } else {
-                        setUserId(newOptions.find((option) => option.name === value)?.id as number);
-                    }
+                    setUserId(newOptions.find((option) => option.name === value)?.id || 0);
                 }}
             />
         </section>
