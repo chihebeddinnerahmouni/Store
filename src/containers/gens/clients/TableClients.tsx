@@ -406,9 +406,9 @@ export default function EnhancedTable({
       )}
       {deleteRow && (
         <DeleteClientModal
-          open={true}
+          refetch={refetch}
           onClose={() => setDeleteRow(null)}
-          row={deleteRow}
+          data={deleteRow}
         />
       )}
     </Box>
