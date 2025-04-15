@@ -7,8 +7,8 @@ import { useEffect } from "react";
 import { IProductCommandeItem } from "../../../types/products/product_to_commande";
 
 interface Props {
-  produit: string;
-  setProduit: (value: string) => void;
+  // produit: string;
+  // setProduit: (value: string) => void;
   productsCommandeArray: IProductCommandeItem[];
   setProductsCommandeArray: React.Dispatch<
     React.SetStateAction<IProductCommandeItem[]>
@@ -16,12 +16,13 @@ interface Props {
 }
 
 const TableCont = ({
-  produit,
-  setProduit,
+  // produit,
+  // setProduit,
   productsCommandeArray,
   setProductsCommandeArray,
 }: Props) => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [produit, setProduit] = useState<string>("");
 
   useEffect(() => {
     if (selectedProduct) {

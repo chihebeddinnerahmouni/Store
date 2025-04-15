@@ -70,7 +70,7 @@ const sendData = async (body: any) => {
 
 
 const AddAchat = () => {
-  const [produit, setProduit] = useState<string>("");
+  // const [produit, setProduit] = useState<string>("");
   const [productsCommandeArray, setProductsCommandeArray] = useState<
     IProductCommandeItem[]
   >([]);
@@ -142,8 +142,8 @@ const formik = useFormik<IAdd_achat_form>({
             formik={formik}
           />
           <TableCont
-            produit={produit}
-            setProduit={setProduit}
+            // produit={produit}
+            // setProduit={setProduit}
             productsCommandeArray={productsCommandeArray}
             setProductsCommandeArray={setProductsCommandeArray}
           />

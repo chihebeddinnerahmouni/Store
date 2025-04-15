@@ -1,12 +1,13 @@
 import SelectInput from "../../../ui/inputs/SelectInput";
 import Label from "../../../ui/Label";
-import { useContext } from "react";
-import { VentsContext } from "../../../../pages/vente/Vents";
 
-const Client = () => {
-  const { clientId, setClientId, clientsArray } = useContext(VentsContext);
+interface IProps {
+  clientId: number;
+  setClientId: (clientId: number) => void;
+  clientsArray: any[];
+}
 
-//   console.log(clientsArray);
+const Client = ({ clientId, setClientId, clientsArray }: IProps) => {
 
   const newOptions = clientsArray.map((option: any) => ({
     id: option.id,
@@ -19,22 +20,15 @@ const Client = () => {
       <SelectInput
         options={newOptions}
         label="Par client"
-        value={
-          clientId === 0
-            ? ""
-            : newOptions.find((option: any) => option.id === clientId)?.name
-        }
+        value={clientId}
         setValue={(value: string) => {
-          const selectedOption = newOptions.find(
-            (option: any) => option.name === value
+          setClientId(
+            newOptions.find((option: any) => option.name === value)?.id
           );
-          const valueId = selectedOption ? selectedOption.id : 0;
-          setClientId(valueId);
         }}
       />
     </div>
   );
 };
-
 
 export default Client;

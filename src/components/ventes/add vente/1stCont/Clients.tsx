@@ -1,28 +1,21 @@
 import Label from "../../../ui/Label";
 import SelectInput from "../../../ui/inputs/SelectInput";
-import { Controller } from "react-hook-form";
+import { FormikProps } from "formik";
+import { IAdd_vente_form } from "../../../../types/ventes/add_vente_form";
+import IClient from "../../../../types/client";
+
 
 interface Props {
-    clientsArray: any[];
-  control: any;
-  errors: any;
-  setValue: (value: number) => void;
-  value: number;
-    clearErrors: (name: string) => void;
-    id: string;
+  clientsArray: IClient[];
+  formik: FormikProps<IAdd_vente_form>;
+  id: string;
 }
 
 const Clients = ({
-  control,
-    errors,
     clientsArray,
-  value,
-  setValue,
-    clearErrors,
-    id,
-
+  id,
+  formik,
 }: Props) => {
-    // console.log(value);
 
     const newOptions = clientsArray.map((client: any) => ({
         id: client.id,
@@ -36,35 +29,17 @@ const Clients = ({
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={id} text={"Client*"} />
 
-      <Controller
-        name="magasain"
-        control={control}
-        rules={{ required: "ce champ est obligatoire" }}
-        render={({ field }) => (
-          <SelectInput
-            options={newOptions}
-            label="Selectionnez le client*"
-            {...field}
-            error={!!errors.magasain}
-            helperText={errors.magasain?.message}
-            value={
-              value === 0
-                ? ""
-                : newOptions.find((option) => option.id === value)?.name
-            }
-            setValue={(value: string) => {
-              const selectedOption = newOptions.find(
-                (option) => option.name === value
-              );
-              const valueId = selectedOption ? selectedOption.id : 0;
-              setValue(valueId);
-              field.onChange(value);
-              if (errors.category) {
-                clearErrors("magasain");
-              }
-            }}
-          />
-        )}
+      <SelectInput
+        options={newOptions}
+        label="Selectionnez le client*"
+        error={formik.touched.clientId && Boolean(formik.errors.clientId)}
+        helperText={formik.touched.clientId && formik.errors.clientId}
+        value={formik.values.clientId}
+        setValue={(value: string) => {
+          const valueId =
+            newOptions.find((option) => option.name === value)?.id || 0;
+          formik.setFieldValue("clientId", valueId);
+        }}
       />
     </div>
   );

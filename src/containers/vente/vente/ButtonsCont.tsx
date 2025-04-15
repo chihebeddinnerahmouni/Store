@@ -3,18 +3,18 @@ import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/ventes/ventes/FilterContent";
 import { useNavigate } from "react-router-dom";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import { useContext } from "react";
-import { VentsContext } from "../../../pages/vente/Vents";
+import IVente from "../../../types/vente";
+import SideDrawer from "../../../components/ui/side drawer/SideDrawer";
 
+interface IProps {
+  data: IVente[];
+  columns: any[];
+}
 
-const ButtonsCont = (
-// }
-) => {
- const { data, columns } = useContext(VentsContext);
+const ButtonsCont = ({columns, data}: IProps) => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -67,21 +67,13 @@ const ButtonsCont = (
           />
         ))}
       </div>
-      <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
-      >
+     
+      <SideDrawer open={isDrawerOpen} onClose={()=>setIsDrawerOpen(false)}>
         <FilterContent
           close={handleFilter}
         />
-      </Drawer>
+      </SideDrawer>
+      
     </section>
   );
 };

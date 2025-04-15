@@ -1,10 +1,12 @@
 import InputDate from "../../../ui/inputs/InputDate";
 import Label from "../../../ui/Label";
-import { useContext } from "react";
-import { VentsContext } from "../../../../pages/vente/Vents";
 
-const StartDate = () => {
-  const { date, setDate } = useContext(VentsContext);
+
+interface IProps {
+  value: string;
+  setValue: (value: string) => void;  
+}
+const StartDate = ({value, setValue}: IProps) => {
 
   // console.log(magasinArray);
 
@@ -13,7 +15,7 @@ const StartDate = () => {
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={"filterAchatDate"} text={"Depuis"} />
-      <InputDate value={date} setValue={setDate} label="Depuis" />
+      <InputDate value={value} setValue={setValue} label="Depuis" />
     </div>
   );
 };

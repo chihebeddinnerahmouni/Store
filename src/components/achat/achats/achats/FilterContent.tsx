@@ -61,19 +61,11 @@ const fetchData = () => {
     categories: [],
   }) as {
     categories: ICategory[];
-  };
-
-  const isLoading = queries.some((query) => query.isLoading);
-  const isError = queries.some((query) => query.isError);
-  const error = queries.find((query) => query.isError)?.error;
-  
+  };  
   return {
     magasins: magasins.entrepots,
     providers: providers.providers,
     categories: categories.categories,
-    isLoading,
-    isError,
-    error,
   };
 };
 

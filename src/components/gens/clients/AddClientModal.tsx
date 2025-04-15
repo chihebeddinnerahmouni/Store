@@ -1,263 +1,103 @@
-import { Modal, Box, Typography } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { Box } from "@mui/material";
 import InputText from "../../ui/inputs/InputText";
-// import InputNumber from "../../ui/inputs/InputNumber";
 import FullShiningButton from "../../ui/buttons/FullShiningButton";
-// import InputEmail from "../../ui/inputs/InputEmail";
-import { useState } from "react";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import ModalComp from "../../ui/modals/Modal";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import ModalTitle from "../../ui/modals/ModalTitle";
+import { useMutation } from "@tanstack/react-query";
+import { handleAxiosError } from "../../../helper/axios_error";
 
-interface AddCategoryModalProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-const AddClientModal = ({ open, onClose }: AddCategoryModalProps) => {
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const url = import.meta.env.VITE_BASE_URL as string;
-
-  const {
-    control,
-    handleSubmit,
-    clearErrors,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name,
-      // email,
-      // phone,
-      // address,
-      code,
+const url = import.meta.env.VITE_BASE_URL as string;
+const sendData = async (values: any) => {
+      const timestamp = new Date().getTime(); // Get current timestamp
+      const uniqueEmail = `email${timestamp}@email.com`; // Append timestamp to email
+  const { data } = await axios.post(
+    `${url}/api/clients`,
+    {
+      code_client: values.code,
+      name: values.name,
+      email: uniqueEmail, 
+      phone: "00100",
+      address: "address",
+      status: "active",
     },
-  });
-
-  const mainColor = "#006233";
-
-  const onSubmit = () => {
-    setLoading(true);
-
-    // Generate a unique email using the current timestamp
-    const timestamp = new Date().getTime(); // Get current timestamp
-    const uniqueEmail = `email${timestamp}@email.com`; // Append timestamp to email
-
-    axios
-      .post(
-        `${url}/api/clients`,
-        {
-          code_client: code,
-          name: name,
-          email: uniqueEmail, // Use dynamically generated unique email
-          phone: "00100",
-          address: "address",
-          status: "active",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response?.data?.message || "Une erreur s'est produite", { variant: "error" });
-        }
-      });
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data;
 };
 
+interface IProps {
+  onClose: () => void;
+  refetch: () => void;
+}
+
+const AddClientModal = ({ onClose, refetch }: IProps) => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendData,
+    onSuccess: (res: any) => {
+      enqueueSnackbar(res.message, {
+        variant: "success",
+      });
+      refetch();
+      onClose();
+    },
+    onError: handleAxiosError,
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      code: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Le nom est obligatoire"),
+      code: Yup.string().required("Le code est obligatoire"),
+    }),
+    onSubmit: (values) => mutate(values),
+  });
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      BackdropProps={{
-        style: {
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
-          backdropFilter: "blur(5px)",
-        },
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: { xs: "90%", md: "40%", lg: 600 },
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: 3,
-          borderRadius: 1,
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: "Nunito",
+    <ModalComp open={true} onClose={onClose}>
+      <ModalTitle text="Ajouter un client" />
+
+      {/* texts */}
+      <form className="flex flex-col gap-5 mt-5" onSubmit={formik.handleSubmit}>
+        <InputText
+          label="Le nom de client*"
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+          value={formik.values.name}
+          setValue={(value: string) => {
+            formik.handleChange("name")(value);
           }}
-          variant="h6"
-          component="h2"
-        >
-          Ajouter un client
-        </Typography>
+        />
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="fields grid grid-cols-1 gap-5 mt-5 md:grid-cols-2">
-            {/* code */}
-            <Controller
-              name="code"
-              control={control}
-              rules={{ required: "Le code est obligatoire" }}
-              render={({ field }) => (
-                <InputText
-                  label="Code du client*"
-                  {...field}
-                  error={!!errors.code}
-                  helperText={errors.code?.message}
-                  value={code}
-                  //   setValue={setName}
-                  setValue={(value: string) => {
-                    setCode(value);
-                    field.onChange(value);
-                    if (errors.code) {
-                      clearErrors("code");
-                    }
-                  }}
-                />
-              )}
-            />
+        <InputText
+          label="Le code de client"
+          error={formik.touched.code && Boolean(formik.errors.code)}
+          helperText={formik.touched.code && formik.errors.code}
+          value={formik.values.code}
+          setValue={(value: string) => {
+            formik.handleChange("code")(value);
+          }}
+        />
 
-
-            {/* Name */}
-            <Controller
-              name="name"
-              control={control}
-              rules={{ required: "Le nom est obligatoire" }}
-              render={({ field }) => (
-                <InputText
-                  label="Nom du client*"
-                  {...field}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                  value={name}
-                  //   setValue={setName}
-                  setValue={(value: string) => {
-                    setName(value);
-                    field.onChange(value);
-                    if (errors.name) {
-                      clearErrors("name");
-                    }
-                  }}
-                />
-              )}
-            />
-
-            {/* Email */}
-            {/* <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: "L'email est obligatoire",
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Email invalide",
-                },
-              }}
-              render={({ field }) => (
-                <InputEmail
-                  label="Email du client*"
-                  {...field}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  value={email}
-                  setValue={(value: string) => {
-                    setEmail(value);
-                    field.onChange(value);
-                    if (errors.name) {
-                      clearErrors("email");
-                    }
-                  }}
-                />
-              )}
-            /> */}
-
-            {/* Phone */}
-            {/* <Controller
-              name="phone"
-              control={control}
-              rules={{
-                required: "Le téléphone est obligatoire",
-                pattern: {
-                  value: /^[0-9]{9,10}$/,
-                  message: "Téléphone invalide",
-                },
-              }}
-              render={({ field }) => (
-                <InputNumber
-                  label="Téléphone du client*"
-                  {...field}
-                  error={!!errors.phone}
-                  helperText={errors.phone?.message}
-                  value={phone}
-                  setValue={(value: string) => {
-                    setPhone(value);
-                    field.onChange(value);
-                    if (errors.name) {
-                      clearErrors("phone");
-                    }
-                  }}
-                />
-              )}
-            /> */}
-
-            {/* Address */}
-            {/* <Controller
-              name="address"
-              rules={{ required: "Adresse du client est obligatoire" }}
-              control={control}
-              render={({ field }) => (
-                <InputText
-                  label="Adresse du client"
-                  {...field}
-                  error={!!errors.address}
-                  helperText={errors.address?.message}
-                  value={address}
-                  setValue={(value: string) => {
-                    setAddress(value);
-                    field.onChange(value);
-                    if (errors.name) {
-                      clearErrors("address");
-                    }
-                  }}
-                />
-              )}
-            /> */}
-          </div>
-
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            <FullShiningButton
-              text="Soumettre"
-              color={mainColor}
-              type="submit"
-              onClick={handleSubmit(onSubmit)}
-              loading={loading}
-            />
-          </Box>
-        </form>
-      </Box>
-    </Modal>
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <FullShiningButton
+            text="Soumettre"
+            type="submit"
+            loading={isPending}
+          />
+        </Box>
+      </form>
+    </ModalComp>
   );
 };
 

@@ -24,8 +24,6 @@ interface IProductCommandeItem {
 
 
 interface Props {
-  produit: string;
-  setProduit: (value: string) => void;
   productsCommandeArray: IProductCommandeItem[];
   setProductsCommandeArray: React.Dispatch<
     React.SetStateAction<IProductCommandeItem[]>
@@ -33,14 +31,13 @@ interface Props {
 }
 
 const TableCont = ({
-    produit,
-    setProduit,
     productsCommandeArray,
     setProductsCommandeArray,
 }: Props) => {
 
 
-   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [produit, setProduit] = useState<string>("");
 
 
   useEffect(() => {

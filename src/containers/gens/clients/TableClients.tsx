@@ -178,9 +178,11 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 export default function EnhancedTable({
   rows,
   columns,
+  refetch,
 }: {
   rows: IClient[];
   columns: string[];
+  refetch: () => void;
 }) {
   // React.useEffect(() => {
   //   console.log(rows);
@@ -395,20 +397,20 @@ export default function EnhancedTable({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      {updateRow && 
+      {updateRow && (
         <UpdateClientModal
-          open={true} 
+          data={updateRow}
           onClose={() => setUpdateRow(null)}
-          row={updateRow}
+          refetch={refetch}
         />
-      }
-      {deleteRow && 
+      )}
+      {deleteRow && (
         <DeleteClientModal
-          open={true} 
+          open={true}
           onClose={() => setDeleteRow(null)}
           row={deleteRow}
         />
-      }
+      )}
     </Box>
   );
 }

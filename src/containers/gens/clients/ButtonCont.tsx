@@ -1,11 +1,7 @@
 import { useState } from "react";
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
-// import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
-// import { AiOutlineFileExcel } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
-// import Drawer from "@mui/material/Drawer";
-// import FilterContent from "../../../components/achat/achats/FilterContent";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import IClient from "../../../types/client";
 import AddClientModal from "../../../components/gens/clients/AddClientModal";
@@ -13,42 +9,23 @@ import AddClientModal from "../../../components/gens/clients/AddClientModal";
 interface ButtonsContProps {
   data: IClient[];
   columns: string[];
+  refetch: () => void;
 }
 
-const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
-  const [isAddOpen, setIsAddOpen] = useState(false);
-
-//   const handleFilter = () => {
-//     setIsDrawerOpen(!isDrawerOpen);
-//   };
-
-  // const handleExportExcel = () => {
-  //   console.log("Export Excel not implemented");
-  // };
+const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
+  const [isAddOpen, setIsAddOpen] = useState(true);
 
   const handleAdd = () => {
     setIsAddOpen(true);
   };
 
   const buttons_array = [
-    // {
-    //   icon: <CiFilter />,
-    //   text: "Filter",
-    //   color: "#3b82f6",
-    //   onClick: handleFilter,
-    // },
     {
       icon: <BsFiletypePdf />,
       text: "Export PDF",
       color: "#10b981",
       onClick: () => handlePrintPdf(data, columns, "Liste-du-clients.pdf"),
     },
-    // {
-    //   icon: <AiOutlineFileExcel />,
-    //   text: "Export Excel",
-    //   color: "#ef4444",
-    //   onClick: handleExportExcel,
-    // },
     {
       icon: <IoIosAddCircleOutline />,
       text: "Ajouter",
@@ -72,34 +49,9 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
         ))}
       </div>
 
-      <AddClientModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
-      {/* <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
-      >
-        <FilterContent
-          close={handleFilter}
-          date={date}
-          setDate={setDate}
-          reference={reference}
-          setReference={setReference}
-          fournisseur={fournisseur}
-          setFournisseur={setFournisseur}
-          magasin={magasin}
-          setMagasin={setMagasin}
-          status={status}
-          setStatus={setStatus}
-          paimentStatus={paimentStatus}
-          setPaimentStatus={setPaimentStatus}
-        />
-      </Drawer> */}
+      {isAddOpen && (
+        <AddClientModal onClose={() => setIsAddOpen(false)} refetch={refetch} />
+      )}
     </section>
   );
 };

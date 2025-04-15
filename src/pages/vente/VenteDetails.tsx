@@ -10,6 +10,7 @@ import Table from "../../containers/vente/vente details/Table";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
+
 const VenteDetails = () => {
   const { venteId } = useParams<{ venteId: string }>();
   const [client, setClient] = useState<IClient | null>(null);
@@ -29,7 +30,7 @@ const VenteDetails = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         const newData = ModifiedData(res.data.vente.products);
         setProducts(newData);
         setTotal(res.data.vente.total_cost);

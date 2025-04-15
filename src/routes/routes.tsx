@@ -7,9 +7,7 @@ import FetchError from "../errors/FetshError";
 
 import App from "../App";
 import Test from "../Test";
-import AddVente from "../pages/vente/AddVente";
 import Vents from "../pages/vente/Vents";
-import Clients from "../pages/gens/Clients";
 import Fournisseurs from "../pages/gens/Fournisseurs";
 import RetourVantes from "../pages/retour/RetourVantes";
 import RetourAchats from "../pages/retour/RetourAchats";
@@ -48,6 +46,8 @@ const Magasins = lazy(() => import("../pages/products/Magasins"));
 const AddAchat = lazy(() => import("../pages/achat/AddAchat"));
 const Achats = lazy(() => import("../pages/achat/Achats"));
 const AchatDetails = lazy(() => import("../pages/achat/AchatDetails"));
+const AddVente = lazy(() => import("../pages/vente/AddVente"));
+const Clients = lazy(() => import("../pages/gens/Clients"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -173,11 +173,32 @@ export const router = createBrowserRouter([
         ),
       },
 
-      { path: "/ventes/ajouter-un-vente", element: <AddVente /> },
-      { path: "/ventes", element: <Vents /> },
+      {
+        path: "/ventes/ajouter-un-vente", element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <AddVente />
+            </Suspense>
+          </ErrorBoundary>
+      },
+      {
+        path: "/ventes", element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <Vents /> 
+            </Suspense>
+          </ErrorBoundary>  
+      },
       { path: "/ventes/details/:venteId", element: <VenteDetails /> },
 
-      { path: "/gens/clients", element: <Clients /> },
+      {
+        path: "/gens/clients", element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <Clients />
+            </Suspense>
+          </ErrorBoundary>
+        },
       { path: "/gens/fournisseurs", element: <Fournisseurs /> },
       { path: "/gens/utilisateurs", element: <Users /> },
 

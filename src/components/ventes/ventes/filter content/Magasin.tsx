@@ -1,17 +1,16 @@
 import SelectInput from "../../../ui/inputs/SelectInput";
 import Label from "../../../ui/Label";
-import { useContext } from "react";
-import { VentsContext } from "../../../../pages/vente/Vents";
 
-const Magasin = () => {
+interface IProps {
+  magasinId: number;
+  setMagasinId: (magasinId: number) => void;
+  magasinsArray: any[];
+}
 
+const Magasin = ({ magasinsArray, magasinId, setMagasinId }: IProps) => {
+  // console.log(magasinArray);
 
-  const { magasin, setMagasin, magasinArray } =
-    useContext(VentsContext);
-
-// console.log(magasinArray);
-
-  const newOptions = magasinArray.map((option: any) => ({
+  const newOptions = magasinsArray.map((option: any) => ({
     id: option.id,
     name: option.name,
   }));
@@ -22,17 +21,9 @@ const Magasin = () => {
       <SelectInput
         options={newOptions}
         label="Par magasin"
-        value={
-          magasin === 0
-            ? ""
-            : newOptions.find((option: any) => option.id === magasin)?.name
-        }
+        value={magasinId}
         setValue={(value: string) => {
-          const selectedOption = newOptions.find(
-            (option: any) => option.name === value
-          );
-          const valueId = selectedOption ? selectedOption.id : 0;
-          setMagasin(valueId);
+          setMagasinId(newOptions.find((option: any) => option.name === value)?.id)
         }}
       />
     </div>

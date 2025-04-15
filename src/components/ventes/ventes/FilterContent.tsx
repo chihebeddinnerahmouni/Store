@@ -6,62 +6,77 @@ import Magasin from "./filter content/Magasin";
 import StartDate from "./filter content/StartDate";
 import UserInvNumber from "./filter content/UserInvNumber";
 import Client from "./filter content/Client";
-import { useContext } from "react";
-import { VentsContext } from "../../../pages/vente/Vents";
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
-import IVente from "../../../types/vente";
+import { useQueries } from "@tanstack/react-query";
+import IMagasin from "../../../types/magasin";
+import IClient from "../../../types/client";
+import { useNavigate, useLocation } from "react-router-dom";
+
+
+const url = import.meta.env.VITE_BASE_URL;
+const fetchHelper = async (endPointe: string) => {
+  const response = await axios.get(`${url}/${endPointe}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  return response.data;
+};
+
+const fetchData = () => {
+  const queries = useQueries({
+    queries: [
+      {
+        queryKey: ["authorised_magasins"],
+        queryFn: () => fetchHelper("api/entreports/authorized/get"),
+      },
+      {
+        queryKey: ["providers"],
+        queryFn: () => fetchHelper("api/clients"),
+      },
+    ],
+  });
+  const magasins: { entrepots: IMagasin[] } = (queries[0]?.data ?? {
+    entrepots: [],
+  }) as {
+    entrepots: IMagasin[];
+  };
+
+  const clients: { clients: IClient[] } = (queries[1]?.data ?? {
+    clients: [],
+  }) as {
+    clients: IClient[];
+  };
+  return {
+    magasins: magasins.entrepots,
+    clients: clients.clients,
+  };
+};
 
 interface Props {
   close: () => void;
 }
 
 const FilterContent = ({close}: Props) => {
-  const { date, setDate, userInvNumber, setUserInvNumber, magasin, setMagasin, clientId, setClientId, setData } = useContext(VentsContext);
-  const url = import.meta.env.VITE_BASE_URL;
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const [clientId, setClientId] = useState(searchParams.get("client_id") ? parseInt(searchParams.get("client_id")!) : 0);
+  const [userInvNumber, setUserInvNumber] = useState(searchParams.get("user_invoice_number") || "");
+  const [magasinId, setMagasinId] = useState(searchParams.get("entrepot_id") ? parseInt(searchParams.get("entrepot_id")!) : 0);
+  const [date, setDate] = useState(searchParams.get("date") || "");
+
+  const { magasins, clients } = fetchData();
 
   const search = () => {
-    setLoading(true);
-    const body = {
-      ...(clientId && { client_id: clientId }),
-      ...(userInvNumber && { user_invoice_number: userInvNumber }),
-      ...(magasin && { entrepot_id: magasin }),
-      ...(date && { date: date }),
-    }
-    // console.log(body);
-    axios
-      .post(
-        url + "/api/vente/filter", body,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((res) => {
-        const modifiedAchats = modifiedData(res.data.ventes);
-        setData(modifiedAchats);
-        close();
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
-      });
+    const searchParams = new URLSearchParams(location.search);
+    if (date) searchParams.set("date", date);
+    if (userInvNumber) searchParams.set("user_invoice_number", userInvNumber);
+    if (clientId) searchParams.set("client_id", clientId.toString());
+    if (magasinId) searchParams.set("entrepot_id", magasinId.toString());
+    navigate({ search: searchParams.toString() });
+    close();
   };
 
   const buttons_array = [
@@ -76,10 +91,8 @@ const FilterContent = ({close}: Props) => {
       text: "Réinitialiser",
       color: "#8b5cf6",
       onClick: () => {
-        setDate("");
-        setUserInvNumber("");
-        setMagasin(0);
-        setClientId(0);
+        navigate("/ventes");
+        close();
       },
     },
   ];
@@ -93,11 +106,24 @@ const FilterContent = ({close}: Props) => {
     >
       <p className="font-bold text-[25px]">Filtre</p>
       <div className="content flex flex-col gap-6 mt-5">
-        {/* <Fourni /> */}
-        <StartDate />
-        <Client />
-        <Magasin />
-        <UserInvNumber />
+        <StartDate
+          value={date}
+          setValue={setDate}
+        />
+        <Client
+          clientId={clientId}
+          setClientId={setClientId}
+          clientsArray={clients}
+        />
+        <Magasin
+          magasinsArray={magasins}
+          setMagasinId={setMagasinId}
+          magasinId={magasinId}
+        />
+        <UserInvNumber
+          value={userInvNumber}
+          setValue={setUserInvNumber}
+        />
 
         {/* buttons */}
         <div className="buttons flex gap-2 mt-5">
@@ -108,7 +134,7 @@ const FilterContent = ({close}: Props) => {
               icon={button.icon}
               color={button.color}
               onClick={button.onClick}
-              loading={loading}
+              loading={false}
             />
           ))}
         </div>
@@ -118,17 +144,3 @@ const FilterContent = ({close}: Props) => {
 };
 
 export default FilterContent;
-
-
-const modifiedData = (data: IVente[]) => {
-  return data.map((vente: IVente) => {
-    return {
-      ...vente,
-      référence: vente.invoice_number,
-      nom_du_client: vente.client.name,
-      magasin: vente.entrepot.name,
-      "référence de l'utilisateur": vente.user_invoice_number,
-      total: vente.total_cost,
-    };
-  });
-};
