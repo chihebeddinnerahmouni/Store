@@ -2,8 +2,8 @@ import SelectInput from "../../../ui/inputs/SelectInput";
 import Label from "../../../ui/Label";
 
 interface Props {
-  magasinName: string;
-  setMagasinName: (value: string) => void;
+  magasinName: number;
+  setMagasinName: (value: number) => void;
   magasinsArray: any[];
 }
 
@@ -14,16 +14,10 @@ const Magasin = ({
 }: Props) => {
 
 
-// console.log(magasinsArray);
-
   const newOptions = magasinsArray.map((option: any) => ({
     id: option.id,
     name: option.name,
   }));
-
-  // console.log(magasinName);
-
-  // console.log(newOptions);
 
   return (
     <div className="bg-red200 flex flex-col gap-3">
@@ -33,7 +27,7 @@ const Magasin = ({
         label="Par magasin"
         value={magasinName}
         setValue={(value: string) => {
-          setMagasinName(value);
+          setMagasinName(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </div>

@@ -3,8 +3,8 @@ import Label from "../../../ui/Label";
 
 interface Props {
   clientsArray: any[];
-  setClientName: (value: string) => void;
-  clientName: string;
+  setClientName: (value: number) => void;
+  clientName: number;
 }
 
 const Clients = ({ clientName, setClientName, clientsArray }: Props) => {
@@ -16,7 +16,7 @@ const Clients = ({ clientName, setClientName, clientsArray }: Props) => {
   }));
 
   // console.log(newOptions);
-
+console.log(clientName);
   return (
     <div className="bg-red200 flex flex-col gap-3">
       <Label id={"filterProductsclient"} text={"Client"} />
@@ -25,7 +25,7 @@ const Clients = ({ clientName, setClientName, clientsArray }: Props) => {
         label="Par Client"
         value={clientName}
         setValue={(value: string) => {
-          setClientName(value);
+          setClientName(newOptions.find((option) => option.name === value)?.id);
         }}
       />
     </div>

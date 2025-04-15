@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/vente produit/ButtonsCont";
 import TableVente from "../../containers/raports/vente produit/TableVente";
 import DatesCont from "../../containers/raports/DatesCont";
@@ -11,6 +10,9 @@ import { IProductVenteTable } from "../../types/rapport/vente produit/vente_prod
 import StatsCont from "../../containers/raports/vente produit/StatsCont";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { handleAxiosError } from "../../helper/axios_error";
+import IMagasin from "../../types/magasin";
+import IClient from "../../types/client";
 
 
 const VenteProduit = () => {
@@ -24,8 +26,8 @@ const VenteProduit = () => {
   const [startDate, setStartDate] = useState<string>(formattedDate);
   const [endDate, setEndDate] = useState<string>(todatSratDate);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
-  const [magasinName, setMagasinName] = useState<string>("");
-  const [clientName, setClientName] = useState<string>("");
+  const [magasinName, setMagasinName] = useState<number>(0);
+  const [clientName, setClientName] = useState<number>(0);
   const [clientsArray, setClientsArray] = useState<any[]>([]);
   const [stats, setStats] = useState<any>({});
 
@@ -34,10 +36,11 @@ const VenteProduit = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!privileges.Rapports["Rapport De Sorties De Produits"])
-      navigate("/tableau-de-bord");
+    if (!privileges.Rapports["Rapport De Sorties De Produits"]) navigate("/tableau-de-bord");
+
+   
     Promise.all([
-      axios.get(
+      axios.get<{ ventes: any[]; totals: number }>(
         `${url}/api/reports/products/ventes?start_date=${startDate}&end_date=${endDate}`,
         {
           headers: {
@@ -45,33 +48,31 @@ const VenteProduit = () => {
           },
         }
       ),
-      axios.get(`${url}/api/entreports`, {
+      axios.get<{ entrepots : IMagasin[]}>(`${url}/api/entreports`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/clients`, {
+      axios.get<{clients: IClient[]}>(`${url}/api/clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
     ])
-      .then(
-        axios.spread((data, magasinsResult, clientsResult) => {
-            // console.log(data.data);
-          const newArrayAchats = createNewArrayAchats(data.data.ventes);
-          setData(newArrayAchats);
-          setStats(data.data.totals);
-          setMagasinsArray(magasinsResult.data.entrepots);
-          setClientsArray(clientsResult.data.clients);
-          setLoading(false);
-        })
-      )
-      .catch(() => {
-        // console.log(err);
-        enqueueSnackbar("Erreur lors de la récupération des données", {
-          variant: "error",
-        });
+      .then((responses) => {
+        const data = responses[0].data;
+        const magasinsResult = responses[1].data;
+        const clientsResult = responses[2].data;
+
+        const newArrayAchats = createNewArrayAchats(data.ventes);
+        setData(newArrayAchats);
+        setStats(data.totals);
+        setMagasinsArray(magasinsResult.entrepots);
+        setClientsArray(clientsResult.clients);
+        setLoading(false);
+      })
+      .catch((err) => {
+        handleAxiosError(err);
         setLoading(false);
       });
   }, []);
@@ -90,15 +91,13 @@ const VenteProduit = () => {
           },
         }
       )
-      .then((response) => {
+      .then((response: any) => {
         const newArrayAchats = createNewArrayAchats(response.data.ventes);
         setData(newArrayAchats);
         setLoading(false);
       })
-      .catch(() => {
-        enqueueSnackbar("Erreur lors de la récupération des données", {
-          variant: "error",
-        });
+      .catch((err) => {
+       handleAxiosError(err);
         setLoading(false);
       });
   }, [startDate, endDate]);
