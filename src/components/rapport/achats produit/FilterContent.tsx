@@ -9,6 +9,7 @@ import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import Fourni from "./filter content/Fourni";
 import { IAchatProduit } from "../../../types/rapport/achat produit/achat_produit";
+import { handleAxiosError } from "../../../helper/axios_error";
 
 
 
@@ -54,30 +55,15 @@ const FilterContent = ({
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-      .then((res) => {
-        // console.log(res.data);
+      .then((res: any) => {
         setStats({ total_cost: res.data.total_cost, total_quantity: res.data.total_quantity });
         const newArray = createNewArrayAchats(res.data.achats);
         setData(newArray);
         close();
       })
       .catch((err) => {
-        // console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
+        handleAxiosError(err)
       });
   }
 

@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
 import ButtonsCont from "../../containers/raports/achats produit/ButtonsCont";
 import TableAchats from "../../containers/raports/achats produit/TableAchats";
 import DatesCont from "../../containers/raports/DatesCont";
@@ -11,6 +10,9 @@ import { IAchatProduit } from "../../types/rapport/achat produit/achat_produit";
 import { IAchatProduitTable } from "../../types/rapport/achat produit/achat_produit";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import IMagasin from "../../types/magasin";
+import { IProvider } from "../../types/provider";
+import { handleAxiosError } from "../../helper/axios_error";
 
 const AchatsProduits = () => {
   const today = new Date();
@@ -34,8 +36,9 @@ const AchatsProduits = () => {
 
   useEffect(() => {
     if (!privileges.Rapports["Rapport Entrée De Produits"]) navigate("/tableau-de-bord");
+
     Promise.all([
-      axios.get(
+      axios.get<{achats: any[], total_cost: number, total_quantity: number}>(
         `${url}/api/reports/products/achats?start_date=${startDate}&end_date=${endDate}`,
         {
           headers: {
@@ -43,34 +46,34 @@ const AchatsProduits = () => {
           },
         }
       ),
-      axios.get(`${url}/api/entreports`, {
+      axios.get<{entrepots: IMagasin[]}>(`${url}/api/entreports`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/providers`, {
+      axios.get<{providers: IProvider[]}>(`${url}/api/providers`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
     ])
-      .then(
-        axios.spread((data, magasinsResult, fourniResult) => {
-          // console.log(data.data.total_quantity);
-          // console.log(fourniResult.data.providers);
-          const newArrayAchats = createNewArrayAchats(data.data.achats);
-          setData(newArrayAchats);
-          setStats({total_cost: data.data.total_cost, total_quantity: data.data.total_quantity});
-          setMagasinsArray(magasinsResult.data.entrepots);
-          setFournisseurArray(fourniResult.data.providers);
-          setLoading(false);
-        })
-      )
-      .catch(() => {
-        // console.log(err);
-        enqueueSnackbar("Erreur lors de la récupération des données", {
-          variant: "error",
+      .then((responses) => {
+        const data = responses[0].data;
+        const magasinsResult = responses[1].data;
+        const fourniResult = responses[2].data;
+
+        const newArrayAchats = createNewArrayAchats(data.achats);
+        setData(newArrayAchats);
+        setStats({
+          total_cost: data.total_cost,
+          total_quantity: data.total_quantity,
         });
+        setMagasinsArray(magasinsResult.entrepots);
+        setFournisseurArray(fourniResult.providers);
+        setLoading(false);
+      })
+      .catch((err) => {
+        handleAxiosError(err)
         setLoading(false);
       });
   }, []);
@@ -89,15 +92,13 @@ const AchatsProduits = () => {
           },
         }
       )
-      .then((response) => {
+      .then((response: any) => {
         const newArrayAchats = createNewArrayAchats(response.data.achats);
         setData(newArrayAchats);
         setLoading(false);
       })
-      .catch(() => {
-        enqueueSnackbar("Erreur lors de la récupération des données", {
-          variant: "error",
-        });
+      .catch((err) => {
+         handleAxiosError(err);
         setLoading(false);
       });
   }, [startDate, endDate]);

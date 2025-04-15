@@ -8,14 +8,12 @@ interface Props {
 }
 
 const Fourni = ({ fournisseurName, setFournisseurName, fournisseurArray }: Props) => {
-  // console.log(clientsArray);
 
   const newOptions = fournisseurArray.map((option: any) => ({
     id: option.id,
     name: option.name,
   }));
 
-  // console.log(newOptions);
 
   return (
     <div className="bg-red200 flex flex-col gap-3">
@@ -23,9 +21,9 @@ const Fourni = ({ fournisseurName, setFournisseurName, fournisseurArray }: Props
       <SelectInput
         options={newOptions}
         label="Par fournisseur"
-        value={fournisseurName}
+        value={Number(fournisseurName)}
         setValue={(value: string) => {
-          setFournisseurName(value);
+          setFournisseurName(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </div>

@@ -31,9 +31,9 @@ const Magasin = ({
       <SelectInput
         options={newOptions}
         label="Par magasin"
-        value={magasinName}
+        value={Number(magasinName)}
         setValue={(value: string) => {
-          setMagasinName(value);
+          setMagasinName(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </div>

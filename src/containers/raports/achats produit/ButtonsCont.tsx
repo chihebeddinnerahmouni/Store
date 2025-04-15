@@ -2,11 +2,11 @@ import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { BsFiletypePdf } from "react-icons/bs";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import { CiFilter } from "react-icons/ci";
-import Drawer from "@mui/material/Drawer";
 import FilterContent from "../../../components/rapport/achats produit/FilterContent";
 import { useState } from "react";
 import { IAchatProduit } from "../../../types/rapport/achat produit/achat_produit";
 import { IAchatProduitTable } from "../../../types/rapport/achat produit/achat_produit";
+import SideDrawer from "../../../components/ui/side drawer/SideDrawer";
 
 interface ButtonsContProps {
   setData: (value: IAchatProduit[]) => void;
@@ -69,18 +69,7 @@ const ButtonsCont = ({
           />
         ))}
       </div>
-      <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          // zIndex: 1400,
-          "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
-      >
+        <SideDrawer open={isDrawerOpen} onClose={handleFilter} >
         <FilterContent
           setData={setData}
           close={handleFilter}
@@ -91,8 +80,8 @@ const ButtonsCont = ({
           fournisseurName={fournisseurName}
           setFournisseurName={setFournisseurName}
           setStats={setStats}
-        />
-      </Drawer>
+          />
+        </SideDrawer>
     </section>
   );
 };

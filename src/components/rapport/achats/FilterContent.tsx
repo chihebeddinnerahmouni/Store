@@ -10,6 +10,7 @@ import { useState } from "react";
 import Fourni from "./filter content/Fourni";
 import UserInvNum from "./filter content/UserInvNum";
 import { IAchatReport } from "../../../types/rapport/achats/achat";
+import { handleAxiosError } from "../../../helper/axios_error";
 
 
 
@@ -57,29 +58,15 @@ const FilterContent = ({
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data);
         const newArray = createNewArrayAchats(res.data.achats);
         setData(newArray);
         close();
       })
       .catch((err) => {
-        // console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
+        handleAxiosError(err);
       });
   }
 
