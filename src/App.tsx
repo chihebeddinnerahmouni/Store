@@ -1,60 +1,49 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./components/ui/NavBar";
-import { enqueueSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { createContext } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-// export const PrivilegesContext = createContext<Record<string, string>>(Object.create(null));
+
 export const PrivilegesContext = createContext<any>(Object.create(null));
 
-
+const url = import.meta.env.VITE_BASE_URL as string;
+const fetchData = async () => {
+  const res = await axios.get<{ privileges : any, user: any }>(`${url}/api/user`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  console.log(res.data);
+  return res.data;
+}
 
 
 function App() {
 
-  const [sideBarArray, setSideBarArray] = useState<Record<string, Record<string, boolean>>>(Object.create(null));
-  const [user, setUser] = useState<Record<string, string>>(Object.create(null));
-  // const [privileges, setPrivileges] = useState<any>(Object.create(null));
   const navigate = useNavigate();
-  const url = import.meta.env.VITE_BASE_URL as string;
 
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchData,
+  })
 
-  useEffect(() => {
-    axios
-      .get(`${url}/api/user`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res: any) => {
-        // console.log(res.data);
-        setUser(res.data.user);
-        setSideBarArray(res.data.privileges);
-      })
-      .catch((err) => {
-         if (err.message === "Network Error") {
-           enqueueSnackbar("Erreur de connexion", { variant: "error" });
-         } else {
-           enqueueSnackbar(err.response.data.message, { variant: "error" });
-         }
-        if (err.response.status === 401) {
-          navigate("/login");
-        }
-      });
-    }, []);
+  useEffect(() => { 
+    const newError = error as any;
+    if (newError && newError.status === 401) {
+      navigate("/login")
+    };
+  }, [error]);
 
+  if (isLoading) return null
+  if (error) return null
 
   return (
-    <PrivilegesContext.Provider value={sideBarArray}>
-    <div>
-        <NavBar
-          dataArray={sideBarArray}
-          user={user}
-        />
+    <PrivilegesContext.Provider value={data?.privileges}>
+        <NavBar dataArray={data?.privileges} user={data?.user} />
         <Outlet />
-      </div>
     </PrivilegesContext.Provider>
   );
 }
