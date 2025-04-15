@@ -43,7 +43,7 @@ const DetailsModal = ({ onClose }: ViewModalProps) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data);
         const newArrayAchats = createNewArrayAchats(res.data.achats);
         const newArrayVentes = createNewArrayVentes(res.data.ventes);

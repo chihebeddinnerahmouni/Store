@@ -50,7 +50,7 @@ const AddMarqueModal = ({ open, onClose }: AddMarqueModalProps) => {
           },
         }
       )
-      .then((res) => {
+      .then((res: any) => {
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
         onClose();

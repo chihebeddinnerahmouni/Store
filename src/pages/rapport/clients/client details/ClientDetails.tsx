@@ -29,13 +29,12 @@ const ClientDetails = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-        .then((res) => {
-            // console.log(res.data);
-            setDataVentes(createNewArrayVentes(res.data.ventes));
-            setClient(res.data.client);
-            setTotal(res.data.global_total);
-            setLoading(false);
-            
+      .then((res: any) => {
+        // console.log(res.data);
+        setDataVentes(createNewArrayVentes(res.data.ventes));
+        setClient(res.data.client);
+        setTotal(res.data.global_total);
+        setLoading(false);
       })
       .catch((err) => {
         // console.log(err);

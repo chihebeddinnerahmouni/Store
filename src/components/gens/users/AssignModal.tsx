@@ -28,7 +28,7 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data);
         setMagasinsArray(res.data.entrepots);
         setLoadingPage(true);
@@ -56,7 +56,7 @@ const AssignModal = ({ open, setOpen, data }: AddCategoryModalProps) => {
           },
         }
       )
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data);
         enqueueSnackbar(res.data.message, { variant: "success" });
         window.location.reload();

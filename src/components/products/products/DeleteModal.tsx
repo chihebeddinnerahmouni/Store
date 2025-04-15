@@ -23,7 +23,7 @@ const DeleteModal = ({ onClose, row }: AddCategoryModalProps) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         enqueueSnackbar(res.data.message, { variant: "success" });
         setLoading(false);
         window.location.reload();

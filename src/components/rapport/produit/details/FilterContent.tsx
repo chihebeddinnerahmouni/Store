@@ -61,7 +61,9 @@ const FilterContent = ({
     setLoading(true);
     const params = createParams(clientName, magasinName, userName, userInvNumber);
     axios
-      .post( url + `/api/reports/products/${id}/detailed-report/filter?${params.toString()}`,
+      .post(
+        url +
+          `/api/reports/products/${id}/detailed-report/filter?${params.toString()}`,
         {},
         {
           headers: {
@@ -69,7 +71,7 @@ const FilterContent = ({
           },
         }
       )
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data.details);
         const newArray = createNewArrayAchats(res.data.details);
         setData(newArray);

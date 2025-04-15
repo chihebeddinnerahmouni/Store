@@ -47,7 +47,7 @@ const OptionsMenu = ({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         enqueueSnackbar(res.data.message, { variant: "success" });
         window.location.reload();
       })

@@ -22,7 +22,7 @@ const Users = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
+      .then((res: any) => {
         // console.log(res.data.clients);
         const newClientsArray = res.data.clients.map((client: IUser) => {
           return {
