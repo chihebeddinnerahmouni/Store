@@ -1,86 +1,123 @@
-import Loading from "../../components/ui/Loading";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import IAlerte from "../../types/rapport/alerts/alert_quantite";
-import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../components/ui/PageTitle";
 import ButtonsCont from "../../containers/raports/alerte/ButtonsCont";
 import MagasinSelect from "../../containers/raports/MagasinSelect";
 import TableAlerte from "../../containers/raports/alerte/TableAlerte";
 import { PrivilegesContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { useSuspenseQuery, useQuery } from "@tanstack/react-query";
+import IMagasin from "../../types/magasin";
+
+const url = import.meta.env.VITE_BASE_URL as string;
+const fetchData = async (magasinId: number) => {
+  const { data } = await axios.get<{ alerts: IAlerte[] }>(
+    `${url}/api/reports/stock-alerts/${magasinId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data.alerts;
+};
+
+const fetchMagasins = async () => {
+  const { data } = await axios.get<{ entrepots: IMagasin[] }>(
+    `${url}/api/entreports/authorized/get`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  return data.entrepots;
+};
 
 const AlertProduit = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<IAlerte[]>([]);
-  const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [magasinId, setMagasinId] = useState<number>(0);
   const [columns, setColumns] = useState<string[]>([]);
-  
-  const url = import.meta.env.VITE_BASE_URL as string;
+
   const privileges = useContext(PrivilegesContext);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (!privileges.Rapports["Alertes De Quantité De Produits"])
       navigate("/tableau-de-bord");
 
-    setLoading(true);
-      axios.get(url + "/api/entreports/authorized/get", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((magasins) => {
-        setMagasinsArray(magasins.data.entrepots);
-        setMagasinId(magasins.data.entrepots[0].id);
-          }
-        )
-      .catch((err) => {
-        // console.log(err);
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
-      });
+    // setLoading(true);
+    //   axios.get(url + "/api/entreports/authorized/get", {
+    //     headers: {
+    //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //     },
+    //   })
+    //   .then((magasins: any) => {
+    //     setMagasinsArray(magasins.data.entrepots);
+    //     setMagasinId(magasins.data.entrepots[0].id);
+    //       }
+    //     )
+    //   .catch((err) => {
+    //     // console.log(err);
+    //     setLoading(false);
+    //     if (err.message === "Network Error") {
+    //       enqueueSnackbar("Erreur de connexion", { variant: "error" });
+    //     } else {
+    //       enqueueSnackbar(err.response.data.erreur, { variant: "error" });
+    //     }
+    //   });
   }, []);
 
+  const { data: magasinsArray, isSuccess } = useSuspenseQuery({
+    queryKey: ["authorised_magasins"],
+    queryFn: fetchMagasins,
+  });
 
-  useEffect(() => { 
-    if (magasinId === 0) {
-      return;
+  const { data, refetch, isSuccess: isDataSuccess } = useQuery({
+    queryKey: ["alerts", magasinId],
+    queryFn: () => fetchData(magasinId),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (isSuccess) setMagasinId(magasinsArray[0].id);
+   }, [isSuccess]);
+
+  useEffect(() => {
+    if (isDataSuccess && data) {
+      if (data.length === 0) return setColumns([]);      
+      const newColumns = Object.keys(data[0]).filter((key) => key !== "id");
+      setColumns(newColumns);
     }
-    setLoading(true);
-    axios.get(url + "/api/reports/stock-alerts/" + magasinId, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => {
-         const newColumns = Object.keys(res.data.alerts[0]).filter(
-              (key) => key !== "id"
-            );
-            setColumns(newColumns);
-        setData(res.data.alerts);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
-      });
+  }, [isDataSuccess]);
+
+  useEffect(() => {
+    if (magasinId !== 0) refetch();
+    
+
+    // setLoading(true);
+    // axios.get(url + "/api/reports/stock-alerts/" + magasinId, {
+    //   headers: {
+    //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //   },
+    // })
+    //   .then((res: any) => {
+    //      const newColumns = Object.keys(res.data.alerts[0]).filter(
+    //           (key) => key !== "id"
+    //         );
+    //         setColumns(newColumns);
+    //     setData(res.data.alerts);
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     setLoading(false);
+    //     if (err.message === "Network Error") {
+    //       enqueueSnackbar("Erreur de connexion", { variant: "error" });
+    //     } else {
+    //       enqueueSnackbar(err.response.data.erreur, { variant: "error" });
+    //     }
+    //   });
   }, [magasinId]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -91,48 +128,11 @@ const AlertProduit = () => {
           setValue={setMagasinId}
           options={magasinsArray}
         />
-        <ButtonsCont columns={columns} data={data} />
+        <ButtonsCont columns={columns} data={data ?? []} />
       </div>
-      <TableAlerte columns={columns} rows={data} />
+      <TableAlerte columns={columns} rows={data ?? []} />
     </div>
   );
 };
 
 export default AlertProduit;
-
-
-
-
-
-// const columns: (keyof IAlerteTAble)[] = [
-//   "code_produit",
-//   "produit",
-//   "magasin",
-//   "quantité",
-//   "quantité_alert",
-// ];
-
-// const data: IAlerte[] = [
-// const data_test = [
-//   {
-//     "Code Produit": "8345588766",
-//     Produits: "toyota",
-//     Categorie: "test",
-//     Marque: "Brand Name",
-//     Quantité: 7,
-//     "Quantité Alerte": 30,
-//   },
-// ];
-
-// const createNewArray = (data: any) => {
-//   return data.map((item: any) => {
-//     return {
-//       ...item,
-//       code_produit: item.code_barre,
-//       produit: item.name,
-//       magasin: item.rayonage.name,
-//       quantité: item.quantity,
-//       quantité_alert: item.stock_alert,
-//     };
-//   });
-// };

@@ -7,7 +7,6 @@ interface DesignationProps {
 }
 
 const MagasinSelect = ({ value, setValue, options }: DesignationProps) => {
-  // console.log(options);
 
   const newOptions = options.map((option) => ({
     id: option.id,
@@ -19,17 +18,9 @@ const MagasinSelect = ({ value, setValue, options }: DesignationProps) => {
       <SelectInput
         options={newOptions}
         label="Selectionnez le magasin*"
-        value={
-          value === 0
-            ? ""
-            : newOptions.find((option) => option.id === value)?.name
-        }
+        value={value}
         setValue={(value: string) => {
-          const selectedOption = newOptions.find(
-            (option) => option.name === value
-          );
-          const valueId = selectedOption ? selectedOption.id : 0;
-          setValue(valueId);
+          setValue(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </section>

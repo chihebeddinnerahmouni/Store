@@ -11,7 +11,7 @@ import Vents from "../pages/vente/Vents";
 import RetourVantes from "../pages/retour/RetourVantes";
 import RetourAchats from "../pages/retour/RetourAchats";
 import Login from "../pages/auth/Login";
-import AlertProduit from "../pages/rapport/AlertProduit";
+// import AlertProduit from "../pages/rapport/AlertProduit";
 import EntrepotsReport from "../pages/rapport/EntrepotsReport";
 import Inventaire from "../pages/rapport/inventaire/Inventaire";
 import ProduitsReport from "../pages/rapport/produit/ProduitsReport";
@@ -48,6 +48,7 @@ const AchatDetails = lazy(() => import("../pages/achat/AchatDetails"));
 const AddVente = lazy(() => import("../pages/vente/AddVente"));
 const Clients = lazy(() => import("../pages/gens/Clients"));
 const Fournisseurs = lazy(() => import("../pages/gens/Fournisseurs"));
+const AlertProduit = lazy(() => import("../pages/rapport/AlertProduit"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -212,7 +213,14 @@ export const router = createBrowserRouter([
       { path: "/retour/retour-des-ventes", element: <RetourVantes /> },
       { path: "/retour/retour-des-achats", element: <RetourAchats /> },
 
-      { path: "/rapports/alerte-produit", element: <AlertProduit /> },
+      {
+        path: "/rapports/alerte-produit", element:
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <AlertProduit />
+            </Suspense>
+          </ErrorBoundary>
+      },
       { path: "/rapports/entrepot", element: <EntrepotsReport /> },
       { path: "/rapports/inventaire", element: <Inventaire /> },
       { path: "/rapports/inventaire/:produitId", element: <Inventaire /> },
