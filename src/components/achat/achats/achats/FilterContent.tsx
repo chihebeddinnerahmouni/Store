@@ -128,9 +128,21 @@ const FilterContent = ({ close }: Props) => {
     >
       <p className="font-bold text-[25px]">Filtre</p>
       <div className="content flex flex-col gap-6 mt-5">
-        <Category options={categories} setValue={setCategory} value={category} />
-        <Fourni options={providers} setValue={setProvider} value={provider} />
-        <Magasin options={magasins} setValue={setMagasin} value={magasin} />
+        <Category
+          options={categories || []}
+          setValue={setCategory}
+          value={category}
+        />
+        <Fourni
+          options={providers || []}
+          setValue={setProvider}
+          value={provider}
+        />
+        <Magasin
+          options={magasins || []}
+          setValue={setMagasin}
+          value={magasin}
+        />
         <StartDate value={date} setValue={setDate} />
         <EndDate value={endDate} setValue={setEndDate} />
         <InvNumber value={reference} setValue={setReference} />

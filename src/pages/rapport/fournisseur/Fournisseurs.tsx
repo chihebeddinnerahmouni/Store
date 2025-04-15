@@ -39,11 +39,14 @@ const Fournisseurs = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Rapport de fournisseurs" />
-      <ButtonsCont columns={columns} data={data.providers} />
+      <ButtonsCont columns={columns} data={data.providers || []} />
       <h2 className="text-xl font-bold mt-5 lg:text-2xl lg:mt-10">
         Total : {data.global_total} DA
       </h2>
-      <TableFournis columns={columns} rows={createNewArray(data.providers)} />
+      <TableFournis
+        columns={columns}
+        rows={createNewArray(data.providers || [])}
+      />
     </div>
   );
 };

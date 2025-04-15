@@ -36,8 +36,12 @@ const Marques = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Marques" />
-      <ButtonsCont data={data} columns={columns_test} refetch={refetch} />
-      <TableMarques data={data} columns={columns_test} refetch={refetch} />
+      <ButtonsCont data={data || []} columns={columns_test} refetch={refetch} />
+      <TableMarques
+        data={data || []}
+        columns={columns_test}
+        refetch={refetch}
+      />
     </div>
   );
 };

@@ -19,7 +19,7 @@ const fetchData = async () => {
     }
   );
 
-  const newData = modifiedData(data.providers);
+  const newData = modifiedData(data.providers || []);
   return newData;
 };
 
@@ -40,8 +40,12 @@ const Fournisseurs = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Gestion Du Fournisseurs" />
-      <ButtonsCont data={data} columns={columns_test} refetch={refetch} />
-      <TableFournis rows={data} columns={columns_test} refetch={refetch} />
+      <ButtonsCont data={data || []} columns={columns_test} refetch={refetch} />
+      <TableFournis
+        rows={data || []}
+        columns={columns_test}
+        refetch={refetch}
+      />
     </div>
   );
 };

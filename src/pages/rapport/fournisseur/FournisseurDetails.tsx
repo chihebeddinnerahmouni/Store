@@ -41,9 +41,9 @@ const FournisseurDetails = () => {
       <p className="text-center font-bold text-xl whitespace-nowrap">
         {data.provider.name}
       </p>
-      <ButtonsCont columns={columnsVentes} data={newData} />
+      <ButtonsCont columns={columnsVentes} data={newData || []} />
       <StatsCont data={stats} />
-      <TableAchats columns={columnsVentes} rows={newData} />
+      <TableAchats columns={columnsVentes} rows={newData || []} />
     </div>
   );
 };

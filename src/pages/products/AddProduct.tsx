@@ -167,15 +167,12 @@ const AddProduct = () => {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
           <ProductStCont
             formik={formik}
-            categoriesArray={categories.categories}
-            marquesArray={brands.brands}
-            reyonagesArray={rayonages.rayonages}
+            categoriesArray={categories.categories || []}
+            marquesArray={brands.brands || []}
+            reyonagesArray={rayonages.rayonages || []}
           />
 
-          <ProductsNd
-            formik={formik}
-            unitesArray={units.units}
-          />
+          <ProductsNd formik={formik} unitesArray={units.units} />
           <div className="lg:col-span-12 lghidden">
             <InstructionsCont />
           </div>

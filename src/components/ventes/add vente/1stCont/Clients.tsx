@@ -12,10 +12,12 @@ interface Props {
 }
 
 const Clients = ({
-    clientsArray,
+  clientsArray,
   id,
   formik,
 }: Props) => {
+
+  // console.log(clientsArray);
 
     const newOptions = clientsArray.map((client: any) => ({
         id: client.id,
@@ -23,7 +25,6 @@ const Clients = ({
     }));
     
 
-  
 
   return (
     <div className="bg-red200 flex flex-col gap-3">

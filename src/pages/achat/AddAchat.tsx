@@ -138,8 +138,8 @@ const formik = useFormik<IAdd_achat_form>({
       <form onSubmit={formik.handleSubmit}>
         <div className="flex flex-col gap-6">
           <AchatStCont
-            providersArray={providers}
-            magasainsArray={magasins}
+            providersArray={providers || []}
+            magasainsArray={magasins || []}
             formik={formik}
           />
           <TableCont
@@ -149,9 +149,7 @@ const formik = useFormik<IAdd_achat_form>({
             setProductsCommandeArray={setProductsCommandeArray}
           />
 
-          <TotalCont
-            productsCommandeArray={productsCommandeArray}
-          />
+          <TotalCont productsCommandeArray={productsCommandeArray} />
         </div>
         <div className="button mt-5">
           <FullShiningButton

@@ -62,7 +62,17 @@ const FournisseurDetails = lazy(() => import("../pages/rapport/fournisseur/Fourn
 
 
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 10,
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+
 export const router = createBrowserRouter([
   {
     element: <App />,

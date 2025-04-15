@@ -39,7 +39,7 @@ const AchatDetails = () => {
         total={data.total_cost}
       />
       <Table
-        rows={ModifiedData(data.products as IProductDetails[])}
+        rows={ModifiedData((data.products as IProductDetails[]) || [])}
         columns={columns}
       />
     </div>

@@ -37,8 +37,8 @@ const Clients = () => {
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Gestion Du Clients" />
-      <ButtonsCont data={clients} columns={columns_test} refetch={refetch} />
-      <TableClients rows={clients} columns={columns_test} refetch={refetch} />
+      <ButtonsCont data={clients|| []} columns={columns_test} refetch={refetch} />
+      <TableClients rows={clients|| []} columns={columns_test} refetch={refetch} />
     </div>
   );
 };

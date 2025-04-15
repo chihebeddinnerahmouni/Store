@@ -43,29 +43,7 @@ const AlertProduit = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!privileges.Rapports["Alertes De Quantité De Produits"])
-      navigate("/tableau-de-bord");
-
-    // setLoading(true);
-    //   axios.get(url + "/api/entreports/authorized/get", {
-    //     headers: {
-    //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //     },
-    //   })
-    //   .then((magasins: any) => {
-    //     setMagasinsArray(magasins.data.entrepots);
-    //     setMagasinId(magasins.data.entrepots[0].id);
-    //       }
-    //     )
-    //   .catch((err) => {
-    //     // console.log(err);
-    //     setLoading(false);
-    //     if (err.message === "Network Error") {
-    //       enqueueSnackbar("Erreur de connexion", { variant: "error" });
-    //     } else {
-    //       enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-    //     }
-    //   });
+    if (!privileges.Rapports["Alertes De Quantité De Produits"]) navigate("/tableau-de-bord");
   }, []);
 
   const { data: magasinsArray, isSuccess } = useSuspenseQuery({
@@ -93,30 +71,6 @@ const AlertProduit = () => {
 
   useEffect(() => {
     if (magasinId !== 0) refetch();
-    
-
-    // setLoading(true);
-    // axios.get(url + "/api/reports/stock-alerts/" + magasinId, {
-    //   headers: {
-    //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //   },
-    // })
-    //   .then((res: any) => {
-    //      const newColumns = Object.keys(res.data.alerts[0]).filter(
-    //           (key) => key !== "id"
-    //         );
-    //         setColumns(newColumns);
-    //     setData(res.data.alerts);
-    //     setLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     if (err.message === "Network Error") {
-    //       enqueueSnackbar("Erreur de connexion", { variant: "error" });
-    //     } else {
-    //       enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-    //     }
-    //   });
   }, [magasinId]);
 
   return (
@@ -126,11 +80,11 @@ const AlertProduit = () => {
         <MagasinSelect
           value={magasinId}
           setValue={setMagasinId}
-          options={magasinsArray}
+          options={magasinsArray || []}
         />
-        <ButtonsCont columns={columns} data={data ?? []} />
+        <ButtonsCont columns={columns || []} data={data ?? []} />
       </div>
-      <TableAlerte columns={columns} rows={data ?? []} />
+      <TableAlerte columns={columns || []} rows={data ?? []} />
     </div>
   );
 };
