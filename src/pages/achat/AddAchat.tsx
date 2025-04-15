@@ -15,7 +15,7 @@ import { IProvider } from "../../types/provider";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {IAdd_achat_form} from "../../types/achats/add achat/add_achat_form";
-import {IProductCommandeItem} from "../../types/products/product_to_commande";
+import { IProductCommandeItem } from "../../types/products/product_to_commande";
 import { handleAxiosError } from "../../helper/axios_error";
 
 
@@ -70,7 +70,7 @@ const sendData = async (body: any) => {
 
 
 const AddAchat = () => {
-  // const [produit, setProduit] = useState<string>("");
+
   const [productsCommandeArray, setProductsCommandeArray] = useState<
     IProductCommandeItem[]
   >([]);
@@ -88,6 +88,7 @@ const AddAchat = () => {
     onSuccess: (res: any) => {
       enqueueSnackbar(res.message, { variant: "success" });
       formik.resetForm();
+      setProductsCommandeArray([]);
     },
     onError: handleAxiosError,
   });
