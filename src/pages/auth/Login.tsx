@@ -1,68 +1,59 @@
 import auth_bg from "../../assets/images/auth-bg";
 import logo from "../../assets/images/logo";
-import { useForm, SubmitHandler } from "react-hook-form";
 import InputPassword from "../../components/ui/inputs/InputPassword";
-import { Controller } from "react-hook-form";
-import { useState } from "react";
 import InputEmail from "../../components/ui/inputs/InputEmail";
 import FullShiningButton from "../../components/ui/buttons/FullShiningButton";
 import axios from "axios";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useMutation } from "@tanstack/react-query";
 
-type FormValues = {
-  email: string;
-  password: string;
-};
+const url = import.meta.env.VITE_BASE_URL as string;
+const sendData = async (values: any) => {
+  const response = await axios.post(`${url}/api/auth/login`, {
+    email: values.email,
+    password: values.password,
+  });
+  return response.data;
+}
 
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const url = import.meta.env.VITE_BASE_URL as string;
   const navigate = useNavigate();
 
-  // console.log(url);
-
-  const mainColor = "#006233";
-
-  const send = () => {
-    setLoading(true);
-
-    axios
-      .post(
-        `${url}/api/auth/login`,
-        {
-          email,
-          password,
-        },
-        {}
-      )
-      .then((res) => {
-        //   console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        enqueueSnackbar(res.data.message, { variant: "success" });
-        navigate("/tableau-de-bord");
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        if (err.message === "Network Error") {
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendData,
+    onSuccess: (data: any) => {
+      localStorage.setItem("token", data.token);
+      enqueueSnackbar(data.message, { variant: "success" });
+      navigate("/tableau-de-bord");
+    },
+    onError:(err: any) => {
+      if (err.message === "Network Error") {
           enqueueSnackbar("Erreur de connexion", { variant: "error" });
         } else {
           enqueueSnackbar(err.response.data.message, { variant: "error" });
         }
-      });
-  };
+    }
+  })
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    clearErrors,
-  } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = send;
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Email invalide")
+        .required("L'email est obligatoire"),
+      password: Yup.string().required("Le mot de passe est obligatoire"),
+    }),
+    onSubmit: (values) => {
+      mutate(values);
+    },
+  });
 
   return (
     <SnackbarProvider
@@ -82,71 +73,43 @@ const Login = () => {
             <p className="mt-4 font-bold text-xl">S'identifier</p>
             <form
               className="mt-4 flex flex-col gap-4 w-full"
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={formik.handleSubmit}
             >
-              <Controller
-                name="email"
-                control={control}
-                rules={{
-                  required: "L'email est obligatoire",
-                  pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: "Veuillez entrer un email valide",
-                  },
+              <InputEmail
+                label="L'addresse email"
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                value={formik.values.email}
+                setValue={(value: string) => {
+                  formik.handleChange("email")(value);
                 }}
-                render={({ field }) => (
-                  <InputEmail
-                    label="L'addresse email"
-                    {...field}
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
-                    value={email}
-                    setValue={(value: string) => {
-                      setEmail(value);
-                      field.onChange(value);
-                      if (errors.email) {
-                        clearErrors("email");
-                      }
-                    }}
-                  />
-                )}
               />
 
-              <Controller
-                name="password"
-                control={control}
-                rules={{ required: "Le mot de pass est obligatoire" }}
-                render={({ field }) => (
-                  <InputPassword
-                    label="Le mot de passe"
-                    {...field}
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                    value={password}
-                    setValue={(value: string) => {
-                      setPassword(value);
-                      field.onChange(value);
-                      if (errors.password) {
-                        clearErrors("password");
-                      }
-                    }}
-                  />
-                )}
+              <InputPassword
+                label="Le mot de passe"
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+                value={formik.values.password}
+                setValue={(value: string) => {
+                  formik.handleChange("password")(value);
+                }}
               />
+
               <FullShiningButton
                 text="Login"
-                color={mainColor}
-                onClick={handleSubmit(onSubmit)}
                 type="submit"
-                loading={loading}
+                loading={isPending}
               />
             </form>
             <p className="mt-4 space-x-1">
               <span>Pas de compte?</span>
-              <Tooltip title="Veiller contacter un test message " arrow>
-              <span className="font-bold text-main">
-                Créer un compte
-                </span>
+              <Tooltip
+                title="Veuillez contacter les créateurs pour plus d'informations."
+                arrow
+              >
+                <span className="font-bold text-main">Créer un compte</span>
               </Tooltip>
             </p>
           </div>
