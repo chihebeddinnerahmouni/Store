@@ -16,7 +16,6 @@ const fetchData = async () => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
-  console.log(res.data);
   return res.data;
 }
 
@@ -39,6 +38,8 @@ function App() {
 
   if (isLoading) return null
   if (error) return null
+
+  // console.log(data?.privileges);
 
   return (
     <PrivilegesContext.Provider value={data?.privileges}>

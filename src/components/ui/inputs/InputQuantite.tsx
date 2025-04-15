@@ -38,7 +38,6 @@ const InputQuantite = ({
           Number(e.target.value) < 0 ? (e.target.value = "0") : null;
           handleQuantityChange(e, row.id)
         }}
-        onMouseEnter={(e) => e.currentTarget.blur()}
         className="text-center quentiteInputCss"
         style={{
           width: "50px",

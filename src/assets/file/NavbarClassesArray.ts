@@ -22,7 +22,6 @@ const array = [
     title: "Produits",
     icon: IoPricetagsOutline,
     url: "",
-    // blank: false,
     subList: [
       {
         id: 1,

@@ -341,6 +341,7 @@ const AddAchat = () => {
 
   useEffect(() => {
     if (!privileges.Sorties || !privileges.Sorties["Ajouter une sortie"]) navigate("/tableau-de-bord");
+    // if (!privileges.Ventes || !privileges.Ventes["Ajouter une sortie"]) navigate("/tableau-de-bord");
   }, []);
 
   const { magasins, clients } = fetchData();

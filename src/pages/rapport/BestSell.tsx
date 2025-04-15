@@ -28,8 +28,8 @@ const BestSell = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!privileges.Rapports["Produits Les Plus Sortie"])
-      navigate("/tableau-de-bord");
+    if (!privileges.Rapports["Produits Les Plus Sortie"]) navigate("/tableau-de-bord");
+    
     setLoading(true);
     axios
       .get(
