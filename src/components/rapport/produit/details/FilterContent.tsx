@@ -12,6 +12,7 @@ import Clients from "./filter content/Clients";
 import UserInvNum from "./filter content/UserInvNum";
 import { useParams } from "react-router-dom";
 import { IProductDetails } from "../../../../types/rapport/produits/details/product";
+import { handleAxiosError } from "../../../../helper/axios_error";
 
 
 
@@ -72,28 +73,13 @@ const FilterContent = ({
         }
       )
       .then((res: any) => {
-        // console.log(res.data.details);
         const newArray = createNewArrayAchats(res.data.details);
         setData(newArray);
         close();
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          const check = typeof err.response.data.message === "string";
-          if (check) {
-            enqueueSnackbar(err.response.data.message, { variant: "error" });
-          } else {
-            Object.keys(err.response.data.message).map((key) => {
-              err.response.data.message[key].map((err: any) => {
-                enqueueSnackbar(err, { variant: "error" });
-              });
-            });
-          }
-        }
+        handleAxiosError(err)
       });
   }
 

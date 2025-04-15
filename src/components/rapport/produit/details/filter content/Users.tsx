@@ -23,9 +23,9 @@ const Users = ({ userName, setUserName, usersArray}: Props) => {
       <SelectInput
         options={newOptions}
         label="L'utilisateur"
-        value={userName}
+        value={Number(userName)}
         setValue={(value: string) => {
-            setUserName(value);
+            setUserName(newOptions.find((option) => option.name === value)?.id || "");
         }}
       />
     </div>

@@ -23,9 +23,9 @@ const Clients = ({ clientName, setClientName, clientsArray }: Props) => {
       <SelectInput
         options={newOptions}
         label="Par Client"
-        value={clientName}
+        value={Number(clientName)}
         setValue={(value: string) => {
-          setClientName(value);
+          setClientName(newOptions.find((option) => option.name === value)?.id || 0);
         }}
       />
     </div>

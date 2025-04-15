@@ -4,42 +4,28 @@ import { IProductDetails } from "../../../types/rapport/produits/details/product
 import { IProductDetailsTable } from "../../../types/rapport/produits/details/product";
 import { enqueueSnackbar } from "notistack";
 import ButtonsContAchat from "../../../containers/raports/produits/details/achat/ButtonsCont";
-// import ButtonsContVentes from "../../../containers/raports/inventaire/details/vente/ButtonsCont";
 import TableAchat from "../../../containers/raports/produits/details/achat/TableAchat";
-// import { ITableEntrepotVente } from "../../../types/rapport/entrepot/entrepot_vente";
-// import IEntVente from "../../../types/rapport/entrepot/entrepot_vente";
-// import TableVentes from "../../../containers/raports/inventaire/details/vente/TableVentes";
-// import SwitchButtons from "../../../components/rapport/SwitchButtons";
-// import QuatiteTable from "../../../containers/raports/inventaire/details/QuatiteTable";
 import { useParams } from "react-router-dom";
 import DatesCont from "../../../containers/raports/DatesCont";
 import QuatiteTable from "../../../containers/raports/QuatiteTable";
-import PageTitle from "../../../components/ui/PageTitle"; 
+import PageTitle from "../../../components/ui/PageTitle";
 import Loading from "../../../components/ui/Loading";
 
-
-
 const DetailsProduct = () => {
-
   const today = new Date();
   today.setMonth(today.getMonth() - 2);
   const formattedDate = today.toISOString().split("T")[0];
 
-    const todatSratDate = new Date().toISOString().split("T")[0];
-
+  const todatSratDate = new Date().toISOString().split("T")[0];
 
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<any>({});
   const [dataAchats, setDataAchats] = useState<IProductDetails[]>([]);
-  //   const [dataVentes, setDataVentes] = useState<IEntVente[]>([]);
-  // const [statsArray, setStatsArray] = useState<
-  //   { magasin: string; quantité: number }[]
-  // >([]);
-  // const [selected, setSelected] = useState<"achats" | "ventes">("achats");
-  // const [selected, setSelected] = useState<string>("Achats");
   const [startDate, setStartDate] = useState<string>(formattedDate);
   const [endDate, setEndDate] = useState<string>(todatSratDate);
-  const [quantityArray, setQuantityArray] = useState<{ entrepot_name: string; quantity: number }[]>([]);
+  const [quantityArray, setQuantityArray] = useState<
+    { entrepot_name: string; quantity: number }[]
+  >([]);
   const [magasinsArray, setMagasinsArray] = useState<any[]>([]);
   const [usersArray, setUsersArray] = useState<any[]>([]);
   const [magasinName, setMagasinName] = useState<string>("");
@@ -57,7 +43,7 @@ const DetailsProduct = () => {
 
   useEffect(() => {
     Promise.all([
-      axios.get(
+      axios.get<any>(
         `${url}/api/reports/products/${id}/detailed-report?start_date=${startDate}&end_date=${endDate}`,
         {
           headers: {
@@ -65,38 +51,35 @@ const DetailsProduct = () => {
           },
         }
       ),
-      axios.get(`${url}/api/entreports`, {
+      axios.get<any>(`${url}/api/entreports`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/user/users`, {
+      axios.get<any>(`${url}/api/user/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-      axios.get(`${url}/api/clients`, {
+      axios.get<any>(`${url}/api/clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }),
-    ]).then(
-      axios.spread((data, magasinsResult, usersResult, clientsResult) => {
-        // console.log(clientsResult.data);
-        const newArrayAchats = createNewArrayAchats(data.data.details);
-        setProduct(data.data.product);
-        setDataAchats(newArrayAchats);
-        setQuantityArray(data.data.entrepot_quantities);
-        setMagasinsArray(magasinsResult.data.entrepots);
-        setUsersArray(usersResult.data.users);
-        setClientsArray(clientsResult.data.clients);
-        setLoading(false);
-      })
-    );
+    ]).then((responses) => {
+      const [data, magasinsResult, usersResult, clientsResult] = responses;
+      const newArrayAchats = createNewArrayAchats(data.data.details);
+      setProduct(data.data.product);
+      setDataAchats(newArrayAchats);
+      setQuantityArray(data.data.entrepot_quantities);
+      setMagasinsArray(magasinsResult.data.entrepots);
+      setUsersArray(usersResult.data.users);
+      setClientsArray(clientsResult.data.clients);
+      setLoading(false);
+    });
   }, []);
 
-
-  useEffect(() => { 
+  useEffect(() => {
     if (startDate === formattedDate && endDate === todatSratDate) {
       return;
     }
@@ -109,8 +92,8 @@ const DetailsProduct = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-    )
-      .then((response) => {
+      )
+      .then((response: any) => {
         const newArrayAchats = createNewArrayAchats(response.data.details);
         setProduct(response.data.product);
         setDataAchats(newArrayAchats);
@@ -125,55 +108,39 @@ const DetailsProduct = () => {
       });
   }, [startDate, endDate]);
 
-
-
   if (loading) return <Loading />;
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
       <PageTitle text="Rapport de produit" />
-        <div className="w-full">
-          <p className="text-center font-bold text-xl mb-5">{product.name}</p>
+      <div className="w-full">
+        <p className="text-center font-bold text-xl mb-5">{product.name}</p>
 
-          {/* {selected === "Achats" ? ( */}
         <ButtonsContAchat
           setData={setDataAchats}
-            columns={columnsAchats}
-            data={dataAchats}
-            magasinsArray={magasinsArray}
-            usersArray={usersArray}
-            setMagasinName={setMagasinName}
-            setUserName={setUserName}
-            magasinName={magasinName}
+          columns={columnsAchats}
+          data={dataAchats}
+          magasinsArray={magasinsArray}
+          usersArray={usersArray}
+          setMagasinName={setMagasinName}
+          setUserName={setUserName}
+          magasinName={magasinName}
           userName={userName}
           clientsArray={clientsArray}
           clientName={clientName}
           setClientName={setClientName}
           userInvNumber={userInvNumber}
           setUserInvNumber={setUserInvNumber}
-          />
-          {/* ) : (
-               <ButtonsContVentes columns={columnsVentes} data={dataVentes} />
-             )} */}
-          {/* <QuatiteTable data={statsArray} /> */}
-          <DatesCont
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />
-          <QuatiteTable data={quantityArray} />
-          {/* <SwitchButtons
-              options={["Achats", "Ventes"]}
-              setSelected={setSelected}
-              selected={selected}
-            /> */}
-          {/* {selected === "Achats" ? ( */}
-          <TableAchat columns={columnsAchats} rows={dataAchats} />
-          {/* ) : (
-            <TableVentes columns={columnsVentes} rows={dataVentes} />
-          )} */}
-        </div>
+        />
+        <DatesCont
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
+        <QuatiteTable data={quantityArray} />
+        <TableAchat columns={columnsAchats} rows={dataAchats} />
+      </div>
     </div>
   );
 };
