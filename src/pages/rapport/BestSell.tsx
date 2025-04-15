@@ -40,7 +40,7 @@ const BestSell = () => {
           },
         }
       )
-      .then((response) => {
+      .then((response: any) => {
         const newArrayAchats = createNewArrayAchats(
           response.data.best_selling_products
         );
