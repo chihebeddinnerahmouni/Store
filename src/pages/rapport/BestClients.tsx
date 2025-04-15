@@ -39,7 +39,7 @@ const BestClients = () => {
           },
         }
       )
-        .then((response) => {
+        .then((response: any) => {
         const newArrayAchats = createNewArrayAchats(response.data.best_clients);
         setData(newArrayAchats);
         setLoading(false);
