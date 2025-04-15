@@ -178,9 +178,11 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 export default function EnhancedTable({
   rows,
   columns,
+  refetch
 }: {
   rows: IFournisseures[];
-  columns: string[];
+    columns: string[];
+  refetch: () => void;
 }) {
   // React.useEffect(() => {
   //   console.log(rows);
@@ -410,13 +412,15 @@ export default function EnhancedTable({
       {updateRow &&
       <UpdateFourniModal
         onClose={() => setUpdateRow(null)}
-          row={updateRow}
+        data={updateRow}
+        refetch={refetch}
         />
       }
       {deleteRow &&
       <DeleteFourniModal
         onClose={() => setDeleteRow(null)}
-          row={deleteRow}
+        data={deleteRow}
+        refetch={refetch}
         />
       }
     </Box>

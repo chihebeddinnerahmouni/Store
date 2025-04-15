@@ -8,7 +8,6 @@ import FetchError from "../errors/FetshError";
 import App from "../App";
 import Test from "../Test";
 import Vents from "../pages/vente/Vents";
-import Fournisseurs from "../pages/gens/Fournisseurs";
 import RetourVantes from "../pages/retour/RetourVantes";
 import RetourAchats from "../pages/retour/RetourAchats";
 import Login from "../pages/auth/Login";
@@ -48,6 +47,7 @@ const Achats = lazy(() => import("../pages/achat/Achats"));
 const AchatDetails = lazy(() => import("../pages/achat/AchatDetails"));
 const AddVente = lazy(() => import("../pages/vente/AddVente"));
 const Clients = lazy(() => import("../pages/gens/Clients"));
+const Fournisseurs = lazy(() => import("../pages/gens/Fournisseurs"));
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -199,7 +199,14 @@ export const router = createBrowserRouter([
             </Suspense>
           </ErrorBoundary>
         },
-      { path: "/gens/fournisseurs", element: <Fournisseurs /> },
+      {
+        path: "/gens/fournisseurs", element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <Fournisseurs />
+            </Suspense>
+          </ErrorBoundary>
+      },
       { path: "/gens/utilisateurs", element: <Users /> },
 
       { path: "/retour/retour-des-ventes", element: <RetourVantes /> },

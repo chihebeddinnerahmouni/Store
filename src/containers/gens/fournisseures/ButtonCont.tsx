@@ -1,11 +1,8 @@
 import { useState } from "react";
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
-// import { CiFilter } from "react-icons/ci";
 import { BsFiletypePdf } from "react-icons/bs";
 import { AiOutlineFileExcel } from "react-icons/ai";
 import { IoIosAddCircleOutline } from "react-icons/io";
-// import Drawer from "@mui/material/Drawer";
-// import FilterContent from "../../../components/achat/achats/FilterContent";
 import handlePrintPdf from "../../../helper/CreatePdf";
 import IFournisseures from "../../../types/fournisseures";
 import AddFourniModal from "../../../components/gens/fournisseures/AddFourniModal";
@@ -13,14 +10,11 @@ import AddFourniModal from "../../../components/gens/fournisseures/AddFourniModa
 interface ButtonsContProps {
   data: IFournisseures[];
   columns: string[];
+  refetch: () => void;
 }
 
-const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
+const ButtonsCont = ({ data, columns, refetch }: ButtonsContProps) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
-
-//   const handleFilter = () => {
-//     setIsDrawerOpen(!isDrawerOpen);
-//   };
 
   const handleExportExcel = () => {
     console.log("Export Excel not implemented");
@@ -31,12 +25,6 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
   };
 
   const buttons_array = [
-    // {
-    //   icon: <CiFilter />,
-    //   text: "Filter",
-    //   color: "#3b82f6",
-    //   onClick: handleFilter,
-    // },
     {
       icon: <BsFiletypePdf />,
       text: "Export PDF",
@@ -71,35 +59,9 @@ const ButtonsCont = ({ data, columns }: ButtonsContProps) => {
           />
         ))}
       </div>
-
-      <AddFourniModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />
-      {/* <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          "& .MuiBackdrop-root": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            backdropFilter: "blur(5px)",
-          },
-        }}
-      >
-        <FilterContent
-          close={handleFilter}
-          date={date}
-          setDate={setDate}
-          reference={reference}
-          setReference={setReference}
-          fournisseur={fournisseur}
-          setFournisseur={setFournisseur}
-          magasin={magasin}
-          setMagasin={setMagasin}
-          status={status}
-          setStatus={setStatus}
-          paimentStatus={paimentStatus}
-          setPaimentStatus={setPaimentStatus}
-        />
-      </Drawer> */}
+      {isAddOpen && (
+        <AddFourniModal onClose={() => setIsAddOpen(false)} refetch={refetch} />
+      )}
     </section>
   );
 };
