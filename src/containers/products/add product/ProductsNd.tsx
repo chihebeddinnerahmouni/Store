@@ -26,9 +26,7 @@ const ProductsNd = ({
     <section className="flex flex-col gap-5 lg:gap-8 lg:col-span-4">
       <div className="top cardCss grid grid-cols-1 gap-5 lg:gap-8">
         <PrixAchat id={"prixAchat"} formik={formik} />
-
         <PrixVente id={"prixVente"} formik={formik} />
-
         <Unite options={unitesArray} id={"unite"} formik={formik} />
         <StockAlert id={"stockAlert"} formik={formik} />
       </div>
