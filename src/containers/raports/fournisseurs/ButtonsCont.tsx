@@ -1,7 +1,7 @@
 import ShiningButton from "../../../components/ui/buttons/ShiningButton";
 import { BsFiletypePdf } from "react-icons/bs";
 import handlePrintPdf from "../../../helper/CreatePdf";
-import { IProvider } from "../../../types/provider";
+import { IProvider } from "../../../types/rapport/fournisseur/fournisseur";
 import { IProviderTable } from "../../../types/rapport/fournisseur/fournisseur";
 
 

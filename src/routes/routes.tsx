@@ -20,10 +20,7 @@ import Ventes from "../pages/rapport/Ventes";
 import VenteProduit from "../pages/rapport/VenteProduit";
 import AchatsReport from "../pages/rapport/Achats";
 import AchatsProduits from "../pages/rapport/AchatsProduits";
-import ClientsReport from "../pages/rapport/clients/clients/ClientsReport";
 import ClientDetails from "../pages/rapport/clients/client details/ClientDetails";
-import FournisseursReport from "../pages/rapport/fournisseur/Fournisseurs";
-import FournisseurDetails from "../pages/rapport/fournisseur/FournisseurDetails";
 import BestSell from "../pages/rapport/BestSell";
 import BestClients from "../pages/rapport/BestClients";
 import Permissions from "../pages/settings/Permissions";
@@ -49,6 +46,21 @@ const AddVente = lazy(() => import("../pages/vente/AddVente"));
 const Clients = lazy(() => import("../pages/gens/Clients"));
 const Fournisseurs = lazy(() => import("../pages/gens/Fournisseurs"));
 const AlertProduit = lazy(() => import("../pages/rapport/AlertProduit"));
+const ClientsReport = lazy(() => import("../pages/rapport/clients/clients/ClientsReport"));
+const FournisseursReport = lazy(() => import("../pages/rapport/fournisseur/Fournisseurs"));
+const FournisseurDetails = lazy(() => import("../pages/rapport/fournisseur/FournisseurDetails"));
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const queryClient = new QueryClient();
 export const router = createBrowserRouter([
@@ -230,12 +242,31 @@ export const router = createBrowserRouter([
       { path: "/rapports/vente-produits", element: <VenteProduit /> },
       { path: "/rapports/achats", element: <AchatsReport /> },
       { path: "/rapports/achats-produits", element: <AchatsProduits /> },
-      { path: "/rapports/clients", element: <ClientsReport /> },
+      {
+        path: "/rapports/clients", element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <ClientsReport />
+            </Suspense>
+          </ErrorBoundary>
+      },
       { path: "/rapports/clients/:clientId", element: <ClientDetails /> },
-      { path: "/rapports/fournisseurs", element: <FournisseursReport /> },
+      {
+        path: "/rapports/fournisseurs", element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <FournisseursReport />
+            </Suspense>
+          </ErrorBoundary>
+      },
       {
         path: "/rapports/fournisseurs/:fournisseurId",
-        element: <FournisseurDetails />,
+        element: 
+          <ErrorBoundary FallbackComponent={FetchError}>
+            <Suspense fallback={<FetshLoading />}>
+              <FournisseurDetails />
+            </Suspense>
+          </ErrorBoundary>
       },
       { path: "/rapports/plus-vendus", element: <BestSell /> },
       { path: "/rapports/meilleur-clients", element: <BestClients /> },

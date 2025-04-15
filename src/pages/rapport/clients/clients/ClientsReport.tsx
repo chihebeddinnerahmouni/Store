@@ -1,8 +1,5 @@
-import Loading from "../../../../components/ui/Loading";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import axios from "axios";
-// import { IAlerteTAble } from "../../types/rapport/alert_quantite";
-import { enqueueSnackbar } from "notistack";
 import PageTitle from "../../../../components/ui/PageTitle";
 import ButtonsCont from "../../../../containers/raports/clients/ButtonsCont";
 import TableClients from "../../../../containers/raports/clients/TableClients";
@@ -10,43 +7,34 @@ import { IClient } from "../../../../types/rapport/clients/client";
 import { IClientTable } from "../../../../types/rapport/clients/client";
 import { PrivilegesContext } from "../../../../App";
 import { useNavigate } from "react-router-dom";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+const url = import.meta.env.VITE_BASE_URL as string;
+const fetchData = async () => {
+  const { data } = await axios.get<{clients: IClient[]}>(url + "/api/reports/clients/achat-report", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+  const newData = createNewArray(data.clients);
+  return newData;
+}
+
 
 const ClientsReport = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<IClient[]>([]);
-  const url = import.meta.env.VITE_BASE_URL as string;
   const privileges = useContext(PrivilegesContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!privileges.Rapports["Rapport Client"]) navigate("/tableau-de-bord");
-    setLoading(true);
-    axios
-      .get(url + "/api/reports/clients/achat-report", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => {
-            console.log(res.data.clients);
-            setData(createNewArray(res.data.clients));
-            setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        if (err.message === "Network Error") {
-          enqueueSnackbar("Erreur de connexion", { variant: "error" });
-        } else {
-          enqueueSnackbar(err.response.data.erreur, { variant: "error" });
-        }
-      });
   }, []);
 
+  const { data } = useSuspenseQuery({
+    queryKey: ["clients-report"],
+    queryFn: fetchData,
+  });
 
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div className="mt-60 px-4 max-w-[1700px] mx-auto pb-14 md:px-20 lg:px-40 lg:mt-80">
@@ -77,15 +65,3 @@ const createNewArray = (data: IClient[]) => {
     };
   });
 };
-
-// const data: IAlerte[] = [
-// const data_test = [
-//   {
-//     "Code Produit": "8345588766",
-//     Produits: "toyota",
-//     Categorie: "test",
-//     Marque: "Brand Name",
-//     Quantité: 7,
-//     "Quantité Alerte": 30,
-//   },
-// ];
